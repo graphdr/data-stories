@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Layton R Blog"
+  title: "Layton R blog"
   site-url: https://graphdr.github.io/data-stories
   repo-url: https://github.com/graphdr/data-stories
   description: "A blog about visual rhetoric, chart design, and R."
