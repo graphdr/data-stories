@@ -4,7 +4,7 @@ project:
 
 website:
   title: "Layton R blog"
-  site-url: https://graphdr.github.io/data-stories
+  site-url: https://graphdr.github.io
   repo-url: https://github.com/graphdr/data-stories
   description: "A blog about visual rhetoric, chart design, and R."
   favicon: images/favicon.png
@@ -25,8 +25,6 @@ website:
  
   navbar:
    right:
-    - text: "Home"
-      href: index.qmd
     - text: "License"
       href: license.html 
     - text: "About"
