@@ -4,8 +4,16 @@ project:
 
 website:
   title: "Layton R Blog"
-  site-url: https://graphdr.github.io/data-stories/
+  site-url: https://graphdr.github.io/data-stories
+  repo-url: https://github.com/graphdr/data-stories
   description: "A blog about visual rhetoric, chart design, and R."
+  favicon: images/favicon.png
+  opengraph: true
+  
+  sidebar: 
+    title: Links
+    style: docked
+  
   navbar:
    right:
     - text: "Home"

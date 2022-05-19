@@ -3,7 +3,6 @@ title: Facets that are not small multiples
 description: |
   Using the scales and space arguments of facet_grid() to manage 
   panel heights of faceted charts when categories are not independent. 
-author: Richard Layton
 date: 2022-03-09
 draft: false
 categories: [ggplot2, R]
