@@ -11,11 +11,10 @@ title-block-banner: false
 toc: true
 toc-depth : 2
 
-# Default knitr options
+# knitr options
 execute:
-  echo: true
-  message: true
-  warning: true
+  message: false
+  warning: false
 
 # Default author
 author:

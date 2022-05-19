@@ -31,6 +31,8 @@ format:
   html:
     theme: flatly
     css: styles.css
+    code-fold: true
+    code-summary: "R code"
 
 
 
