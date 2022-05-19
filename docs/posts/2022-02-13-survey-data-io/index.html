@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.426">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="dcterms.date" content="2022-02-13">
+<meta name="description" content="How to prepare different forms of Likert-style survey data for the R likert package and edit the results to create 100% stacked-bar charts.">
+
+<title>Layton R blog - Survey data I/O with likert</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Survey data I/O with likert</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">r-bloggers</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">stackoverflow</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">data.table</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">happy git</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
+  <li><a href="#summary-counts" id="toc-summary-counts" class="nav-link" data-scroll-target="#summary-counts">Summary counts</a></li>
+  <li><a href="#summary-percentages" id="toc-summary-percentages" class="nav-link" data-scroll-target="#summary-percentages">Summary percentages</a></li>
+  <li><a href="#row-records" id="toc-row-records" class="nav-link" data-scroll-target="#row-records">Row records</a></li>
+  <li><a href="#comments" id="toc-comments" class="nav-link" data-scroll-target="#comments">Comments</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Survey data I/O with likert</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>How to prepare different forms of Likert-style survey data for the R likert package and edit the results to create 100% stacked-bar charts.</p>
+  </div>
+</div>
+
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 13, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<blockquote class="blockquote">
+<p>Summary. Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</p>
+</blockquote>
+<p>This post is a tutorial on how to prepare different forms of Likert-style survey data for the R likert package and using its output to create 100% stacked-bar charts. I focus on preparing the data for <code>likert()</code> input and editing its output for the final chart. For exploring the package functionality more fully, I recommend the tutorials by Laura Mudge <span class="citation" data-cites="Mudge:2019">[-@Mudge:2019]</span> and Jake Chanenson <span class="citation" data-cites="Chanenson:2021">[-@Chanenson:2021]</span>.</p>
+<p>In a <a href="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/">companion post</a> I develop the R script for constructing the 100% stacked-bar chart and discuss the rationale for selecting it as a more effective design for Likert-style survey data.</p>
+<p>I use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6 (currently the development version).</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"likert"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># function based on likert.plot to construct a 100% stacked bar chart </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>my_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">10</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>likert_100_pct_bar <span class="ot">&lt;-</span> <span class="cf">function</span>(likert_list) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(likert_list, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot.percent.neutral =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot.percent.high =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot.percent.low =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">neutral.color =</span> <span class="st">"grey90"</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">include.center =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">centered =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> my_breaks, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>( <span class="co"># second scale</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                         <span class="at">trans =</span> <span class="cf">function</span>(z) z <span class="sc">-</span> <span class="dv">100</span>, </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                         <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                         <span class="at">labels =</span> <span class="fu">as.character</span>(<span class="fu">abs</span>(my_breaks)))) <span class="sc">+</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">"mm"</span>),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.justification =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">"top"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># labeling vectors</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>opinion_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Strongly Disagree"</span>, </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Disagree"</span>, </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Neutral"</span>, </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Agree"</span>, </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Strongly Agree"</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>question_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Beyond the content"</span>, </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Analyze errors"</span>, </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Provide facts"</span>, </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Develop writing"</span>, </span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Independent learning"</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># functions for renaming columns</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>setnames_Item <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setnames</span>(x, <span class="at">old =</span> <span class="st">"q_no"</span>, <span class="at">new =</span> <span class="st">"Item"</span>, <span class="at">skip_absent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>setnames_opinion_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setnames</span>(x, </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>           <span class="at">old =</span> <span class="fu">c</span>(<span class="st">"str_disagree"</span>, </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"disagree"</span>, </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"neutral"</span>, </span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"agree"</span>, </span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"str_agree"</span>), </span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>           <span class="at">new =</span> opinion_labels, </span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>           <span class="at">skip_absent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The practice data in my example are from an engineering education article by Ashanthi Maxworth <span class="citation" data-cites="Maxworth:2021">[-@Maxworth:2021]</span>, selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/survey-data.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">(Original Table 3) Percentage student responses for each question in the feedback form.</figcaption><p></p>
+</figure>
+</div>
+<p>Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The <code>likert()</code> function accepts any of these forms as input. The practice data, in all three forms, are available in the <a href="https://github.com/graphdr/data-stories/tree/main/data/">blog data directory</a> in CSV files.</p>
+<ul>
+<li>summary counts: <code>case-study-2021-count.csv</code></li>
+<li>summary percentages: <code>case-study-2021-percent.csv</code></li>
+<li>row-records: <code>case-study-2021-row-record.csv</code></li>
+</ul>
+</section>
+<section id="summary-counts" class="level2">
+<h2 class="anchored" data-anchor-id="summary-counts">Summary counts</h2>
+<p>Read the prepared data file in summary count form.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read prepared data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"case-study-2021-count.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">q_no</th>
+<th style="text-align: right;">str_disagree</th>
+<th style="text-align: right;">disagree</th>
+<th style="text-align: right;">neutral</th>
+<th style="text-align: right;">agree</th>
+<th style="text-align: right;">str_agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="likert-input" class="level3">
+<h3 class="anchored" data-anchor-id="likert-input"><code>likert()</code> input</h3>
+<p>I rename the first column <code>Item</code> for consistency with the <code>likert()</code> function.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rename first column</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Item str_disagree disagree neutral agree str_agree
+   &lt;char&gt;        &lt;int&gt;    &lt;int&gt;   &lt;int&gt; &lt;int&gt;     &lt;int&gt;
+1:     Q1            2        0       8    12         9
+2:     Q2            2        2       7    14         6
+3:     Q3            1        1       5     9        15
+4:     Q4            0        2      10    12         7
+5:     Q5            2        0       6    11        12</code></pre>
+</div>
+</div>
+<p>The <code>likert()</code> function accepts input data frames having this structure. The salient characteristics are:</p>
+<ul>
+<li>one row per question</li>
+<li>first column is named <code>Item</code> and contains the question labels</li>
+<li>remaining columns are named for the opinion levels in increasing order left to right</li>
+<li>column values are the counts of respondents choosing that option</li>
+<li>the sum of row counts is the number of respondents answering that question</li>
+</ul>
+</section>
+<section id="likert-output" class="level3">
+<h3 class="anchored" data-anchor-id="likert-output"><code>likert()</code> output</h3>
+<p>To operate on this data frame, we assign it to the <code>summary</code> argument of the <code>likert()</code> function. The result is a list of various statistics about the Likert-style data. Note that the <code>results</code> output preserves the data.table structure of the input.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">summary =</span> dt)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine its structure</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 5
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item        : chr [1:5] "Q1" "Q2" "Q3" "Q4" ...
+  ..$ str_disagree: num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ disagree    : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ neutral     : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ agree       : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ str_agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   : NULL
+ $ grouping: NULL
+ $ nlevels : num 5
+ $ levels  : chr [1:5] "str_disagree" "disagree" "neutral" "agree" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+</div>
+<p>The components of the list are:</p>
+<dl>
+<dt><code>results</code></dt>
+<dd>
+Data frame. Percentage of responses by question, opinion level, and group.
+</dd>
+<dt><code>items</code></dt>
+<dd>
+Data frame. Copy of original row-record input (NULL in this example).
+</dd>
+<dt><code>grouping</code></dt>
+<dd>
+Copy of original grouping vector that subsets results (NULL in this example).
+</dd>
+<dt><code>nlevels</code></dt>
+<dd>
+Integer. Number of opinion levels used in the calculations.
+</dd>
+<dt><code>levels</code></dt>
+<dd>
+Character. Ordered vector of opinion level labels.
+</dd>
+</dl>
+<p><br></p>
+</section>
+<section id="basic-chart" class="level3">
+<h3 class="anchored" data-anchor-id="basic-chart">Basic chart</h3>
+<p>To use this list to create a chart, we assign it as the first argument of the <code>plot()</code> function.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the basic chart (default digits = 0 throws an error)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(likert_list, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="stacked-bar-chart" class="level3">
+<h3 class="anchored" data-anchor-id="stacked-bar-chart">100% stacked bar chart</h3>
+<p>The same list can be used to create a 100% stacked-bar chart by assigning it as the first argument of <code>likert_100_pct_bar()</code>—a function (defined at the top of the post) that wraps <code>likert.plot</code> and sets the likert arguments and ggplot2 functions that produce my preferred design.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># customize the chart</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="legend-key" class="level3">
+<h3 class="anchored" data-anchor-id="legend-key">Legend key</h3>
+<p>The legend key is edited via the column names of <code>likert_list$results</code>. Viewing its column names,</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(likert_list<span class="sc">$</span>results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Item"         "str_disagree" "disagree"     "neutral"      "agree"       
+[6] "str_agree"   </code></pre>
+</div>
+</div>
+<p>Using a vector of opinion labels defined at the top of the post, I rename the opinion columns of the data frame.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_opinion_labels</span>(likert_list<span class="sc">$</span>results)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 5
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item             : chr [1:5] "Q1" "Q2" "Q3" "Q4" ...
+  ..$ Strongly Disagree: num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ Disagree         : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ Neutral          : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ Agree            : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ Strongly Agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   : NULL
+ $ grouping: NULL
+ $ nlevels : num 5
+ $ levels  : chr [1:5] "str_disagree" "disagree" "neutral" "agree" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+</div>
+<p>The change can be seen in the structure above and in the revised figure.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="question-labels" class="level3">
+<h3 class="anchored" data-anchor-id="question-labels">Question labels</h3>
+<p>The question labels are edited via the values in the <code>Item</code> column of <code>likert_list$results</code>. Viewing the first column in vector form,</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>likert_list<span class="sc">$</span>results[[<span class="st">"Item"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Q1" "Q2" "Q3" "Q4" "Q5"</code></pre>
+</div>
+</div>
+<p>Using a vector of question labels defined at the top of the post, I substitute them for the values in the original <code>Item</code> column.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the question labels</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>likert_list<span class="sc">$</span>results[, Item <span class="sc">:</span><span class="er">=</span> question_labels]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 5
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item             : chr [1:5] "Beyond the content" "Analyze errors" "Provide facts" "Develop writing" ...
+  ..$ Strongly Disagree: num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ Disagree         : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ Neutral          : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ Agree            : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ Strongly Agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   : NULL
+ $ grouping: NULL
+ $ nlevels : num 5
+ $ levels  : chr [1:5] "str_disagree" "disagree" "neutral" "agree" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+</div>
+<p>Again, the change is seen in the structure above and in the revised figure.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This approach is somewhat ad-hoc, but works as long as you are careful to write the substitutions in the correct order. If I were programming these steps, I would create additional tables (as in a database) and join the substitutions by clearly assigned key variables.</p>
+</section>
+<section id="or-edit-the-labels-first" class="level3">
+<h3 class="anchored" data-anchor-id="or-edit-the-labels-first">Or edit the labels first</h3>
+<p>Alternatively one can produce the same result by editing the opinion labels and question labels of the initial data frame before submitting it to <code>likert()</code>. The row and column structure reflects the changes.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read prepared data</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"case-study-2021-count.csv"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rename columns</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_opinion_labels</span>(dt)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the question labels</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>dt[, Item <span class="sc">:</span><span class="er">=</span> question_labels]</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   Item Strongly Disagree Disagree Neutral Agree Strongly Agree
+                 &lt;char&gt;             &lt;int&gt;    &lt;int&gt;   &lt;int&gt; &lt;int&gt;          &lt;int&gt;
+1:   Beyond the content                 2        0       8    12              9
+2:       Analyze errors                 2        2       7    14              6
+3:        Provide facts                 1        1       5     9             15
+4:      Develop writing                 0        2      10    12              7
+5: Independent learning                 2        0       6    11             12</code></pre>
+</div>
+</div>
+<p>The likert list that results is nearly identical to the previous version except the <code>levels</code> vector uses the new opinion labels.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">summary =</span> dt)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 5
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item             : chr [1:5] "Beyond the content" "Analyze errors" "Provide facts" "Develop writing" ...
+  ..$ Strongly Disagree: num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ Disagree         : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ Neutral          : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ Agree            : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ Strongly Agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   : NULL
+ $ grouping: NULL
+ $ nlevels : num 5
+ $ levels  : chr [1:5] "Strongly Disagree" "Disagree" "Neutral" "Agree" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="summary-percentages" class="level2">
+<h2 class="anchored" data-anchor-id="summary-percentages">Summary percentages</h2>
+<p>Read the prepared data file in summary percentage form. The percentages are directly from the table in the source article. Like before, I rename the first column <code>Item</code> for consistency with the <code>likert()</code> function.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read prepared data</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"case-study-2021-percent.csv"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rename first column</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Item</th>
+<th style="text-align: right;">str_disagree</th>
+<th style="text-align: right;">disagree</th>
+<th style="text-align: right;">neutral</th>
+<th style="text-align: right;">agree</th>
+<th style="text-align: right;">str_agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">25.8</td>
+<td style="text-align: right;">38.7</td>
+<td style="text-align: right;">29.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">22.6</td>
+<td style="text-align: right;">45.2</td>
+<td style="text-align: right;">19.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">16.1</td>
+<td style="text-align: right;">29.0</td>
+<td style="text-align: right;">48.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">32.3</td>
+<td style="text-align: right;">38.7</td>
+<td style="text-align: right;">22.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">19.4</td>
+<td style="text-align: right;">35.5</td>
+<td style="text-align: right;">38.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="option-1-convert-percentages-to-counts" class="level3">
+<h3 class="anchored" data-anchor-id="option-1-convert-percentages-to-counts">Option 1: Convert percentages to counts</h3>
+<p>This option is the most direct approach, assuming we know the number of respondents to each question. In this example we do (though this is not always the case). In this case study we have 31 respondents and all respondents replied to all the questions.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of respondents in this example</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>N_respondents <span class="ot">&lt;-</span> <span class="dv">31</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># identify the numeric columns</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>sel_cols <span class="ot">&lt;-</span> <span class="fu">names</span>(dt)[<span class="fu">sapply</span>(dt, is.numeric)]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># convert percentages to integer counts</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(sel_cols) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">round</span>(N_respondents <span class="sc">*</span> x<span class="sc">/</span><span class="dv">100</span>, <span class="dv">0</span>)), .SDcols <span class="ot">=</span> sel_cols]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Item</th>
+<th style="text-align: right;">str_disagree</th>
+<th style="text-align: right;">disagree</th>
+<th style="text-align: right;">neutral</th>
+<th style="text-align: right;">agree</th>
+<th style="text-align: right;">str_agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This data structure is identical to the one we worked with in the previous section, so we know how to work with it.</p>
+</section>
+<section id="option-2-use-percentages-as-is" class="level3">
+<h3 class="anchored" data-anchor-id="option-2-use-percentages-as-is">Option 2: Use percentages as-is</h3>
+<p>This option might be necessary if we do not know the number of respondents replying to each question. Start by reading the data file and again rename the first column <code>Item</code> for consistency with the likert() function.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read prepared data</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"case-study-2021-percent.csv"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rename first column</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Item</th>
+<th style="text-align: right;">str_disagree</th>
+<th style="text-align: right;">disagree</th>
+<th style="text-align: right;">neutral</th>
+<th style="text-align: right;">agree</th>
+<th style="text-align: right;">str_agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">25.8</td>
+<td style="text-align: right;">38.7</td>
+<td style="text-align: right;">29.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">22.6</td>
+<td style="text-align: right;">45.2</td>
+<td style="text-align: right;">19.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">16.1</td>
+<td style="text-align: right;">29.0</td>
+<td style="text-align: right;">48.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">32.3</td>
+<td style="text-align: right;">38.7</td>
+<td style="text-align: right;">22.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">19.4</td>
+<td style="text-align: right;">35.5</td>
+<td style="text-align: right;">38.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>With one row per question, the row percentages should sum to 100%. They do, but with an error due to rounding in the reported percentages.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check row totals of numeric columns</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sel_cols <span class="ot">&lt;-</span> <span class="fu">names</span>(dt)[<span class="fu">sapply</span>(dt, is.numeric)]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>row_sum  <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(dt[, .SD, <span class="at">.SDcols =</span> sel_cols])</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># examine result</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>dt[, row_total <span class="sc">:</span><span class="er">=</span> row_sum]</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>dt[, rounding_error <span class="sc">:</span><span class="er">=</span> row_sum <span class="sc">-</span> <span class="dv">100</span>]</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>dt[, .(Item, row_total, rounding_error)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Item row_total rounding_error
+   &lt;char&gt;     &lt;num&gt;          &lt;num&gt;
+1:     Q1     100.0            0.0
+2:     Q2     100.2            0.2
+3:     Q3      99.9           -0.1
+4:     Q4     100.1            0.1
+5:     Q5     100.1            0.1</code></pre>
+</div>
+</div>
+<p>If we ignore the rounding error, it can introduce small but noticeable errors in the bar lengths in the chart. A simple remediation is to subtract the small errors from the neutral columns so that all rows sum to 100% exactly. The adjusted Neutrals are shown below.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subtract error from neutral</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>dt[, adjusted_neutral <span class="sc">:</span><span class="er">=</span> neutral <span class="sc">-</span> rounding_error]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>dt[, .(Item, neutral, rounding_error, adjusted_neutral)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Item neutral rounding_error adjusted_neutral
+   &lt;char&gt;   &lt;num&gt;          &lt;num&gt;            &lt;num&gt;
+1:     Q1    25.8            0.0             25.8
+2:     Q2    22.6            0.2             22.4
+3:     Q3    16.1           -0.1             16.2
+4:     Q4    32.3            0.1             32.2
+5:     Q5    19.4            0.1             19.3</code></pre>
+</div>
+</div>
+</section>
+<section id="likert-input-1" class="level3">
+<h3 class="anchored" data-anchor-id="likert-input-1"><code>likert()</code> input</h3>
+<p>Replacing neutral with the adjusted neutral and deleting the temporary information columns yields the data structure I need for the summary percentage form:</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adjust neutral</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>dt[, neutral <span class="sc">:</span><span class="er">=</span> adjusted_neutral]</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># delete temporary information columns</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(<span class="st">"row_total"</span>, <span class="st">"rounding_error"</span>, <span class="st">"adjusted_neutral"</span>) <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Item str_disagree disagree neutral agree str_agree
+   &lt;char&gt;        &lt;num&gt;    &lt;num&gt;   &lt;num&gt; &lt;num&gt;     &lt;num&gt;
+1:     Q1          6.5      0.0    25.8  38.7      29.0
+2:     Q2          6.5      6.5    22.4  45.2      19.4
+3:     Q3          3.2      3.2    16.2  29.0      48.4
+4:     Q4          0.0      6.5    32.2  38.7      22.6
+5:     Q5          6.5      0.0    19.3  35.5      38.7</code></pre>
+</div>
+</div>
+<p>Data structure:</p>
+<ul>
+<li>one row per question</li>
+<li>first column is named <code>Item</code> and contains the question labels</li>
+<li>remaining columns are named for the opinion levels in increasing order left to right</li>
+<li>column values are the percentages of respondents choosing that option</li>
+<li>the sum of row percentages is exactly 100%</li>
+</ul>
+<p>To prepare the data frame for graphing, I use the “edit the labels first” approach described earlier.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_opinion_labels</span>(dt)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the question labels</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>dt[, Item <span class="sc">:</span><span class="er">=</span> question_labels]</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   Item Strongly Disagree Disagree Neutral Agree Strongly Agree
+                 &lt;char&gt;             &lt;num&gt;    &lt;num&gt;   &lt;num&gt; &lt;num&gt;          &lt;num&gt;
+1:   Beyond the content               6.5      0.0    25.8  38.7           29.0
+2:       Analyze errors               6.5      6.5    22.4  45.2           19.4
+3:        Provide facts               3.2      3.2    16.2  29.0           48.4
+4:      Develop writing               0.0      6.5    32.2  38.7           22.6
+5: Independent learning               6.5      0.0    19.3  35.5           38.7</code></pre>
+</div>
+</div>
+</section>
+<section id="likert-output-1" class="level3">
+<h3 class="anchored" data-anchor-id="likert-output-1"><code>likert()</code> output</h3>
+<p>To operate on this data frame, we again use the <code>summary</code> argument of <code>likert()</code>. The result is a list similar to that produced when we operated on summary counts and the same familiar chart.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">summary =</span> dt)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine its structure</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 5
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item             : chr [1:5] "Beyond the content" "Analyze errors" "Provide facts" "Develop writing" ...
+  ..$ Strongly Disagree: num [1:5] 6.5 6.5 3.2 0 6.5
+  ..$ Disagree         : num [1:5] 0 6.5 3.2 6.5 0
+  ..$ Neutral          : num [1:5] 25.8 22.4 16.2 32.2 19.3
+  ..$ Agree            : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ Strongly Agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   : NULL
+ $ grouping: NULL
+ $ nlevels : num 5
+ $ levels  : chr [1:5] "Strongly Disagree" "Disagree" "Neutral" "Agree" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 100% stacked bar chart</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="row-records" class="level2">
+<h2 class="anchored" data-anchor-id="row-records">Row records</h2>
+<p>In row-record form, everything we want to know about an individual is in one row, that is, a row-record for that individual. Thus the number of rows equals the number of respondents.</p>
+<p>I made up a practice data set in row-record form with 31 rows and 6 columns. These are fictitious data I designed specifically to have the same summary characteristics as the published summary data used earlier.</p>
+<p>Read the prepared data file in row-record form and view the data frame.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read observed data</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"case-study-2021-row-record.csv"</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      obs    Q1    Q2    Q3    Q4    Q5
+    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1:     1     3     4     3     4     4
+ 2:     2     5     1     5     3     5
+ 3:     3     5     5     4     5     4
+ 4:     4     3     4     5     4     5
+ 5:     5     4     4     5     2     4
+ 6:     6     4     3     5     3     4
+---                                    
+26:    26     5     5     5     4     5
+27:    27     5     2     3     4     1
+28:    28     3     4     5     3     5
+29:    29     3     3     4     3     4
+30:    30     4     4     5     3     1
+31:    31     4     4     5     5     5</code></pre>
+</div>
+</div>
+<p>The first column is a fictitious respondent ID. The remaining columns represent responses to the survey questions. For basic charts like those shown here, all columns should be question responses, so I delete the ID. Though I don’t cover it here, additional non-question columns are allowed for grouping the results. See, for example, <span class="citation" data-cites="Mudge:2019">[@Mudge:2019]</span>.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># delete the ID column</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>dt[, obs <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Q1    Q2    Q3    Q4    Q5
+    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1:     3     4     3     4     4
+ 2:     5     1     5     3     5
+ 3:     5     5     4     5     4
+ 4:     3     4     5     4     5
+ 5:     4     4     5     2     4
+ 6:     4     3     5     3     4
+---                              
+26:     5     5     5     4     5
+27:     5     2     3     4     1
+28:     3     4     5     3     5
+29:     3     3     4     3     4
+30:     4     4     5     3     1
+31:     4     4     5     5     5</code></pre>
+</div>
+</div>
+<section id="likert-input-2" class="level3">
+<h3 class="anchored" data-anchor-id="likert-input-2"><code>likert()</code> input</h3>
+<p>For the <code>likert()</code> function to accept data in this form, all question response columns must be factors with identical sets of levels. Reformatting the columns and checking the structure yields,</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reformat columns as factors</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>sel_cols <span class="ot">&lt;-</span> <span class="fu">names</span>(dt)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(sel_cols) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)), .SDcols <span class="ot">=</span> sel_cols]</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Q1     Q2     Q3     Q4     Q5
+    &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;
+ 1:      3      4      3      4      4
+ 2:      5      1      5      3      5
+ 3:      5      5      4      5      4
+ 4:      3      4      5      4      5
+ 5:      4      4      5      2      4
+ 6:      4      3      5      3      4
+---                                   
+26:      5      5      5      4      5
+27:      5      2      3      4      1
+28:      3      4      5      3      5
+29:      3      3      4      3      4
+30:      4      4      5      3      1
+31:      4      4      5      5      5</code></pre>
+</div>
+</div>
+<p>Input data structure</p>
+<ul>
+<li>One row per respondent. The number of rows equals the number of respondents.</li>
+<li>One column per question. The column name is the question label. The number of columns equals the number of survey questions.<br>
+</li>
+<li>Each column is a factor with an identical set of levels. The number of levels equals the number of answer options in the survey.</li>
+<li>Column values are the encoded opinions of the respondent: 1 (Strongly Disagree), 2 (Disagree), 3 (Neutral), etc.</li>
+</ul>
+</section>
+<section id="likert-output-2" class="level3">
+<h3 class="anchored" data-anchor-id="likert-output-2"><code>likert()</code> output</h3>
+<p>To operate on a row-record data frame, we assign it to the <code>items</code> argument of the <code>likert()</code> function. The result is again a list.</p>
+<p>However, unlike the previous output lists, the data.table structure of the input has not been preserved. I use data.table syntax in subsequent operations, so I convert both <code>results</code> and <code>items</code> to data.tables.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create likert list </span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">items =</span> dt)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># convert output data frames to data.tables</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(likert_list<span class="sc">$</span>results)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(likert_list<span class="sc">$</span>items)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 6
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item: chr [1:5] "Q1" "Q2" "Q3" "Q4" ...
+  ..$ 1   : num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ 2   : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ 3   : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ 4   : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ 5   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   :Classes 'data.table' and 'data.frame':  31 obs. of  5 variables:
+  ..$ Q1: Factor w/ 5 levels "1","2","3","4",..: 3 5 5 3 4 4 3 1 4 5 ...
+  ..$ Q2: Factor w/ 5 levels "1","2","3","4",..: 4 1 5 4 4 3 2 5 5 4 ...
+  ..$ Q3: Factor w/ 5 levels "1","2","3","4",..: 3 5 4 5 5 5 4 4 4 5 ...
+  ..$ Q4: Factor w/ 5 levels "1","2","3","4",..: 4 3 5 4 2 3 4 3 5 5 ...
+  ..$ Q5: Factor w/ 5 levels "1","2","3","4",..: 4 5 4 5 4 4 4 3 4 3 ...
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ grouping: NULL
+ $ factors : NULL
+ $ nlevels : int 5
+ $ levels  : chr [1:5] "1" "2" "3" "4" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+</div>
+<p>The components of the list are:</p>
+<dl>
+<dt><code>results</code></dt>
+<dd>
+Data frame. Percentage of responses by question, opinion level, and group.
+</dd>
+<dt><code>items</code></dt>
+<dd>
+Data frame. Copy of original row-record input.
+</dd>
+<dt><code>grouping</code></dt>
+<dd>
+Copy of original grouping vector that subsets results (NULL in this example).
+</dd>
+<dt><code>factors</code></dt>
+<dd>
+Copy of original vector matching columns to factors (NULL in this example).
+</dd>
+<dt><code>nlevels</code></dt>
+<dd>
+Integer. Number of opinion levels used in the calculations.
+</dd>
+<dt><code>levels</code></dt>
+<dd>
+Character. Ordered vector of opinion level labels.
+</dd>
+</dl>
+</section>
+<section id="draft-chart" class="level3">
+<h3 class="anchored" data-anchor-id="draft-chart">Draft chart</h3>
+<p>With row-record data, the plot function requires both <code>results</code> and <code>items</code> from the output list. The chart is familiar, but the opinion labels are now the integers used to encode the survey results.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="legend-key-1" class="level3">
+<h3 class="anchored" data-anchor-id="legend-key-1">Legend key</h3>
+<p>As before, the legend key is edited via the column names of <code>likert_list$results</code>. Note the corresponding changes in the likert list and chart.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(likert_list<span class="sc">$</span>results, </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">old =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), </span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">new =</span> opinion_labels, </span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">skip_absent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 6
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item             : chr [1:5] "Q1" "Q2" "Q3" "Q4" ...
+  ..$ Strongly Disagree: num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ Disagree         : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ Neutral          : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ Agree            : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ Strongly Agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   :Classes 'data.table' and 'data.frame':  31 obs. of  5 variables:
+  ..$ Q1: Factor w/ 5 levels "1","2","3","4",..: 3 5 5 3 4 4 3 1 4 5 ...
+  ..$ Q2: Factor w/ 5 levels "1","2","3","4",..: 4 1 5 4 4 3 2 5 5 4 ...
+  ..$ Q3: Factor w/ 5 levels "1","2","3","4",..: 3 5 4 5 5 5 4 4 4 5 ...
+  ..$ Q4: Factor w/ 5 levels "1","2","3","4",..: 4 3 5 4 2 3 4 3 5 5 ...
+  ..$ Q5: Factor w/ 5 levels "1","2","3","4",..: 4 5 4 5 4 4 4 3 4 3 ...
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ grouping: NULL
+ $ factors : NULL
+ $ nlevels : int 5
+ $ levels  : chr [1:5] "1" "2" "3" "4" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="question-labels-1" class="level3">
+<h3 class="anchored" data-anchor-id="question-labels-1">Question labels</h3>
+<p>With row-record data, both <code>results</code> and <code>items</code> data frames must be revised to edit the question labels. Note the corresponding changes in the likert list and chart.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode Item column of $results</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>likert_list<span class="sc">$</span>results[, Item <span class="sc">:</span><span class="er">=</span> question_labels]</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co"># recode column names of $items</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(likert_list<span class="sc">$</span>items, </span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">old =</span> <span class="fu">c</span>(<span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q5"</span>), </span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">new =</span> question_labels, </span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">skip_absent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 6
+ $ results :Classes 'data.table' and 'data.frame':  5 obs. of  6 variables:
+  ..$ Item             : chr [1:5] "Beyond the content" "Analyze errors" "Provide facts" "Develop writing" ...
+  ..$ Strongly Disagree: num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ Disagree         : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ Neutral          : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ Agree            : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ Strongly Agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ items   :Classes 'data.table' and 'data.frame':  31 obs. of  5 variables:
+  ..$ Beyond the content  : Factor w/ 5 levels "1","2","3","4",..: 3 5 5 3 4 4 3 1 4 5 ...
+  ..$ Analyze errors      : Factor w/ 5 levels "1","2","3","4",..: 4 1 5 4 4 3 2 5 5 4 ...
+  ..$ Provide facts       : Factor w/ 5 levels "1","2","3","4",..: 3 5 4 5 5 5 4 4 4 5 ...
+  ..$ Develop writing     : Factor w/ 5 levels "1","2","3","4",..: 4 3 5 4 2 3 4 3 5 5 ...
+  ..$ Independent learning: Factor w/ 5 levels "1","2","3","4",..: 4 5 4 5 4 4 4 3 4 3 ...
+  ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; 
+ $ grouping: NULL
+ $ factors : NULL
+ $ nlevels : int 5
+ $ levels  : chr [1:5] "1" "2" "3" "4" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="or-edit-the-labels-first-1" class="level3">
+<h3 class="anchored" data-anchor-id="or-edit-the-labels-first-1">Or edit the labels first</h3>
+<p>As before, we have an alternative approach: one can produce the same result by editing the opinion labels and question labels of the data frame before submitting it to likert(). Question labels are substituted for the column names. Opinion levels (as text) are substituted for the encoded integers, i.e., 1 = Strongly Disagree through 5 = Strongly Agree.</p>
+<p>To illustrate, I start with a fresh row-record data set.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read prepared data</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"case-study-2021-row-record.csv"</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co"># delete the ID column</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">subset</span>(dt, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(obs))</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the question labels in the column names</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(dt, </span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">old =</span> <span class="fu">c</span>(<span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q5"</span>), </span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">new =</span> question_labels, </span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">skip_absent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="co"># recode integer values with opinion options  </span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>sel_cols <span class="ot">&lt;-</span> <span class="fu">names</span>(dt)</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>dt[, (sel_cols) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">fcase</span>(</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">==</span> <span class="dv">1</span>, opinion_labels[<span class="dv">1</span>],</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">==</span> <span class="dv">2</span>, opinion_labels[<span class="dv">2</span>],</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">==</span> <span class="dv">3</span>, opinion_labels[<span class="dv">3</span>],</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">==</span> <span class="dv">4</span>, opinion_labels[<span class="dv">4</span>],</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">==</span> <span class="dv">5</span>, opinion_labels[<span class="dv">5</span>])),</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>  .SDcols <span class="ot">=</span> sel_cols]</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a><span class="co"># convert columns to factors  </span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt[, <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">factor</span>(x, <span class="at">levels =</span> opinion_labels)), .SDcols <span class="ot">=</span> sel_cols]</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Beyond the content    Analyze errors  Provide facts Develop writing
+                &lt;fctr&gt;            &lt;fctr&gt;         &lt;fctr&gt;          &lt;fctr&gt;
+ 1:            Neutral             Agree        Neutral           Agree
+ 2:     Strongly Agree Strongly Disagree Strongly Agree         Neutral
+ 3:     Strongly Agree    Strongly Agree          Agree  Strongly Agree
+ 4:            Neutral             Agree Strongly Agree           Agree
+ 5:              Agree             Agree Strongly Agree        Disagree
+ 6:              Agree           Neutral Strongly Agree         Neutral
+---                                                                    
+26:     Strongly Agree    Strongly Agree Strongly Agree           Agree
+27:     Strongly Agree          Disagree        Neutral           Agree
+28:            Neutral             Agree Strongly Agree         Neutral
+29:            Neutral           Neutral          Agree         Neutral
+30:              Agree             Agree Strongly Agree         Neutral
+31:              Agree             Agree Strongly Agree  Strongly Agree
+    Independent learning
+                  &lt;fctr&gt;
+ 1:                Agree
+ 2:       Strongly Agree
+ 3:                Agree
+ 4:       Strongly Agree
+ 5:                Agree
+ 6:                Agree
+---                     
+26:       Strongly Agree
+27:    Strongly Disagree
+28:       Strongly Agree
+29:                Agree
+30:    Strongly Disagree
+31:       Strongly Agree</code></pre>
+</div>
+</div>
+<p>Input to <code>likert()</code> produces the familiar chart.</p>
+<div class="cell" data-fig.asp="0.35" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">items =</span> dt)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 6
+ $ results :'data.frame':   5 obs. of  6 variables:
+  ..$ Item             : chr [1:5] "Beyond the content" "Analyze errors" "Provide facts" "Develop writing" ...
+  ..$ Strongly Disagree: num [1:5] 6.45 6.45 3.23 0 6.45
+  ..$ Disagree         : num [1:5] 0 6.45 3.23 6.45 0
+  ..$ Neutral          : num [1:5] 25.8 22.6 16.1 32.3 19.4
+  ..$ Agree            : num [1:5] 38.7 45.2 29 38.7 35.5
+  ..$ Strongly Agree   : num [1:5] 29 19.4 48.4 22.6 38.7
+ $ items   :'data.frame':   31 obs. of  5 variables:
+  ..$ Beyond the content  : Factor w/ 5 levels "Strongly Disagree",..: 3 5 5 3 4 4 3 1 4 5 ...
+  ..$ Analyze errors      : Factor w/ 5 levels "Strongly Disagree",..: 4 1 5 4 4 3 2 5 5 4 ...
+  ..$ Provide facts       : Factor w/ 5 levels "Strongly Disagree",..: 3 5 4 5 5 5 4 4 4 5 ...
+  ..$ Develop writing     : Factor w/ 5 levels "Strongly Disagree",..: 4 3 5 4 2 3 4 3 5 5 ...
+  ..$ Independent learning: Factor w/ 5 levels "Strongly Disagree",..: 4 5 4 5 4 4 4 3 4 3 ...
+ $ grouping: NULL
+ $ factors : NULL
+ $ nlevels : int 5
+ $ levels  : chr [1:5] "Strongly Disagree" "Disagree" "Neutral" "Agree" ...
+ - attr(*, "class")= chr "likert"</code></pre>
+</div>
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="data-table" class="level3">
+<h3 class="anchored" data-anchor-id="data-table">Data table</h3>
+<p>The <code>results</code> component can also be used to construct a summary data table.</p>
+<div class="cell" data-code_folding="R Code">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>likert_list<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  Item Strongly Disagree Disagree  Neutral    Agree
+1   Beyond the content          6.451613 0.000000 25.80645 38.70968
+2       Analyze errors          6.451613 6.451613 22.58065 45.16129
+3        Provide facts          3.225806 3.225806 16.12903 29.03226
+4      Develop writing          0.000000 6.451613 32.25806 38.70968
+5 Independent learning          6.451613 0.000000 19.35484 35.48387
+  Strongly Agree
+1       29.03226
+2       19.35484
+3       48.38710
+4       22.58065
+5       38.70968</code></pre>
+</div>
+</div>
+<p>Rounding the digits, we produce a publication-ready table. I’m assuming the abbreviated question labels are OK—if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart—a structure that could be useful to the reader.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(likert_list<span class="sc">$</span>result, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 23%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Item</th>
+<th style="text-align: right;">Strongly Disagree</th>
+<th style="text-align: right;">Disagree</th>
+<th style="text-align: right;">Neutral</th>
+<th style="text-align: right;">Agree</th>
+<th style="text-align: right;">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Beyond the content</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">25.8</td>
+<td style="text-align: right;">38.7</td>
+<td style="text-align: right;">29.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Analyze errors</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">22.6</td>
+<td style="text-align: right;">45.2</td>
+<td style="text-align: right;">19.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Provide facts</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">3.2</td>
+<td style="text-align: right;">16.1</td>
+<td style="text-align: right;">29.0</td>
+<td style="text-align: right;">48.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Develop writing</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">32.3</td>
+<td style="text-align: right;">38.7</td>
+<td style="text-align: right;">22.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Independent learning</td>
+<td style="text-align: right;">6.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">19.4</td>
+<td style="text-align: right;">35.5</td>
+<td style="text-align: right;">38.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The values in this table were computed by likert from the fictitious row-record data. The numbers agree with the source data table.</p>
+</section>
+</section>
+<section id="comments" class="level2">
+<h2 class="anchored" data-anchor-id="comments">Comments</h2>
+<p>To comment, a reader has to have a <a href="https://github.com/">GitHub</a> account. Use the <em>Sign in with GitHub</em> button and give permission to the utterances app.</p>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="acknowledgments" class="level2 appendix"><h2 class="quarto-appendix-heading">Acknowledgments</h2><div class="quarto-appendix-contents">
+
+<p><strong>R and R packages</strong></p>
+<p><a href="https://CRAN.R-project.org/"><code>R</code></a> (version 4.1.2, 2021–11–01)<br>
+<a href="https://CRAN.R-project.org/package=data.table"><code>data.table</code></a> for manipulating data (version 1.14.2)<br>
+<a href="https://CRAN.R-project.org/package=distill"><code>distill</code></a> for creating the post (version 1.3)<br>
+<a href="https://CRAN.R-project.org/package=ggplot2"><code>ggplot2</code></a> for fine-tuning the charts (version 3.3.5)<br>
+<a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data (version 1.3.6)</p>
+
+
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

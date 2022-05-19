@@ -9,11 +9,20 @@ website:
   description: "A blog about visual rhetoric, chart design, and R."
   favicon: images/favicon.png
   opengraph: true
-  
-  sidebar: 
-    title: Links
-    style: docked
-  
+
+  sidebar:
+    style: "floating"
+    search: false
+    contents:
+      - section: "r-bloggers"
+        url: https://r-bloggers.com
+      - section: "stackoverflow"
+        url: https://stackoverflow.com/questions/tagged/r
+      - section: "data.table"
+        url: https://rdatatable.gitlab.io/data.table/
+      - section: "happy git"
+        url: https://happygitwithr.com/
+ 
   navbar:
    right:
     - text: "Home"
