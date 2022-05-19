@@ -1,0 +1,27 @@
+project:
+  type: website
+
+website:
+  title: "Layton R Blog"
+  site-url: https://graphdr.github.io/data-stories/
+  description: "A blog about visual rhetoric, chart design, and R."
+  navbar:
+   right:
+    - text: "Home"
+      href: index.qmd
+    - text: "License"
+      href: license.html 
+    - text: "About"
+      href: about.qmd
+    - icon: github
+      href: https://github.com/graphdr/data-stories
+    - icon: rss
+      href: index.xml     
+        
+format:
+  html:
+    theme: flatly
+    css: styles.css
+
+
+

@@ -1,0 +1,29 @@
+medium,genre,count,percent
+Writing,Prose,6,2.3
+Writing,Essay,32,12.1
+Writing,Word art,6,2.3
+Writing,Poetry (not haiku),32,12.1
+Writing,Haiku,4,1.5
+Music,Lyrics,3,1.1
+Music,Playlist,3,1.1
+Performance,Music from instrument,6,2.3
+Performance,Performance of music,6,2.3
+Performance,Dance,2,0.8
+Performance,Spoken word,2,0.8
+Sculpture,Arranged objects,6,2.3
+Sculpture,Sculpture,2,0.8
+Sculpture,Lego,2,0.8
+Video,TikTok,7,2.6
+Video,YouTube,4,1.5
+Video,Short-form,9,3.4
+Video,Music,3,1.1
+Video,Spoken word,5,1.9
+Graphics,Collage,13,4.9
+Graphics,Painting,18,6.8
+Graphics,Drawing by hand,58,21.9
+Graphics,Drawing by computer,10,3.8
+Graphics,Photography,15,5.7
+Graphics,Cartoon,18,6.8
+Graphics,Emoji,6,2.3
+Graphics,Meme,22,8.3
+Graphics,Web design,4,1.5
