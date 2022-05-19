@@ -54,5 +54,12 @@
     "title": "Facets that are not small multiples",
     "section": "Final thoughts",
     "text": "Final thoughts\nRegarding their data table, the authors write,\n\n… some media were selected by large numbers of students, such as drawings by hand or computer, and writing such as poems and essays.\n\nThe graph supports this assertion but emphasizes visually a couple of other points as well. Drawings by hand, essays, and non-haiku poetry were by far the most popular genres (adding up to nearly 50% of the submission encodings) and graphics was by far the most popular medium (about 60% of the encodings).\nMainly this chart gave me a chance to clarify something that my students would sometimes overlook—that a data structure with two categories and one quantitative variable are multiway data if and only if the categories are independent and a value of the response exists for each combination of levels of the two categories. Otherwise, we cannot expect to use a small-multiple design."
+  },
+  {
+    "objectID": "READEME.html",
+    "href": "READEME.html",
+    "title": "Layton R Blog",
+    "section": "",
+    "text": "A blog"
   }
 ]
