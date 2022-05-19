@@ -1,17 +1,17 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Data Stories",
-    "section": "",
-    "text": "ggplot2\n\n\nR\n\n\n\n\nUsing the scales and space arguments of facet_grid() to manage panel heights of faceted charts when categories are not independent.\n\n\n\n\n\n\nMar 9, 2022\n\n\nRichard Layton\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
     "text": "Data graphics\nI started doing data visualization work with an engineering education research group around 2008 and haven’t stopped. The iterative process we developed to “find the story” in our data has been instrumental in shaping my approach to data graphics. You can read more about our research at https://midfield.online/.\nMusic\nMy dad was a guitar player and taught me my first chords. I’ve been songwriting and performing since my teens. A favorite musical pilgrimage is the annual Swannanoa Gathering near Asheville, NC in late July. I’ve posted some draft tracks to SoundCloud.\nWork life\nI am a graduate of California State University, Northridge (1991), and the University of Washington (1993, 1995). I taught mechanical engineering courses at Rose-Hulman Institute of Technology from 2000-2020. I retired from teaching in 2020. I also spent some years in industry, primarily in consulting engineering in Anchorage, AK, and Simi Valley, CA, with shorter stints at aerospace firms in Redmond, WA and West Palm Beach, FL."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Data Stories",
+    "section": "",
+    "text": "ggplot2\n\n\nR\n\n\n\n\nUsing the scales and space arguments of facet_grid() to manage panel heights of faceted charts when categories are not independent.\n\n\n\n\n\n\nMar 9, 2022\n\n\nRichard Layton\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "license.html",
@@ -54,12 +54,5 @@
     "title": "Facets that are not small multiples",
     "section": "Final thoughts",
     "text": "Final thoughts\nRegarding their data table, the authors write,\n\n… some media were selected by large numbers of students, such as drawings by hand or computer, and writing such as poems and essays.\n\nThe graph supports this assertion but emphasizes visually a couple of other points as well. Drawings by hand, essays, and non-haiku poetry were by far the most popular genres (adding up to nearly 50% of the submission encodings) and graphics was by far the most popular medium (about 60% of the encodings).\nMainly this chart gave me a chance to clarify something that my students would sometimes overlook—that a data structure with two categories and one quantitative variable are multiway data if and only if the categories are independent and a value of the response exists for each combination of levels of the two categories. Otherwise, we cannot expect to use a small-multiple design."
-  },
-  {
-    "objectID": "READEME.html",
-    "href": "READEME.html",
-    "title": "Layton R Blog",
-    "section": "",
-    "text": "A blog"
   }
 ]
