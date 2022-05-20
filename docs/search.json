@@ -4,12 +4,12 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Data graphics\nI started doing data visualization work with an engineering education research group around 2008 and haven’t stopped. The iterative process we developed to “find the story” in our data has been instrumental in shaping my approach to data graphics. You can read more about our research at https://midfield.online/.\nMusic\nMy dad was a guitar player and taught me my first chords. I’ve been songwriting and performing since my teens. A favorite musical pilgrimage is the annual Swannanoa Gathering near Asheville, NC in late July. I’ve posted some draft tracks to SoundCloud.\nWork life\nI am a graduate of California State University, Northridge (1991), and the University of Washington (1993, 1995). I taught mechanical engineering courses at Rose-Hulman Institute of Technology from 2000-2020. I retired from teaching in 2020. I also spent some years in industry, primarily in consulting engineering in Anchorage, AK, and Simi Valley, CA, with shorter stints at aerospace firms in Redmond, WA and West Palm Beach, FL."
+    "text": "Data graphics\nI started doing data visualization work with an engineering education research group around 2008 and haven’t stopped. The iterative process we developed to “find the story” in our data has been instrumental in shaping my approach to data graphics. You can read more about our research at https://midfield.online/.\nA Sankey diagram I made was used to inform the cover art of the journal issue in which the article appeared. Sadly, it ain’t the cover of Rolling Stone.\n\nMusic\nMy dad was a guitar player and taught me my first chords. I’ve been songwriting and performing since my teens. A favorite musical pilgrimage is the annual Swannanoa Gathering near Asheville, NC in late July. I’ve posted some draft tracks to SoundCloud.\n\nWork life\nI am a graduate of California State University, Northridge (1991), and the University of Washington (1993, 1995). I taught mechanical engineering courses at Rose-Hulman Institute of Technology from 2000-2020, co-authoring two books in that time.\n\nI retired from teaching in 2020 and spend my time doing data graphics consulting, woodworking, songwriting, and opening doors for cats who blame me for it not being perpetual summer on the other side."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Data Stories",
+    "title": "Data stories",
     "section": "",
     "text": "ggplot2\n\n\nR\n\n\n\n\nUsing the scales and space arguments of facet_grid() to manage panel heights of faceted charts when categories are not independent.\n\n\n\n\n\n\n2022-03-09\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nR\n\n\n\n\nHow to prepare different forms of Likert-style survey data for the R likert package and edit the results to create 100% stacked-bar charts.\n\n\n\n\n\n\n2022-02-13\n\n\n\n\n\n\nNo matching items"
   },

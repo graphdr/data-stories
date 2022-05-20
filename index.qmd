@@ -1,5 +1,5 @@
 ---
-title: "Data Stories"
+title: "Data stories"
 listing:
   contents: posts
   sort: "date desc"
