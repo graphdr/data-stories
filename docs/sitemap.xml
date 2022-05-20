@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://graphdr.github.io/about.html</loc>
-    <lastmod>2022-05-19T23:59:00.081Z</lastmod>
+    <loc>https://graphdr.github.io/data-stories/docs/about.html</loc>
+    <lastmod>2022-05-20T00:05:35.026Z</lastmod>
   </url>
   <url>
-    <loc>https://graphdr.github.io/index.html</loc>
-    <lastmod>2022-05-19T23:59:00.425Z</lastmod>
+    <loc>https://graphdr.github.io/data-stories/docs/index.html</loc>
+    <lastmod>2022-05-20T00:05:35.369Z</lastmod>
   </url>
   <url>
-    <loc>https://graphdr.github.io/license.html</loc>
-    <lastmod>2022-05-19T23:59:01.628Z</lastmod>
+    <loc>https://graphdr.github.io/data-stories/docs/license.html</loc>
+    <lastmod>2022-05-20T00:05:36.576Z</lastmod>
   </url>
   <url>
-    <loc>https://graphdr.github.io/posts/2022-02-13-survey-data-io/index.html</loc>
-    <lastmod>2022-05-19T23:59:02.726Z</lastmod>
+    <loc>https://graphdr.github.io/data-stories/docs/posts/2022-02-13-survey-data-io/index.html</loc>
+    <lastmod>2022-05-20T00:05:37.655Z</lastmod>
   </url>
   <url>
-    <loc>https://graphdr.github.io/posts/2022-02-19-facets-not-small-multiples/index.html</loc>
-    <lastmod>2022-05-19T23:59:03.231Z</lastmod>
+    <loc>https://graphdr.github.io/data-stories/docs/posts/2022-02-19-facets-not-small-multiples/index.html</loc>
+    <lastmod>2022-05-20T00:05:38.169Z</lastmod>
   </url>
 </urlset>

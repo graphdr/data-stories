@@ -1,1 +1,1 @@
-Sitemap: https://graphdr.github.io/sitemap.xml
+Sitemap: https://graphdr.github.io/data-stories/docs/sitemap.xml
