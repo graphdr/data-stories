@@ -16,7 +16,11 @@ execute:
   message: false
   warning: false
 
-# Default author
+# Defaults
 author:
   - name: Richard Layton
     url: https://www.graphdoctor.com
+    
+# References file in posts directory    
+bibliography: ../references.bib
+

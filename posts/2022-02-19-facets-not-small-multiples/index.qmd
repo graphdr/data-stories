@@ -4,6 +4,7 @@ description: |
   Using the scales and space arguments of facet_grid() to manage 
   panel heights of faceted charts when categories are not independent. 
 date: 2022-03-09
+date-format: "YYYY-MM-DD"
 draft: false
 categories: [ggplot2, R]
 image: thumbnail.png

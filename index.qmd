@@ -5,11 +5,13 @@ listing:
   sort: "date desc"
   type: default
   categories: true
-  feed: true
+  feed:
+    title: "Data Stories"
   sort-ui: false
   filter-ui: false
 page-layout: full
 title-block-banner: false
+date-format: "YYYY-MM-DD"
 ---
 
 

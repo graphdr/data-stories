@@ -5,7 +5,7 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Layton R blog</title>
+<title>Data Stories</title>
 <link>https://graphdr.github.io/data-stories/index.html</link>
 <atom:link href="https://graphdr.github.io/data-stories/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
@@ -23,11 +23,11 @@
 </blockquote>
 <p><em>Small multiple</em> design is a good design choice for many data structures. To facilitate visual comparisons, every small-multiple frame (variously called panels, facets, or subplots) has identical scales.</p>
 <blockquote class="blockquote">
-<p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">[@Tufte:1983, 170]</span></p>
+<p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">(Tufte 1983, 170)</span></p>
 </blockquote>
 <p><em>Multiway data</em>—a data structure comprising two independent categorical variables and one quantitative response variable—is well-matched to small multiple design.</p>
 <blockquote class="blockquote">
-<p>What distinguishes multiway data is the cross-classification of the categorical variables; there is a value of the response for each combination of levels of the two categorical variables <span class="citation" data-cites="Cleveland:1993">[@Cleveland:1993, 303]</span>.</p>
+<p>What distinguishes multiway data is the cross-classification of the categorical variables; there is a value of the response for each combination of levels of the two categorical variables <span class="citation" data-cites="Cleveland:1993">(Cleveland 1993, 303)</span>.</p>
 </blockquote>
 <p>However, if the categories happen to be <em>dependent</em>, the data are not multiway and the small multiple design fails. Having come across data of this type in a recent article, I thought it would be interesting to illustrate, given one quantitative variable and two categorical variables, how category independence or dependence influences chart design.</p>
 <p>I start with a multiway data set and point out that, as a small-multiple design, the panels share common scales. In ggplot2, small multiples are usually created using <code>facet_wrap()</code>.</p>
@@ -43,8 +43,8 @@
 </div>
 <section id="multiway-example" class="level2">
 <h2 class="anchored" data-anchor-id="multiway-example">Multiway example</h2>
-<p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">[-@Cleveland:1993, 303]</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
-<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">[@UCLA:2021]</span> and saved it as a CSV file in the blog data directory.</p>
+<p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">(1993, 303)</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
+<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(UCLA 2021)</span> and saved it as a CSV file in the blog data directory.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -87,7 +87,7 @@
 </section>
 <section id="when-categories-are-dependent" class="level2">
 <h2 class="anchored" data-anchor-id="when-categories-are-dependent">When categories are dependent</h2>
-<p>The data set that inspired this post is from an article on a creative expression assignment used in a first-year engineering course <span class="citation" data-cites="Chambers+Reid:2021">[@Chambers+Reid:2021]</span>. In response to COVID-19, the course had transitioned from a highly interactive, in-person experience to an asynchronous, online model.</p>
+<p>The data set that inspired this post is from an article on a creative expression assignment used in a first-year engineering course <span class="citation" data-cites="Chambers+Reid:2021">(Chambers and Reid 2021)</span>. In response to COVID-19, the course had transitioned from a highly interactive, in-person experience to an asynchronous, online model.</p>
 <blockquote class="blockquote">
 <p>The instructors designed an assignment to encourage students to creatively express how the course interruption and transition online was affecting them. The assignment encouraged complete freedom of expression and choice of media.</p>
 </blockquote>
@@ -252,9 +252,23 @@
 <p>Mainly this chart gave me a chance to clarify something that my students would sometimes overlook—that a data structure with two categories and one quantitative variable are multiway data if and only if the categories are independent and a value of the response exists for each combination of levels of the two categories. Otherwise, we cannot expect to use a small-multiple design.</p>
 
 
+
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Chambers+Reid:2021" class="csl-entry">
+Chambers, Benjamin D., and Kenneth J. Reid. 2021. <span>“<span class="nocase">Looking ahead: From driving Cars in the lobby to online: Using open creative expression to understand student emotions about transitioning to remote instruction during the COVID-19 crisis</span>.”</span> <em>Advances in Engineering Education</em> 9 (4). <a href="https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view">https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view</a>.
+</div>
+<div id="ref-Cleveland:1993" class="csl-entry">
+Cleveland, William S. 1993. <em><span>Visualizing Data</span></em>. Summit, NJ: <span>Hobart Press</span>.
+</div>
+<div id="ref-Tufte:1983" class="csl-entry">
+Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+</div>
+<div id="ref-UCLA:2021" class="csl-entry">
+UCLA. 2021. <span>“<span class="nocase">Textbook examples: Visualizing Data by William S. Cleveland</span>.”</span> <span>UCLA Statistical Consulting Group</span>. <a href="https://stats.oarc.ucla.edu/other/examples/vizdata/">https://stats.oarc.ucla.edu/other/examples/vizdata/</a>.
+</div>
+</div></section></div> ]]></description>
   <category>ggplot2</category>
   <category>R</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</guid>
@@ -271,7 +285,7 @@
 <blockquote class="blockquote">
 <p>Summary. Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</p>
 </blockquote>
-<p>This post is a tutorial on how to prepare different forms of Likert-style survey data for the R likert package and using its output to create 100% stacked-bar charts. I focus on preparing the data for <code>likert()</code> input and editing its output for the final chart. For exploring the package functionality more fully, I recommend the tutorials by Laura Mudge <span class="citation" data-cites="Mudge:2019">[-@Mudge:2019]</span> and Jake Chanenson <span class="citation" data-cites="Chanenson:2021">[-@Chanenson:2021]</span>.</p>
+<p>This post is a tutorial on how to prepare different forms of Likert-style survey data for the R likert package and using its output to create 100% stacked-bar charts. I focus on preparing the data for <code>likert()</code> input and editing its output for the final chart. For exploring the package functionality more fully, I recommend the tutorials by Laura Mudge <span class="citation" data-cites="Mudge:2019">(2019)</span> and Jake Chanenson <span class="citation" data-cites="Chanenson:2021">(2021)</span>.</p>
 <p>In a <a href="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/">companion post</a> I develop the R script for constructing the 100% stacked-bar chart and discuss the rationale for selecting it as a more effective design for Likert-style survey data.</p>
 <p>I use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6 (currently the development version).</p>
 <p>The R code for the post is listed under the “R code” pointers.</p>
@@ -340,7 +354,7 @@
 </div>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>The practice data in my example are from an engineering education article by Ashanthi Maxworth <span class="citation" data-cites="Maxworth:2021">[-@Maxworth:2021]</span>, selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
+<p>The practice data in my example are from an engineering education article by Ashanthi Maxworth <span class="citation" data-cites="Maxworth:2021">(2021)</span>, selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\survey-data.png" class="img-fluid figure-img"></p>
@@ -1103,7 +1117,7 @@ Character. Ordered vector of opinion level labels.
 31:    31     4     4     5     5     5</code></pre>
 </div>
 </div>
-<p>The first column is a fictitious respondent ID. The remaining columns represent responses to the survey questions. For basic charts like those shown here, all columns should be question responses, so I delete the ID. Though I don’t cover it here, additional non-question columns are allowed for grouping the results. See, for example, <span class="citation" data-cites="Mudge:2019">[@Mudge:2019]</span>.</p>
+<p>The first column is a fictitious respondent ID. The remaining columns represent responses to the survey questions. For basic charts like those shown here, all columns should be question responses, so I delete the ID. Though I don’t cover it here, additional non-question columns are allowed for grouping the results. See, for example, <span class="citation" data-cites="Mudge:2019">(Mudge 2019)</span>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -1570,6 +1584,17 @@ Character. Ordered vector of opinion level labels.
 <a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data (version 1.3.6)</p>
 
 
+
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Chanenson:2021" class="csl-entry">
+Chanenson, Jake. 2021. <span>“<span>On Likert Scales In R</span>.”</span> <a href="https://jakec007.github.io/2021-06-23-R-likert/">https://jakec007.github.io/2021-06-23-R-likert/</a>.
+</div>
+<div id="ref-Maxworth:2021" class="csl-entry">
+Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>.”</span> <em>Advances in Engineering Education</em> 9 (4): 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>.
+</div>
+<div id="ref-Mudge:2019" class="csl-entry">
+Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert questions</span>.”</span> <a href="https://lmudge13.github.io/sample_code/likert_graphs.html">https://lmudge13.github.io/sample_code/likert_graphs.html</a>.
+</div>
 </div></section></div> ]]></description>
   <category>R</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</guid>

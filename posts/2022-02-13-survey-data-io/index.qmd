@@ -3,6 +3,7 @@ title: "Survey data I/O with likert"
 description: |
   How to prepare different forms of Likert-style survey data for the R likert package and edit the results to create 100% stacked-bar charts. 
 date: 2022-02-13
+date-format: "YYYY-MM-DD"
 draft: false
 categories: [R]
 image: thumbnail.png
