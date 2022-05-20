@@ -8,10 +8,7 @@ categories: [R]
 image: thumbnail.png
 ---
 
-```{r}
-#| label: setup
-#| include: false
-
+```{r setup, include=FALSE}
 options(
   datatable.print.nrows = 16,
   datatable.print.topn = 6,
@@ -29,7 +26,7 @@ I use data.table, ggplot2, and likert R packages. An appealing feature of likert
 
 The R code for the post is listed under the "R code" pointers. 
 
-```{r code_folding="R Code"}
+```{r}
 # packages
 library("data.table")
 library("ggplot2")
@@ -99,9 +96,9 @@ setnames_opinion_labels <- function(x) {
 
 The practice data in my example are from an engineering education article by Ashanthi Maxworth [-@Maxworth:2021], selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents. 
 
-![(Original Table 3) Percentage student responses for each question in the feedback form.](images/survey-data.png)
+![(Original Table 3) Percentage student responses for each question in the feedback form.](survey-data.png)
 
-Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The `likert()` function accepts any of these forms as input. The practice data, in all three forms, are available in the [blog data directory](https://github.com/graphdr/data-stories/tree/main/data/) in CSV files.  
+Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The `likert()` function accepts any of these forms as input. The practice data, in all three forms, are available in the [blog post  directory](https://github.com/graphdr/data-stories/tree/main/posts/2022-02-13-survey-data-io) in CSV files.  
 
 - summary counts: `case-study-2021-count.csv` 
 - summary percentages: `case-study-2021-percent.csv` 
@@ -118,7 +115,7 @@ Survey data are most likely to be reported in one of three forms: summary percen
 
 Read the prepared data file in summary count form.  
 
-```{r code_folding="R Code"}
+```{r}
 # read prepared data
 dt <- fread("case-study-2021-count.csv")
 ```
@@ -132,7 +129,7 @@ knitr::kable(dt)
 
 I rename the first column `Item` for consistency with the `likert()` function. 
 
-```{r code_folding="R Code"}
+```{r}
 # rename first column
 setnames_Item(dt)
 
@@ -154,7 +151,7 @@ The `likert()` function accepts input data frames having this structure. The sal
 To operate on this data frame, we assign it to the `summary` argument of the `likert()` function. The result is a list of various statistics about the Likert-style data. Note that the `results` output preserves the data.table structure of the input. 
 
 
-```{r code_folding="R Code"}
+```{r}
 # create the likert list
 likert_list <- likert(summary = dt)
 
@@ -191,7 +188,7 @@ The components of the list are:
 
 To use this list to create a chart, we assign it as the first argument of the `plot()` function.  
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # create the basic chart (default digits = 0 throws an error)
 plot(likert_list, digits = 1)
 ```
@@ -205,7 +202,7 @@ plot(likert_list, digits = 1)
 
 The same list can be used to create a 100% stacked-bar chart by assigning it as the first argument of `likert_100_pct_bar()`---a function (defined at the top of the post) that wraps `likert.plot` and sets the likert arguments and ggplot2 functions that produce my preferred design.  
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # customize the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -219,13 +216,13 @@ likert_100_pct_bar(likert_list)
 
 The legend key is edited via the column names of `likert_list$results`.  Viewing its column names, 
 
-```{r code_folding="R Code"}
+```{r}
 names(likert_list$results)
 ```
 
 Using a vector of opinion labels defined at the top of the post, I rename the opinion columns of the data frame.   
 
-```{r code_folding="R Code"}
+```{r}
 # recode the opinion options 
 setnames_opinion_labels(likert_list$results)
 
@@ -235,7 +232,7 @@ str(likert_list)
 
 The change can be seen in the structure above and in the revised figure.  
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # create the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -250,13 +247,13 @@ likert_100_pct_bar(likert_list)
 
 The question labels are edited via the values in the `Item` column of `likert_list$results`. Viewing the first column in vector form, 
 
-```{r code_folding="R Code"}
+```{r}
 likert_list$results[["Item"]]
 ```
 
 Using a vector of question labels defined at the top of the post, I substitute them for the values in the original `Item` column. 
 
-```{r code_folding="R Code"}
+```{r}
 # recode the question labels
 likert_list$results[, Item := question_labels]
 
@@ -266,7 +263,7 @@ str(likert_list)
 
 Again, the change is seen in the structure above and in the revised figure.  
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # create the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -285,7 +282,7 @@ This approach is somewhat ad-hoc, but works as long as you are careful to write 
 
 Alternatively one can produce the same result by editing the opinion labels and question labels of the initial data frame before submitting it to `likert()`. The row and column structure reflects the changes.  
 
-```{r code_folding="R Code"}
+```{r}
 # read prepared data
 dt <- fread("case-study-2021-count.csv")
 
@@ -302,7 +299,7 @@ dt[]
 
 The likert list that results is nearly identical to the previous version except the `levels` vector uses the new opinion labels.
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # create the likert list
 likert_list <- likert(summary = dt)
 
@@ -322,7 +319,7 @@ likert_100_pct_bar(likert_list)
 
 Read the prepared data file in summary percentage form. The percentages are directly from the table in the source article.  Like before, I rename the first column `Item` for consistency with the `likert()` function.
 
-```{r code_folding="R Code"}
+```{r}
 # read prepared data
 dt <- fread("case-study-2021-percent.csv")
 
@@ -330,7 +327,7 @@ dt <- fread("case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
-```{r}
+```{r echo=FALSE}
 knitr::kable(dt)
 ```
 
@@ -345,7 +342,7 @@ knitr::kable(dt)
 
 This option is the most direct approach, assuming we know  the number of respondents to each question. In this example we do (though this is not always the case). In this case study we have 31 respondents and all respondents replied to all the questions.
 
-```{r code_folding="R Code"}
+```{r}
 # number of respondents in this example
 N_respondents <- 31
 
@@ -373,7 +370,7 @@ This data structure is identical to the one we worked with in the previous secti
 
 This option might be necessary if we do not know the number of respondents replying to each question. Start by reading the data file and again rename the first column `Item` for consistency with the likert() function.
 
-```{r code_folding="R Code"}
+```{r}
 # read prepared data
 dt <- fread("case-study-2021-percent.csv")
 
@@ -381,13 +378,13 @@ dt <- fread("case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
-```{r}
+```{r echo=FALSE}
 knitr::kable(dt)
 ```
 
 With one row per question, the row percentages should sum to 100%. They do, but with an error due to rounding in the reported percentages. 
 
-```{r code_folding="R Code"}
+```{r}
 # check row totals of numeric columns
 sel_cols <- names(dt)[sapply(dt, is.numeric)]
 row_sum  <- rowSums(dt[, .SD, .SDcols = sel_cols])
@@ -400,7 +397,7 @@ dt[, .(Item, row_total, rounding_error)]
 
 If we ignore the rounding error, it can introduce small but noticeable errors in the bar lengths in the chart. A simple remediation is to subtract the small errors from the neutral columns so that all rows sum to 100% exactly. The adjusted Neutrals are shown below. 
 
-```{r code_folding="R Code"}
+```{r}
 # subtract error from neutral
 dt[, adjusted_neutral := neutral - rounding_error]
 
@@ -415,7 +412,7 @@ dt[, .(Item, neutral, rounding_error, adjusted_neutral)]
 
 Replacing neutral with the adjusted neutral and deleting the temporary information columns yields the data structure I need for the summary percentage form:
 
-```{r code_folding="R Code"}
+```{r}
 # adjust neutral
 dt[, neutral := adjusted_neutral]
 
@@ -436,7 +433,7 @@ Data structure:
 
 To prepare the data frame for graphing, I use the "edit the labels first" approach described earlier.  
 
-```{r code_folding="R Code"}
+```{r}
 # recode the opinion options
 setnames_opinion_labels(dt)
 
@@ -453,7 +450,7 @@ dt[]
 
 To operate on this data frame, we again use the `summary` argument of `likert()`. The result is a list similar to that produced when we operated on summary counts and the same familiar chart. 
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # create the likert list
 likert_list <- likert(summary = dt)
 
@@ -482,7 +479,7 @@ I made up a practice data set in row-record form with 31 rows and 6 columns. The
 
 Read the prepared data file in row-record form and view the data frame. 
 
-```{r code_folding="R Code"}
+```{r}
 # read observed data
 dt <- fread("case-study-2021-row-record.csv")
 
@@ -492,7 +489,7 @@ dt[]
 
 The first column is a fictitious respondent ID. The remaining columns represent responses to the survey questions. For basic charts like those shown here, all columns should be question responses, so I delete the ID. Though I don't cover it here, additional non-question columns are allowed for grouping the results. See, for example, [@Mudge:2019]. 
 
-```{r code_folding="R Code"}
+```{r}
 # delete the ID column
 dt[, obs := NULL]
 
@@ -509,7 +506,7 @@ dt[]
 
 For the `likert()` function to accept data in this form, all question response columns must be factors with identical sets of levels. Reformatting the columns and checking the structure yields,  
 
-```{r code_folding="R Code"}
+```{r}
 # reformat columns as factors
 sel_cols <- names(dt)
 dt[, c(sel_cols) := lapply(.SD, function(x) factor(x, levels = 1:5)), .SDcols = sel_cols]
@@ -537,7 +534,7 @@ To operate on a row-record data frame, we assign it to the `items` argument of t
 
 However, unlike the previous output lists, the data.table structure of the input has not been preserved. I use data.table syntax in subsequent operations, so I convert both `results` and `items` to data.tables. 
 
-```{r code_folding="R Code"}
+```{r}
 # create likert list 
 likert_list <- likert(items = dt)
 
@@ -580,7 +577,7 @@ The components of the list are:
 
 With row-record data, the plot function requires both `results` and `items` from the output list. The chart is familiar, but the opinion labels are now the integers used to encode the survey results. 
 
-```{r fig.asp = 0.35, code_folding="R Code"}
+```{r fig.asp = 0.35}
 likert_100_pct_bar(likert_list)
 ```
 
@@ -597,7 +594,7 @@ likert_100_pct_bar(likert_list)
 
 As before, the legend key is edited via the column names of `likert_list$results`. Note the corresponding changes in the likert list and chart. 
 
-```{r fig.asp = 0.35, code_folding="R Code"}
+```{r fig.asp = 0.35}
 # recode the opinion options
 setnames(likert_list$results, 
          old = as.character(1:5), 
@@ -621,7 +618,7 @@ likert_100_pct_bar(likert_list)
 
 With row-record data, both `results` and `items` data frames must be revised to edit the question labels. Note the corresponding changes in the likert list and chart.
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # recode Item column of $results
 likert_list$results[, Item := question_labels]
 
@@ -649,7 +646,7 @@ As before, we have an alternative approach: one can produce the same result by e
 
 To illustrate, I start with a fresh row-record data set. 
 
-```{r code_folding="R Code"}
+```{r}
 # read prepared data
 dt <- fread("case-study-2021-row-record.csv")
 
@@ -681,7 +678,7 @@ dt[]
 
 Input to `likert()` produces the familiar chart. 
 
-```{r fig.asp=0.35, code_folding="R Code"}
+```{r fig.asp=0.35}
 # create the likert list
 likert_list <- likert(items = dt)
 
@@ -701,13 +698,13 @@ likert_100_pct_bar(likert_list)
 
 The `results` component can also be used to construct a summary data table. 
 
-```{r code_folding="R Code"}
+```{r}
 likert_list$results
 ```
 
 Rounding the digits, we produce a publication-ready table. I'm assuming the abbreviated question labels are OK---if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart---a structure that could be useful to the reader. 
 
-```{r}
+```{r echo=FALSE}
 knitr::kable(likert_list$result, digits = 1)
 ```
 
