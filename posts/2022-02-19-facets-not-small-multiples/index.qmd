@@ -58,7 +58,9 @@ The literal textbook example of multiway data and chart design is the livestock 
 
 I obtained a reproduction of the data from [@UCLA:2021] and saved it as a CSV file in the blog data directory. 
 
-```{r read-livestock}
+```{r}
+#| label: read-livestock
+
 # read the livestock data
 DT <- fread("livestock-1967.csv")
 
@@ -68,7 +70,9 @@ DT[]
 
 The countries are assigned to the rows such that the median count by country increases from bottom to top. The livestock are assigned to the panels such that median count by livestock type increases in *graphical order:* increasing  from left to right and from bottom to top. The logarithm of counts is used for the quantitative scale counts vary by more than four powers of 10. 
 
-```{r chart-livestock, fig.asp=6/5}
+```{r fig.asp=6/5}
+#| label: chart-livestock
+
 ggplot(data = DT, mapping = aes(x = log10(count), y = reorder(country, count, median))) +
   geom_point() + 
   facet_wrap(vars(reorder(livestock_type, count, median)), as.table = FALSE) +
@@ -91,7 +95,8 @@ Some submissions covered multiple media and genres, for example, an original son
 
 The data are available in the blog data directory. 
 
-```{r read-assignment}
+```{r}
+#| label: read-assignment
 
 # import the data
 DT <- fread("creative-assignment-2021.csv")
@@ -104,7 +109,9 @@ The graph I have in mind would have media type assigned to rows and media catego
 
 In my first attempt, I use `facet_wrap()` like I did with the livestock data. The visual problem is obvious...every row has a data marker in one panel only. Because the categories are not independent, the small-multiple design fails. 
 
-```{r chart-assignment-1, fig.asp=1.6/1}
+```{r fig.asp=1.6/1}
+#| label: chart-assignment-1
+
 # create the first chart 
 p <- ggplot(data = DT, mapping = aes(x = percent, y = reorder(genre, count))) +
   geom_point() + 
@@ -117,7 +124,9 @@ p
 
 The `scales = "free_y"` argument of `facet_wrap()` replaces the common y-scale with only those row labels associated with a panel. I also use the `ncol` argument to stack the panels in one column with all rows labels aligned on the left. This graph has the essential layout I had in mind---a common quantitative scale but different vertical scales, yielding facets that are not small multiples.  
 
-```{r label: chart-assignment-2, fig.asp=1.5/1}
+```{r fig.asp=1.5/1}
+#| label: chart-assignment-2
+
 # edit the previous chart 
 p <- p +
    facet_wrap(vars(reorder(medium, count)) , as.table = FALSE, scales = "free_y", ncol = 1)
@@ -130,7 +139,9 @@ Because `facet_wrap()` creates panels of equal height, the rows in this case are
 
 I switch to `facet_grid()` to space the rows equally in panels of unequal height. The  `space = "free_y"` argument is added to make the  panel height proportional to the length of the y scale. 
 
-```{r chart-assignment-3, fig.asp=1/1}
+```{r fig.asp=1/1}
+#| label: chart-assignment-3
+
 # edit the previous chart 
 p <- p  +
   facet_grid(rows = vars(reorder(medium, count)), 
@@ -147,7 +158,9 @@ p
 
 While the  overall layout above is what I want, I would prefer to move the panel labels from the right-hand side to the top of each panel. I could not find a way to do that, so I removed the right-hand label and wrote the media label inside the panel. I edited some other aesthetics as well. 
 
-```{r label: chart-assignment-4, fig.asp=1/1}
+```{r fig.asp=1/1}
+#| label: chart-assignment-4
+
 # create a y-coordinate for a text geom
 DT <- DT[, y_coord_media := .N/2 + 0.5, by = medium]
 

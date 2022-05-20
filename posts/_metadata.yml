@@ -2,7 +2,7 @@
 
 # Freeze computational output
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
-freeze: true
+# freeze: true
 
 # Turn off banner style title blocks
 title-block-banner: false
@@ -15,12 +15,15 @@ toc-depth : 2
 execute:
   message: false
   warning: false
+  output: true
+  freeze: auto
+  comment: "#>"
 
 # Defaults
 author:
-  - name: Richard Layton
-    url: https://www.graphdoctor.com
+  name: Richard Layton
+  url: https://www.graphdoctor.com
     
 # References file in posts directory    
 bibliography: ../references.bib
-
+link-citations: true

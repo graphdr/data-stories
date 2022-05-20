@@ -9,7 +9,10 @@ categories: [R]
 image: thumbnail.png
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| label: setup
+#| include: false
+
 options(
   datatable.print.nrows = 16,
   datatable.print.topn = 6,
@@ -28,6 +31,8 @@ I use data.table, ggplot2, and likert R packages. An appealing feature of likert
 The R code for the post is listed under the "R code" pointers. 
 
 ```{r}
+#| label: packages
+
 # packages
 library("data.table")
 library("ggplot2")
@@ -117,11 +122,14 @@ Survey data are most likely to be reported in one of three forms: summary percen
 Read the prepared data file in summary count form.  
 
 ```{r}
+#| label: read-case-study
+
 # read prepared data
 dt <- fread("case-study-2021-count.csv")
 ```
 
 ```{r}
+#| echo: false
 knitr::kable(dt)
 ```
 
@@ -131,6 +139,8 @@ knitr::kable(dt)
 I rename the first column `Item` for consistency with the `likert()` function. 
 
 ```{r}
+#| label: setnames
+
 # rename first column
 setnames_Item(dt)
 
@@ -153,6 +163,8 @@ To operate on this data frame, we assign it to the `summary` argument of the `li
 
 
 ```{r}
+#| label: create-likert-1
+
 # create the likert list
 likert_list <- likert(summary = dt)
 
@@ -190,6 +202,8 @@ The components of the list are:
 To use this list to create a chart, we assign it as the first argument of the `plot()` function.  
 
 ```{r fig.asp=0.35}
+#| label: chart-01
+
 # create the basic chart (default digits = 0 throws an error)
 plot(likert_list, digits = 1)
 ```
@@ -204,6 +218,8 @@ plot(likert_list, digits = 1)
 The same list can be used to create a 100% stacked-bar chart by assigning it as the first argument of `likert_100_pct_bar()`---a function (defined at the top of the post) that wraps `likert.plot` and sets the likert arguments and ggplot2 functions that produce my preferred design.  
 
 ```{r fig.asp=0.35}
+#| label: chart-02
+
 # customize the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -218,6 +234,8 @@ likert_100_pct_bar(likert_list)
 The legend key is edited via the column names of `likert_list$results`.  Viewing its column names, 
 
 ```{r}
+#| label: view-likert-1
+
 names(likert_list$results)
 ```
 
@@ -234,6 +252,8 @@ str(likert_list)
 The change can be seen in the structure above and in the revised figure.  
 
 ```{r fig.asp=0.35}
+#| label: chart-03
+
 # create the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -265,6 +285,8 @@ str(likert_list)
 Again, the change is seen in the structure above and in the revised figure.  
 
 ```{r fig.asp=0.35}
+#| label: chart-04
+
 # create the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -301,6 +323,8 @@ dt[]
 The likert list that results is nearly identical to the previous version except the `levels` vector uses the new opinion labels.
 
 ```{r fig.asp=0.35}
+#| label: chart-05
+
 # create the likert list
 likert_list <- likert(summary = dt)
 
@@ -328,7 +352,8 @@ dt <- fread("case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 knitr::kable(dt)
 ```
 
@@ -355,6 +380,7 @@ dt[, c(sel_cols) := lapply(.SD, function(x) round(N_respondents * x/100, 0)), .S
 ```
 
 ```{r}
+#| echo: false
 knitr::kable(dt)
 ```
 
@@ -379,7 +405,8 @@ dt <- fread("case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 knitr::kable(dt)
 ```
 
@@ -452,6 +479,8 @@ dt[]
 To operate on this data frame, we again use the `summary` argument of `likert()`. The result is a list similar to that produced when we operated on summary counts and the same familiar chart. 
 
 ```{r fig.asp=0.35}
+#| label: chart-06
+
 # create the likert list
 likert_list <- likert(summary = dt)
 
@@ -579,6 +608,8 @@ The components of the list are:
 With row-record data, the plot function requires both `results` and `items` from the output list. The chart is familiar, but the opinion labels are now the integers used to encode the survey results. 
 
 ```{r fig.asp = 0.35}
+#| label: chart-07
+
 likert_100_pct_bar(likert_list)
 ```
 
@@ -596,6 +627,8 @@ likert_100_pct_bar(likert_list)
 As before, the legend key is edited via the column names of `likert_list$results`. Note the corresponding changes in the likert list and chart. 
 
 ```{r fig.asp = 0.35}
+#| label: chart-08
+
 # recode the opinion options
 setnames(likert_list$results, 
          old = as.character(1:5), 
@@ -620,6 +653,8 @@ likert_100_pct_bar(likert_list)
 With row-record data, both `results` and `items` data frames must be revised to edit the question labels. Note the corresponding changes in the likert list and chart.
 
 ```{r fig.asp=0.35}
+#| label: chart-09
+
 # recode Item column of $results
 likert_list$results[, Item := question_labels]
 
@@ -631,6 +666,7 @@ setnames(likert_list$items,
 
 # examine the result
 str(likert_list)
+
 # create the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -680,11 +716,14 @@ dt[]
 Input to `likert()` produces the familiar chart. 
 
 ```{r fig.asp=0.35}
+#| label: chart-10
+
 # create the likert list
 likert_list <- likert(items = dt)
 
 # examine the result
 str(likert_list)
+
 # create the chart
 likert_100_pct_bar(likert_list)
 ```
@@ -705,7 +744,8 @@ likert_list$results
 
 Rounding the digits, we produce a publication-ready table. I'm assuming the abbreviated question labels are OK---if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart---a structure that could be useful to the reader. 
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 knitr::kable(likert_list$result, digits = 1)
 ```
 
