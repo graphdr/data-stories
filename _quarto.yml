@@ -8,7 +8,6 @@ website:
   repo-url: https://github.com/graphdr/data-stories
   description: "A blog about visual rhetoric, chart design, and R."
   favicon: images/favicon.png
-  opengraph: true
 
   sidebar:
     style: "floating"
