@@ -6,14 +6,14 @@
       version="2.0">
 <channel>
 <title>Layton R blog</title>
-<link>https://graphdr.github.io/data-stories/docs/index.html</link>
-<atom:link href="https://graphdr.github.io/data-stories/docs/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://graphdr.github.io/data-stories/index.html</link>
+<atom:link href="https://graphdr.github.io/data-stories/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
 <generator>quarto-0.9.426</generator>
 <lastBuildDate>Wed, 09 Mar 2022 05:00:00 GMT</lastBuildDate>
 <item>
   <title>Facets that are not small multiples</title>
-  <link>https://graphdr.github.io/data-stories/docs/posts/2022-02-19-facets-not-small-multiples/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</link>
   <description><![CDATA[ 
 
 
@@ -80,7 +80,7 @@
 <span id="cb4-4">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">expression</span>(<span class="st" style="color: #20794D;">'Log'</span>[<span class="dv" style="color: #AD0000;">10</span>]<span class="sc" style="color: #5E5E5E;">~</span><span class="st" style="color: #20794D;">'number of livestock'</span>), <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">""</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-livestock-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-livestock-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Typical of small multiple charts in general, all five panels have identical horizontal scales (the count) and identical vertical axes (countries). It follows that the size and aspect ratio of each panel are also identical.</p>
@@ -152,7 +152,7 @@
 <span id="cb7-8">p</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The <code>scales = "free_y"</code> argument of <code>facet_wrap()</code> replaces the common y-scale with only those row labels associated with a panel. I also use the <code>ncol</code> argument to stack the panels in one column with all rows labels aligned on the left. This graph has the essential layout I had in mind—a common quantitative scale but different vertical scales, yielding facets that are not small multiples.</p>
@@ -167,7 +167,7 @@
 <span id="cb8-6">p</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Because <code>facet_wrap()</code> creates panels of equal height, the rows in this case are unequally spaced.</p>
@@ -186,7 +186,7 @@
 <span id="cb9-9">p</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -228,7 +228,7 @@
 <span id="cb10-30">                                         <span class="at" style="color: #657422;">labels =</span> top_axis<span class="sc" style="color: #5E5E5E;">$</span>count_label))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples\index_files\figure-html\chart-assignment-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Features of the graph</p>
@@ -257,13 +257,13 @@
  ]]></description>
   <category>ggplot2</category>
   <category>R</category>
-  <guid>https://graphdr.github.io/data-stories/docs/posts/2022-02-19-facets-not-small-multiples/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</guid>
   <pubDate>Wed, 09 Mar 2022 05:00:00 GMT</pubDate>
-  <media:content url="https://graphdr.github.io/data-stories/docs//posts/2022-02-19-facets-not-small-multiples/thumbnail.png" medium="image" type="image/png" height="125" width="144"/>
+  <media:content url="https://graphdr.github.io/data-stories//posts/2022-02-19-facets-not-small-multiples/thumbnail.png" medium="image" type="image/png" height="125" width="144"/>
 </item>
 <item>
   <title>Survey data I/O with likert</title>
-  <link>https://graphdr.github.io/data-stories/docs/posts/2022-02-13-survey-data-io/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</link>
   <description><![CDATA[ 
 
 
@@ -343,7 +343,7 @@
 <p>The practice data in my example are from an engineering education article by Ashanthi Maxworth <span class="citation" data-cites="Maxworth:2021">[-@Maxworth:2021]</span>, selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\images\survey-data.png" class="img-fluid figure-img"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\images\survey-data.png" class="img-fluid figure-img"></p>
 <p></p><p></p>
 </figure>
 </div>
@@ -521,7 +521,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb8-2"><span class="fu" style="color: #4758AB;">plot</span>(likert_list, <span class="at" style="color: #657422;">digits =</span> <span class="dv" style="color: #AD0000;">1</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -535,7 +535,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb9-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -587,7 +587,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb14-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -638,7 +638,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb19-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>This approach is somewhat ad-hoc, but works as long as you are careful to write the substitutions in the correct order. If I were programming these steps, I would create additional tables (as in a database) and join the substitutions by clearly assigned key variables.</p>
@@ -704,7 +704,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb24-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1074,7 +1074,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb41-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1257,7 +1257,7 @@ Character. Ordered vector of opinion level labels.
 <div class="sourceCode cell-code" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1305,7 +1305,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb53-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1356,7 +1356,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb56-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1465,7 +1465,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb61-2"><span class="fu" style="color: #4758AB;">likert_100_pct_bar</span>(likert_list)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/docs/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io\index_files\figure-html\unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1584,9 +1584,9 @@ Character. Ordered vector of opinion level labels.
 
 </div></section></div> ]]></description>
   <category>R</category>
-  <guid>https://graphdr.github.io/data-stories/docs/posts/2022-02-13-survey-data-io/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</guid>
   <pubDate>Sun, 13 Feb 2022 05:00:00 GMT</pubDate>
-  <media:content url="https://graphdr.github.io/data-stories/docs//posts/2022-02-13-survey-data-io/thumbnail.png" medium="image" type="image/png" height="94" width="144"/>
+  <media:content url="https://graphdr.github.io/data-stories//posts/2022-02-13-survey-data-io/thumbnail.png" medium="image" type="image/png" height="94" width="144"/>
 </item>
 </channel>
 </rss>
