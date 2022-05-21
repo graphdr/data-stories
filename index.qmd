@@ -1,5 +1,5 @@
 ---
-title: "Data stories"
+title: "Data Stories"
 listing:
   contents: posts
   sort: "date desc"
@@ -7,11 +7,13 @@ listing:
   categories: true
   feed:
     title: "Data Stories"
+    categories: R
   sort-ui: false
   filter-ui: false
 page-layout: full
 title-block-banner: false
 date-format: "YYYY-MM-DD"
+comments: false
 ---
 
 

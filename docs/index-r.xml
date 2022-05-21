@@ -6,8 +6,8 @@
       version="2.0">
 <channel>
 <title>Data Stories</title>
-<link>https://graphdr.github.io/data-stories/index.html</link>
-<atom:link href="https://graphdr.github.io/data-stories/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://graphdr.github.io/data-stories/index.html#category=R</link>
+<atom:link href="https://graphdr.github.io/data-stories/index-r.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
 <generator>quarto-0.9.426</generator>
 <lastBuildDate>Wed, 09 Mar 2022 05:00:00 GMT</lastBuildDate>

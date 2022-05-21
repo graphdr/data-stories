@@ -30,7 +30,9 @@ website:
       href: license.html 
     - text: "About"
       href: about.qmd
-    - icon: github
+    - icon: envelope-fill
+      href: mailto:graphdoctor@gmail.com
+    - icon: git
       href: https://github.com/graphdr/data-stories
     - icon: rss
       href: index.xml     
@@ -50,6 +52,8 @@ format:
     code-overflow: wrap
     code-copy: true
 
-
+comments:
+  utterances:
+    repo: graphdr/data-stories
 
 

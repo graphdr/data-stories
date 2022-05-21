@@ -1,15 +1,11 @@
 # options specified here will apply to all posts in this folder
-
-# Freeze computational output
-# (see https://quarto.org/docs/projects/code-execution.html#freeze)
-# freeze: true
-
-# Turn off banner style title blocks
-title-block-banner: false
-
-# Table of contents
+author: Richard Layton
+citation: true
 toc: true
 toc-depth : 2
+title-block-banner: false
+bibliography: ../references.bib
+link-citations: true
 
 # knitr options
 execute:
@@ -18,12 +14,3 @@ execute:
   output: true
   freeze: auto
   comment: "#>"
-
-# Defaults
-author:
-  name: Richard Layton
-  url: https://www.graphdoctor.com
-    
-# References file in posts directory    
-bibliography: ../references.bib
-link-citations: true
