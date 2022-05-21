@@ -1,29 +1,34 @@
 ---
 title: "About"
-description: |
-  A blog about visual rhetoric, chart design, and R.  
 about:
-  template: trestles
+  template: solana
+comments: false
+image: images/left-the-building.png
 ---
 
 **Data graphics**
 
-I started doing data visualization work with an engineering education research group around 2008 and haven't stopped. The iterative process we developed to  "find the story" in our data has been instrumental in shaping my approach to data graphics. You can read more about our research at [https://midfield.online/](https://midfield.online/). 
+I started doing data visualization work with an engineering education research group around 2008 and haven't stopped. The iterative process we developed to "find the story" in our data has been instrumental in shaping my approach to data graphics. You can read more about our research at <https://midfield.online/>.
 
-A Sankey diagram I made was used to inform the cover art of the journal issue in which the article appeared. Sadly, it ain't the cover of *Rolling Stone*. 
+It ain't the cover of *Rolling Stone*, but a Sankey diagram I made was used to inform the cover art of the journal issue in which the article appeared.
 
-![](images/jee-cover.png){width=50%}
+![](images/jee-cover.png){width="50%"}
 
 **Music**
 
-My dad was a guitar player and taught me my first chords. I've been songwriting and performing since my teens. A favorite musical pilgrimage is the annual [Swannanoa Gathering](https://swangathering.com/) near Asheville, NC in late July. I've posted some draft tracks to [SoundCloud](https://soundcloud.com/richardlaytonmusic). 
+My dad was a guitar player and taught me my first chords. I've been songwriting and performing since my teens. A favorite musical pilgrimage is the annual [Swannanoa Gathering](https://swangathering.com/) near Asheville, NC in late July. I've posted some draft tracks to [SoundCloud](https://soundcloud.com/richardlaytonmusic).
 
-![](images/guitar2.png){width=50%}
+![](images/guitar2.png){width="50%"}
 
 **Work life**
 
-I am a graduate of California State University, Northridge (1991), and the University of Washington (1993, 1995). I taught mechanical engineering courses at Rose-Hulman Institute of Technology from 2000-2020, co-authoring two books in that time. 
+I am a graduate of California State University, Northridge (1991), and the University of Washington (1993, 1995). I taught mechanical engineering courses at Rose-Hulman Institute of Technology from 2000-2020, co-authoring two books in that time.
 
-![](images/ecm.jpg){width=40%}![](images/mems.jpg){width=50%}
+![](images/ecm.jpg){width="40%"}![](images/mems.jpg){width="50%"}
 
-I retired from teaching in 2020 and spend my time doing data graphics consulting, woodworking, songwriting, and opening doors for cats who blame me for it not being perpetual summer on the other side. 
+
+**Retirement** 
+
+"I ain't dead yet!" 
+
+I retired from teaching in 2020 and spend my time doing songwriting, yard work,  woodworking, R data graphics consulting, and opening doors for cats who give me doleful looks when a door fails to open on perpetual summer.
