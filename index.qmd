@@ -8,6 +8,7 @@ listing:
   feed:
     title: "Data Stories"
     categories: R
+    type: full
   sort-ui: false
   filter-ui: false
 page-layout: full

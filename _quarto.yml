@@ -9,7 +9,7 @@ website:
   repo-actions: [issue]
   description: "A blog about visual rhetoric, chart design, and R."
   favicon: images/favicon.png
-  reader-mode: true
+  reader-mode: false
 
   sidebar:
     style: "floating"
@@ -36,9 +36,7 @@ website:
       href: https://github.com/graphdr/data-stories
     - icon: rss
       href: index.xml     
-       
-  margin-header: redirect.html
-  
+
   page-footer:
     center: 
       - text: "Copyright 2022 Richard A. Layton"
@@ -51,6 +49,7 @@ format:
     code-summary: "R code"
     code-overflow: wrap
     code-copy: true
+    self-contained: false
 
 comments:
   utterances:
