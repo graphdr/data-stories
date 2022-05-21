@@ -6,21 +6,14 @@ listing:
   type: default
   categories: true
   feed:
-    title: "Data Stories"
     categories: R
-    type: full
-  sort-ui: false
-  filter-ui: false
 page-layout: full
 title-block-banner: false
 date-format: "YYYY-MM-DD"
 comments: false
 ---
 
-
-
-
-
-
-
+:::{.column-margin}
+*My blog at graphdoctor.com redirects here. I intend to gradually port my earlier posts to this site.*
+:::
 

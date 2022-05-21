@@ -7,7 +7,7 @@ date: 2022-03-09
 date-format: "YYYY-MM-DD"
 draft: false
 categories: [ggplot2, R]
-image: thumbnail.png
+image: "thumbnail.png"
 ---
 
 ```{r}

@@ -5,11 +5,11 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Data Stories</title>
+<title>Layton R blog</title>
 <link>https://graphdr.github.io/data-stories/index.html</link>
 <atom:link href="https://graphdr.github.io/data-stories/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
-<generator>quarto-0.9.426</generator>
+<generator>quarto-0.9.439</generator>
 <lastBuildDate>Wed, 09 Mar 2022 05:00:00 GMT</lastBuildDate>
 <item>
   <title>Facets that are not small multiples</title>

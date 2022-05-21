@@ -3,15 +3,6 @@ author: Richard Layton
 citation: true
 toc: true
 toc-depth : 2
-title-block-banner: false
 bibliography: ../references.bib
-link-citations: true
-
-# knitr options
-execute:
-  message: false
-  warning: false
-  output: true
-  freeze: auto
-  comment: "#>"
-  cache: false
+freeze: true
+title-block-banner: false

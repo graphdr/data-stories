@@ -9,7 +9,6 @@ website:
   repo-actions: [issue]
   description: "A blog about visual rhetoric, chart design, and R."
   favicon: images/favicon.png
-  reader-mode: false
 
   sidebar:
     style: "floating"
@@ -43,13 +42,12 @@ website:
         
 format:
   html:
-    theme: flatly
+    theme: simplex
     css: styles.css
     code-fold: true
     code-summary: "R code"
     code-overflow: wrap
     code-copy: true
-    self-contained: false
 
 comments:
   utterances:
