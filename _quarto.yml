@@ -35,6 +35,8 @@ website:
     - icon: rss
       href: index.xml     
        
+  margin-header: redirect.html
+  
   page-footer:
     center: 
       - text: "Copyright 2022 Richard A. Layton"

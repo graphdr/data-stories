@@ -6,8 +6,6 @@ about:
   template: trestles
 ---
 
-*My previous WordPress blog at graphdoctor.com redirects here.*
-
 **Data graphics**
 
 I started doing data visualization work with an engineering education research group around 2008 and haven't stopped. The iterative process we developed to  "find the story" in our data has been instrumental in shaping my approach to data graphics. You can read more about our research at [https://midfield.online/](https://midfield.online/). 
