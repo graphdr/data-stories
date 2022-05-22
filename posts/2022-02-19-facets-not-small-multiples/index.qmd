@@ -218,3 +218,14 @@ The graph supports this assertion but emphasizes visually a couple of other poin
 Mainly this chart gave me a chance to clarify something that my students would sometimes overlook---that a data structure with two categories and one quantitative variable are multiway data if and only if the categories are independent and a value of the response exists  for each combination of levels of the two categories. Otherwise, we cannot expect to use a small-multiple design. 
 
 
+
+
+
+
+## Acknowledgments {.appendix}
+
+**R and R packages**
+
+[`R`](https://CRAN.R-project.org/) (version 4.1.2, 2021--11--01)    
+[`data.table`](https://CRAN.R-project.org/package=data.table)  for manipulating data (version 1.14.2)    
+[`ggplot2`](https://CRAN.R-project.org/package=ggplot2)  for fine-tuning the charts (version 3.3.5) 

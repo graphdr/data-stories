@@ -17,3 +17,13 @@ comments: false
 *My blog at graphdoctor.com redirects here. I intend to gradually port my earlier posts to this site.*
 :::
 
+
+
+
+
+
+## Acknowledgments {.appendix}
+
+
+[`quarto`](https://quarto.org/) For blog publishing, version 0.9.440-win, 2022-05-21
+    

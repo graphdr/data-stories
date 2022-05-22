@@ -21,7 +21,7 @@ options(
 )
 ```
 
-*Note: In January 2022, I transferred this post from a previous blog host,  edited it slightly, and added the R code chunks for reproducibility.*
+*I ported this post from my graphdoctor.com blog, edited it slightly, and added R code chunks for reproducibility.*
 
 In August 2007, *Science* published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.
 
@@ -218,4 +218,3 @@ Readers may view, browse, and/or download material for temporary copying purpose
 
 [data.table](https://CRAN.R-project.org/package=data.table) for manipulating data    
 [ggplot2](https://CRAN.R-project.org/package=ggplot2) for creating the charts    
-[distill](https://CRAN.R-project.org/package=distill) for creating the post    
