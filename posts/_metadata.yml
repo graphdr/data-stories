@@ -6,3 +6,9 @@ toc-depth: 2
 bibliography: ../references.bib
 freeze: true
 title-block-banner: false
+
+execute:
+  error: false
+  message: false
+  warning: false
+  collapse: true

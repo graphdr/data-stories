@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://graphdr.github.io/data-stories/about.html</loc>
-    <lastmod>2022-05-21T23:38:18.093Z</lastmod>
+    <lastmod>2022-05-22T00:18:36.407Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/index.html</loc>
-    <lastmod>2022-05-21T23:38:18.524Z</lastmod>
+    <lastmod>2022-05-22T00:20:48.273Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/license.html</loc>
-    <lastmod>2022-05-21T23:38:18.869Z</lastmod>
+    <lastmod>2022-05-22T00:18:37.020Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index.html</loc>
+    <lastmod>2022-05-22T00:20:47.269Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</loc>
-    <lastmod>2022-05-21T23:38:20.330Z</lastmod>
+    <lastmod>2022-05-22T00:18:38.880Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</loc>
-    <lastmod>2022-05-21T23:38:21.071Z</lastmod>
+    <lastmod>2022-05-22T00:18:39.479Z</lastmod>
   </url>
 </urlset>

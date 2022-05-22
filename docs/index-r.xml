@@ -1654,5 +1654,245 @@ February 13, 2022. <a href="https://graphdr.github.io/data-stories/posts\2022-02
   <pubDate>Sun, 13 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/thumbnail.png" medium="image" type="image/png" height="94" width="144"/>
 </item>
+<item>
+  <title>The missing relation</title>
+  <link>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index.html</link>
+  <description><![CDATA[ 
+
+
+
+<p><em>Note: In January 2022, I transferred this post from a previous blog host, edited it slightly, and added the R code chunks for reproducibility.</em></p>
+<p>In August 2007, <em>Science</em> published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.</p>
+<p>A colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the <em>Science</em> editor. They responded by posting a scatterplot much like the one shown here in an online addendum.</p>
+<p>Throughout the post, you can click on the “R code” pointer to see the script used to create the graphs. This first code chunk loads the packages used.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># packages</span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"data.table"</span>)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggplot2"</span>)</span></code></pre></div>
+</details>
+</div>
+<section id="the-original-graph" class="level2">
+<h2 class="anchored" data-anchor-id="the-original-graph">The original graph</h2>
+<p>The graph shows a time series of retention rates for two cohorts of undergraduate students <span class="citation" data-cites="Fortenberry+Sullivan+etal:2007">(Fortenberry et al. 2007)</span>. One cohort had matriculated in engineering in a First Year Engineering Program (FYEP) and one cohort had not (non-FYEP). The main story is clear, that retention rates drop over time for both cohorts but that FYEP students are always retained at a higher rate than non-FYEP students. Yet the graph design distorts one comparison and omits another.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation\science-figure.png" class="img-fluid figure-img"></p>
+<p></p><p></p>
+</figure>
+</div>
+</section>
+<section id="visual-distortion" class="level2">
+<h2 class="anchored" data-anchor-id="visual-distortion">Visual distortion</h2>
+<p>The visual design distorts the relationship between the two cohorts. While the printed numbers show that the difference between the two cohorts remains fairly constant (about 10%) over time, the <em>visual</em> message conveyed by the bar heights is that the difference between cohorts increases over time. The FYEP bar is at first approximately 1/3 higher than the adjacent bar, then nearly twice as high, then more than three times as high.</p>
+<div class="cell" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read data from blog data directory</span></span>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"retention-2007.csv"</span>)</span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;"># grouped bar graph </span></span>
+<span id="cb2-5"><span class="co" style="color: #5E5E5E;"># use y = pct - 50 to force ggplot to produce a non-zero baseline </span></span>
+<span id="cb2-6"><span class="co" style="color: #5E5E5E;"># then relabel the y-axis scale, i.e., 0 is labeled 50%</span></span>
+<span id="cb2-7"><span class="fu" style="color: #4758AB;">ggplot</span>(dt, <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> term, <span class="at" style="color: #657422;">y =</span> pct<span class="dv" style="color: #AD0000;">-50</span>, <span class="at" style="color: #657422;">color =</span> status, <span class="at" style="color: #657422;">fill =</span> status)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb2-8">  <span class="fu" style="color: #4758AB;">geom_bar</span>(<span class="at" style="color: #657422;">stat =</span> <span class="st" style="color: #20794D;">"identity"</span>, </span>
+<span id="cb2-9">           <span class="at" style="color: #657422;">position =</span> <span class="fu" style="color: #4758AB;">position_dodge</span>(), </span>
+<span id="cb2-10">           <span class="at" style="color: #657422;">width =</span> <span class="fl" style="color: #AD0000;">0.8</span>, </span>
+<span id="cb2-11">           <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"black"</span>) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb2-12">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">3</span>, <span class="dv" style="color: #AD0000;">5</span>, <span class="dv" style="color: #AD0000;">7</span>), </span>
+<span id="cb2-13">                     <span class="at" style="color: #657422;">labels =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Third"</span>, <span class="st" style="color: #20794D;">"Fifth"</span>, <span class="st" style="color: #20794D;">"Seventh"</span>), </span>
+<span id="cb2-14">                     <span class="at" style="color: #657422;">expand =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fl" style="color: #AD0000;">0.05</span>, <span class="fl" style="color: #AD0000;">0.15</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb2-15">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">40</span>), </span>
+<span id="cb2-16">                     <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">40</span>, <span class="dv" style="color: #AD0000;">10</span>), </span>
+<span id="cb2-17">                     <span class="at" style="color: #657422;">labels =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"50%"</span>, <span class="st" style="color: #20794D;">"60%"</span>, <span class="st" style="color: #20794D;">"70%"</span>, <span class="st" style="color: #20794D;">"80%"</span>, <span class="st" style="color: #20794D;">"90%"</span>), </span>
+<span id="cb2-18">                     <span class="at" style="color: #657422;">expand =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb2-19">  <span class="fu" style="color: #4758AB;">scale_fill_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"gray80"</span>, <span class="st" style="color: #20794D;">"lightgoldenrod1"</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb2-20">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Semester"</span>, </span>
+<span id="cb2-21">       <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"Retention rate"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb2-22">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>, </span>
+<span id="cb2-23">           <span class="at" style="color: #657422;">x =</span> <span class="fl" style="color: #AD0000;">0.1</span> <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">3</span>, <span class="dv" style="color: #AD0000;">5</span>, <span class="dv" style="color: #AD0000;">7</span>), </span>
+<span id="cb2-24">           <span class="at" style="color: #657422;">y =</span> <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">50</span> <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">85</span>, <span class="dv" style="color: #AD0000;">70</span>, <span class="dv" style="color: #AD0000;">62</span>), </span>
+<span id="cb2-25">           <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"aprox. 1/3 higher"</span>, </span>
+<span id="cb2-26">                     <span class="st" style="color: #20794D;">"approx. 2x higher"</span>, </span>
+<span id="cb2-27">                     <span class="st" style="color: #20794D;">"more than</span><span class="sc" style="color: #5E5E5E;">\n</span><span class="st" style="color: #20794D;">3x higher"</span>), </span>
+<span id="cb2-28">           <span class="at" style="color: #657422;">hjust =</span> <span class="dv" style="color: #AD0000;">0</span>) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb2-29">  <span class="fu" style="color: #4758AB;">theme_light</span>() <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb2-30">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"none"</span>, </span>
+<span id="cb2-31">        <span class="at" style="color: #657422;">panel.grid.major =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(), </span>
+<span id="cb2-32">        <span class="at" style="color: #657422;">panel.grid.minor =</span> <span class="fu" style="color: #4758AB;">element_blank</span>())</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation\index_files\figure-html\non-zero-baseline-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The problem is the non-zero baseline—a well-known concern when using bar charts. Naomi Robbins <a href="https://www.forbes.com/sites/naomirobbins/2012/08/28/must-zero-be-included-on-scales-of-graphs-another-look-at-fox-news-graph-and-huffs-gee-whiz-graph/?sh=677d422b259c">reminds us</a> that not all graphs require a zero baseline, contrary to Darrell Huff’s advice in his 1954 classic <em>How to Lie with Statistics</em>, but a bar graph without a zero baseline inevitably (and sometimes purposefully) exaggerates differences.</p>
+<p>The caption reinforces the miscommunication by stating that the FYEP course “improved retention…into the third, fifth, and seventh semester,” subtly implying a difference that increases over time rather than remaining constant.</p>
+</section>
+<section id="data-structure" class="level2">
+<h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
+<p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Data structure</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">structure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">term</td>
+<td style="text-align: left;">categorical, ordinal, discrete time, 3 levels</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">status</td>
+<td style="text-align: left;">categorical, nominal, 2 levels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">percent retention</td>
+<td style="text-align: left;">quantitative</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The data are available in the blog <a href="https://github.com/graphdr/data-stories/tree/main/posts/2015-07-20-the-missing-relation">post directory</a>.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
+<span id="cb3-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"retention-2007.csv"</span>)</span></code></pre></div>
+</details>
+</div>
+</section>
+<section id="redesign" class="level2">
+<h2 class="anchored" data-anchor-id="redesign">Redesign</h2>
+<p>A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 141)</span>. The difference between the two cohorts is clearly seen to be nearly constant.</p>
+<div class="cell" data-fig.asp="0.4">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;"># redesign the bar chart as a scatterplot</span></span>
+<span id="cb4-2">f <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">ggplot</span>(<span class="at" style="color: #657422;">data =</span> dt, <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> term, <span class="at" style="color: #657422;">y =</span> pct, <span class="at" style="color: #657422;">fill =</span> status)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-3">  </span>
+<span id="cb4-4">  <span class="co" style="color: #5E5E5E;"># helper line to almost connect the dots </span></span>
+<span id="cb4-5">  <span class="fu" style="color: #4758AB;">geom_line</span>(<span class="at" style="color: #657422;">linetype =</span> <span class="dv" style="color: #AD0000;">2</span>, <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"gray60"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-6">  </span>
+<span id="cb4-7">  <span class="co" style="color: #5E5E5E;"># white point overprints the line</span></span>
+<span id="cb4-8">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">9</span>, <span class="at" style="color: #657422;">shape =</span> <span class="dv" style="color: #AD0000;">16</span>, <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"white"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-9">  </span>
+<span id="cb4-10">  <span class="co" style="color: #5E5E5E;"># data marker overprints the white space </span></span>
+<span id="cb4-11">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>, <span class="at" style="color: #657422;">shape =</span> <span class="dv" style="color: #AD0000;">16</span>, <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"black"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-12">  </span>
+<span id="cb4-13">  <span class="co" style="color: #5E5E5E;"># scales </span></span>
+<span id="cb4-14">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">7</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">3</span>, <span class="dv" style="color: #AD0000;">5</span>, <span class="dv" style="color: #AD0000;">7</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-15">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">50</span>, <span class="dv" style="color: #AD0000;">100</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">100</span>, <span class="dv" style="color: #AD0000;">20</span>)) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb4-16">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Semester"</span>, <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"Retention rate"</span>) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb4-17">  </span>
+<span id="cb4-18">  <span class="co" style="color: #5E5E5E;"># edit theme </span></span>
+<span id="cb4-19">  <span class="fu" style="color: #4758AB;">theme_light</span>() <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb4-20">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"none"</span>, </span>
+<span id="cb4-21">        <span class="at" style="color: #657422;">panel.grid =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(), </span>
+<span id="cb4-22">        <span class="at" style="color: #657422;">axis.text =</span> <span class="fu" style="color: #4758AB;">element_text</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">11</span>), </span>
+<span id="cb4-23">        <span class="at" style="color: #657422;">axis.title =</span> <span class="fu" style="color: #4758AB;">element_text</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">11</span>))</span>
+<span id="cb4-24"></span>
+<span id="cb4-25"><span class="co" style="color: #5E5E5E;"># print</span></span>
+<span id="cb4-26">f</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation\index_files\figure-html\redesign-no-term-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>However, a significant story in these data is (inadvertently) overlooked by omitting semester one, the point in time at which both cohorts would be considered 100% retained—the “missing relation” in the title. Only by including the starting time point can we see the importance of the early semesters.</p>
+<p>The overlooked story is the early impact of the FYEP course with its higher rate of retention from semester 1 to 3. After semester 3, the factors affecting attrition seem to act on both groups equally—the lines are effectively parallel after semester 3. Thus the important impact of FYEP is in the first two terms. The visual story is clear when we include the missing term.</p>
+<div class="cell" data-fig.asp="0.4">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;"># add the missing term 1 </span></span>
+<span id="cb5-2">sem1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.table</span>(<span class="at" style="color: #657422;">term =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">1</span>), <span class="at" style="color: #657422;">status =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"fyep"</span>, <span class="st" style="color: #20794D;">"nonfyep"</span>), <span class="at" style="color: #657422;">pct =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">100</span>, <span class="dv" style="color: #AD0000;">100</span>))</span>
+<span id="cb5-3">dt2 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">rbindlist</span>(<span class="fu" style="color: #4758AB;">list</span>(sem1, dt))</span>
+<span id="cb5-4"></span>
+<span id="cb5-5"><span class="co" style="color: #5E5E5E;"># substitute data in the previous chart</span></span>
+<span id="cb5-6">g <span class="ot" style="color: #003B4F;">&lt;-</span> f <span class="sc" style="color: #5E5E5E;">%+%</span> dt2</span>
+<span id="cb5-7">g</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation\index_files\figure-html\redesign-with-term-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>One final design point: unlike a bar graph, a scatter plot does not require a zero baseline. However, I can include the full 0–100% range to display that the lowest rate of retention is still above 50%, an important result (as discussed in the prose of the article) compared to the retention rates of non-engineering disciplines. e.g., 42% in biological sciences and 30% in math and physical sciences.</p>
+<div class="cell" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;"># start with the previous chart, replace the scale</span></span>
+<span id="cb6-2">h <span class="ot" style="color: #003B4F;">&lt;-</span> g <span class="sc" style="color: #5E5E5E;">%+%</span> </span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">100</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">100</span>, <span class="dv" style="color: #AD0000;">20</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-4">  </span>
+<span id="cb6-5">  <span class="co" style="color: #5E5E5E;"># label the lines</span></span>
+<span id="cb6-6">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>, </span>
+<span id="cb6-7">           <span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">4</span>, <span class="dv" style="color: #AD0000;">2</span>), </span>
+<span id="cb6-8">           <span class="at" style="color: #657422;">y =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">85</span>, <span class="dv" style="color: #AD0000;">68</span>), </span>
+<span id="cb6-9">           <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"FYEP students</span><span class="sc" style="color: #5E5E5E;">\n</span><span class="st" style="color: #20794D;">(N = 2218)"</span>, <span class="st" style="color: #20794D;">"Non-FYEP students</span><span class="sc" style="color: #5E5E5E;">\n</span><span class="st" style="color: #20794D;">(N = 2942)"</span>), </span>
+<span id="cb6-10">           <span class="at" style="color: #657422;">hjust =</span> <span class="dv" style="color: #AD0000;">0</span>)</span>
+<span id="cb6-11">h</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation\index_files\figure-html\final-redesign-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="context" class="level2">
+<h2 class="anchored" data-anchor-id="context">Context</h2>
+<p>My critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the “rhetoric of science” <span class="citation" data-cites="Kostelnick:2008">(Kostelnick 2008)</span>. However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we’ve missed an opportunity to tell important human stories.</p>
+<p>In the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: “student’s background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution.” Thus the retention data are a surrogate measure of some combination of these factors.</p>
+<p>The original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose.</p>
+<section id="comments" class="level3">
+<h3 class="anchored" data-anchor-id="comments">Comments</h3>
+<p>To comment, a reader has to have a <a href="https://github.com/">GitHub</a> account. Use the <em>Sign in with GitHub</em> button and give permission to the utterances app.</p>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="acknowledgments" class="level2 appendix"><h2 class="quarto-appendix-heading">Acknowledgments</h2><div class="quarto-appendix-contents">
+
+<p><strong>Reprinted AAAS material</strong></p>
+<p>Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.</p>
+<p><strong>R packages</strong></p>
+<p><a href="https://CRAN.R-project.org/package=data.table">data.table</a> for manipulating data<br>
+<a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> for creating the charts<br>
+<a href="https://CRAN.R-project.org/package=distill">distill</a> for creating the post</p>
+
+
+
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Doumont:2009" class="csl-entry">
+Doumont, Jean-luc. 2009. <em><span class="nocase">Trees, Maps, and Theorems</span></em>. Belgium: <span>Principiae</span>.
+</div>
+<div id="ref-Fortenberry+Sullivan+etal:2007" class="csl-entry">
+Fortenberry, Norman L., Jacquelyn F. Sullivan, Peter N. Jordan, and Daniel W. Knight. 2007. <span>“<span class="nocase">Engineering education research aids instruction</span>.”</span> <em>Science</em> 317 (5842): 1175–76. <a href="https://doi.org/10.1126/science.1143834">https://doi.org/10.1126/science.1143834</a>.
+</div>
+<div id="ref-Kostelnick:2008" class="csl-entry">
+Kostelnick, Charles. 2008. <span>“<a href=""><span class="nocase">The visual rhetoric of data displays: The conundrum of clarity</span></a>.”</span> <em>IEEE Transactions on Professional Communication</em> 51 (1): 116–30.
+</div>
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{layton2015,
+  author = {Richard Layton},
+  title = {The Missing Relation},
+  date = {2015-07-20},
+  url = {https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-layton2015" class="csl-entry quarto-appendix-citeas">
+Richard Layton. 2015. <span>“The Missing Relation.”</span> July 20,
+2015. <a href="https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation">https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation</a>.
+</div></div></section></div> ]]></description>
+  <category>R</category>
+  <category>Data storytelling</category>
+  <category>Engineering education</category>
+  <guid>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index.html</guid>
+  <pubDate>Mon, 20 Jul 2015 04:00:00 GMT</pubDate>
+  <media:content url="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/thumbnail.png" medium="image" type="image/png" height="106" width="144"/>
+</item>
 </channel>
 </rss>
