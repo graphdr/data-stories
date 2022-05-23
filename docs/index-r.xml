@@ -377,11 +377,11 @@ UCLA. 2021. <span>“<span class="nocase">Textbook examples: Visualizing Data by
 <span id="cb1-58">}</span></code></pre></div>
 </details>
 </div>
-<section id="data" class="level2 page-columns page-full">
+<section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>The practice data in my example are from an engineering education article by Ashanthi Maxworth <span class="citation" data-cites="Maxworth:2021">(2021)</span>, selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
 <p><img src="https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/survey-data.png" class="img-fluid figure-img"></p>
 <p></p><p></p>
 </figure>
@@ -1632,11 +1632,11 @@ Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert 
 <span id="cb1-4"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"cowplot"</span>)</span></code></pre></div>
 </details>
 </div>
-<section id="data-structure" class="level2 page-columns page-full">
+<section id="data-structure" class="level2">
 <h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
 <p>In the original Table 2, the authors classify 134 articles by grade level and the type of engineering inquiry. These are the raw numbers they cite in their discussion. The parenthetical titles in the column heading are the journals in which the articles appear.</p>
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
 <p><img src="https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/original-table-2.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <p></p><p></p>
 </figure>
@@ -1687,11 +1687,11 @@ Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert 
 </details>
 </div>
 </section>
-<section id="limitations-of-stacked-bars" class="level2 page-columns page-full">
+<section id="limitations-of-stacked-bars" class="level2">
 <h2 class="anchored" data-anchor-id="limitations-of-stacked-bars">Limitations of stacked bars</h2>
 <p>The original Figure 3 is a conventional stacked-bar representation of the numbers in Table 2. The authors improve on the usual default software settings by ordering the rows of the chart from top to bottom by increasing totals.</p>
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
 <p><img src="https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/original-figure-3.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <p></p><p></p>
 </figure>
@@ -1992,11 +1992,11 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggplot2"</span>)</span></code></pre></div>
 </details>
 </div>
-<section id="the-original-graph" class="level2 page-columns page-full">
+<section id="the-original-graph" class="level2">
 <h2 class="anchored" data-anchor-id="the-original-graph">The original graph</h2>
 <p>The graph shows a time series of retention rates for two cohorts of undergraduate students <span class="citation" data-cites="Fortenberry+Sullivan+etal:2007">(Fortenberry et al. 2007)</span>. One cohort had matriculated in engineering in a First Year Engineering Program (FYEP) and one cohort had not (non-FYEP). The main story is clear, that retention rates drop over time for both cohorts but that FYEP students are always retained at a higher rate than non-FYEP students. Yet the graph design distorts one comparison and omits another.</p>
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
 <p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/science-figure.png" class="img-fluid figure-img"></p>
 <p></p><p></p>
 </figure>

@@ -2,6 +2,7 @@
 title: "License"
 description: |
   For text, images, code, and data.
+comments: false
 ---
 
 The following licenses apply to the text, images, code, and data in this blog. My goal is to minimize legal encumbrances to the dissemination, sharing, use, and re-use of this work. However, the existing rights of authors whose work is cited are reserved to those authors.

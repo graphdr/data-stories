@@ -13,13 +13,6 @@ date-format: "YYYY-MM-DD"
 comments: false
 ---
 
-
-
-
-
-
-
-
 ### Software credits {.appendix}
 
 - [`R`](https://www.r-project.org/) programming language
