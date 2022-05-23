@@ -213,8 +213,3 @@ To comment, a reader has to have a [GitHub](https://github.com/) account. Use th
 **Reprinted AAAS material**
 
 Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.
-
-**R packages**
-
-[data.table](https://CRAN.R-project.org/package=data.table) for manipulating data    
-[ggplot2](https://CRAN.R-project.org/package=ggplot2) for creating the charts    

@@ -9,7 +9,6 @@ website:
   repo-actions: [issue]
   description: "A blog about visual rhetoric, chart design, and R."
   favicon: images/favicon.png
-
   sidebar:
     style: "floating"
     search: false
@@ -22,7 +21,6 @@ website:
         url: https://rdatatable.gitlab.io/data.table/
       - section: "happy git"
         url: https://happygitwithr.com/
- 
   navbar:
    right:
     - text: "License"
@@ -35,11 +33,13 @@ website:
       href: https://github.com/graphdr/data-stories
     - icon: rss
       href: index.xml     
-
   page-footer:
     center: 
       - text: "Copyright 2022 Richard A. Layton"
-        
+  comments:
+    utterances:
+      repo: graphdr/data-stories 
+
 format:
   html:
     theme: simplex
@@ -49,8 +49,6 @@ format:
     code-overflow: wrap
     code-copy: true
 
-comments:
-  utterances:
-    repo: graphdr/data-stories
+
 
 

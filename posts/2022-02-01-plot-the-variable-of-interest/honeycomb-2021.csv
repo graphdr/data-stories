@@ -1,0 +1,19 @@
+inquiry,abbr,grade_level,journal,N,N_level,N_inquiry
+Design-Build-Test,(DBT),Elementary School,Science & Children,47,63,91
+Design-Build-Test,(DBT),Middle School,Science Scope,34,51,91
+Design-Build-Test,(DBT),High School,The Science Teacher,10,20,91
+Engineering Analysis,(EAN),Elementary School,Science & Children,0,63,2
+Engineering Analysis,(EAN),Middle School,Science Scope,1,51,2
+Engineering Analysis,(EAN),High School,The Science Teacher,1,20,2
+Engineering Science,(ENS),Elementary School,Science & Children,3,63,9
+Engineering Science,(ENS),Middle School,Science Scope,3,51,9
+Engineering Science,(ENS),High School,The Science Teacher,3,20,9
+Optimization,(OPT),Elementary School,Science & Children,0,63,2
+Optimization,(OPT),Middle School,Science Scope,2,51,2
+Optimization,(OPT),High School,The Science Teacher,0,20,2
+Reverse Engineering,(REV),Elementary School,Science & Children,0,63,3
+Reverse Engineering,(REV),Middle School,Science Scope,2,51,3
+Reverse Engineering,(REV),High School,The Science Teacher,1,20,3
+User-Centered Design,(UCD),Elementary School,Science & Children,13,63,27
+User-Centered Design,(UCD),Middle School,Science Scope,9,51,27
+User-Centered Design,(UCD),High School,The Science Teacher,5,20,27
