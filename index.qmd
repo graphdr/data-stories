@@ -13,12 +13,16 @@ date-format: "YYYY-MM-DD"
 comments: false
 ---
 
+:::{.callout-note icon=false appearance="minimal"}
+## 
+My previous blog at graphdoctor.com redirects here. I intend to gradually port my earlier posts to this site with minor editing and adding R code for reproducibility.
+:::
+
 ### Software credits {.appendix}
 
-- [`R`](https://www.r-project.org/) programming language
-- [`RStudio`](https://www.rstudio.com/) IDE
+- [`R`](https://www.r-project.org/) and [`RStudio`](https://www.rstudio.com/)
 - [`data.table`](https://CRAN.R-project.org/package=data.table) for manipulating data    
 - [`ggplot2`](https://CRAN.R-project.org/package=ggplot2) for data graphics   
-- [`quarto`](https://quarto.org/) for building the blog 
+- [`quarto`](https://quarto.org/) for constructing this blog
 
     

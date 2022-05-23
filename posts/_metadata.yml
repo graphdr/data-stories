@@ -8,9 +8,11 @@ toc: true
 # citation: true
 
 # knitr chunk options
-# execute:
+execute:
 #   error: false
-#   message: false
-#   warning: false
+   message: false
+   warning: false
 
 
+callout-icon: false;
+callout-appearance: minimal

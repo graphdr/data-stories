@@ -8,6 +8,7 @@ date-format: "YYYY-MM-DD"
 draft: false
 categories: [R, data storytelling, engineering education]
 image: "thumbnail.png"
+cap-location: margin
 ---
 
 ```{r}
@@ -21,13 +22,16 @@ options(
 )
 ```
 
-*I ported this post from my graphdoctor.com blog, edited it slightly, and added R code chunks for reproducibility.*
+:::{.callout-note}
+## Summary 
+In redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline. 
+:::
 
-In August 2007, *Science* published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.
+In August 2007, *Science* published a bar graph that illustrates how design decisions made to attract a reader's eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.
 
 A colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the *Science* editor. They responded by posting a scatterplot much like the one shown here in an online addendum.
 
-Throughout the post, you can click on the "R code" pointer to see the script used to create the graphs. This first code chunk loads the packages used. 
+Throughout the post, you can click on the "R code" pointer to see the script used to create the graphs. This first code chunk loads the packages used.
 
 ```{r}
 #| label: packages
@@ -37,20 +41,20 @@ library("data.table")
 library("ggplot2")
 ```
 
-
 ## The original graph
 
 The graph shows a time series of retention rates for two cohorts of undergraduate students [@Fortenberry+Sullivan+etal:2007]. One cohort had matriculated in engineering in a First Year Engineering Program (FYEP) and one cohort had not (non-FYEP). The main story is clear, that retention rates drop over time for both cohorts but that FYEP students are always retained at a higher rate than non-FYEP students. Yet the graph design distorts one comparison and omits another.
 
-![Graph from *Science*. Reprinted with permission from AAAS.](science-figure.png)  
+![Graph from *Science*. Reprinted with permission from AAAS.](science-figure.png)
 
 ## Visual distortion
 
 The visual design distorts the relationship between the two cohorts. While the printed numbers show that the difference between the two cohorts remains fairly constant (about 10%) over time, the *visual* message conveyed by the bar heights is that the difference between cohorts increases over time. The FYEP bar is at first approximately 1/3 higher than the adjacent bar, then nearly twice as high, then more than three times as high.
 
 ```{r}
-#| label: non-zero-baseline
+#| label: fig-non-zero-baseline
 #| fig-asp: 0.8
+#| fig-cap: "A non-zero baseline distorts the visual comparisons of bars."
 
 # read data from blog data directory
 dt <- fread("retention-2007.csv")
@@ -87,29 +91,30 @@ ggplot(dt, aes(x = term, y = pct-50, color = status, fill = status)) +
 
 ```
 
-The problem is the non-zero baseline---a well-known concern when using bar charts. Naomi Robbins [reminds us](https://www.forbes.com/sites/naomirobbins/2012/08/28/must-zero-be-included-on-scales-of-graphs-another-look-at-fox-news-graph-and-huffs-gee-whiz-graph/?sh=677d422b259c) that not all graphs require a zero baseline, contrary to Darrell Huff’s advice in his 1954 classic *How to Lie with Statistics*, but a bar graph without a zero baseline inevitably (and sometimes purposefully) exaggerates differences.
+The problem is the non-zero baseline---a well-known concern when using bar charts. Naomi Robbins [reminds us](https://www.forbes.com/sites/naomirobbins/2012/08/28/must-zero-be-included-on-scales-of-graphs-another-look-at-fox-news-graph-and-huffs-gee-whiz-graph/?sh=677d422b259c) that not all graphs require a zero baseline, contrary to Darrell Huff's advice in his 1954 classic *How to Lie with Statistics*, but a bar graph without a zero baseline inevitably (and sometimes purposefully) exaggerates differences.
 
-The caption reinforces the miscommunication by stating that the FYEP course “improved retention...into the third, fifth, and seventh semester,” subtly implying a difference that increases over time rather than remaining constant.
-
+The caption reinforces the miscommunication by stating that the FYEP course "improved retention...into the third, fifth, and seventh semester," subtly implying a difference that increases over time rather than remaining constant.
 
 ## Data structure
 
-Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1. 
+Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.
 
 ```{r}
-#| label: data-structure-table
+#| label: tbl-data-structure
 #| echo: false
+#| tbl-cap: "Data structure"
 
 x <- wrapr::build_frame(
    "variable"           , "structure" |
    "term"               , "categorical, ordinal, discrete time, 3 levels" |
    "status"             , "categorical, nominal, 2 levels" |
    "percent retention"  , "quantitative")
-knitr::kable(x, caption="Data structure")
+setDT(x)
+
+knitr::kable(x)
 ```
 
-The data are available in the blog [post directory](https://github.com/graphdr/data-stories/tree/main/posts/2015-07-20-the-missing-relation).  
-
+The data are available in the blog [post directory](https://github.com/graphdr/data-stories/tree/main/posts/2015-07-20-the-missing-relation).
 
 ```{r}
 #| label: read-data
@@ -118,16 +123,14 @@ The data are available in the blog [post directory](https://github.com/graphdr/d
 dt <- fread("retention-2007.csv")
 ```
 
-
-
-
 ## Redesign
 
-A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time [@Doumont:2009, 141]. The difference between the two cohorts is clearly seen to be nearly constant. 
+A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time [@Doumont:2009, 141]. The difference between the two cohorts is clearly seen to be nearly constant.
 
 ```{r}
-#| label: redesign-no-term-1
+#| label: fig-redesign-no-term-1
 #| fig-asp: 0.4
+#| fig-cap: "Scatterplot of the numerical values in the original bar chart."
 
 # redesign the bar chart as a scatterplot
 f <- ggplot(data = dt, mapping = aes(x = term, y = pct, fill = status)) +
@@ -157,13 +160,14 @@ f <- ggplot(data = dt, mapping = aes(x = term, y = pct, fill = status)) +
 f
 ```
 
-However, a significant story in these data is (inadvertently) overlooked by omitting semester one, the point in time at which both cohorts would be considered 100% retained---the "missing relation" in the title. Only by including the starting time point can we see the importance of the early semesters. 
+However, a significant story in these data is (inadvertently) overlooked by omitting semester one, the point in time at which both cohorts would be considered 100% retained---the "missing relation" in the title. Only by including the starting time point can we see the importance of the early semesters.
 
-The overlooked story is the early impact of the FYEP course with its higher rate of retention from semester 1 to 3. After semester 3, the factors affecting attrition seem to act on both groups equally---the lines are effectively parallel after semester 3. Thus the important impact of FYEP is in the first two terms. The visual story is clear when we include the missing term. 
+The overlooked story is the early impact of the FYEP course with its higher rate of retention from semester 1 to 3. After semester 3, the factors affecting attrition seem to act on both groups equally---the lines are effectively parallel after semester 3. Thus the important impact of FYEP is in the first two terms. The visual story is clear when we include the missing term.
 
 ```{r}
-#| label: redesign-with-term-1
+#| label: fig-redesign-with-term-1
 #| fig-asp: 0.4
+#| fig-cap: "Adding the first term in which both cohorts are at 100%."
 
 # add the missing term 1 
 sem1 <- data.table(term = c(1, 1), status = c("fyep", "nonfyep"), pct = c(100, 100))
@@ -177,8 +181,9 @@ g
 One final design point: unlike a bar graph, a scatter plot does not require a zero baseline. However, I can include the full 0--100% range to display that the lowest rate of retention is still above 50%, an important result (as discussed in the prose of the article) compared to the retention rates of non-engineering disciplines. e.g., 42% in biological sciences and 30% in math and physical sciences.
 
 ```{r}
-#| label: final-redesign
+#| label: fig-final-redesign
 #| fig-asp: 0.8
+#| fig-cap: "Providing a full scale on the y-axis."
 
 # start with the previous chart, replace the scale
 h <- g %+% 
@@ -195,7 +200,7 @@ h
 
 ## Context
 
-My critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the “rhetoric of science” [@Kostelnick:2008]. However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we’ve missed an opportunity to tell important human stories.
+My critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the "rhetoric of science" [@Kostelnick:2008]. However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we've missed an opportunity to tell important human stories.
 
 In the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: "student's background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution." Thus the retention data are a surrogate measure of some combination of these factors.
 
@@ -204,4 +209,3 @@ The original graph displays only six paired values (rate and semester). And thou
 ### Reprinted AAAS material {.appendix}
 
 Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.
-

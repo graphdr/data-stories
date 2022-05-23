@@ -143,7 +143,7 @@ div.csl-indent {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed slimcontent">
 
 
 <div id="quarto-search-results"></div>
@@ -235,15 +235,15 @@ div.csl-indent {
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title d-none d-lg-block">The missing relation</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">Data storytelling</div>
-    <div class="quarto-category">Engineering education</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">engineering education</div>
   </div>
   </div>
 
@@ -275,7 +275,19 @@ div.csl-indent {
 
 </header>
 
-<p><em>I ported this post from my graphdoctor.com blog, edited it slightly, and added R code chunks for reproducibility.</em></p>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline.</p>
+</div>
+</div>
 <p>In August 2007, <em>Science</em> published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.</p>
 <p>A colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the <em>Science</em> editor. They responded by posting a scatterplot much like the one shown here in an online addendum.</p>
 <p>Throughout the post, you can click on the “R code” pointer to see the script used to create the graphs. This first code chunk loads the packages used.</p>
@@ -287,20 +299,20 @@ div.csl-indent {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="the-original-graph" class="level2">
+<section id="the-original-graph" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-original-graph">The original graph</h2>
 <p>The graph shows a time series of retention rates for two cohorts of undergraduate students <span class="citation" data-cites="Fortenberry+Sullivan+etal:2007">(<a href="#ref-Fortenberry+Sullivan+etal:2007" role="doc-biblioref">Fortenberry et al. 2007</a>)</span>. One cohort had matriculated in engineering in a First Year Engineering Program (FYEP) and one cohort had not (non-FYEP). The main story is clear, that retention rates drop over time for both cohorts but that FYEP students are always retained at a higher rate than non-FYEP students. Yet the graph design distorts one comparison and omits another.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
 <p><img src="science-figure.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Graph from <em>Science</em>. Reprinted with permission from AAAS.</figcaption><p></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Graph from <em>Science</em>. Reprinted with permission from AAAS.</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="visual-distortion" class="level2">
+<section id="visual-distortion" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="visual-distortion">Visual distortion</h2>
 <p>The visual design distorts the relationship between the two cohorts. While the printed numbers show that the difference between the two cohorts remains fairly constant (about 10%) over time, the <em>visual</em> message conveyed by the bar heights is that the difference between cohorts increases over time. The FYEP bar is at first approximately 1/3 higher than the adjacent bar, then nearly twice as high, then more than three times as high.</p>
-<div class="cell" data-fig.asp="0.8">
+<div class="cell page-columns page-full" data-fig.asp="0.8">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read data from blog data directory</span></span>
@@ -336,8 +348,13 @@ div.csl-indent {
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/non-zero-baseline-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-non-zero-baseline" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-non-zero-baseline-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: A non-zero baseline distorts the visual comparisons of bars.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The problem is the non-zero baseline—a well-known concern when using bar charts. Naomi Robbins <a href="https://www.forbes.com/sites/naomirobbins/2012/08/28/must-zero-be-included-on-scales-of-graphs-another-look-at-fox-news-graph-and-huffs-gee-whiz-graph/?sh=677d422b259c">reminds us</a> that not all graphs require a zero baseline, contrary to Darrell Huff’s advice in his 1954 classic <em>How to Lie with Statistics</em>, but a bar graph without a zero baseline inevitably (and sometimes purposefully) exaggerates differences.</p>
@@ -348,8 +365,9 @@ div.csl-indent {
 <p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div id="tbl-data-structure" class="anchored">
 <table class="table table-sm table-striped">
-<caption>Data structure</caption>
+<caption>Table 1: Data structure</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">variable</th>
@@ -373,6 +391,7 @@ div.csl-indent {
 </table>
 </div>
 </div>
+</div>
 <p>The data are available in the blog <a href="https://github.com/graphdr/data-stories/tree/main/posts/2015-07-20-the-missing-relation">post directory</a>.</p>
 <div class="cell">
 <details>
@@ -382,10 +401,10 @@ div.csl-indent {
 </details>
 </div>
 </section>
-<section id="redesign" class="level2">
+<section id="redesign" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="redesign">Redesign</h2>
 <p>A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(<a href="#ref-Doumont:2009" role="doc-biblioref">Doumont 2009, 141</a>)</span>. The difference between the two cohorts is clearly seen to be nearly constant.</p>
-<div class="cell" data-fig.asp="0.4">
+<div class="cell page-columns page-full" data-fig.asp="0.4">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># redesign the bar chart as a scatterplot</span></span>
@@ -415,13 +434,18 @@ div.csl-indent {
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># print</span></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/redesign-no-term-1-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-redesign-no-term-1" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-redesign-no-term-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: Scatterplot of the numerical values in the original bar chart.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>However, a significant story in these data is (inadvertently) overlooked by omitting semester one, the point in time at which both cohorts would be considered 100% retained—the “missing relation” in the title. Only by including the starting time point can we see the importance of the early semesters.</p>
 <p>The overlooked story is the early impact of the FYEP course with its higher rate of retention from semester 1 to 3. After semester 3, the factors affecting attrition seem to act on both groups equally—the lines are effectively parallel after semester 3. Thus the important impact of FYEP is in the first two terms. The visual story is clear when we include the missing term.</p>
-<div class="cell" data-fig.asp="0.4">
+<div class="cell page-columns page-full" data-fig.asp="0.4">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add the missing term 1 </span></span>
@@ -432,12 +456,17 @@ div.csl-indent {
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> f <span class="sc">%+%</span> dt2</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/redesign-with-term-1-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-redesign-with-term-1" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-redesign-with-term-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: Adding the first term in which both cohorts are at 100%.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>One final design point: unlike a bar graph, a scatter plot does not require a zero baseline. However, I can include the full 0–100% range to display that the lowest rate of retention is still above 50%, an important result (as discussed in the prose of the article) compared to the retention rates of non-engineering disciplines. e.g., 42% in biological sciences and 30% in math and physical sciences.</p>
-<div class="cell" data-fig.asp="0.8">
+<div class="cell page-columns page-full" data-fig.asp="0.8">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># start with the previous chart, replace the scale</span></span>
@@ -452,8 +481,13 @@ div.csl-indent {
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>)</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/final-redesign-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-final-redesign" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-final-redesign-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 4: Providing a full scale on the y-axis.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -463,14 +497,11 @@ div.csl-indent {
 <p>In the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: “student’s background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution.” Thus the retention data are a surrogate measure of some combination of these factors.</p>
 <p>The original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose.</p>
 
-
 </section>
 
 <div id="quarto-appendix" class="default"><section id="reprinted-aaas-material" class="level3 appendix"><h2 class="quarto-appendix-heading">Reprinted AAAS material</h2><div class="quarto-appendix-contents">
 
 <p>Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.</p>
-</div></section><section id="references" class="level3 appendix"><h2 class="quarto-appendix-heading"></h2><div class="quarto-appendix-contents">
-
 
 
 

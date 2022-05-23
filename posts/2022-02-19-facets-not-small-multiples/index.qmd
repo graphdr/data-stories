@@ -23,8 +23,11 @@ options(
 )
 ```
 
+:::{.callout-note}
+## Summary 
+For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the `facet_wrap()` function; data with dependent categories require `facet_grid()` with its `scales` and `space` arguments to treat unequal vertical scales.
+:::
 
-> Summary. For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the `facet_wrap()` function; data with dependent categories require `facet_grid()` with its `scales` and `space` arguments to treat unequal vertical scales.
 
 *Small multiple* design is a good design choice for many data structures. To facilitate visual comparisons, every small-multiple frame (variously called panels, facets, or subplots) has identical scales.
 

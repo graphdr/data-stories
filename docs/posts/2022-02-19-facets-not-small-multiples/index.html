@@ -273,9 +273,19 @@ div.csl-indent {
 
 </header>
 
-<blockquote class="blockquote">
-<p>Summary. For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the <code>facet_wrap()</code> function; data with dependent categories require <code>facet_grid()</code> with its <code>scales</code> and <code>space</code> arguments to treat unequal vertical scales.</p>
-</blockquote>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the <code>facet_wrap()</code> function; data with dependent categories require <code>facet_grid()</code> with its <code>scales</code> and <code>space</code> arguments to treat unequal vertical scales.</p>
+</div>
+</div>
 <p><em>Small multiple</em> design is a good design choice for many data structures. To facilitate visual comparisons, every small-multiple frame (variously called panels, facets, or subplots) has identical scales.</p>
 <blockquote class="blockquote">
 <p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">(<a href="#ref-Tufte:1983" role="doc-biblioref">Tufte 1983, 170</a>)</span></p>

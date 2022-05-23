@@ -18,9 +18,19 @@
 
 
 
-<blockquote class="blockquote">
-<p>Summary. For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the <code>facet_wrap()</code> function; data with dependent categories require <code>facet_grid()</code> with its <code>scales</code> and <code>space</code> arguments to treat unequal vertical scales.</p>
-</blockquote>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the <code>facet_wrap()</code> function; data with dependent categories require <code>facet_grid()</code> with its <code>scales</code> and <code>space</code> arguments to treat unequal vertical scales.</p>
+</div>
+</div>
 <p><em>Small multiple</em> design is a good design choice for many data structures. To facilitate visual comparisons, every small-multiple frame (variously called panels, facets, or subplots) has identical scales.</p>
 <blockquote class="blockquote">
 <p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">(Tufte 1983, 170)</span></p>
@@ -307,9 +317,19 @@ UCLA. 2021. <span>“<span class="nocase">Textbook examples: Visualizing Data by
 
 
 
-<blockquote class="blockquote">
-<p>Summary. Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</p>
-</blockquote>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</p>
+</div>
+</div>
 <p>This post is a tutorial on how to prepare different forms of Likert-style survey data for the R likert package and using its output to create 100% stacked-bar charts. I focus on preparing the data for <code>likert()</code> input and editing its output for the final chart. For exploring the package functionality more fully, I recommend the tutorials by Laura Mudge <span class="citation" data-cites="Mudge:2019">(2019)</span> and Jake Chanenson <span class="citation" data-cites="Chanenson:2021">(2021)</span>.</p>
 <p>In a <a href="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/">companion post</a> I develop the R script for constructing the 100% stacked-bar chart and discuss the rationale for selecting it as a more effective design for Likert-style survey data.</p>
 <p>I use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6 (currently the development version).</p>
@@ -1584,10 +1604,10 @@ Character. Ordered vector of opinion level labels.
 </div>
 <p>The values in this table were computed by likert from the fictitious row-record data. The numbers agree with the source data table.</p>
 </section>
+
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level2 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
 
 <ul>
 <li><a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data</li>
@@ -1618,6 +1638,19 @@ Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert 
 
 
 
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I redesign a stacked-bar chart to attempt to better align the logic of the display with the logic of the argument. The visual structure of the redesigned chart suggests a concomitant reorganization of the prose, illustrating the interplay between visual and verbal rhetoric.</p>
+</div>
+</div>
 <p>In a 2021 article, the authors summarize 134 engineering-curricula articles for teachers of pre-college students. The authors classify the articles by grade level and the type of engineering inquiry <span class="citation" data-cites="Purzer+Quintana-Cifuentes+Menekse:2021">(Purzer, Quintana-Cifuentes, and Menekse 2021)</span>.</p>
 <p>In section 7, the authors include a data table of numbers of articles by grade level and inquiry type. A stacked-bar chart represents the numbers in the table. In supporting their argument, however, the authors cite <em>ratios</em> of these values—ratios that might be inferred, but are not directly displayed, in the chart provided.</p>
 <p>I take the text to represent the authors’ intended message and look for ways to more effectively represent that message visually.</p>
@@ -1938,10 +1971,10 @@ Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert 
 <p>Compared to the elementary level, the middle school level had nearly as many articles (N = 51) and the same top three inquiry types. But with more inquiry types, the top three inquiries comprised smaller percentages of the whole: DBT (67%), UCD (18%), ENS (6%). Middle school is also the only level in which all six inquiry types are present.</p>
 </small><p><small>In contrast, the high school level … etc. </small></p>
 <p>Aligning visual rhetoric and verbal rhetoric in this fashion can be an important aid to a reader trying to follow the discussion. Moreover, this process can be an important aid to an authorial team in developing their message in the first place. The iterative interplay between constructing a chart and constructing an argument—between visual rhetoric and verbal rhetoric—is one of the most important aspects of data visualization.</p>
+
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level2 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
 
 <ul>
 <li><a href="https://CRAN.R-project.org/package=cowplot"><code>cowplot</code></a> for joining plots</li>
@@ -1980,7 +2013,19 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 
 
 
-<p><em>I ported this post from my graphdoctor.com blog, edited it slightly, and added R code chunks for reproducibility.</em></p>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline.</p>
+</div>
+</div>
 <p>In August 2007, <em>Science</em> published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.</p>
 <p>A colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the <em>Science</em> editor. They responded by posting a scatterplot much like the one shown here in an online addendum.</p>
 <p>Throughout the post, you can click on the “R code” pointer to see the script used to create the graphs. This first code chunk loads the packages used.</p>
@@ -1992,20 +2037,20 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggplot2"</span>)</span></code></pre></div>
 </details>
 </div>
-<section id="the-original-graph" class="level2">
+<section id="the-original-graph" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-original-graph">The original graph</h2>
 <p>The graph shows a time series of retention rates for two cohorts of undergraduate students <span class="citation" data-cites="Fortenberry+Sullivan+etal:2007">(Fortenberry et al. 2007)</span>. One cohort had matriculated in engineering in a First Year Engineering Program (FYEP) and one cohort had not (non-FYEP). The main story is clear, that retention rates drop over time for both cohorts but that FYEP students are always retained at a higher rate than non-FYEP students. Yet the graph design distorts one comparison and omits another.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
 <p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/science-figure.png" class="img-fluid figure-img"></p>
 <p></p><p></p>
 </figure>
 </div>
 </section>
-<section id="visual-distortion" class="level2">
+<section id="visual-distortion" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="visual-distortion">Visual distortion</h2>
 <p>The visual design distorts the relationship between the two cohorts. While the printed numbers show that the difference between the two cohorts remains fairly constant (about 10%) over time, the <em>visual</em> message conveyed by the bar heights is that the difference between cohorts increases over time. The FYEP bar is at first approximately 1/3 higher than the adjacent bar, then nearly twice as high, then more than three times as high.</p>
-<div class="cell" data-fig.asp="0.8">
+<div class="cell page-columns page-full" data-fig.asp="0.8">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read data from blog data directory</span></span>
@@ -2041,8 +2086,13 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <span id="cb2-31">        <span class="at" style="color: #657422;">panel.grid.major =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(), </span>
 <span id="cb2-32">        <span class="at" style="color: #657422;">panel.grid.minor =</span> <span class="fu" style="color: #4758AB;">element_blank</span>())</span></code></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/non-zero-baseline-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-non-zero-baseline" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/fig-non-zero-baseline-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The problem is the non-zero baseline—a well-known concern when using bar charts. Naomi Robbins <a href="https://www.forbes.com/sites/naomirobbins/2012/08/28/must-zero-be-included-on-scales-of-graphs-another-look-at-fox-news-graph-and-huffs-gee-whiz-graph/?sh=677d422b259c">reminds us</a> that not all graphs require a zero baseline, contrary to Darrell Huff’s advice in his 1954 classic <em>How to Lie with Statistics</em>, but a bar graph without a zero baseline inevitably (and sometimes purposefully) exaggerates differences.</p>
@@ -2053,8 +2103,9 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div id="tbl-data-structure" class="anchored">
 <table class="table table-sm table-striped">
-<caption>Data structure</caption>
+<caption>Table 1: Data structure</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">variable</th>
@@ -2078,6 +2129,7 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 </table>
 </div>
 </div>
+</div>
 <p>The data are available in the blog <a href="https://github.com/graphdr/data-stories/tree/main/posts/2015-07-20-the-missing-relation">post directory</a>.</p>
 <div class="cell">
 <details>
@@ -2087,10 +2139,10 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 </details>
 </div>
 </section>
-<section id="redesign" class="level2">
+<section id="redesign" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="redesign">Redesign</h2>
 <p>A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 141)</span>. The difference between the two cohorts is clearly seen to be nearly constant.</p>
-<div class="cell" data-fig.asp="0.4">
+<div class="cell page-columns page-full" data-fig.asp="0.4">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;"># redesign the bar chart as a scatterplot</span></span>
@@ -2120,13 +2172,18 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <span id="cb4-25"><span class="co" style="color: #5E5E5E;"># print</span></span>
 <span id="cb4-26">f</span></code></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/redesign-no-term-1-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-redesign-no-term-1" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/fig-redesign-no-term-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>However, a significant story in these data is (inadvertently) overlooked by omitting semester one, the point in time at which both cohorts would be considered 100% retained—the “missing relation” in the title. Only by including the starting time point can we see the importance of the early semesters.</p>
 <p>The overlooked story is the early impact of the FYEP course with its higher rate of retention from semester 1 to 3. After semester 3, the factors affecting attrition seem to act on both groups equally—the lines are effectively parallel after semester 3. Thus the important impact of FYEP is in the first two terms. The visual story is clear when we include the missing term.</p>
-<div class="cell" data-fig.asp="0.4">
+<div class="cell page-columns page-full" data-fig.asp="0.4">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;"># add the missing term 1 </span></span>
@@ -2137,12 +2194,17 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <span id="cb5-6">g <span class="ot" style="color: #003B4F;">&lt;-</span> f <span class="sc" style="color: #5E5E5E;">%+%</span> dt2</span>
 <span id="cb5-7">g</span></code></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/redesign-with-term-1-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-redesign-with-term-1" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/fig-redesign-with-term-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>One final design point: unlike a bar graph, a scatter plot does not require a zero baseline. However, I can include the full 0–100% range to display that the lowest rate of retention is still above 50%, an important result (as discussed in the prose of the article) compared to the retention rates of non-engineering disciplines. e.g., 42% in biological sciences and 30% in math and physical sciences.</p>
-<div class="cell" data-fig.asp="0.8">
+<div class="cell page-columns page-full" data-fig.asp="0.8">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;"># start with the previous chart, replace the scale</span></span>
@@ -2157,8 +2219,13 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <span id="cb6-10">           <span class="at" style="color: #657422;">hjust =</span> <span class="dv" style="color: #AD0000;">0</span>)</span>
 <span id="cb6-11">h</span></code></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/final-redesign-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-final-redesign" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index_files/figure-html/fig-final-redesign-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -2168,14 +2235,11 @@ Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<sp
 <p>In the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: “student’s background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution.” Thus the retention data are a surrogate measure of some combination of these factors.</p>
 <p>The original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose.</p>
 
-
 </section>
 
 <div id="quarto-appendix" class="default"><section id="reprinted-aaas-material" class="level3 appendix"><h2 class="quarto-appendix-heading">Reprinted AAAS material</h2><div class="quarto-appendix-contents">
 
 <p>Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.</p>
-</div></section><section id="references" class="level3 appendix"><h2 class="quarto-appendix-heading"></h2><div class="quarto-appendix-contents">
-
 
 
 
