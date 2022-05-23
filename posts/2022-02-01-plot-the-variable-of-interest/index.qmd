@@ -366,7 +366,7 @@ Aligning visual rhetoric and verbal rhetoric in this fashion can be an important
 
 
 
-## Additional software credits {.appendix}
+### Additional software credits {.appendix}
 
 - [`cowplot`](https://CRAN.R-project.org/package=cowplot) for joining plots   
   

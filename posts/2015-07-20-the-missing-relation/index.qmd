@@ -201,15 +201,6 @@ In the text of the article, the authors do address such concerns. Retention rate
 
 The original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose.
 
-### Comments
-
-To comment, a reader has to have a [GitHub](https://github.com/) account. Use the *Sign in with GitHub* button and give permission to the utterances app. 
-
-
-
-
-## Acknowledgments {.appendix}
-
-**Reprinted AAAS material**
+### Reprinted AAAS material {.appendix}
 
 Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.

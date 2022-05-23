@@ -769,6 +769,6 @@ The values in this table were computed by likert from the fictitious row-record 
 
 
 
-## Additional software credits {.appendix}
+### Additional software credits {.appendix}
   
 - [`likert`](https://CRAN.R-project.org/package=likert)  for manipulating and plotting Likert-style data   

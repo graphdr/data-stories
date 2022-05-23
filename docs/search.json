@@ -11,14 +11,7 @@
     "href": "index.html",
     "title": "Data Stories",
     "section": "",
-    "text": "My blog at graphdoctor.com redirects here. I intend to gradually port my earlier posts to this site."
-  },
-  {
-    "objectID": "index.html#software-credits",
-    "href": "index.html#software-credits",
-    "title": "Data Stories",
-    "section": "Software credits",
-    "text": "Software credits\n\n\nR programming language\nRStudio IDE\ndata.table for manipulating data\n\nggplot2 for data graphics\n\nquarto for building the blog"
+    "text": "Facets that are not small multiples\n\n\n\n\n\n\n\nggplot2\n\n\nR\n\n\n\n\nUsing the scales and space arguments of facet_grid() to manage panel heights of faceted charts when categories are not independent.\n\n\n\n\n\n\n2022-03-09\n\n\n\n\n\n\n  \n\n\n\n\nSurvey data I/O with likert\n\n\n\n\n\n\n\nR\n\n\n\n\nHow to prepare different forms of Likert-style survey data for the R likert package and edit the results to create 100% stacked-bar charts.\n\n\n\n\n\n\n2022-02-13\n\n\n\n\n\n\n  \n\n\n\n\nPlot the variable of interest\n\n\n\n\n\n\n\nR\n\n\nData storytelling\n\n\nEngineering education\n\n\n\n\nA chart best serves its rhetorical purpose by directly illustrating the variables of interest discussed in the text.\n\n\n\n\n\n\n2022-02-03\n\n\n\n\n\n\n  \n\n\n\n\nThe missing relation\n\n\n\n\n\n\n\nR\n\n\nData storytelling\n\n\nEngineering education\n\n\n\n\nRedesigning a grouped-bar chart and including missing data to reveal an important change to the story in the data.\n\n\n\n\n\n\n2015-07-20\n\n\n\n\n\n\nNo matching items\n\nSoftware credits\n\n\nR programming language\nRStudio IDE\ndata.table for manipulating data\n\nggplot2 for data graphics\n\nquarto for building the blog"
   },
   {
     "objectID": "license.html",
@@ -67,14 +60,7 @@
     "href": "posts/2015-07-20-the-missing-relation/index.html#context",
     "title": "The missing relation",
     "section": "Context",
-    "text": "Context\nMy critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the “rhetoric of science” (Kostelnick 2008). However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we’ve missed an opportunity to tell important human stories.\nIn the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: “student’s background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution.” Thus the retention data are a surrogate measure of some combination of these factors.\nThe original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose.\n\nComments\nTo comment, a reader has to have a GitHub account. Use the Sign in with GitHub button and give permission to the utterances app."
-  },
-  {
-    "objectID": "posts/2015-07-20-the-missing-relation/index.html#acknowledgments",
-    "href": "posts/2015-07-20-the-missing-relation/index.html#acknowledgments",
-    "title": "The missing relation",
-    "section": "Acknowledgments",
-    "text": "Acknowledgments\n\nReprinted AAAS material\nReaders may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher."
+    "text": "Context\nMy critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the “rhetoric of science” (Kostelnick 2008). However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we’ve missed an opportunity to tell important human stories.\nIn the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: “student’s background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution.” Thus the retention data are a surrogate measure of some combination of these factors.\nThe original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose."
   },
   {
     "objectID": "posts/2022-02-01-plot-the-variable-of-interest/index.html",

@@ -268,17 +268,7 @@ Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative
 <div id="ref-UCLA:2021" class="csl-entry">
 UCLA. 2021. <span>“<span class="nocase">Textbook examples: Visualizing Data by William S. Cleveland</span>.”</span> <span>UCLA Statistical Consulting Group</span>. <a href="https://stats.oarc.ucla.edu/other/examples/vizdata/">https://stats.oarc.ucla.edu/other/examples/vizdata/</a>.
 </div>
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{layton2022,
-  author = {Richard Layton},
-  title = {Facets That Are Not Small Multiples},
-  date = {2022-03-09},
-  url = {https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-layton2022" class="csl-entry quarto-appendix-citeas">
-Richard Layton. 2022. <span>“Facets That Are Not Small
-Multiples.”</span> March 9, 2022. <a href="https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples">https://graphdr.github.io/data-stories/posts\2022-02-19-facets-not-small-multiples</a>.
-</div></div></section></div> ]]></description>
+</div></section></div> ]]></description>
   <category>ggplot2</category>
   <category>R</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</guid>
@@ -1590,17 +1580,7 @@ Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing
 <div id="ref-Mudge:2019" class="csl-entry">
 Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert questions</span>.”</span> <a href="https://lmudge13.github.io/sample_code/likert_graphs.html">https://lmudge13.github.io/sample_code/likert_graphs.html</a>.
 </div>
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{layton2022,
-  author = {Richard Layton},
-  title = {Survey Data {I/O} with Likert},
-  date = {2022-02-13},
-  url = {https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-layton2022" class="csl-entry quarto-appendix-citeas">
-Richard Layton. 2022. <span>“Survey Data I/O with Likert.”</span>
-February 13, 2022. <a href="https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io">https://graphdr.github.io/data-stories/posts\2022-02-13-survey-data-io</a>.
-</div></div></section></div> ]]></description>
+</div></section></div> ]]></description>
   <category>R</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</guid>
   <pubDate>Sun, 13 Feb 2022 05:00:00 GMT</pubDate>
@@ -1960,17 +1940,7 @@ Knaflic, Cole Nussbaumer. 2017. <span>“<span class="nocase">Making a case for 
 <div id="ref-Purzer+Quintana-Cifuentes+Menekse:2021" class="csl-entry">
 Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<span class="nocase">The honeycomb of engineering framework: Philosophy of engineering guiding precollege engineering education</span>.”</span> <em>Journal of Engineering Education</em> 111 (1): 19–39. <a href="https://doi.org/10.1002/jee.20441">https://doi.org/10.1002/jee.20441</a>.
 </div>
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{layton2022,
-  author = {Richard Layton},
-  title = {Plot the Variable of Interest},
-  date = {2022-02-03},
-  url = {https://graphdr.github.io/data-stories/posts\2022-02-01-plot-the-variable-of-interest},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-layton2022" class="csl-entry quarto-appendix-citeas">
-Richard Layton. 2022. <span>“Plot the Variable of Interest.”</span>
-February 3, 2022. <a href="https://graphdr.github.io/data-stories/posts\2022-02-01-plot-the-variable-of-interest">https://graphdr.github.io/data-stories/posts\2022-02-01-plot-the-variable-of-interest</a>.
-</div></div></section></div> ]]></description>
+</div></section></div> ]]></description>
   <category>R</category>
   <category>Data storytelling</category>
   <category>Engineering education</category>
@@ -2172,16 +2142,11 @@ February 3, 2022. <a href="https://graphdr.github.io/data-stories/posts\2022-02-
 <p>My critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the “rhetoric of science” <span class="citation" data-cites="Kostelnick:2008">(Kostelnick 2008)</span>. However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we’ve missed an opportunity to tell important human stories.</p>
 <p>In the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: “student’s background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution.” Thus the retention data are a surrogate measure of some combination of these factors.</p>
 <p>The original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose.</p>
-<section id="comments" class="level3">
-<h3 class="anchored" data-anchor-id="comments">Comments</h3>
-<p>To comment, a reader has to have a <a href="https://github.com/">GitHub</a> account. Use the <em>Sign in with GitHub</em> button and give permission to the utterances app.</p>
-</section>
+
 </section>
 
+<div id="quarto-appendix" class="default"><section id="reprinted-aaas-material" class="level3 appendix"><h2 class="quarto-appendix-heading">Reprinted AAAS material</h2><div class="quarto-appendix-contents">
 
-<div id="quarto-appendix" class="default"><section id="acknowledgments" class="level2 appendix"><h2 class="quarto-appendix-heading">Acknowledgments</h2><div class="quarto-appendix-contents">
-
-<p><strong>Reprinted AAAS material</strong></p>
 <p>Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.</p>
 
 
@@ -2196,17 +2161,7 @@ Fortenberry, Norman L., Jacquelyn F. Sullivan, Peter N. Jordan, and Daniel W. Kn
 <div id="ref-Kostelnick:2008" class="csl-entry">
 Kostelnick, Charles. 2008. <span>“<a href=""><span class="nocase">The visual rhetoric of data displays: The conundrum of clarity</span></a>.”</span> <em>IEEE Transactions on Professional Communication</em> 51 (1): 116–30.
 </div>
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{layton2015,
-  author = {Richard Layton},
-  title = {The Missing Relation},
-  date = {2015-07-20},
-  url = {https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-layton2015" class="csl-entry quarto-appendix-citeas">
-Richard Layton. 2015. <span>“The Missing Relation.”</span> July 20,
-2015. <a href="https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation">https://graphdr.github.io/data-stories/posts\2015-07-20-the-missing-relation</a>.
-</div></div></section></div> ]]></description>
+</div></section></div> ]]></description>
   <category>R</category>
   <category>Data storytelling</category>
   <category>Engineering education</category>

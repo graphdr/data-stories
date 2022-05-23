@@ -22,7 +22,7 @@ comments: false
 
 
 
-## Software credits {.appendix}
+### Software credits {.appendix}
 
 - [`R`](https://www.r-project.org/) programming language
 - [`RStudio`](https://www.rstudio.com/) IDE
