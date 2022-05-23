@@ -192,7 +192,7 @@ Having the year in the data does not mean we have to use it. Ignoring time, I'm 
 ggplot(dt, aes(x = pct, y = reorder(reason, pct, median))) +
   geom_boxplot(width = 0.6) +
   labs(x = "Percentage reasons cited, 1995-2011", y = "") +
-  theme_light(base_size = 14) +
+  theme_light(base_size = 12) +
   theme(legend.position = "none") 
 ```
 
@@ -294,7 +294,7 @@ ggplot(dt3a, aes(x = fraction, y = reorder(sector, fraction, mean), color = stat
   labs(x = "Percentage", 
        y = "", 
        title = "Employment sector") +
-  theme_light(base_size = 14) +
+  theme_light(base_size = 12) +
   theme(legend.title = element_blank()) + 
   scale_color_manual(values = c("black", "black")) + 
   scale_fill_manual(values = c("white", "black")) +
@@ -319,7 +319,7 @@ ggplot(dt3b, aes(x = fraction, y = reorder(activity, fraction, mean), color = st
   labs(x = "Percentage", 
        y = "", 
        title = "Primary work activity ") +
-  theme_light(base_size = 14) +
+  theme_light(base_size = 12) +
   theme(legend.title = element_blank()) + 
   scale_color_manual(values = c("black", "black")) + 
   scale_fill_manual(values = c("white", "black")) +
