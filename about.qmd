@@ -3,7 +3,6 @@ title: "About"
 about:
   template: solana
 comments: false
-image: images/left-the-building.png
 ---
 
 **Data graphics**

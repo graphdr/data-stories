@@ -1,14 +1,16 @@
-# options specified here will apply to all posts in this folder
-author: Richard Layton
-# citation: true
-toc: true
-toc-depth: 2
+# options that apply to all posts in this directory
 bibliography: ../references.bib
-freeze: true
 title-block-banner: false
+author: Richard Layton
+freeze: true
+toc-depth: 2
+toc: true
+# citation: true
 
-execute:
-  error: false
-  message: false
-  warning: false
-  collapse: true
+# knitr chunk options
+# execute:
+#   error: false
+#   message: false
+#   warning: false
+
+

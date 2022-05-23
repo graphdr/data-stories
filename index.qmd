@@ -13,9 +13,7 @@ date-format: "YYYY-MM-DD"
 comments: false
 ---
 
-:::{.column-margin}
-*My blog at graphdoctor.com redirects here. I intend to gradually port my earlier posts to this site.*
-:::
+
 
 
 

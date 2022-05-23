@@ -6,7 +6,7 @@ description: |
 date: "2015-07-20"
 date-format: "YYYY-MM-DD"
 draft: false
-categories: [R, Data storytelling, Engineering education]
+categories: [R, data storytelling, engineering education]
 image: "thumbnail.png"
 ---
 
@@ -204,3 +204,4 @@ The original graph displays only six paired values (rate and semester). And thou
 ### Reprinted AAAS material {.appendix}
 
 Readers may view, browse, and/or download material for temporary copying purposes only, provided these uses are for noncommercial personal purposes. Except as provided by law, this material may not be further reproduced, distributed, transmitted, modified, adapted, performed, displayed, published, or sold in whole or in part, without prior written permission from the publisher.
+

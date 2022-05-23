@@ -1,0 +1,13 @@
+---
+title: "Contact"
+about:
+  template: solana
+comments: false
+image: images/left-the-building.png
+---
+
+To comment on a post, please use the Comment box at the end of the post. A GitHub account is required.  
+
+For other matters graphical, I can be reached at <style type=”text/css”>
+p span.displaynone { display:none; }</style><p>graphdoctor@<span class=”displaynone”></span>gmail.com</p>
+

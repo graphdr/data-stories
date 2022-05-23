@@ -27,8 +27,8 @@ website:
       href: license.html 
     - text: "About"
       href: about.qmd
-    - icon: envelope-fill
-      href: mailto:graphdoctor@gmail.com
+    - text: "Contact"
+      href: contact.qmd
     - icon: git
       href: https://github.com/graphdr/data-stories
     - icon: rss

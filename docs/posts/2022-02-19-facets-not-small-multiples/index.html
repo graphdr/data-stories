@@ -143,7 +143,7 @@ div.csl-indent {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed slimcontent">
 
 
 <div id="quarto-search-results"></div>
@@ -164,10 +164,8 @@ div.csl-indent {
   <li class="nav-item">
     <a class="nav-link" href="../../about.html">About</a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="mailto:graphdoctor@gmail.com"><i class="bi bi-envelope-fill" role="img">
-</i> 
- </a>
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-git" role="img">
@@ -236,7 +234,7 @@ div.csl-indent {
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -298,7 +296,7 @@ div.csl-indent {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="multiway-example" class="level2">
+<section id="multiway-example" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="multiway-example">Multiway example</h2>
 <p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">(<a href="#ref-Cleveland:1993" role="doc-biblioref">1993, 303</a>)</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
 <p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(<a href="#ref-UCLA:2021" role="doc-biblioref">UCLA 2021</a>)</span> and saved it as a CSV file in the blog data directory.</p>
@@ -328,7 +326,7 @@ div.csl-indent {
 </div>
 </div>
 <p>The countries are assigned to the rows such that the median count by country increases from bottom to top. The livestock are assigned to the panels such that median count by livestock type increases in <em>graphical order:</em> increasing from left to right and from bottom to top. The logarithm of counts is used for the quantitative scale counts vary by more than four powers of 10.</p>
-<div class="cell" data-fig.asp="1.2">
+<div class="cell page-columns page-full" data-fig.asp="1.2">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> DT, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log10</span>(count), <span class="at">y =</span> <span class="fu">reorder</span>(country, count, median))) <span class="sc">+</span></span>
@@ -336,13 +334,18 @@ div.csl-indent {
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(<span class="fu">reorder</span>(livestock_type, count, median)), <span class="at">as.table =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="st">'Log'</span>[<span class="dv">10</span>]<span class="sc">~</span><span class="st">'number of livestock'</span>), <span class="at">y =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-livestock-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-livestock" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-livestock-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: Cleveland’s livestock multiway chart illustrates small-multiple design.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Typical of small multiple charts in general, all five panels have identical horizontal scales (the count) and identical vertical axes (countries). It follows that the size and aspect ratio of each panel are also identical.</p>
 </section>
-<section id="when-categories-are-dependent" class="level2">
+<section id="when-categories-are-dependent" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="when-categories-are-dependent">When categories are dependent</h2>
 <p>The data set that inspired this post is from an article on a creative expression assignment used in a first-year engineering course <span class="citation" data-cites="Chambers+Reid:2021">(<a href="#ref-Chambers+Reid:2021" role="doc-biblioref">Chambers and Reid 2021</a>)</span>. In response to COVID-19, the course had transitioned from a highly interactive, in-person experience to an asynchronous, online model.</p>
 <blockquote class="blockquote">
@@ -396,7 +399,7 @@ div.csl-indent {
 </div>
 <p>The graph I have in mind would have media type assigned to rows and media category assigned to panels. Unlike the livestock example, however, the categorical variables in these data are not independent. For example, web design is associated only with graphics, essay is associated only with writing, etc.</p>
 <p>In my first attempt, I use <code>facet_wrap()</code> like I did with the livestock data. The visual problem is obvious…every row has a data marker in one panel only. Because the categories are not independent, the small-multiple design fails.</p>
-<div class="cell" data-fig.asp="1.6">
+<div class="cell page-columns page-full" data-fig.asp="1.6">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the first chart </span></span>
@@ -408,12 +411,17 @@ div.csl-indent {
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># display the result</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-assignment-1-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-assignment-1" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-assignment-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: Small-multiple chart design does not work when categories are dependent.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The <code>scales = "free_y"</code> argument of <code>facet_wrap()</code> replaces the common y-scale with only those row labels associated with a panel. I also use the <code>ncol</code> argument to stack the panels in one column with all rows labels aligned on the left. This graph has the essential layout I had in mind—a common quantitative scale but different vertical scales, yielding facets that are not small multiples.</p>
-<div class="cell" data-fig.asp="1.5">
+<div class="cell page-columns page-full" data-fig.asp="1.5">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the previous chart </span></span>
@@ -423,13 +431,18 @@ div.csl-indent {
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># display the result</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-assignment-2-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-assignment-2" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-assignment-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: The quantitative scale is shared; the categorical scales are not.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Because <code>facet_wrap()</code> creates panels of equal height, the rows in this case are unequally spaced.</p>
 <p>I switch to <code>facet_grid()</code> to space the rows equally in panels of unequal height. The <code>space = "free_y"</code> argument is added to make the panel height proportional to the length of the y scale.</p>
-<div class="cell" data-fig.asp="1">
+<div class="cell page-columns page-full" data-fig.asp="1">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the previous chart </span></span>
@@ -442,15 +455,20 @@ div.csl-indent {
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># display the result</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-assignment-3-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-assignment-3" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-assignment-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 4: Applying consistent row spacing, facet height depends on the number of categorical levels.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="editing-the-chart" class="level2">
+<section id="editing-the-chart" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="editing-the-chart">Editing the chart</h2>
 <p>While the overall layout above is what I want, I would prefer to move the panel labels from the right-hand side to the top of each panel. I could not find a way to do that, so I removed the right-hand label and wrote the media label inside the panel. I edited some other aesthetics as well.</p>
-<div class="cell" data-fig.asp="1">
+<div class="cell page-columns page-full" data-fig.asp="1">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a y-coordinate for a text geom</span></span>
@@ -484,8 +502,13 @@ div.csl-indent {
 <span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">breaks =</span> top_axis<span class="sc">$</span>count_scale, </span>
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">labels =</span> top_axis<span class="sc">$</span>count_label))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-assignment-4-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-assignment-4" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-assignment-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 5: The final design incorporates a second horizontal scale along the top of the figure with counts corresponding to specific data markers.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Features of the graph</p>

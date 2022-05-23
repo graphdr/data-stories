@@ -8,6 +8,7 @@ date-format: "YYYY-MM-DD"
 draft: false
 categories: [ggplot2, R]
 image: "thumbnail.png"
+cap-location: margin
 ---
 
 ```{r}
@@ -70,8 +71,10 @@ DT[]
 
 The countries are assigned to the rows such that the median count by country increases from bottom to top. The livestock are assigned to the panels such that median count by livestock type increases in *graphical order:* increasing  from left to right and from bottom to top. The logarithm of counts is used for the quantitative scale counts vary by more than four powers of 10. 
 
-```{r fig.asp=6/5}
-#| label: chart-livestock
+```{r}
+#| label: fig-chart-livestock
+#| fig-asp: 1.2
+#| fig-cap: "Cleveland's livestock multiway chart illustrates small-multiple design."
 
 ggplot(data = DT, mapping = aes(x = log10(count), y = reorder(country, count, median))) +
   geom_point() + 
@@ -109,8 +112,10 @@ The graph I have in mind would have media type assigned to rows and media catego
 
 In my first attempt, I use `facet_wrap()` like I did with the livestock data. The visual problem is obvious...every row has a data marker in one panel only. Because the categories are not independent, the small-multiple design fails. 
 
-```{r fig.asp=1.6/1}
-#| label: chart-assignment-1
+```{r}
+#| label: fig-chart-assignment-1
+#| fig-asp: 1.6
+#| fig-cap: "Small-multiple chart design does not work when categories are dependent."
 
 # create the first chart 
 p <- ggplot(data = DT, mapping = aes(x = percent, y = reorder(genre, count))) +
@@ -124,8 +129,10 @@ p
 
 The `scales = "free_y"` argument of `facet_wrap()` replaces the common y-scale with only those row labels associated with a panel. I also use the `ncol` argument to stack the panels in one column with all rows labels aligned on the left. This graph has the essential layout I had in mind---a common quantitative scale but different vertical scales, yielding facets that are not small multiples.  
 
-```{r fig.asp=1.5/1}
-#| label: chart-assignment-2
+```{r}
+#| label: fig-chart-assignment-2
+#| fig-asp: 1.5
+#| fig-cap: "The quantitative scale is shared; the categorical scales are not."
 
 # edit the previous chart 
 p <- p +
@@ -139,8 +146,10 @@ Because `facet_wrap()` creates panels of equal height, the rows in this case are
 
 I switch to `facet_grid()` to space the rows equally in panels of unequal height. The  `space = "free_y"` argument is added to make the  panel height proportional to the length of the y scale. 
 
-```{r fig.asp=1/1}
-#| label: chart-assignment-3
+```{r}
+#| label: fig-chart-assignment-3
+#| fig-asp: 1
+#| fig-cap: "Applying consistent row spacing, facet height depends on the number of categorical levels."
 
 # edit the previous chart 
 p <- p  +
@@ -158,8 +167,10 @@ p
 
 While the  overall layout above is what I want, I would prefer to move the panel labels from the right-hand side to the top of each panel. I could not find a way to do that, so I removed the right-hand label and wrote the media label inside the panel. I edited some other aesthetics as well. 
 
-```{r fig.asp=1/1}
-#| label: chart-assignment-4
+```{r}
+#| label: fig-chart-assignment-4
+#| fig-asp: 1
+#| fig-cap: "The final design incorporates a second horizontal scale along the top of the figure with counts corresponding to specific data markers."
 
 # create a y-coordinate for a text geom
 DT <- DT[, y_coord_media := .N/2 + 0.5, by = medium]
