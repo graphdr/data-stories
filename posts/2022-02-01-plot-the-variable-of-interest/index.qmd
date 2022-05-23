@@ -15,6 +15,9 @@ image: "thumbnail.png"
 #| label: setup
 #| include: false
 
+# project directory is the working directory for knitr
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 options(
   datatable.print.nrows = 16,
   datatable.print.topn = 6,
@@ -81,7 +84,7 @@ The data are available in the blog data directory.
 #| label: read-data
 
 # read prepared data
-dt <- fread("honeycomb-2021.csv")
+dt <- fread("data/honeycomb-2021.csv")
 
 # order the levels of grade level
 dt <- dt[, grade_level := factor(grade_level, levels = c("Elementary School", "Middle School", "High School"))]

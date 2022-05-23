@@ -2,34 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://graphdr.github.io/data-stories/about.html</loc>
-    <lastmod>2022-05-23T19:58:15.261Z</lastmod>
+    <lastmod>2022-05-23T23:53:18.094Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/contact.html</loc>
-    <lastmod>2022-05-23T19:58:15.521Z</lastmod>
+    <lastmod>2022-05-23T23:53:18.343Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/index.html</loc>
-    <lastmod>2022-05-23T19:58:21.461Z</lastmod>
+    <lastmod>2022-05-23T23:53:18.769Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/license.html</loc>
-    <lastmod>2022-05-23T19:58:16.165Z</lastmod>
+    <lastmod>2022-05-23T23:53:19.006Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index.html</loc>
-    <lastmod>2022-05-23T19:58:17.028Z</lastmod>
+    <lastmod>2022-05-23T23:53:19.873Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/index.html</loc>
+    <lastmod>2022-05-23T23:53:20.535Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/index.html</loc>
-    <lastmod>2022-05-23T19:58:18.014Z</lastmod>
+    <lastmod>2022-05-23T23:53:21.500Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</loc>
-    <lastmod>2022-05-23T19:58:19.110Z</lastmod>
+    <lastmod>2022-05-23T23:53:22.609Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</loc>
-    <lastmod>2022-05-23T19:58:19.983Z</lastmod>
+    <lastmod>2022-05-23T23:53:23.469Z</lastmod>
   </url>
 </urlset>

@@ -1,0 +1,368 @@
+---
+title: Stacked-bar alternatives
+description: |
+  Redesigning two stacked bar charts to better convey 
+  the stories in their data.
+date: 2022-01-14
+date-format: "YYYY-MM-DD"
+draft: false
+categories: [R, data storytelling, engineering education]
+image: "thumbnail.png"
+cap-location: margin
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# project directory is the working directory for knitr
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+# printing options for data.table
+options(
+  datatable.print.nrows = 28,
+  datatable.print.topn = 5,
+  datatable.print.class = TRUE
+)
+```
+
+:::{.callout-note}
+## Summary 
+The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.
+:::
+
+```{r}
+#| label: packages
+
+library("data.table")
+library("ggplot2")
+library("GGally")
+```
+
+In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs [@Main+Wang+Tan:2021]. The charts are truthful but not particularly informative---the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments. 
+
+The data in the article are summarized from the National Science Foundation's (NSF) 1993--2013 Survey of Doctorate Recipients (SDR) and 1985--2013 Survey of Earned Doctorates (SED). I couldn't find the original NSF annual data tables, so I approximated the values for my charts by measuring the lengths of bar segments in the original figures.  
+
+My purpose is not to find fault with the authors. Indeed, stacked bar charts like these are found throughout the NSF publications that report on the raw  data. The authors can hardly be faulted for conforming to visual conventions sustained by the NSF.
+
+
+
+
+## Eliminating the trivial
+
+
+
+
+**The original chart**
+
+In this chart, the authors display responses to the survey question "What was your primary reason for taking this postdoc?" by PhD completion year.
+
+![Original Figure 2: Primary reasons for obtaining postdoctoral training among engineering PhDs: 1995–2011 [@Main+Wang+Tan:2021].](fig2.png){width=75%}
+
+Data structure:
+
+- percentage of respondents annually selecting reasons, quantitative variable   
+- reasons for postdoctoral training, nominal categorical variable, 6 levels  
+- year of PhD completion, discrete ordinal categorical variable, 1995--2011    
+
+
+
+
+**Exploratory design: evolutions**
+
+A prominent element of this stacked-bar design is time on the horizontal axis. A visual convention in this discourse community is that independent variables occupy horizontal axes, implying here that time is the independent variable. 
+Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time [@Doumont:2009, 141]. 
+
+The figure below shows the stacked-bar data as a collection of evolutions---how survey percentages vary over time conditioned by the reason for obtaining postdoc training. The panels are organized in "graph order", that is, increasing median value from left to right and from bottom to top (the panel median is shown as a horizontal reference line in each panel).
+
+```{r}
+#| label: fig-line-chart
+#| fig.asp: 1
+#| fig-cap: "Graphing the data as a set of time-series."
+
+dt <- fread("data/fig2.csv")
+
+dt[, med_pct := median(pct), by = "reason"]
+
+ggplot(data = dt, aes(x = year, y = pct)) +
+  geom_line(linetype = 2, color = "gray") +
+  geom_hline(aes(yintercept = med_pct), linetype = 3) + 
+  geom_point() +
+  facet_wrap(vars(reorder(reason, pct, median)), ncol = 2, as.table = FALSE) +
+  labs(x = "PhD completion year", y = "")
+```
+
+No particular time-dependent trend stands out. However, two of the  panels---Training in areas outside of PhD field and Other employment not available---appear to be inversely correlated. This made me wonder if and to what extent correlations exist. 
+
+
+
+
+
+**Exploratory design: correlations**
+
+One approach to visualizing multivariate correlations is a scatterplot matrix, a grid of scatterplots of pairwise relationships  [@Emerson+Green+etal:2013] as shown below. The lower triangle shows graphs of data taken two variables at a time with each data marker representing a year (the time variable is still present); the diagonal shows the distribution of each reason; and the upper triangle gives the pairwise Pearson correlation coefficients.
+
+```{r}
+#| label: fig-scatterplot-matrix
+#| fig.height: 6.5
+#| fig-cap: "Looking for correlations."
+
+dtwide <- copy(dt)
+dtwide <- dtwide[.(reason = c(
+  "Additional training in PhD field", 
+  "Training in areas outside of PhD field", 
+  "Postdoc generally expected for career in this field", 
+  "Work with a specific person or place", 
+  "Other", 
+  "Other employment not available"), 
+  to = c(
+    "In field", 
+    "Out of field", 
+    "Expected", 
+    "Specific", 
+    "Other", 
+    "Unavailable")), 
+  on = "reason", 
+  reason := i.to]
+
+dtwide <- dcast(dtwide, year ~ reason, value.var = "pct", fill = 0)
+
+# https://stackoverflow.com/questions/30720455/how-to-set-same-scales-across-different-facets-with-ggpairs
+lowerfun <- function(data, mapping){
+  ggplot(data = data, mapping = mapping) +
+    geom_point() +
+    scale_x_continuous(limits = c(0, 45)) +
+    scale_y_continuous(limits = c(0, 45)) +
+    geom_smooth(formula = y ~ x, method = "loess", se = FALSE, size = 0.5)
+} 
+
+ggpairs(dtwide, 
+        columns = 2:7, 
+        upper = list(continuous = wrap("cor", size = 3)), 
+        lower = list(continuous = wrap(lowerfun))
+        )
+```
+
+Two variable pairs have correlation coefficients greater than 0.6, which for human behavior indicates a fairly strong correlation. Both are negative (inverse)  correlations: one (that I noticed in the scatterplots) between "other employment unavailable" and "training outside the PhD field"; and a second between "expected in the field" and "other". In the figure below. I extract both pairs of data to isolate the pairings. 
+
+```{r}
+#| label: fig-correlation-close-up
+#| fig.width: 3.2
+#| fig.asp: 1
+#| fig-cap: "Inverse correlation between “other employment unavailable” and “training outside the PhD field”."
+ggpairs(dtwide, 
+        columns = c(7, 5), 
+        upper = list(continuous = wrap("cor", size = 3)), 
+        lower = list(continuous = wrap(lowerfun))
+        )
+```
+
+```{r}
+#| label: fig-correlation-close-up-2
+#| fig.width: 3.2
+#| fig.asp: 1
+#| fig-cap: "Inverse correlation between “expected in the field” and “other”."
+ggpairs(dtwide, 
+        columns = c(2, 4), 
+        upper = list(continuous = wrap("cor", size = 3)), 
+        lower = list(continuous = wrap(lowerfun))
+        )
+```
+
+The messages appears to be that 
+ 
+- years with a higher percentage of "Other employment not available" correlate with a lower percentage of "Training in areas outside of PhD field", suggesting that when higher numbers of students accept postdoc positions   because other employment is not to be found, they are not generally interested in obtaining new training outside their field. 
+- years with a higher percentage of "Postdoc generally expected for career in this field" correlate to a lower percentage of "Other" reasons, which seems a reasonable if unremarkable result.
+
+Mildly interesting, but not really compelling. 
+
+
+
+
+**Final design: distributions**
+
+The evolution-assumption in the previous designs imposes an unnecessary barrier to finding stories in these data: time in this case is a prominent, but trivial, variable---the design *emphasizes the trivial* [@Wainer:1997, 30]. 
+
+Having the year in the data does not mean we have to use it. Ignoring time, I'm left with a data set comprising distributions of percentages conditioned by reason. For comparing distributions, the appropriate graph design is a box and whisker plot---the conventions of the box and whisker plot should be familiar to members of this discourse community.
+
+```{r}
+#| label: fig-boxplot
+#| fig.height: 2.5
+#| fig-cap: "Visual comparisons are more definitive once we eliminate the trivial (time) as the independent variable."
+ggplot(dt, aes(x = pct, y = reorder(reason, pct, median))) +
+  geom_boxplot(width = 0.6) +
+  labs(x = "Percentage reasons cited, 1995-2011", y = "") +
+  theme_light(base_size = 14) +
+  theme(legend.position = "none") 
+```
+
+Here the reasons are positioned from bottom to top in order of increasing median value. I conclude (as do the authors) that the top reason for accepting a postdoc position is additional training in field. The next three reasons have similar median values, so their ordering is less meaningful. 
+
+By comparing ranges and interquartile ranges (IQRs) I can draw a conclusion obscured by the previous designs. The range and IQR of "Additional training in PhD field" are noticeably less dispersed than the same measures of all other reasons. Thus in-field-training is both the most frequent reason and the least variable year to year--a conclusion that is hidden when we emphasize time dependence. 
+
+Lastly, with no legend to decode, the audience should find the redesign easier to interpret than the original. And from a publisher's perspective, the new chart occupies less space on the page and does not have to be printed in color---less important for online documents, but important considerations for printed works. 
+
+
+**Impact**
+
+In discussing the stacked bar chart in the article, the authors state, 
+
+> The most frequently indicated reasons for taking a postdoc after PhD completion were additional training in PhD field, additional training outside of PhD field, and postdoc training is generally expected for careers in their PhD field. The reasons that engineering PhDs provided for obtaining postdoc training fluctuates between 1995 and 2011.
+
+My conclusions differ slightly from theirs and have a bit more nuance, though in neither case are the messages particularly compelling. 
+
+Nevertheless, the redesigned chart has an impact in serving its rhetorical goal better than the original. What one *sees* in the chart and what one *reads* in the text are more closely aligned than in the original. As Tufte [-@Tufte:1997, 53] writes, 
+
+> ...if displays of data are to be truthful and compelling, the design logic of the display must reflect the intellectual logic of the analysis... 
+
+
+
+
+
+## Making visual comparisons 
+
+
+
+**The original chart**
+
+In this chart, the authors provide a "descriptive summary of the relationship between postdoctoral training and subsequent career outcomes 7--9 years after PhD completion."
+
+![Original Figure 3: Percentage of non-postdocs and postdocs by employment sector and primary work activity 7-9 years after PhD completion, 1993-2013. [@Main+Wang+Tan:2021].](fig3.png){width=75%}
+
+Data structure (Figure 3a)
+
+- percentage of respondents in an employment sector, quantitative variable   
+- employment sectors, nominal categorical variable, 5 levels  
+- postdoc status, nominal categorical variable, 2 levels    
+
+Data structure (Figure 3b)
+
+- percentage of respondents in a work activity, quantitative variable   
+- primary work activity, nominal categorical variable, 5 levels  
+- postdoc status, nominal categorical variable, 2 levels 
+
+
+
+
+
+
+**Redesign: dot chart**
+
+Stacked bars of this type, like pie charts, show fractions of a whole. Such charts are a "good choice for lay audiences, but they certainly lack the accuracy of alternative representations" [@Doumont:2009, p. 134]. Such data are often best encoded using dot charts---charts with dots along a common scale [@Cleveland:1984]. 
+
+```{r}
+#| label: read-data-set-2
+dt <- fread("data/fig3.csv")
+
+dt3a <- dt[type %chin% c("Employment sector")]
+dt3a[, sector := type_levels]
+dt3a[, type := NULL]
+dt3a[, type_levels := NULL]
+
+dt3b <- dt[type %chin% c("Primary work activity")]
+dt3b[, activity := type_levels]
+dt3b[, type := NULL]
+dt3b[, type_levels := NULL]
+
+dt3b <- dt3b[.(activity = c(
+  "Research and development", 
+  "Teaching", 
+  "Management and admin", 
+  "Computer applications", 
+  "Other"), 
+  to = c(
+    "Res & dev", 
+    "Teaching", 
+    "Mgmt & admin", 
+    "Computer apps", 
+    "Other")), 
+  on = "activity", 
+  activity := i.to]
+```
+
+In the original stacked bar chart, the authors have one column for each postdoc status level, indicating the rhetorical goal of comparing the experiences of PhDs with postdocs to those without.  This lends itself to plotting the dots for postdocs and non-postdocs along the same row of the chart, facilitating a direct visual comparison. 
+
+Below, the employment sector graph is redesigned as a dot chart with rows ordered from bottom to top in order of increasing mean percentage. 
+
+```{r}
+#| label: fig-dot-chart-1
+#| fig.asp: 0.35
+#| fig-cap: "Quantitative comparisons are visually more accessible when data are plotted along a common horizontal scale."
+
+ggplot(dt3a, aes(x = fraction, y = reorder(sector, fraction, mean), color = status, fill = status)) +
+  geom_point(size = 3, shape = 21) +
+  labs(x = "Percentage", 
+       y = "", 
+       title = "Employment sector") +
+  theme_light(base_size = 14) +
+  theme(legend.title = element_blank()) + 
+  scale_color_manual(values = c("black", "black")) + 
+  scale_fill_manual(values = c("white", "black")) +
+  scale_x_continuous(limits = c(0, 60), breaks = seq(0, 100, 10))
+```
+
+In discussing the stacked bar chart in the article, the authors state,
+
+> Most postdoctoral scholars and non-postdocs worked in industry 7--9 years after the PhD. However, the share of PhDs who worked in industry is lower among the postdoc group compared to non-postdocs. Compared with non-postdocs, a greater share of postdocs go on to tenure-track and non-tenure-track faculty positions. 
+
+The argument is also supported by the dot chart but qualitative terms "most", "lower", etc. could be replaced with quantitative comparisons. For example, the dot chart supports the argument that industry employs just over 40% of postdocs and more than 50% of non-postdocs. Moreover, industry employs twice the number of postdocs than the next most popular sector (tenure-track), and more than three times the number of non-postdocs. 
+
+A similar outcome can be seen in the redesigned work activity chart. 
+
+```{r}
+#| label: fig-dot-chart-2
+#| fig.asp: 0.35
+#| fig-cap: "Dot charts are superior to stacked-bar charts for audiences expecting visual access to quantitative comparisons."
+
+ggplot(dt3b, aes(x = fraction, y = reorder(activity, fraction, mean), color = status, fill = status)) +
+  geom_point(size = 3, shape = 21) +
+  labs(x = "Percentage", 
+       y = "", 
+       title = "Primary work activity ") +
+  theme_light(base_size = 14) +
+  theme(legend.title = element_blank()) + 
+  scale_color_manual(values = c("black", "black")) + 
+  scale_fill_manual(values = c("white", "black")) +
+  scale_x_continuous(limits = c(0, 60), breaks = seq(0, 100, 10))
+```
+
+In discussing the stacked bar chart in the article, the authors state,
+
+> Compared with non-postdocs, a greater proportion of postdoctoral scholars engage in research and development as their primary work activity. Meanwhile, a greater proportion of non-postdocs perform management and administrative duties.
+
+Again, the discussion is also consistent with the new chart but a quantitative comparison is easier to see: research and development employs over 40% of non-postdocs and over 50% of postdocs, which for both groups is at least four times the number in the next most popular sector (teaching). 
+
+
+**Impact**
+
+Dot charts are superior to stacked bar charts for data of this type. As illustrated above, relative magnitudes are more easily visualized and quantified than with stacked bars. Even if one prefers not to include quantities in the verbal discussion, readers can easily make quantitative inferences on their own. 
+
+Also, in this particular case, the dot chart legend is much easier to decode, with two entries compared to 5 entries for the original stacked bars.
+
+
+
+
+
+
+## Recognizing conventional grip
+
+I mentioned in the introduction that NSF reports from which some of these data were obtained sustain the visual convention of stacked bar charts even though  the stacked-bar design is deficient compared to alternative designs available. This persistence of convention highlights what Kostelnick and Hassett  call the *tenacity of conventional grip* [-@Kostelnick+Hassett:2003, 171]. They write, 
+
+> Readers become highly invested in the status quo because it cuts a well-worn path, and deviations from that familiar path can seem arduous, risky, and unnecessary. The well-worn path can give sanction to conventuional practices that seem to violate perceptual principles of effective design...once readers have acquired a knack for reading these conventions, readers become quite proficient and may strongly resist wandering off that path.
+
+However, conventional grip can create problems for both authors and audiences  (ibid., 182), 
+
+> Although grip can greatly benefit users by creating a stable environment for shaping and interpreting visual language, conventions can also become so entrenched that they interfere with meaning making by not changing to match conditions or by leading to mindless, unwarranted conformity. Designers can easily succumb to conventional inertia and perhaps not even realize its rhetorical drawbacks.  
+
+
+
+
+
+
+
+
+
+### Additional software credits  {.appendix}
+   
+- [GGally](https://CRAN.R-project.org/package=GGally) for the scatterplot matrix    
+    

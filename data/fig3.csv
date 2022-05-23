@@ -1,0 +1,21 @@
+status,type,type_levels,fraction
+Non-postdoc,Employment sector,Tenure-track,15.71
+Non-postdoc,Employment sector,Non-tenure-track,5.02
+Non-postdoc,Employment sector,Industry,50.85
+Non-postdoc,Employment sector,Government,5.72
+Non-postdoc,Employment sector,Nonprofit,2.27
+Postdoc,Employment sector,Tenure-track,20.8
+Postdoc,Employment sector,Non-tenure-track,10
+Postdoc,Employment sector,Industry,40.8
+Postdoc,Employment sector,Government,5.94
+Postdoc,Employment sector,Nonprofit,3.38
+Non-postdoc,Primary work activity,Research and development,43.45
+Non-postdoc,Primary work activity,Teaching,10.3
+Non-postdoc,Primary work activity,Management and admin,12.48
+Non-postdoc,Primary work activity,Computer applications,6.2
+Non-postdoc,Primary work activity,Other,6.26
+Postdoc,Primary work activity,Research and development,51.66
+Postdoc,Primary work activity,Teaching,9.86
+Postdoc,Primary work activity,Management and admin,7.5
+Postdoc,Primary work activity,Computer applications,4.5
+Postdoc,Primary work activity,Other,7.26

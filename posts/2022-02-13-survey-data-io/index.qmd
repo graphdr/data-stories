@@ -14,6 +14,9 @@ image: "thumbnail.png"
 #| label: setup
 #| include: false
 
+# project directory is the working directory for knitr
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 options(
   datatable.print.nrows = 16,
   datatable.print.topn = 6,
@@ -129,7 +132,7 @@ Read the prepared data file in summary count form.
 #| label: read-case-study
 
 # read prepared data
-dt <- fread("case-study-2021-count.csv")
+dt <- fread("data/case-study-2021-count.csv")
 ```
 
 ```{r}
@@ -311,7 +314,7 @@ Alternatively one can produce the same result by editing the opinion labels and 
 
 ```{r}
 # read prepared data
-dt <- fread("case-study-2021-count.csv")
+dt <- fread("data/case-study-2021-count.csv")
 
 # rename columns
 setnames_Item(dt)
@@ -350,7 +353,7 @@ Read the prepared data file in summary percentage form. The percentages are dire
 
 ```{r}
 # read prepared data
-dt <- fread("case-study-2021-percent.csv")
+dt <- fread("data/case-study-2021-percent.csv")
 
 # rename first column
 setnames_Item(dt)
@@ -403,7 +406,7 @@ This option might be necessary if we do not know the number of respondents reply
 
 ```{r}
 # read prepared data
-dt <- fread("case-study-2021-percent.csv")
+dt <- fread("data/case-study-2021-percent.csv")
 
 # rename first column
 setnames_Item(dt)
@@ -515,7 +518,7 @@ Read the prepared data file in row-record form and view the data frame.
 
 ```{r}
 # read observed data
-dt <- fread("case-study-2021-row-record.csv")
+dt <- fread("data/case-study-2021-row-record.csv")
 
 # examine the result
 dt[]
@@ -689,7 +692,7 @@ To illustrate, I start with a fresh row-record data set.
 
 ```{r}
 # read prepared data
-dt <- fread("case-study-2021-row-record.csv")
+dt <- fread("data/case-study-2021-row-record.csv")
 
 # delete the ID column
 dt <- subset(dt, select = -c(obs))

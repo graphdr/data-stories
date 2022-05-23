@@ -15,6 +15,9 @@ cap-location: margin
 #| label: setup
 #| include: false
 
+# project directory is the working directory for knitr
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 # printing options for data.table
 options(
   datatable.print.nrows = 28,
@@ -66,7 +69,7 @@ I obtained a reproduction of the data from [@UCLA:2021] and saved it as a CSV fi
 #| label: read-livestock
 
 # read the livestock data
-DT <- fread("livestock-1967.csv")
+DT <- fread("data/livestock-1967.csv")
 
 # examine the data
 DT[]
@@ -105,7 +108,7 @@ The data are available in the blog data directory.
 #| label: read-assignment
 
 # import the data
-DT <- fread("creative-assignment-2021.csv")
+DT <- fread("data/creative-assignment-2021.csv")
 
 # print the data table
 DT[]

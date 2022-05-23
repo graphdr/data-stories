@@ -15,6 +15,9 @@ cap-location: margin
 #| label: setup
 #| include: false
 
+# project directory is the working directory for knitr
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
 options(
   datatable.print.nrows = 16,
   datatable.print.topn = 6,
@@ -57,7 +60,7 @@ The visual design distorts the relationship between the two cohorts. While the p
 #| fig-cap: "A non-zero baseline distorts the visual comparisons of bars."
 
 # read data from blog data directory
-dt <- fread("retention-2007.csv")
+dt <- fread("data/retention-2007.csv")
 
 # grouped bar graph 
 # use y = pct - 50 to force ggplot to produce a non-zero baseline 
@@ -120,7 +123,7 @@ The data are available in the blog [post directory](https://github.com/graphdr/d
 #| label: read-data
 
 # read prepared data
-dt <- fread("retention-2007.csv")
+dt <- fread("data/retention-2007.csv")
 ```
 
 ## Redesign

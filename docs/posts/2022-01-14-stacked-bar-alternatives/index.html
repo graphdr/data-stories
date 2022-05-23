@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.442">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="dcterms.date" content="2022-01-14">
+<meta name="description" content="Redesigning two stacked bar charts to better convey the stories in their data.">
+
+<title>Layton R blog - Stacked-bar alternatives</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-git" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Stacked-bar alternatives</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">r-bloggers</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">stackoverflow</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">data.table</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">happy git</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#eliminating-the-trivial" id="toc-eliminating-the-trivial" class="nav-link active" data-scroll-target="#eliminating-the-trivial">Eliminating the trivial</a></li>
+  <li><a href="#making-visual-comparisons" id="toc-making-visual-comparisons" class="nav-link" data-scroll-target="#making-visual-comparisons">Making visual comparisons</a></li>
+  <li><a href="#recognizing-conventional-grip" id="toc-recognizing-conventional-grip" class="nav-link" data-scroll-target="#recognizing-conventional-grip">Recognizing conventional grip</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Stacked-bar alternatives</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">engineering education</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>Redesigning two stacked bar charts to better convey the stories in their data.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-01-14</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.</p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"GGally"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"graphclassmate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs <span class="citation" data-cites="Main+Wang+Tan:2021">(<a href="#ref-Main+Wang+Tan:2021" role="doc-biblioref">Main, Wang, and Tan 2021</a>)</span>. The charts are truthful but not particularly informative—the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments.</p>
+<p>The data in the article are summarized from the National Science Foundation’s (NSF) 1993–2013 Survey of Doctorate Recipients (SDR) and 1985–2013 Survey of Earned Doctorates (SED). I couldn’t find the original NSF annual data tables, so I approximated the values for my charts by measuring the lengths of bar segments in the original figures.</p>
+<p>My purpose is not to find fault with the authors. Indeed, stacked bar charts like these are found throughout the NSF publications that report on the raw data. The authors can hardly be faulted for conforming to visual conventions sustained by the NSF.</p>
+<section id="eliminating-the-trivial" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="eliminating-the-trivial">Eliminating the trivial</h2>
+<p><strong>The original chart</strong></p>
+<p>In this chart, the authors display responses to the survey question “What was your primary reason for taking this postdoc?” by PhD completion year.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="fig2.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Original Figure 2: Primary reasons for obtaining postdoctoral training among engineering PhDs: 1995–2011 <span class="citation" data-cites="Main+Wang+Tan:2021">(<a href="#ref-Main+Wang+Tan:2021" role="doc-biblioref">Main, Wang, and Tan 2021</a>)</span>.</figcaption><p></p>
+</figure>
+</div>
+<p>Data structure:</p>
+<ul>
+<li>percentage of respondents annually selecting reasons, quantitative variable<br>
+</li>
+<li>reasons for postdoctoral training, nominal categorical variable, 6 levels<br>
+</li>
+<li>year of PhD completion, discrete ordinal categorical variable, 1995–2011</li>
+</ul>
+<p><strong>Exploratory design: evolutions</strong></p>
+<p>A prominent element of this stacked-bar design is time on the horizontal axis. A visual convention in this discourse community is that independent variables occupy horizontal axes, implying here that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(<a href="#ref-Doumont:2009" role="doc-biblioref">Doumont 2009, 141</a>)</span>.</p>
+<p>The figure below shows the stacked-bar data as a collection of evolutions—how survey percentages vary over time conditioned by the reason for obtaining postdoc training. The panels are organized in “graph order”, that is, increasing median value from left to right and from bottom to top (the panel median is shown as a horizontal reference line in each panel).</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/fig2.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dt[, med_pct <span class="sc">:</span><span class="er">=</span> <span class="fu">median</span>(pct), by <span class="ot">=</span> <span class="st">"reason"</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> pct)) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> med_pct), <span class="at">linetype =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(<span class="fu">reorder</span>(reason, pct, median)), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">as.table =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"PhD completion year"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-line-chart" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-line-chart-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: Graphing the data as a set of time-series.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>No particular time-dependent trend stands out. However, two of the panels—Training in areas outside of PhD field and Other employment not available—appear to be inversely correlated. This made me wonder if and to what extent correlations exist.</p>
+<p><strong>Exploratory design: correlations</strong></p>
+<p>One approach to visualizing multivariate correlations is a scatterplot matrix, a grid of scatterplots of pairwise relationships <span class="citation" data-cites="Emerson+Green+etal:2013">(<a href="#ref-Emerson+Green+etal:2013" role="doc-biblioref">Emerson et al. 2013</a>)</span> as shown below. The lower triangle shows graphs of data taken two variables at a time with each data marker representing a year (the time variable is still present); the diagonal shows the distribution of each reason; and the upper triangle gives the pairwise Pearson correlation coefficients.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dtwide <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dtwide <span class="ot">&lt;-</span> dtwide[.(<span class="at">reason =</span> <span class="fu">c</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Additional training in PhD field"</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Training in areas outside of PhD field"</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Postdoc generally expected for career in this field"</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Work with a specific person or place"</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Other"</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Other employment not available"</span>), </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="fu">c</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"In field"</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Out of field"</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Expected"</span>, </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specific"</span>, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>, </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unavailable"</span>)), </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  on <span class="ot">=</span> <span class="st">"reason"</span>, </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  reason <span class="sc">:</span><span class="er">=</span> i.to]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>dtwide <span class="ot">&lt;-</span> <span class="fu">dcast</span>(dtwide, year <span class="sc">~</span> reason, <span class="at">value.var =</span> <span class="st">"pct"</span>, <span class="at">fill =</span> <span class="dv">0</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># https://stackoverflow.com/questions/30720455/how-to-set-same-scales-across-different-facets-with-ggpairs</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>lowerfun <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mapping){</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> data, <span class="at">mapping =</span> mapping) <span class="sc">+</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">45</span>)) <span class="sc">+</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">45</span>)) <span class="sc">+</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dtwide, </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>, </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"cor"</span>, <span class="at">size =</span> <span class="dv">3</span>)), </span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(lowerfun))</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-scatterplot-matrix" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-scatterplot-matrix-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: Looking for correlations.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Two variable pairs have correlation coefficients greater than 0.6, which for human behavior indicates a fairly strong correlation. Both are negative (inverse) correlations: one (that I noticed in the scatterplots) between “other employment unavailable” and “training outside the PhD field”; and a second between “expected in the field” and “other”. In the figure below. I extract both pairs of data to isolate the pairings.</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dtwide, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">5</span>), </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"cor"</span>, <span class="at">size =</span> <span class="dv">3</span>)), </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(lowerfun))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-correlation-close-up" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-correlation-close-up-1.png" class="img-fluid figure-img" width="307"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: Inverse correlation between “other employment unavailable” and “training outside the PhD field”.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dtwide, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"cor"</span>, <span class="at">size =</span> <span class="dv">3</span>)), </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(lowerfun))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-correlation-close-up-2" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-correlation-close-up-2-1.png" class="img-fluid figure-img" width="307"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 4: Inverse correlation between “expected in the field” and “other”.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The messages appears to be that</p>
+<ul>
+<li>years with a higher percentage of “Other employment not available” correlate with a lower percentage of “Training in areas outside of PhD field”, suggesting that when higher numbers of students accept postdoc positions because other employment is not to be found, they are not generally interested in obtaining new training outside their field.</li>
+<li>years with a higher percentage of “Postdoc generally expected for career in this field” correlate to a lower percentage of “Other” reasons, which seems a reasonable if unremarkable result.</li>
+</ul>
+<p>Mildly interesting, but not really compelling.</p>
+<p><strong>Final design: distributions</strong></p>
+<p>The evolution-assumption in the previous designs imposes an unnecessary barrier to finding stories in these data: time in this case is a prominent, but trivial, variable—the design <em>emphasizes the trivial</em> <span class="citation" data-cites="Wainer:1997">(<a href="#ref-Wainer:1997" role="doc-biblioref">Wainer 1997, 30</a>)</span>.</p>
+<p>Having the year in the data does not mean we have to use it. Ignoring time, I’m left with a data set comprising distributions of percentages conditioned by reason. For comparing distributions, the appropriate graph design is a box and whisker plot—the conventions of the box and whisker plot should be familiar to members of this discourse community.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x =</span> pct, <span class="at">y =</span> <span class="fu">reorder</span>(reason, pct, median))) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percentage reasons cited, 1995-2011"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-boxplot" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-boxplot-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 5: Visual comparisons are more definitive once we eliminate the trivial (time) as the independent variable.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here the reasons are positioned from bottom to top in order of increasing median value. I conclude (as do the authors) that the top reason for accepting a postdoc position is additional training in field. The next three reasons have similar median values, so their ordering is less meaningful.</p>
+<p>By comparing ranges and interquartile ranges (IQRs) I can draw a conclusion obscured by the previous designs. The range and IQR of “Additional training in PhD field” are noticeably less dispersed than the same measures of all other reasons. Thus in-field-training is both the most frequent reason and the least variable year to year–a conclusion that is hidden when we emphasize time dependence.</p>
+<p>Lastly, with no legend to decode, the audience should find the redesign easier to interpret than the original. And from a publisher’s perspective, the new chart occupies less space on the page and does not have to be printed in color—less important for online documents, but important considerations for printed works.</p>
+<p><strong>Impact</strong></p>
+<p>In discussing the stacked bar chart in the article, the authors state,</p>
+<blockquote class="blockquote">
+<p>The most frequently indicated reasons for taking a postdoc after PhD completion were additional training in PhD field, additional training outside of PhD field, and postdoc training is generally expected for careers in their PhD field. The reasons that engineering PhDs provided for obtaining postdoc training fluctuates between 1995 and 2011.</p>
+</blockquote>
+<p>My conclusions differ slightly from theirs and have a bit more nuance, though in neither case are the messages particularly compelling.</p>
+<p>Nevertheless, the redesigned chart has an impact in serving its rhetorical goal better than the original. What one <em>sees</em> in the chart and what one <em>reads</em> in the text are more closely aligned than in the original. As Tufte <span class="citation" data-cites="Tufte:1997">(<a href="#ref-Tufte:1997" role="doc-biblioref">1997, 53</a>)</span> writes,</p>
+<blockquote class="blockquote">
+<p>…if displays of data are to be truthful and compelling, the design logic of the display must reflect the intellectual logic of the analysis…</p>
+</blockquote>
+</section>
+<section id="making-visual-comparisons" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="making-visual-comparisons">Making visual comparisons</h2>
+<p><strong>The original chart</strong></p>
+<p>In this chart, the authors provide a “descriptive summary of the relationship between postdoctoral training and subsequent career outcomes 7–9 years after PhD completion.”</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="fig3.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Original Figure 3: Percentage of non-postdocs and postdocs by employment sector and primary work activity 7-9 years after PhD completion, 1993-2013. <span class="citation" data-cites="Main+Wang+Tan:2021">(<a href="#ref-Main+Wang+Tan:2021" role="doc-biblioref">Main, Wang, and Tan 2021</a>)</span>.</figcaption><p></p>
+</figure>
+</div>
+<p>Data structure (Figure 3a)</p>
+<ul>
+<li>percentage of respondents in an employment sector, quantitative variable<br>
+</li>
+<li>employment sectors, nominal categorical variable, 5 levels<br>
+</li>
+<li>postdoc status, nominal categorical variable, 2 levels</li>
+</ul>
+<p>Data structure (Figure 3b)</p>
+<ul>
+<li>percentage of respondents in a work activity, quantitative variable<br>
+</li>
+<li>primary work activity, nominal categorical variable, 5 levels<br>
+</li>
+<li>postdoc status, nominal categorical variable, 2 levels</li>
+</ul>
+<p><strong>Redesign: dot chart</strong></p>
+<p>Stacked bars of this type, like pie charts, show fractions of a whole. Such charts are a “good choice for lay audiences, but they certainly lack the accuracy of alternative representations” <span class="citation" data-cites="Doumont:2009">(<a href="#ref-Doumont:2009" role="doc-biblioref">Doumont 2009, 134</a>)</span>. Such data are often best encoded using dot charts—charts with dots along a common scale <span class="citation" data-cites="Cleveland:1984">(<a href="#ref-Cleveland:1984" role="doc-biblioref">Cleveland 1984</a>)</span>.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/fig3.csv"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dt3a <span class="ot">&lt;-</span> dt[type <span class="sc">%chin%</span> <span class="fu">c</span>(<span class="st">"Employment sector"</span>)]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dt3a[, sector <span class="sc">:</span><span class="er">=</span> type_levels]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>dt3a[, type <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>dt3a[, type_levels <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>dt3b <span class="ot">&lt;-</span> dt[type <span class="sc">%chin%</span> <span class="fu">c</span>(<span class="st">"Primary work activity"</span>)]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>dt3b[, activity <span class="sc">:</span><span class="er">=</span> type_levels]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>dt3b[, type <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>dt3b[, type_levels <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>dt3b <span class="ot">&lt;-</span> dt3b[.(<span class="at">activity =</span> <span class="fu">c</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Research and development"</span>, </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Teaching"</span>, </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Management and admin"</span>, </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Computer applications"</span>, </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Other"</span>), </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="fu">c</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Res &amp; dev"</span>, </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Teaching"</span>, </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mgmt &amp; admin"</span>, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Computer apps"</span>, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>)), </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  on <span class="ot">=</span> <span class="st">"activity"</span>, </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  activity <span class="sc">:</span><span class="er">=</span> i.to]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>In the original stacked bar chart, the authors have one column for each postdoc status level, indicating the rhetorical goal of comparing the experiences of PhDs with postdocs to those without. This lends itself to plotting the dots for postdocs and non-postdocs along the same row of the chart, facilitating a direct visual comparison.</p>
+<p>Below, the employment sector graph is redesigned as a dot chart with rows ordered from bottom to top in order of increasing mean percentage.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt3a, <span class="fu">aes</span>(<span class="at">x =</span> fraction, <span class="at">y =</span> <span class="fu">reorder</span>(sector, fraction, mean), <span class="at">color =</span> status, <span class="at">fill =</span> status)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percentage"</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">""</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Employment sector"</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"black"</span>)) <span class="sc">+</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">60</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-dot-chart-1" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-dot-chart-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 6: Quantitative comparisons are visually more accessible when data are plotted along a common horizontal scale.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In discussing the stacked bar chart in the article, the authors state,</p>
+<blockquote class="blockquote">
+<p>Most postdoctoral scholars and non-postdocs worked in industry 7–9 years after the PhD. However, the share of PhDs who worked in industry is lower among the postdoc group compared to non-postdocs. Compared with non-postdocs, a greater share of postdocs go on to tenure-track and non-tenure-track faculty positions.</p>
+</blockquote>
+<p>The argument is also supported by the dot chart but qualitative terms “most”, “lower”, etc. could be replaced with quantitative comparisons. For example, the dot chart supports the argument that industry employs just over 40% of postdocs and more than 50% of non-postdocs. Moreover, industry employs twice the number of postdocs than the next most popular sector (tenure-track), and more than three times the number of non-postdocs.</p>
+<p>A similar outcome can be seen in the redesigned work activity chart.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt3b, <span class="fu">aes</span>(<span class="at">x =</span> fraction, <span class="at">y =</span> <span class="fu">reorder</span>(activity, fraction, mean), <span class="at">color =</span> status, <span class="at">fill =</span> status)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percentage"</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">""</span>, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Primary work activity "</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"black"</span>)) <span class="sc">+</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">60</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-dot-chart-2" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-dot-chart-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 7: Dot charts are superior to stacked-bar charts for audiences expecting visual access to quantitative comparisons.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In discussing the stacked bar chart in the article, the authors state,</p>
+<blockquote class="blockquote">
+<p>Compared with non-postdocs, a greater proportion of postdoctoral scholars engage in research and development as their primary work activity. Meanwhile, a greater proportion of non-postdocs perform management and administrative duties.</p>
+</blockquote>
+<p>Again, the discussion is also consistent with the new chart but a quantitative comparison is easier to see: research and development employs over 40% of non-postdocs and over 50% of postdocs, which for both groups is at least four times the number in the next most popular sector (teaching).</p>
+<p><strong>Impact</strong></p>
+<p>Dot charts are superior to stacked bar charts for data of this type. As illustrated above, relative magnitudes are more easily visualized and quantified than with stacked bars. Even if one prefers not to include quantities in the verbal discussion, readers can easily make quantitative inferences on their own.</p>
+<p>Also, in this particular case, the dot chart legend is much easier to decode, with two entries compared to 5 entries for the original stacked bars.</p>
+</section>
+<section id="recognizing-conventional-grip" class="level2">
+<h2 class="anchored" data-anchor-id="recognizing-conventional-grip">Recognizing conventional grip</h2>
+<p>I mentioned in the introduction that NSF reports from which some of these data were obtained sustain the visual convention of stacked bar charts even though the stacked-bar design is deficient compared to alternative designs available. This persistence of convention highlights what Kostelnick and Hassett call the <em>tenacity of conventional grip</em> <span class="citation" data-cites="Kostelnick+Hassett:2003">(<a href="#ref-Kostelnick+Hassett:2003" role="doc-biblioref">2003, 171</a>)</span>. They write,</p>
+<blockquote class="blockquote">
+<p>Readers become highly invested in the status quo because it cuts a well-worn path, and deviations from that familiar path can seem arduous, risky, and unnecessary. The well-worn path can give sanction to conventuional practices that seem to violate perceptual principles of effective design…once readers have acquired a knack for reading these conventions, readers become quite proficient and may strongly resist wandering off that path.</p>
+</blockquote>
+<p>However, conventional grip can create problems for both authors and audiences (ibid., 182),</p>
+<blockquote class="blockquote">
+<p>Although grip can greatly benefit users by creating a stable environment for shaping and interpreting visual language, conventions can also become so entrenched that they interfere with meaning making by not changing to match conditions or by leading to mindless, unwarranted conformity. Designers can easily succumb to conventional inertia and perhaps not even realize its rhetorical drawbacks.</p>
+</blockquote>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://CRAN.R-project.org/package=GGally">GGally</a> for the scatterplot matrix</li>
+</ul>
+
+
+
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Cleveland:1984" class="csl-entry" role="doc-biblioentry">
+Cleveland, William S. 1984. <span>“<a href=""><span class="nocase">Graphical methods for data presentation: Full scale breaks, dot charts, and multibased logging</span></a>.”</span> <em>The American Statistician</em> 38 (4): 270–80.
+</div>
+<div id="ref-Doumont:2009" class="csl-entry" role="doc-biblioentry">
+Doumont, Jean-luc. 2009. <em><span class="nocase">Trees, Maps, and Theorems</span></em>. Belgium: <span>Principiae</span>.
+</div>
+<div id="ref-Emerson+Green+etal:2013" class="csl-entry" role="doc-biblioentry">
+Emerson, John W., Walton A. Green, Barret Schloerke, Jason Crowley, Dianne Cook, Heike Hofmann, and Hadley Wickham. 2013. <span>“<span class="nocase">The generalized pair plot</span>.”</span> <em>Journal of Computational and Graphical Statistics</em> 22 (1): 79–91. <a href="https://doi:10.1080/10618600.2012.694762">doi:10.1080/10618600.2012.694762</a>.
+</div>
+<div id="ref-Kostelnick+Hassett:2003" class="csl-entry" role="doc-biblioentry">
+Kostelnick, Charles, and Michael Hassett. 2003. <em><span>Shaping Information</span></em>. Carbondale, IL: <span>Southern Illinois university Press</span>.
+</div>
+<div id="ref-Main+Wang+Tan:2021" class="csl-entry" role="doc-biblioentry">
+Main, Joyce B., Yanbing Wang, and Li Tan. 2021. <span>“<span class="nocase">The career outlook of engineering PhDs: Influence of postdoctoral research positions on early career salaries and the attainment of tenure-track faculty positions</span>.”</span> <em>Journal of Engineering Education</em> 110 (4): 977–1002. <a href="https://doi.org/10.1002/jee.20416">https://doi.org/10.1002/jee.20416</a>.
+</div>
+<div id="ref-Tufte:1997" class="csl-entry" role="doc-biblioentry">
+Tufte, Edward. 1997. <em><span>Visual Explanations</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+</div>
+<div id="ref-Wainer:1997" class="csl-entry" role="doc-biblioentry">
+Wainer, Howard. 1997. <em><span>Visual Revelations</span></em>. Mahwah, NJ: <span>Lawrence Erlbaum Assoc.</span>
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ Copyright 2022 Richard A. Layton
+  </li>  
+</ul>
+      </div>
+  </div>
+</footer>
+
+
+
+</body></html>
