@@ -63,7 +63,8 @@ library("ggplot2")
 
 The literal textbook example of multiway data and chart design is the livestock chart by Cleveland [-@Cleveland:1993, 303]. The data set contains  counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count. 
 
-I obtained a reproduction of the data from [@UCLA:2021] and saved it as a CSV file in the blog data directory. 
+I obtained a reproduction of the data from [@UCLA:2021] and saved it in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/livestock-1967.csv).
+
 
 ```{r}
 #| label: read-livestock
@@ -102,7 +103,7 @@ A data table in the article reports how the student work is coded: 28 creative g
 
 Some submissions covered multiple media and genres, for example, an original song in a video would be coded as both. Thus the total of the `count` column (304 encodings) exceeds the number of submissions (N = 265). The `percent` column is a derived variable that reports the count as a percentage of N. The sum of the `percent` column is therefore greater than 100%. 
 
-The data are available in the blog data directory. 
+The data are available in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/creative-assignment-2021.csv).
 
 ```{r}
 #| label: read-assignment

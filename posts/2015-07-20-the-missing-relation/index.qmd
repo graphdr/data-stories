@@ -117,7 +117,7 @@ setDT(x)
 knitr::kable(x)
 ```
 
-The data are available in the blog [post directory](https://github.com/graphdr/data-stories/tree/main/posts/2015-07-20-the-missing-relation).
+The data are available in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/retention-2007.csv).
 
 ```{r}
 #| label: read-data

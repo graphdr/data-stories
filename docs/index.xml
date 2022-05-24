@@ -54,7 +54,7 @@ Summary
 <section id="multiway-example" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="multiway-example">Multiway example</h2>
 <p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">(1993, 303)</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
-<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(UCLA 2021)</span> and saved it as a CSV file in the blog data directory.</p>
+<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(UCLA 2021)</span> and saved it in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/livestock-1967.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -108,7 +108,7 @@ Summary
 </blockquote>
 <p>A data table in the article reports how the student work is coded: 28 creative genres (prose, lyrics, music performance, dance, YouTube, etc.) grouped into 6 media categories (writing, performance, video, graphics, etc.). The quantitative variable is the count of encodings by genre.</p>
 <p>Some submissions covered multiple media and genres, for example, an original song in a video would be coded as both. Thus the total of the <code>count</code> column (304 encodings) exceeds the number of submissions (N = 265). The <code>percent</code> column is a derived variable that reports the count as a percentage of N. The sum of the <code>percent</code> column is therefore greater than 100%.</p>
-<p>The data are available in the blog data directory.</p>
+<p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/creative-assignment-2021.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -406,11 +406,13 @@ Summary
 <p></p><p></p>
 </figure>
 </div>
-<p>Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The <code>likert()</code> function accepts any of these forms as input. The practice data, in all three forms, are available in the <a href="https://github.com/graphdr/data-stories/tree/main/posts/2022-02-13-survey-data-io">blog post directory</a> in CSV files.</p>
+<p>Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The <code>likert()</code> function accepts any of these forms as input. The practice data, in all three forms, are available in the blog data directory as CSV files.</p>
 <ul>
-<li>summary counts: <code>case-study-2021-count.csv</code></li>
-<li>summary percentages: <code>case-study-2021-percent.csv</code></li>
-<li>row-records: <code>case-study-2021-row-record.csv</code></li>
+<li><a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/case-study-2021-count.csv">summary counts</a><br>
+</li>
+<li><a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/case-study-2021-percent.csv">summary percentages</a><br>
+</li>
+<li><a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/case-study-2021-row-record.csv">row-records</a></li>
 </ul>
 </section>
 <section id="summary-counts" class="level2">
@@ -420,7 +422,7 @@ Summary
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
-<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"case-study-2021-count.csv"</span>)</span></code></pre></div>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-count.csv"</span>)</span></code></pre></div>
 </details>
 </div>
 <div class="cell">
@@ -705,7 +707,7 @@ Character. Ordered vector of opinion level labels.
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
-<span id="cb19-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"case-study-2021-count.csv"</span>)</span>
+<span id="cb19-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-count.csv"</span>)</span>
 <span id="cb19-3"></span>
 <span id="cb19-4"><span class="co" style="color: #5E5E5E;"># rename columns</span></span>
 <span id="cb19-5"><span class="fu" style="color: #4758AB;">setnames_Item</span>(dt)</span>
@@ -771,7 +773,7 @@ Character. Ordered vector of opinion level labels.
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
-<span id="cb24-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"case-study-2021-percent.csv"</span>)</span>
+<span id="cb24-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-percent.csv"</span>)</span>
 <span id="cb24-3"></span>
 <span id="cb24-4"><span class="co" style="color: #5E5E5E;"># rename first column</span></span>
 <span id="cb24-5"><span class="fu" style="color: #4758AB;">setnames_Item</span>(dt)</span></code></pre></div>
@@ -918,7 +920,7 @@ Character. Ordered vector of opinion level labels.
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
-<span id="cb26-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"case-study-2021-percent.csv"</span>)</span>
+<span id="cb26-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-percent.csv"</span>)</span>
 <span id="cb26-3"></span>
 <span id="cb26-4"><span class="co" style="color: #5E5E5E;"># rename first column</span></span>
 <span id="cb26-5"><span class="fu" style="color: #4758AB;">setnames_Item</span>(dt)</span></code></pre></div>
@@ -1131,7 +1133,7 @@ Character. Ordered vector of opinion level labels.
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;"># read observed data</span></span>
-<span id="cb38-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"case-study-2021-row-record.csv"</span>)</span>
+<span id="cb38-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-row-record.csv"</span>)</span>
 <span id="cb38-3"></span>
 <span id="cb38-4"><span class="co" style="color: #5E5E5E;"># examine the result</span></span>
 <span id="cb38-5">dt[]</span></code></pre></div>
@@ -1411,7 +1413,7 @@ Character. Ordered vector of opinion level labels.
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb53" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
-<span id="cb53-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"case-study-2021-row-record.csv"</span>)</span>
+<span id="cb53-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-row-record.csv"</span>)</span>
 <span id="cb53-3"></span>
 <span id="cb53-4"><span class="co" style="color: #5E5E5E;"># delete the ID column</span></span>
 <span id="cb53-5">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">subset</span>(dt, <span class="at" style="color: #657422;">select =</span> <span class="sc" style="color: #5E5E5E;">-</span><span class="fu" style="color: #4758AB;">c</span>(obs))</span>
@@ -1702,12 +1704,12 @@ Summary
 </table>
 </div>
 </div>
-<p>The data are available in the blog data directory.</p>
+<p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/honeycomb-2021.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
-<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"honeycomb-2021.csv"</span>)</span>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/honeycomb-2021.csv"</span>)</span>
 <span id="cb2-3"></span>
 <span id="cb2-4"><span class="co" style="color: #5E5E5E;"># order the levels of grade level</span></span>
 <span id="cb2-5">dt <span class="ot" style="color: #003B4F;">&lt;-</span> dt[, grade_level <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">factor</span>(grade_level, <span class="at" style="color: #657422;">levels =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Elementary School"</span>, <span class="st" style="color: #20794D;">"Middle School"</span>, <span class="st" style="color: #20794D;">"High School"</span>))]</span>
@@ -2055,6 +2057,7 @@ Summary
 </li>
 <li>year of PhD completion, discrete ordinal categorical variable, 1995–2011</li>
 </ul>
+<p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/fig2.csv">CSV file</a>.</p>
 <p><strong>Exploratory design: evolutions</strong></p>
 <p>A prominent element of this stacked-bar design is time on the horizontal axis. A visual convention in this discourse community is that independent variables occupy horizontal axes, implying here that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 141)</span>.</p>
 <p>The figure below shows the stacked-bar data as a collection of evolutions—how survey percentages vary over time conditioned by the reason for obtaining postdoc training. The panels are organized in “graph order”, that is, increasing median value from left to right and from bottom to top (the panel median is shown as a horizontal reference line in each panel).</p>
@@ -2235,6 +2238,7 @@ Summary
 </li>
 <li>postdoc status, nominal categorical variable, 2 levels</li>
 </ul>
+<p>The data are available in the blog data directory as a <a href="https://github.com/graphdr/data-stories/blob/main/data/fig3.csv">CSV file</a>.</p>
 <p><strong>Redesign: dot chart</strong></p>
 <p>Stacked bars of this type, like pie charts, show fractions of a whole. Such charts are a “good choice for lay audiences, but they certainly lack the accuracy of alternative representations” <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 134)</span>. Such data are often best encoded using dot charts—charts with dots along a common scale <span class="citation" data-cites="Cleveland:1984">(Cleveland 1984)</span>.</p>
 <div class="cell">
@@ -2430,7 +2434,7 @@ Summary
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read data from blog data directory</span></span>
-<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"retention-2007.csv"</span>)</span>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/retention-2007.csv"</span>)</span>
 <span id="cb2-3"></span>
 <span id="cb2-4"><span class="co" style="color: #5E5E5E;"># grouped bar graph </span></span>
 <span id="cb2-5"><span class="co" style="color: #5E5E5E;"># use y = pct - 50 to force ggplot to produce a non-zero baseline </span></span>
@@ -2506,12 +2510,12 @@ Summary
 </div>
 </div>
 </div>
-<p>The data are available in the blog <a href="https://github.com/graphdr/data-stories/tree/main/posts/2015-07-20-the-missing-relation">post directory</a>.</p>
+<p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/retention-2007.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
-<span id="cb3-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"retention-2007.csv"</span>)</span></code></pre></div>
+<span id="cb3-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/retention-2007.csv"</span>)</span></code></pre></div>
 </details>
 </div>
 </section>

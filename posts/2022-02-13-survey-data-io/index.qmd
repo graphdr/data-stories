@@ -111,11 +111,11 @@ The practice data in my example are from an engineering education article by Ash
 
 ![(Original Table 3) Percentage student responses for each question in the feedback form.](survey-data.png)
 
-Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The `likert()` function accepts any of these forms as input. The practice data, in all three forms, are available in the [blog post  directory](https://github.com/graphdr/data-stories/tree/main/posts/2022-02-13-survey-data-io) in CSV files.  
+Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The `likert()` function accepts any of these forms as input. The practice data, in all three forms, are available in the blog data directory as CSV files. 
 
-- summary counts: `case-study-2021-count.csv` 
-- summary percentages: `case-study-2021-percent.csv` 
-- row-records: `case-study-2021-row-record.csv` 
+- [summary counts](https://raw.githubusercontent.com/graphdr/data-stories/main/data/case-study-2021-count.csv)  
+- [summary percentages](https://raw.githubusercontent.com/graphdr/data-stories/main/data/case-study-2021-percent.csv)  
+- [row-records](https://raw.githubusercontent.com/graphdr/data-stories/main/data/case-study-2021-row-record.csv) 
     
 
 

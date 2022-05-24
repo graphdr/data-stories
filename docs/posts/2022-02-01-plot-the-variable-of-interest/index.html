@@ -338,12 +338,12 @@ Summary
 </table>
 </div>
 </div>
-<p>The data are available in the blog data directory.</p>
+<p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/honeycomb-2021.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read prepared data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"honeycomb-2021.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/honeycomb-2021.csv"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># order the levels of grade level</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt[, grade_level <span class="sc">:</span><span class="er">=</span> <span class="fu">factor</span>(grade_level, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Elementary School"</span>, <span class="st">"Middle School"</span>, <span class="st">"High School"</span>))]</span>

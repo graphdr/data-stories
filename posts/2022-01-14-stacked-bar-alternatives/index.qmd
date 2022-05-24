@@ -65,7 +65,7 @@ Data structure:
 - reasons for postdoctoral training, nominal categorical variable, 6 levels  
 - year of PhD completion, discrete ordinal categorical variable, 1995--2011    
 
-
+The data are available in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/fig2.csv).
 
 
 **Exploratory design: evolutions**
@@ -241,7 +241,7 @@ Data structure (Figure 3b)
 - primary work activity, nominal categorical variable, 5 levels  
 - postdoc status, nominal categorical variable, 2 levels 
 
-
+The data are available in the blog data directory as a [CSV file](https://github.com/graphdr/data-stories/blob/main/data/fig3.csv).
 
 
 
