@@ -281,14 +281,14 @@ Summary
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>I redesign a stacked-bar chart to attempt to better align the logic of the display with the logic of the argument. The visual structure of the redesigned chart suggests a concomitant reorganization of the prose, illustrating the interplay between visual and verbal rhetoric.</p>
+<p><small><em>I redesign a stacked-bar chart to attempt to better align the logic of the display with the logic of the argument. The visual structure of the redesigned chart suggests a concomitant reorganization of the prose, illustrating the interplay between visual and verbal rhetoric.</em></small></p>
 </div>
 </div>
 <p>In a 2021 article, the authors summarize 134 engineering-curricula articles for teachers of pre-college students. The authors classify the articles by grade level and the type of engineering inquiry <span class="citation" data-cites="Purzer+Quintana-Cifuentes+Menekse:2021">(<a href="#ref-Purzer+Quintana-Cifuentes+Menekse:2021" role="doc-biblioref">Purzer, Quintana-Cifuentes, and Menekse 2021</a>)</span>.</p>
 <p>In section 7, the authors include a data table of numbers of articles by grade level and inquiry type. A stacked-bar chart represents the numbers in the table. In supporting their argument, however, the authors cite <em>ratios</em> of these values—ratios that might be inferred, but are not directly displayed, in the chart provided.</p>
 <p>I take the text to represent the authors’ intended message and look for ways to more effectively represent that message visually.</p>
 <p>My intention is not to critique the article as a whole, which develops a “honeycomb of engineering” research framework for examining how engineering concepts and practices are taught at pre-college levels. I focus instead on the interplay between data, argument, and charts in one section only.</p>
-<p>Throughout the post, you can click on the “R code” pointer to see the script used to create the graphs. This first code chunk loads the R packages used.</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -308,6 +308,7 @@ Summary
 </figure>
 </div>
 <p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1. The multiway dot chart was designed specifically for data of this type: one quantitative variable depending on two independent categorical variables <span class="citation" data-cites="Cleveland:1993">(<a href="#ref-Cleveland:1993" role="doc-biblioref">Cleveland 1993, 302</a>)</span>.</p>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -335,6 +336,7 @@ Summary
 </table>
 </div>
 </div>
+</small><p><small></small></p>
 <p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/honeycomb-2021.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
@@ -597,8 +599,8 @@ Summary
 </div>
 <p>The important feature of this design is that the majority of the percentages compared in the original text are visually compared in the figure. It also conveys all the textual information from the original data table.</p>
 <p>Like the missing entries in the original data table, missing inquiry types are easy to spot by the absence of a data marker. (In a strict sense, these are not missing data; the actual values are zero—as shown in the numerical columns of the side bar-charts.)</p>
-<p>We can also see that the top three types of inquiry have the same rank order in all grade levels. The bar charts help us recognize the extent to which the top two inquiry types dominate the literature.</p>
-<p>An added rhetorical advantage of this design to potential audiences such as pre-college teachers or creators of pre-college engineering materials is the snapshot it provides of the state of their area of interest.</p>
+<p>We can also see that the top three types of inquiry have the same rank order in all grade levels. The bar charts help us recognize the extent to which the top two inquiry types dominate the literature.<br>
+n An added rhetorical advatage of this design to potential audiences such as pre-college teachers or creators of pre-college engineering materials is the snapshot it provides of the state of their area of interest.</p>
 <p>Lastly, that the organization of the chart is visually more effective suggests that a reorganization of the argument could also be more effective. The primary organization of the chart is by grade-level band. If I were to align the logic of the argument with the logic of the display, then the text too would be organized by grade-level band. For example, I might start the discussion as follows:</p>
 <p><small> The elementary school grade level had only three types of inquiry but the highest number of articles overall (N = 63). DBT is by far the largest portion of articles (75%) with UCD (21%) and ENS (4%) making up the rest.</small></p><small>
 <p>Compared to the elementary level, the middle school level had nearly as many articles (N = 51) and the same top three inquiry types. But with more inquiry types, the top three inquiries comprised smaller percentages of the whole: DBT (67%), UCD (18%), ENS (6%). Middle school is also the only level in which all six inquiry types are present.</p>
