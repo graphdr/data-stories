@@ -35,7 +35,7 @@ In the past I tended to use the diverging stacked-bar design by Robbins and Heib
 
 In this post, I reconstruct the three chart designs from Muth and Aisch with two goals in mind: to reproduce and comment on the comparisons they make using a data set of my choosing; and to share the source data and my R code. 
 
-Here, however, I do not discuss the R code in any detail. In a [companion post](posts/2022-02-13-survey-data-io/index.html), I focus on R for preparing different forms of source data for the likert package and editing the results for publication-ready charts. 
+Here, however, I do not discuss the R code in any detail. In a [companion post](../2022-02-13-survey-data-io/index.html), I focus on R for preparing different forms of source data for the likert package and editing the results for publication-ready charts. 
 
 I primarily use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6.
 
