@@ -27,7 +27,7 @@ options(
 
 :::{.callout-note}
 ## Summary 
-In redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline. 
+<small><em>In redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline.</em></small>
 :::
 
 In August 2007, *Science* published a bar graph that illustrates how design decisions made to attract a reader's eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.

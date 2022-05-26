@@ -28,7 +28,7 @@ options(
 
 :::{.callout-note}
 ## Summary 
-<em>The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.</em>
+<small><em>The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.</em></small>
 :::
 
 
