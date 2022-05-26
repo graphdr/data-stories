@@ -237,8 +237,8 @@ div.csl-indent {
 <h1 class="title d-none d-lg-block">Stacked-bar alternatives</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">data storytelling</div>
-    <div class="quarto-category">engineering education</div>
+    <div class="quarto-category">Data storytelling</div>
+    <div class="quarto-category">Engineering education</div>
   </div>
   </div>
 
@@ -280,9 +280,13 @@ Summary
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.</em></p>
+<p><small><em>The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.</em></small></p>
 </div>
 </div>
+<p>In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs <span class="citation" data-cites="Main+Wang+Tan:2021">(<a href="#ref-Main+Wang+Tan:2021" role="doc-biblioref">Main, Wang, and Tan 2021</a>)</span>. The charts are truthful but not particularly informative—the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments.</p>
+<p>The data in the article are summarized from the National Science Foundation’s (NSF) 1993–2013 Survey of Doctorate Recipients (SDR) and 1985–2013 Survey of Earned Doctorates (SED). I couldn’t find the original NSF annual data tables, so I approximated the values for my charts by measuring the lengths of bar segments in the original figures.</p>
+<p>My purpose is not to find fault with the authors. Indeed, stacked bar charts like these are found throughout the NSF publications that report on the raw data. The authors can hardly be faulted for conforming to visual conventions sustained by the NSF.</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -291,9 +295,6 @@ Summary
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"GGally"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs <span class="citation" data-cites="Main+Wang+Tan:2021">(<a href="#ref-Main+Wang+Tan:2021" role="doc-biblioref">Main, Wang, and Tan 2021</a>)</span>. The charts are truthful but not particularly informative—the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments.</p>
-<p>The data in the article are summarized from the National Science Foundation’s (NSF) 1993–2013 Survey of Doctorate Recipients (SDR) and 1985–2013 Survey of Earned Doctorates (SED). I couldn’t find the original NSF annual data tables, so I approximated the values for my charts by measuring the lengths of bar segments in the original figures.</p>
-<p>My purpose is not to find fault with the authors. Indeed, stacked bar charts like these are found throughout the NSF publications that report on the raw data. The authors can hardly be faulted for conforming to visual conventions sustained by the NSF.</p>
 <section id="eliminating-the-trivial" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="eliminating-the-trivial">Eliminating the trivial</h2>
 <p><strong>The original chart</strong></p>
