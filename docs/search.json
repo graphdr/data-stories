@@ -32,7 +32,7 @@
     "href": "posts/2015-07-20-the-missing-relation/index.html",
     "title": "The missing relation",
     "section": "",
-    "text": "Summary\n\n\n\nIn redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline.\nIn August 2007, Science published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.\nA colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the Science editor. They responded by posting a scatterplot much like the one shown here in an online addendum.\nThroughout the post, you can click on the “R code” pointer to see the script used to create the graphs. This first code chunk loads the packages used."
+    "text": "Summary\n\n\n\nIn redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline.\nIn August 2007, Science published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.\nA colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the Science editor. They responded by posting a scatterplot much like the one shown here in an online addendum.\nThe R code for the post is listed under the “R code” pointers."
   },
   {
     "objectID": "posts/2015-07-20-the-missing-relation/index.html#the-original-graph",
@@ -53,7 +53,7 @@
     "href": "posts/2015-07-20-the-missing-relation/index.html#data-structure",
     "title": "The missing relation",
     "section": "Data structure",
-    "text": "Data structure\nBecause the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.\n\n\n\n\nTable 1: Data structure\n\n\nvariable\nstructure\n\n\n\n\nterm\ncategorical, ordinal, discrete time, 3 levels\n\n\nstatus\ncategorical, nominal, 2 levels\n\n\npercent retention\nquantitative\n\n\n\n\n\n\nThe data are available in the blog data directory as a CSV file.\n\n\nR code\n# read prepared data\ndt <- fread(\"data/retention-2007.csv\")"
+    "text": "Data structure\nBecause the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.\n\n\n\n\n\nTable 1: Data structure\n\n\nvariable\nstructure\n\n\n\n\nterm\ncategorical, ordinal, discrete time, 3 levels\n\n\nstatus\ncategorical, nominal, 2 levels\n\n\npercent retention\nquantitative\n\n\n\n\n\n\n\nThe data are available in the blog data directory as a CSV file.\n\n\nR code\n# read prepared data\ndt <- fread(\"data/retention-2007.csv\")"
   },
   {
     "objectID": "posts/2015-07-20-the-missing-relation/index.html#redesign",

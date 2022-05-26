@@ -2954,12 +2954,12 @@ Summary
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline.</p>
+<p><small><em>In redesigning a bar chart, I add data for context that shifts the focus of the story. I also correct a visual distortion by substituting a scatterplot for a bar chart that has a non-zero baseline.</em></small></p>
 </div>
 </div>
 <p>In August 2007, <em>Science</em> published a bar graph that illustrates how design decisions made to attract a reader’s eye can also distort and conceal meaning. While the distortions were surely unintentional, the integrity of the story in the data was compromised nevertheless.</p>
 <p>A colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the <em>Science</em> editor. They responded by posting a scatterplot much like the one shown here in an online addendum.</p>
-<p>Throughout the post, you can click on the “R code” pointer to see the script used to create the graphs. This first code chunk loads the packages used.</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -3032,6 +3032,7 @@ Summary
 <section id="data-structure" class="level2">
 <h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
 <p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.</p>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <div id="tbl-data-structure" class="anchored">
@@ -3061,6 +3062,7 @@ Summary
 </div>
 </div>
 </div>
+</small><p><small></small></p>
 <p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/retention-2007.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
