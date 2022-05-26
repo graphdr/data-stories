@@ -65,6 +65,7 @@ In the original Table 2, the authors classify 134 articles by grade level and th
 
 Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1. The multiway dot chart was designed specifically for data of this type: one quantitative variable depending on two independent categorical variables [@Cleveland:1993, 302].
 
+<small>
 ```{r}
 #| label: data-structure
 #| echo: false
@@ -77,6 +78,7 @@ x <- wrapr::build_frame(
 
 knitr::kable(x, caption="Data structure")
 ```
+</small>
 
 The data are available in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/honeycomb-2021.csv). 
 

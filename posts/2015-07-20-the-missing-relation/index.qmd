@@ -102,6 +102,7 @@ The caption reinforces the miscommunication by stating that the FYEP course "imp
 
 Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.
 
+<small>
 ```{r}
 #| label: tbl-data-structure
 #| echo: false
@@ -116,6 +117,7 @@ setDT(x)
 
 knitr::kable(x)
 ```
+</small>
 
 The data are available in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/retention-2007.csv).
 

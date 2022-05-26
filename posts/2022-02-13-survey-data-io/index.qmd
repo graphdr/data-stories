@@ -399,10 +399,12 @@ sel_cols <- names(dt)[sapply(dt, is.numeric)]
 dt[, c(sel_cols) := lapply(.SD, function(x) round(N_respondents * x/100, 0)), .SDcols = sel_cols]
 ```
 
+<small>
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
+<\small>
 
 This data structure is identical to the one we worked with in the previous section, so we know how to work with it. 
 
