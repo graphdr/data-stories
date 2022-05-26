@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.462">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="dcterms.date" content="2022-02-12">
+<meta name="description" content="Comparing chart designs for displaying Likert-style survey results and concluding that the 100% stacked-bar chart is the most effective.">
+
+<title>Layton R blog - Survey data chart designs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-git" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Survey data chart designs</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">r-bloggers</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">stackoverflow</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">data.table</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">happy git</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
+  <li><a href="#diverging-stacked-bars" id="toc-diverging-stacked-bars" class="nav-link" data-scroll-target="#diverging-stacked-bars">Diverging stacked bars</a></li>
+  <li><a href="#neutral-on-the-side" id="toc-neutral-on-the-side" class="nav-link" data-scroll-target="#neutral-on-the-side">Neutral on the side</a></li>
+  <li><a href="#stacked-bars" id="toc-stacked-bars" class="nav-link" data-scroll-target="#stacked-bars">100% stacked bars</a></li>
+  <li><a href="#back-to-the-story" id="toc-back-to-the-story" class="nav-link" data-scroll-target="#back-to-the-story">Back to the story</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Survey data chart designs</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Data storytelling</div>
+    <div class="quarto-category">Engineering education</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>Comparing chart designs for displaying Likert-style survey results and concluding that the 100% stacked-bar chart is the most effective.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-02-12</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><small><em>I reconstruct three alternative chart designs for Likert-style survey data from a 2018 post by Lisa Charlotte Muth and Gregor Aisch and share the source data and my R code. Comparing the charts in light of their arguments, I agree that the 100% stacked-bar chart is the more effective of the three designs.</em></small></p>
+</div>
+</div>
+<p>For a recent presentation, I needed to graph the results of a Likert-style survey.</p>
+<p>In the past I tended to use the diverging stacked-bar design by Robbins and Heiberger <span class="citation" data-cites="Robbins+Heiberger:2011 Heiberger+Robbins+2014">(<a href="#ref-Robbins+Heiberger:2011" role="doc-biblioref">2011</a>; <a href="#ref-Heiberger+Robbins+2014" role="doc-biblioref">2014</a>)</span>. Browsing for alternatives, I found the essays by Stephen Few <span class="citation" data-cites="Few:2016">(<a href="#ref-Few:2016" role="doc-biblioref">2016</a>)</span> and Lisa Charlotte Muth and Gregor Aisch <span class="citation" data-cites="Muth+Aisch:2018">(<a href="#ref-Muth+Aisch:2018" role="doc-biblioref">2018</a>)</span> to be well-reasoned and useful.</p>
+<p>In this post, I reconstruct the three chart designs from Muth and Aisch with two goals in mind: to reproduce and comment on the comparisons they make using a data set of my choosing; and to share the source data and my R code.</p>
+<p>Here, however, I do not discuss the R code in any detail. In a <a href="posts/2022-02-13-survey-data-io/index.html">companion post</a>, I focus on R for preparing different forms of source data for the likert package and editing the results for publication-ready charts.</p>
+<p>I primarily use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6.</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"likert"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"cowplot"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># chart design elements</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>neutral_color <span class="ot">&lt;-</span> <span class="st">"gray90"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>my_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">10</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>my_vline  <span class="ot">&lt;-</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> my_breaks, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="fl">0.25</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>my_hline  <span class="ot">&lt;-</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> my_breaks, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="fl">0.25</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot() theme settings</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>my_theme_elements <span class="ot">&lt;-</span> <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                           <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">"mm"</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                           <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                           <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                           <span class="at">legend.justification =</span> <span class="fl">0.5</span>, </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                           <span class="at">legend.position =</span> <span class="st">"top"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># labeling vectors</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>opinion_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Strongly Disagree"</span>, </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Disagree"</span>, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Neutral"</span>, </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Agree"</span>, </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Strongly Agree"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>question_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Beyond the content"</span>, </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Analyze errors"</span>, </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Provide facts"</span>, </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Develop writing"</span>, </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Independent learning"</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># rename opinion columns</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>setnames_opinion_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setnames</span>(x, </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">old =</span> <span class="fu">c</span>(<span class="st">"str_disagree"</span>, <span class="st">"disagree"</span>, <span class="st">"neutral"</span>, <span class="st">"agree"</span>, <span class="st">"str_agree"</span>), </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>           <span class="at">new =</span> opinion_labels, </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>           <span class="at">skip_absent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The practice data in my example are from an engineering education article by Ashanthi Maxworth (2021), selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="survey-data.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">(Original Table 3) Percentage student responses for each question in the feedback form.</figcaption><p></p>
+</figure>
+</div>
+<p>Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The <code>likert()</code> function accepts any of these forms as input. The practice data, in all three forms, are available in the <a href="https://github.com/graphdr/data-stories/tree/main/data/">blog data directory</a> in CSV files, though for this post I will use the summary count form only.</p>
+<p>Read the prepared data file in summary count form.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read prepared data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/case-study-2021-count.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><small></small></p><small>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">q_no</th>
+<th style="text-align: right;">str_disagree</th>
+<th style="text-align: right;">disagree</th>
+<th style="text-align: right;">neutral</th>
+<th style="text-align: right;">agree</th>
+<th style="text-align: right;">str_agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</small><p><small></small></p>
+<p>I rename the first column <code>Item</code>, and the data frame is ready to input to the <code>likert()</code> function. Because my goal is comparing chart designs, I’m not interested in the specific survey questions, so I leave the question labels in their abbreviated form (Q1, Q2, …).</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rename first column</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(dt, <span class="st">"q_no"</span>, <span class="st">"Item"</span>, <span class="at">skip_absent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Item str_disagree disagree neutral agree str_agree
+   &lt;char&gt;        &lt;int&gt;    &lt;int&gt;   &lt;int&gt; &lt;int&gt;     &lt;int&gt;
+1:     Q1            2        0       8    12         9
+2:     Q2            2        2       7    14         6
+3:     Q3            1        1       5     9        15
+4:     Q4            0        2      10    12         7
+5:     Q5            2        0       6    11        12</code></pre>
+</div>
+</div>
+<p>The salient characteristics of the data frame are:</p>
+<ul>
+<li>One row per question</li>
+<li>First column is named Item and contains the question labels</li>
+<li>Remaining columns are named for the opinion levels in increasing order left to right</li>
+<li>Column values are the counts of respondents choosing that option</li>
+<li>The sum of row counts is the number of respondents answering that question</li>
+</ul>
+</section>
+<section id="diverging-stacked-bars" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="diverging-stacked-bars">Diverging stacked bars</h2>
+<p>A defining feature of the divergent stacked-bar is that the Neutral segment is split half to the left and half to the right of the zero reference line. Also, because each row of the data table sums to 100%, each bar of the chart has a horizontal length of 100%, partitioned to show the component percentages.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">summary =</span> dt)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set scale limits to fill the data rectangle</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>my_limits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>, <span class="dv">86</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_opinion_labels</span>(likert_list<span class="sc">$</span>results)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(likert_list, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">centered =</span> <span class="cn">TRUE</span>,              <span class="co"># diverging</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">include.center  =</span> <span class="cn">TRUE</span>,       <span class="co"># neutral included</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.low     =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.neutral =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.high    =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># additional ggplot components</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> my_limits, </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">abs</span>(my_breaks)) <span class="sc">+</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  my_theme_elements <span class="sc">+</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  my_hline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-div-stacked-bar" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-div-stacked-bar-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: Diverging stacked-bar design</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The top-down row order is by decreasing agreement totals (Agree + Strongly Agree). In contrast, by Heiberger and Robbins’ definition, the row position of Q2 and Q4 would be swapped so that the maximum endpoint monotonically decreases top to bottom.</p>
+<p>Describing a diverging stacked bar chart, Robbins and Heiberger say,</p>
+<blockquote class="blockquote">
+<p>It is difficult to compare lengths without a common baseline. In this situation, we are primarily interested in the total percent to the right or left of the zero line; the breakdown into strongly or not is of lesser interest so that the primary comparisons do have a common baseline of zero <span class="citation" data-cites="Robbins+Heiberger:2011">(<a href="#ref-Robbins+Heiberger:2011" role="doc-biblioref">Robbins and Heiberger 2011, 1060</a>)</span>.</p>
+</blockquote>
+<p>I agree—if we assume the Neutrals can treated as half positive and half negative. Muth and Aisch point out that we have no way of knowing that this is true. Because being truthful is a first principle of ethical data visualization, this assumption makes me uneasy. A lot depends on how the survey questions are worded and how the people surveyed interpret the Neutral response. In this specific case, I’m not certain the Neutrals can treated as half positive and half negative. Thus, the zero reference line does not establish a common baseline and we lose the ability to make effective visual comparisons.</p>
+<p>We can recover the common baseline at zero by moving Neutral to a side chart of its own.</p>
+</section>
+<section id="neutral-on-the-side" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="neutral-on-the-side">Neutral on the side</h2>
+<p>By removing the Neutral responses, the zero reference line is a common baseline for visually comparing total agreement. We can see that the top-down row order is by decreasing agreement totals (Agree + Strongly Agree). And for a given row, we can visually compare total disagreement to total agreement.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">summary =</span> dt)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set scale limits to fill the data rectangle</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>my_limits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">13</span>, <span class="dv">78</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_opinion_labels</span>(likert_list<span class="sc">$</span>results)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># extract Neutrals for second chart</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>likert_list_neutral <span class="ot">&lt;-</span> likert_list<span class="sc">$</span>results[, .(Item, Neutral)]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># delete Neutrals from likert list (removing neutral from legend)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>likert_list<span class="sc">$</span>results[, Neutral <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>likert_list<span class="sc">$</span>levels  <span class="ot">&lt;-</span> likert_list<span class="sc">$</span>levels[<span class="sc">!</span>likert_list<span class="sc">$</span>levels <span class="sc">%in%</span> <span class="st">"neutral"</span>]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>likert_list<span class="sc">$</span>nlevels <span class="ot">&lt;-</span> likert_list<span class="sc">$</span>nlevels <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">plot</span>(likert_list, </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">centered =</span> <span class="cn">TRUE</span>,               <span class="co"># diverging</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.percent.low     =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.percent.neutral =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.percent.high    =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> my_limits, </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">abs</span>(my_breaks), </span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  my_theme_elements <span class="sc">+</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  my_hline</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>plot1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-omit-neutral" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-omit-neutral-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: Diverging stacked bar, neutral omitted.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next I construct the second part of the chart (using ggplot2 functions only) to plot the Neutral responses alone.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use Neutral data frame from earlier</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> likert_list_neutral</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set scale limits to fill the data rectangle</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>my_limits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">33</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># extract order of questions (factors) from previous chart object</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>factor_levels <span class="ot">&lt;-</span> <span class="fu">levels</span>(plot1<span class="sc">$</span>data<span class="sc">$</span>Item)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># factors for ordering rows </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>likert_list[, Item <span class="sc">:</span><span class="er">=</span> <span class="fu">factor</span>(Item, <span class="at">levels =</span> factor_levels)]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># assign a variable to fill by and create a legend</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>likert_list[, opinion <span class="sc">:</span><span class="er">=</span> <span class="st">"Neutral"</span>]</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> likert_list, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Neutral, <span class="at">y =</span> Item, <span class="at">fill =</span> opinion)) <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> my_limits, </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> neutral_color) <span class="sc">+</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  my_theme_elements <span class="sc">+</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  my_vline</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plot2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-neutral-only" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-neutral-only-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: Neutral responses only.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I combine the two charts and adjust their proportions to make equal scale divisions the same length.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edit Neutral bar chart aesthetics before combining </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> plot2 <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.justification =</span> <span class="sc">-</span><span class="fl">0.25</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># set plot proportions by trial and error until scales match</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>width_1 <span class="ot">&lt;-</span> <span class="fl">0.71</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>width_2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> width_1</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># combine plots </span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdraw</span>() <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(plot1, <span class="at">x =</span> <span class="dv">0</span>      , <span class="at">y =</span> <span class="dv">0</span>, <span class="at">width =</span> width_1, <span class="at">height =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(plot2, <span class="at">x =</span> width_1, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">width =</span> width_2, <span class="at">height =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-div-bar-sep-neutral" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-div-bar-sep-neutral-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 4: Diverging stacked bar chart with neutral on the side.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Designed in this way, differences between positive and negative results now stand out a bit more, the sum of Agree and Strongly Agree are easier to read, and the Neutral values are both easier to read and compare <span class="citation" data-cites="Few:2016">(<a href="#ref-Few:2016" role="doc-biblioref">Few 2016</a>)</span>.</p>
+</blockquote>
+<p>As Muth and Aisch point out, this design gives a good idea of the “competition” between agreement and disagreement. In this case, across all questions more than 60% of the respondents agreed and in all but one instance fewer than 10% disagreed.</p>
+<p>In addition, between 15-30% responded Neutral. We don’t know if that means “I don’t know” or “I have no opinion” or “Sometimes I agree and sometimes I don’t”or “I’m tired of answering Likert-style surveys” or something else—which is a very good reason to graph Neutral on the side.</p>
+<p>I like this design.</p>
+</section>
+<section id="stacked-bars" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="stacked-bars">100% stacked bars</h2>
+<p>The final of the three designs is the 100% stacked bar—which until now I have not considered as effective as diverging stacked-bars at conveying survey results. What makes the difference today is Muth and Aisch’s suggestion to add a secondary scale along the top of the chart—a simple and elegant contribution.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">summary =</span> dt)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set scale limits</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>my_limits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_opinion_labels</span>(likert_list<span class="sc">$</span>results)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(likert_list, </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">centered =</span> <span class="cn">FALSE</span>,              <span class="co"># 100% stacked bars</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">include.center  =</span> <span class="cn">TRUE</span>,        <span class="co"># include neutral</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.low     =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.neutral =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.high    =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> my_limits, </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>( <span class="co"># second scale</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trans =</span> <span class="cf">function</span>(z) z <span class="sc">-</span> <span class="dv">100</span>, </span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">as.character</span>(<span class="fu">abs</span>(my_breaks)))) <span class="sc">+</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  my_theme_elements <span class="sc">+</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  my_hline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-00-pct-stacked-bar" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-00-pct-stacked-bar-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 5: 100% stacked bar chart.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With the right boundary as a baseline, I read the top scale for agreement percentages; with the left boundary as a baseline, I read the bottom scale for disagreement percentages. We can easily quantify a comparison between strong opinions (outer left and outer right) or between total agreement and total disagreement. Neither of the divergent stacked-bar charts allow this level of direct visual access (though the bar segments could be directly labeled with their respective percentages).</p>
+<p>Like the previous chart, the rationale for ordering the rows is clear—the agreement total monotonically increase from bottom to top. Of lesser importance, this design also immediately communicates that the bar segments are parts of a whole—that each bar represents 100% of responses.</p>
+<p>The only disadvantage of this chart compared to the previous one is that the relative proportions of the Neutral responses are harder to compare. Neutrals are important data but the main story is usually a comparison between people who have opinions—that is, the bar segments to the left and right of the Neutral center.</p>
+<p>I have to agree with Muth and Aisch—this is an effective design.</p>
+</section>
+<section id="back-to-the-story" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="back-to-the-story">Back to the story</h2>
+<p>Were I to prepare this chart to accompany the original article, I might label the rows with shortened forms of the questions and cite the full questions in the text or in the data table. (Alternatively, <code>likert()</code> does have an argument to help manage longer question text.)</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dt_story <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_opinion_labels</span>(dt_story)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the question labels</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>dt_story[, Item <span class="sc">:</span><span class="er">=</span> question_labels]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>likert_list <span class="ot">&lt;-</span> <span class="fu">likert</span>(<span class="at">summary =</span> dt_story)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># set scale limits</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>my_limits  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(likert_list, </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">centered =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">include.center  =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.low     =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.neutral =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.percent.high    =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> my_limits, </span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>( <span class="co"># second scale</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trans =</span> <span class="cf">function</span>(z) z <span class="sc">-</span> <span class="dv">100</span>, </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> my_breaks, </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">as.character</span>(<span class="fu">abs</span>(my_breaks)))) <span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  my_theme_elements <span class="sc">+</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  my_hline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-editing-labels" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-editing-labels-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 6: Editing the legend key and question labels for readability.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As an example of the results discussion in the article, the “provide facts” paragraph states,</p>
+<blockquote class="blockquote">
+<p>In the third feedback question, 24 out of 31 students (77.4%) agreed that the case study motivated them to provide facts such as calculations and simulations to support their answers. Unlike a typical textbook problem where there is a definite answer, making an argument in a case study requires thinking beyond the material delivered in class. Therefore, the use of additional calculations and especially simulations were needed to support the argument <span class="citation" data-cites="Maxworth:2021">(<a href="#ref-Maxworth:2021" role="doc-biblioref">Maxworth 2021</a>)</span>.</p>
+</blockquote>
+<p>This is a perfectly straightforward description of the result and the chart supports the argument visually. In terms of the larger narrative, however, the chart provides a rationale for revising the narrative framework—instead of discussing the results in question order (Q1, Q2, …), discuss the results in order of level of agreement (highest to lowest), supported visually by the row order in the chart (top to bottom).</p>
+<p>I think the chart provides evidence for an additional assertion: that the preponderance of responses are <em>positive</em>,</p>
+<ul>
+<li>Between 61-77% of responses were positive over the full range of survey statements.</li>
+<li>The largest negative response was to the Analyze errors/misconceptions assertion at 13% (4 out of 31 responses); all other negatives were at 6.5% (2 of 31).</li>
+</ul>
+<p>Given the overall positive response, the small number of negatives may have resulted from a mismatch between a student and the case they selected. As the author states in their conclusion,</p>
+<blockquote class="blockquote">
+<p>In future implementations, an effort is needed to balance the choice distribution of cases. This can be done by designing the cases with the same level of difficulty, familiarity, and applicability.</p>
+</blockquote>
+<p>So while a chart was not necessary to support the author’s points, I think it would have added a small but important summary point that the case study approach was successful and warranted the further development outlined in the concluding section.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data</li>
+</ul>
+
+
+
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Few:2016" class="csl-entry" role="doc-biblioentry">
+Few, Stephen. 2016. <span>Perceptual Edge</span>. <a href="https://www.perceptualedge.com/blog/?p=2239">https://www.perceptualedge.com/blog/?p=2239</a>.
+</div>
+<div id="ref-Heiberger+Robbins+2014" class="csl-entry" role="doc-biblioentry">
+Heiberger, Richard M., and Naomi B. Robbins. 2014. <span>“<span class="nocase">Design of diverging stacked bar charts for Likert scales and other applications</span>.”</span> <em>Journal of Statistical Software</em> 57 (5). <a href="https://www.jstatsoft.org/article/view/v057i05">https://www.jstatsoft.org/article/view/v057i05</a>.
+</div>
+<div id="ref-Maxworth:2021" class="csl-entry" role="doc-biblioentry">
+Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>.”</span> <em>Advances in Engineering Education</em> 9 (4): 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>.
+</div>
+<div id="ref-Muth+Aisch:2018" class="csl-entry" role="doc-biblioentry">
+Muth, Lisa, and Gregor Aisch. 2018. <span>“<span class="nocase">The case against diverging stacked bars</span>.”</span> <span>Datawrapper</span>. <a href="https://blog.datawrapper.de/divergingbars/">https://blog.datawrapper.de/divergingbars/</a>.
+</div>
+<div id="ref-Robbins+Heiberger:2011" class="csl-entry" role="doc-biblioentry">
+Robbins, Naomi B., and Richard M. Heiberger. 2011. <span>“<span class="nocase">Plotting Likert and other rating scales</span>.”</span> In <em>Joint Statistical Meeting Proceedings</em>, Survery Research Methods Section:1058–66. Alexandria, VA: American Statistical Association. <a href="https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf">https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+</ul>
+      </div>
+  </div>
+</footer>
+
+
+
+</body></html>

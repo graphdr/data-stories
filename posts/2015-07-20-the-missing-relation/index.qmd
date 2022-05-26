@@ -34,7 +34,7 @@ In August 2007, *Science* published a bar graph that illustrates how design deci
 
 A colleague and I noted the perceptual issues of this bar graph when the article first appeared. With the permission of the first author, Norm Fortenberry, we sent a shorter version of this critique to the *Science* editor. They responded by posting a scatterplot much like the one shown here in an online addendum.
 
-Throughout the post, you can click on the "R code" pointer to see the script used to create the graphs. This first code chunk loads the packages used.
+The R code for the post is listed under the “R code” pointers.
 
 ```{r}
 #| label: packages

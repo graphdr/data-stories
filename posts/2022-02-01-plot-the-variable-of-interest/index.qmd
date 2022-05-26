@@ -39,7 +39,7 @@ I take the text to represent the authors' intended message and look for ways to 
 My intention is not to critique the article as a whole, which develops a 
 "honeycomb of engineering" research framework for examining how engineering concepts and practices are taught at pre-college levels. I focus instead on the interplay between data, argument, and charts in one section only. 
 
-Throughout the post, you can click on the “R code” pointer to see the script used to create the graphs. This first code chunk loads the R packages used.
+The R code for the post is listed under the “R code” pointers.
 
 ```{r}
 #| label: packages

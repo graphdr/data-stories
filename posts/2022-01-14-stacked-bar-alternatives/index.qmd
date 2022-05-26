@@ -31,6 +31,15 @@ options(
 <em>The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.</em>
 :::
 
+
+In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs [@Main+Wang+Tan:2021]. The charts are truthful but not particularly informative---the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments. 
+
+The data in the article are summarized from the National Science Foundation's (NSF) 1993--2013 Survey of Doctorate Recipients (SDR) and 1985--2013 Survey of Earned Doctorates (SED). I couldn't find the original NSF annual data tables, so I approximated the values for my charts by measuring the lengths of bar segments in the original figures.  
+
+My purpose is not to find fault with the authors. Indeed, stacked bar charts like these are found throughout the NSF publications that report on the raw  data. The authors can hardly be faulted for conforming to visual conventions sustained by the NSF.
+
+The R code for the post is listed under the “R code” pointers.
+
 ```{r}
 #| label: packages
 
@@ -39,19 +48,8 @@ library("ggplot2")
 library("GGally")
 ```
 
-In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs [@Main+Wang+Tan:2021]. The charts are truthful but not particularly informative---the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments. 
-
-The data in the article are summarized from the National Science Foundation's (NSF) 1993--2013 Survey of Doctorate Recipients (SDR) and 1985--2013 Survey of Earned Doctorates (SED). I couldn't find the original NSF annual data tables, so I approximated the values for my charts by measuring the lengths of bar segments in the original figures.  
-
-My purpose is not to find fault with the authors. Indeed, stacked bar charts like these are found throughout the NSF publications that report on the raw  data. The authors can hardly be faulted for conforming to visual conventions sustained by the NSF.
-
-
-
 
 ## Eliminating the trivial
-
-
-
 
 **The original chart**
 

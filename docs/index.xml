@@ -327,11 +327,11 @@ Summary
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</p>
+<p><small><em>Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</em></small></p>
 </div>
 </div>
 <p>This post is a tutorial on how to prepare different forms of Likert-style survey data for the R likert package and using its output to create 100% stacked-bar charts. I focus on preparing the data for <code>likert()</code> input and editing its output for the final chart. For exploring the package functionality more fully, I recommend the tutorials by Laura Mudge <span class="citation" data-cites="Mudge:2019">(2019)</span> and Jake Chanenson <span class="citation" data-cites="Chanenson:2021">(2021)</span>.</p>
-<p>In a companion post (not yet ported) I develop the R script for constructing the 100% stacked-bar chart and discuss the rationale for selecting it as a more effective design for Likert-style survey data.</p>
+<p>In a <a href="posts/2022-02-12-survey-data-chart-designs/index.html">companion post</a> I develop the R script for constructing the 100% stacked-bar chart and discuss the rationale for selecting it as a more effective design for Likert-style survey data.</p>
 <p>I use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6 (currently the development version).</p>
 <p>The R code for the post is listed under the “R code” pointers.</p>
 <div class="cell">
@@ -882,6 +882,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb25-8">dt[, <span class="fu" style="color: #4758AB;">c</span>(sel_cols) <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">lapply</span>(.SD, <span class="cf" style="color: #003B4F;">function</span>(x) <span class="fu" style="color: #4758AB;">round</span>(N_respondents <span class="sc" style="color: #5E5E5E;">*</span> x<span class="sc" style="color: #5E5E5E;">/</span><span class="dv" style="color: #AD0000;">100</span>, <span class="dv" style="color: #AD0000;">0</span>)), .SDcols <span class="ot" style="color: #003B4F;">=</span> sel_cols]</span></code></pre></div>
 </details>
 </div>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -940,8 +941,9 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
+<p>&lt;&gt;</p>
 <p>This data structure is identical to the one we worked with in the previous section, so we know how to work with it.</p>
-</section>
+</small></section><small class="page-columns page-full">
 <section id="option-2-use-percentages-as-is" class="level3">
 <h3 class="anchored" data-anchor-id="option-2-use-percentages-as-is">Option 2: Use percentages as-is</h3>
 <p>This option might be necessary if we do not know the number of respondents replying to each question. Start by reading the data file and again rename the first column <code>Item</code> for consistency with the likert() function.</p>
@@ -1159,7 +1161,7 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 </section>
-</section>
+</small></section><small class="page-columns page-full">
 <section id="row-records" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="row-records">Row records</h2>
 <p>In row-record form, everything we want to know about an individual is in one row, that is, a row-record for that individual. Thus the number of rows equals the number of respondents.</p>
@@ -1667,7 +1669,7 @@ Character. Ordered vector of opinion level labels.
 
 </section>
 
-<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+</small><div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
 
 <ul>
 <li><a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data</li>
@@ -1690,6 +1692,495 @@ Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert 
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</guid>
   <pubDate>Sun, 13 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/thumbnail.png" medium="image" type="image/png" height="94" width="144"/>
+</item>
+<item>
+  <title>Survey data chart designs</title>
+  <link>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index.html</link>
+  <description><![CDATA[ 
+
+
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><small><em>I reconstruct three alternative chart designs for Likert-style survey data from a 2018 post by Lisa Charlotte Muth and Gregor Aisch and share the source data and my R code. Comparing the charts in light of their arguments, I agree that the 100% stacked-bar chart is the more effective of the three designs.</em></small></p>
+</div>
+</div>
+<p>For a recent presentation, I needed to graph the results of a Likert-style survey.</p>
+<p>In the past I tended to use the diverging stacked-bar design by Robbins and Heiberger <span class="citation" data-cites="Robbins+Heiberger:2011 Heiberger+Robbins+2014">(2011; 2014)</span>. Browsing for alternatives, I found the essays by Stephen Few <span class="citation" data-cites="Few:2016">(2016)</span> and Lisa Charlotte Muth and Gregor Aisch <span class="citation" data-cites="Muth+Aisch:2018">(2018)</span> to be well-reasoned and useful.</p>
+<p>In this post, I reconstruct the three chart designs from Muth and Aisch with two goals in mind: to reproduce and comment on the comparisons they make using a data set of my choosing; and to share the source data and my R code.</p>
+<p>Here, however, I do not discuss the R code in any detail. In a <a href="posts/2022-02-13-survey-data-io/index.html">companion post</a>, I focus on R for preparing different forms of source data for the likert package and editing the results for publication-ready charts.</p>
+<p>I primarily use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6.</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># packages</span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"data.table"</span>)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggplot2"</span>)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"likert"</span>)</span>
+<span id="cb1-5"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"cowplot"</span>)</span>
+<span id="cb1-6"></span>
+<span id="cb1-7"><span class="co" style="color: #5E5E5E;"># chart design elements</span></span>
+<span id="cb1-8">neutral_color <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="st" style="color: #20794D;">"gray90"</span></span>
+<span id="cb1-9">my_breaks <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">100</span>, <span class="dv" style="color: #AD0000;">100</span>, <span class="dv" style="color: #AD0000;">10</span>)</span>
+<span id="cb1-10">my_vline  <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">geom_vline</span>(<span class="at" style="color: #657422;">xintercept =</span> my_breaks, <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"white"</span>, <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.25</span>)</span>
+<span id="cb1-11">my_hline  <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">geom_hline</span>(<span class="at" style="color: #657422;">yintercept =</span> my_breaks, <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"white"</span>, <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.25</span>)</span>
+<span id="cb1-12"></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;"># ggplot() theme settings</span></span>
+<span id="cb1-14">my_theme_elements <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">panel.background =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(),</span>
+<span id="cb1-15">                           <span class="at" style="color: #657422;">legend.key.size =</span> <span class="fu" style="color: #4758AB;">unit</span>(<span class="dv" style="color: #AD0000;">4</span>, <span class="st" style="color: #20794D;">"mm"</span>),</span>
+<span id="cb1-16">                           <span class="at" style="color: #657422;">legend.title =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(),</span>
+<span id="cb1-17">                           <span class="at" style="color: #657422;">axis.ticks =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(), </span>
+<span id="cb1-18">                           <span class="at" style="color: #657422;">legend.justification =</span> <span class="fl" style="color: #AD0000;">0.5</span>, </span>
+<span id="cb1-19">                           <span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"top"</span>)</span>
+<span id="cb1-20"></span>
+<span id="cb1-21"><span class="co" style="color: #5E5E5E;"># labeling vectors</span></span>
+<span id="cb1-22">opinion_labels <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Strongly Disagree"</span>, </span>
+<span id="cb1-23">                    <span class="st" style="color: #20794D;">"Disagree"</span>, </span>
+<span id="cb1-24">                    <span class="st" style="color: #20794D;">"Neutral"</span>, </span>
+<span id="cb1-25">                    <span class="st" style="color: #20794D;">"Agree"</span>, </span>
+<span id="cb1-26">                    <span class="st" style="color: #20794D;">"Strongly Agree"</span>)</span>
+<span id="cb1-27"></span>
+<span id="cb1-28">question_labels <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Beyond the content"</span>, </span>
+<span id="cb1-29">                     <span class="st" style="color: #20794D;">"Analyze errors"</span>, </span>
+<span id="cb1-30">                     <span class="st" style="color: #20794D;">"Provide facts"</span>, </span>
+<span id="cb1-31">                     <span class="st" style="color: #20794D;">"Develop writing"</span>, </span>
+<span id="cb1-32">                     <span class="st" style="color: #20794D;">"Independent learning"</span>)</span>
+<span id="cb1-33"></span>
+<span id="cb1-34"><span class="co" style="color: #5E5E5E;"># rename opinion columns</span></span>
+<span id="cb1-35">setnames_opinion_labels <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(x) {</span>
+<span id="cb1-36">  <span class="fu" style="color: #4758AB;">setnames</span>(x, </span>
+<span id="cb1-37">           <span class="at" style="color: #657422;">old =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"str_disagree"</span>, <span class="st" style="color: #20794D;">"disagree"</span>, <span class="st" style="color: #20794D;">"neutral"</span>, <span class="st" style="color: #20794D;">"agree"</span>, <span class="st" style="color: #20794D;">"str_agree"</span>), </span>
+<span id="cb1-38">           <span class="at" style="color: #657422;">new =</span> opinion_labels, </span>
+<span id="cb1-39">           <span class="at" style="color: #657422;">skip_absent =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb1-40">}</span></code></pre></div>
+</details>
+</div>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The practice data in my example are from an engineering education article by Ashanthi Maxworth (2021), selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/survey-data.png" class="img-fluid figure-img"></p>
+<p></p><p></p>
+</figure>
+</div>
+<p>Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The <code>likert()</code> function accepts any of these forms as input. The practice data, in all three forms, are available in the <a href="https://github.com/graphdr/data-stories/tree/main/data/">blog data directory</a> in CSV files, though for this post I will use the summary count form only.</p>
+<p>Read the prepared data file in summary count form.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read prepared data</span></span>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-count.csv"</span>)</span></code></pre></div>
+</details>
+</div>
+<p><small></small></p><small>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">q_no</th>
+<th style="text-align: right;">str_disagree</th>
+<th style="text-align: right;">disagree</th>
+<th style="text-align: right;">neutral</th>
+<th style="text-align: right;">agree</th>
+<th style="text-align: right;">str_agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</small><p><small></small></p>
+<p>I rename the first column <code>Item</code>, and the data frame is ready to input to the <code>likert()</code> function. Because my goal is comparing chart designs, I’m not interested in the specific survey questions, so I leave the question labels in their abbreviated form (Q1, Q2, …).</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;"># rename first column</span></span>
+<span id="cb3-2"><span class="fu" style="color: #4758AB;">setnames</span>(dt, <span class="st" style="color: #20794D;">"q_no"</span>, <span class="st" style="color: #20794D;">"Item"</span>, <span class="at" style="color: #657422;">skip_absent =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb3-3"></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;"># examine the result</span></span>
+<span id="cb3-5">dt[]</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Item str_disagree disagree neutral agree str_agree
+   &lt;char&gt;        &lt;int&gt;    &lt;int&gt;   &lt;int&gt; &lt;int&gt;     &lt;int&gt;
+1:     Q1            2        0       8    12         9
+2:     Q2            2        2       7    14         6
+3:     Q3            1        1       5     9        15
+4:     Q4            0        2      10    12         7
+5:     Q5            2        0       6    11        12</code></pre>
+</div>
+</div>
+<p>The salient characteristics of the data frame are:</p>
+<ul>
+<li>One row per question</li>
+<li>First column is named Item and contains the question labels</li>
+<li>Remaining columns are named for the opinion levels in increasing order left to right</li>
+<li>Column values are the counts of respondents choosing that option</li>
+<li>The sum of row counts is the number of respondents answering that question</li>
+</ul>
+</section>
+<section id="diverging-stacked-bars" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="diverging-stacked-bars">Diverging stacked bars</h2>
+<p>A defining feature of the divergent stacked-bar is that the Neutral segment is split half to the left and half to the right of the zero reference line. Also, because each row of the data table sums to 100%, each bar of the chart has a horizontal length of 100%, partitioned to show the component percentages.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;"># create the likert list</span></span>
+<span id="cb5-2">likert_list <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">likert</span>(<span class="at" style="color: #657422;">summary =</span> dt)</span>
+<span id="cb5-3"></span>
+<span id="cb5-4"><span class="co" style="color: #5E5E5E;"># set scale limits to fill the data rectangle</span></span>
+<span id="cb5-5">my_limits <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">25</span>, <span class="dv" style="color: #AD0000;">86</span>)</span>
+<span id="cb5-6"></span>
+<span id="cb5-7"><span class="co" style="color: #5E5E5E;"># recode the opinion options</span></span>
+<span id="cb5-8"><span class="fu" style="color: #4758AB;">setnames_opinion_labels</span>(likert_list<span class="sc" style="color: #5E5E5E;">$</span>results)</span>
+<span id="cb5-9"></span>
+<span id="cb5-10"><span class="co" style="color: #5E5E5E;"># create the chart</span></span>
+<span id="cb5-11"><span class="fu" style="color: #4758AB;">plot</span>(likert_list, </span>
+<span id="cb5-12">     <span class="at" style="color: #657422;">centered =</span> <span class="cn" style="color: #8f5902;">TRUE</span>,              <span class="co" style="color: #5E5E5E;"># diverging</span></span>
+<span id="cb5-13">     <span class="at" style="color: #657422;">include.center  =</span> <span class="cn" style="color: #8f5902;">TRUE</span>,       <span class="co" style="color: #5E5E5E;"># neutral included</span></span>
+<span id="cb5-14">     <span class="at" style="color: #657422;">plot.percent.low     =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb5-15">     <span class="at" style="color: #657422;">plot.percent.neutral =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb5-16">     <span class="at" style="color: #657422;">plot.percent.high    =</span> <span class="cn" style="color: #8f5902;">FALSE</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-17">  </span>
+<span id="cb5-18">  <span class="co" style="color: #5E5E5E;"># additional ggplot components</span></span>
+<span id="cb5-19">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> my_limits, </span>
+<span id="cb5-20">                     <span class="at" style="color: #657422;">breaks =</span> my_breaks, </span>
+<span id="cb5-21">                     <span class="at" style="color: #657422;">labels =</span> <span class="fu" style="color: #4758AB;">abs</span>(my_breaks)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-22">  my_theme_elements <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-23">  my_hline</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-div-stacked-bar" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index_files/figure-html/fig-div-stacked-bar-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The top-down row order is by decreasing agreement totals (Agree + Strongly Agree). In contrast, by Heiberger and Robbins’ definition, the row position of Q2 and Q4 would be swapped so that the maximum endpoint monotonically decreases top to bottom.</p>
+<p>Describing a diverging stacked bar chart, Robbins and Heiberger say,</p>
+<blockquote class="blockquote">
+<p>It is difficult to compare lengths without a common baseline. In this situation, we are primarily interested in the total percent to the right or left of the zero line; the breakdown into strongly or not is of lesser interest so that the primary comparisons do have a common baseline of zero <span class="citation" data-cites="Robbins+Heiberger:2011">(Robbins and Heiberger 2011, 1060)</span>.</p>
+</blockquote>
+<p>I agree—if we assume the Neutrals can treated as half positive and half negative. Muth and Aisch point out that we have no way of knowing that this is true. Because being truthful is a first principle of ethical data visualization, this assumption makes me uneasy. A lot depends on how the survey questions are worded and how the people surveyed interpret the Neutral response. In this specific case, I’m not certain the Neutrals can treated as half positive and half negative. Thus, the zero reference line does not establish a common baseline and we lose the ability to make effective visual comparisons.</p>
+<p>We can recover the common baseline at zero by moving Neutral to a side chart of its own.</p>
+</section>
+<section id="neutral-on-the-side" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="neutral-on-the-side">Neutral on the side</h2>
+<p>By removing the Neutral responses, the zero reference line is a common baseline for visually comparing total agreement. We can see that the top-down row order is by decreasing agreement totals (Agree + Strongly Agree). And for a given row, we can visually compare total disagreement to total agreement.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;"># create the likert list</span></span>
+<span id="cb6-2">likert_list <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">likert</span>(<span class="at" style="color: #657422;">summary =</span> dt)</span>
+<span id="cb6-3"></span>
+<span id="cb6-4"><span class="co" style="color: #5E5E5E;"># set scale limits to fill the data rectangle</span></span>
+<span id="cb6-5">my_limits <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">13</span>, <span class="dv" style="color: #AD0000;">78</span>)</span>
+<span id="cb6-6"></span>
+<span id="cb6-7"><span class="co" style="color: #5E5E5E;"># recode the opinion options</span></span>
+<span id="cb6-8"><span class="fu" style="color: #4758AB;">setnames_opinion_labels</span>(likert_list<span class="sc" style="color: #5E5E5E;">$</span>results)</span>
+<span id="cb6-9"></span>
+<span id="cb6-10"><span class="co" style="color: #5E5E5E;"># extract Neutrals for second chart</span></span>
+<span id="cb6-11">likert_list_neutral <span class="ot" style="color: #003B4F;">&lt;-</span> likert_list<span class="sc" style="color: #5E5E5E;">$</span>results[, .(Item, Neutral)]</span>
+<span id="cb6-12"></span>
+<span id="cb6-13"><span class="co" style="color: #5E5E5E;"># delete Neutrals from likert list (removing neutral from legend)</span></span>
+<span id="cb6-14">likert_list<span class="sc" style="color: #5E5E5E;">$</span>results[, Neutral <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="cn" style="color: #8f5902;">NULL</span>]</span>
+<span id="cb6-15">likert_list<span class="sc" style="color: #5E5E5E;">$</span>levels  <span class="ot" style="color: #003B4F;">&lt;-</span> likert_list<span class="sc" style="color: #5E5E5E;">$</span>levels[<span class="sc" style="color: #5E5E5E;">!</span>likert_list<span class="sc" style="color: #5E5E5E;">$</span>levels <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="st" style="color: #20794D;">"neutral"</span>]</span>
+<span id="cb6-16">likert_list<span class="sc" style="color: #5E5E5E;">$</span>nlevels <span class="ot" style="color: #003B4F;">&lt;-</span> likert_list<span class="sc" style="color: #5E5E5E;">$</span>nlevels <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">1</span></span>
+<span id="cb6-17"></span>
+<span id="cb6-18"><span class="co" style="color: #5E5E5E;"># create the chart</span></span>
+<span id="cb6-19">plot1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">plot</span>(likert_list, </span>
+<span id="cb6-20">              <span class="at" style="color: #657422;">centered =</span> <span class="cn" style="color: #8f5902;">TRUE</span>,               <span class="co" style="color: #5E5E5E;"># diverging</span></span>
+<span id="cb6-21">              <span class="at" style="color: #657422;">plot.percent.low     =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb6-22">              <span class="at" style="color: #657422;">plot.percent.neutral =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb6-23">              <span class="at" style="color: #657422;">plot.percent.high    =</span> <span class="cn" style="color: #8f5902;">FALSE</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-24">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> my_limits, </span>
+<span id="cb6-25">                     <span class="at" style="color: #657422;">breaks =</span> my_breaks, </span>
+<span id="cb6-26">                     <span class="at" style="color: #657422;">labels =</span> <span class="fu" style="color: #4758AB;">abs</span>(my_breaks), </span>
+<span id="cb6-27">                     <span class="at" style="color: #657422;">expand =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-28">  my_theme_elements <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-29">  my_hline</span>
+<span id="cb6-30"></span>
+<span id="cb6-31"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb6-32">plot1</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-omit-neutral" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index_files/figure-html/fig-omit-neutral-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next I construct the second part of the chart (using ggplot2 functions only) to plot the Neutral responses alone.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;"># use Neutral data frame from earlier</span></span>
+<span id="cb7-2">likert_list <span class="ot" style="color: #003B4F;">&lt;-</span> likert_list_neutral</span>
+<span id="cb7-3"></span>
+<span id="cb7-4"><span class="co" style="color: #5E5E5E;"># set scale limits to fill the data rectangle</span></span>
+<span id="cb7-5">my_limits <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">33</span>)</span>
+<span id="cb7-6"></span>
+<span id="cb7-7"><span class="co" style="color: #5E5E5E;"># extract order of questions (factors) from previous chart object</span></span>
+<span id="cb7-8">factor_levels <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">levels</span>(plot1<span class="sc" style="color: #5E5E5E;">$</span>data<span class="sc" style="color: #5E5E5E;">$</span>Item)</span>
+<span id="cb7-9"></span>
+<span id="cb7-10"><span class="co" style="color: #5E5E5E;"># factors for ordering rows </span></span>
+<span id="cb7-11">likert_list[, Item <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">factor</span>(Item, <span class="at" style="color: #657422;">levels =</span> factor_levels)]</span>
+<span id="cb7-12"></span>
+<span id="cb7-13"><span class="co" style="color: #5E5E5E;"># assign a variable to fill by and create a legend</span></span>
+<span id="cb7-14">likert_list[, opinion <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="st" style="color: #20794D;">"Neutral"</span>]</span>
+<span id="cb7-15"></span>
+<span id="cb7-16"><span class="co" style="color: #5E5E5E;"># create the chart</span></span>
+<span id="cb7-17">plot2 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">ggplot</span>(<span class="at" style="color: #657422;">data =</span> likert_list, <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> Neutral, <span class="at" style="color: #657422;">y =</span> Item, <span class="at" style="color: #657422;">fill =</span> opinion)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-18">  <span class="fu" style="color: #4758AB;">geom_bar</span>(<span class="at" style="color: #657422;">stat =</span> <span class="st" style="color: #20794D;">"identity"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-19">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">""</span>, <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">""</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-20">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">limits =</span> my_limits, </span>
+<span id="cb7-21">                     <span class="at" style="color: #657422;">breaks =</span> my_breaks, </span>
+<span id="cb7-22">                     <span class="at" style="color: #657422;">expand =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-23">  <span class="fu" style="color: #4758AB;">scale_fill_manual</span>(<span class="at" style="color: #657422;">values =</span> neutral_color) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-24">  my_theme_elements <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-25">  my_vline</span>
+<span id="cb7-26">  </span>
+<span id="cb7-27"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb7-28">plot2</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-neutral-only" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index_files/figure-html/fig-neutral-only-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I combine the two charts and adjust their proportions to make equal scale divisions the same length.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;"># edit Neutral bar chart aesthetics before combining </span></span>
+<span id="cb8-2">plot2 <span class="ot" style="color: #003B4F;">&lt;-</span> plot2 <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-3">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">axis.text.y =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(), </span>
+<span id="cb8-4">        <span class="at" style="color: #657422;">legend.justification =</span> <span class="sc" style="color: #5E5E5E;">-</span><span class="fl" style="color: #AD0000;">0.25</span>)</span>
+<span id="cb8-5"></span>
+<span id="cb8-6"><span class="co" style="color: #5E5E5E;"># set plot proportions by trial and error until scales match</span></span>
+<span id="cb8-7">width_1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fl" style="color: #AD0000;">0.71</span></span>
+<span id="cb8-8">width_2 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="dv" style="color: #AD0000;">1</span> <span class="sc" style="color: #5E5E5E;">-</span> width_1</span>
+<span id="cb8-9"></span>
+<span id="cb8-10"><span class="co" style="color: #5E5E5E;"># combine plots </span></span>
+<span id="cb8-11"><span class="fu" style="color: #4758AB;">ggdraw</span>() <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-12">  <span class="fu" style="color: #4758AB;">draw_plot</span>(plot1, <span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">0</span>      , <span class="at" style="color: #657422;">y =</span> <span class="dv" style="color: #AD0000;">0</span>, <span class="at" style="color: #657422;">width =</span> width_1, <span class="at" style="color: #657422;">height =</span> <span class="dv" style="color: #AD0000;">1</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-13">  <span class="fu" style="color: #4758AB;">draw_plot</span>(plot2, <span class="at" style="color: #657422;">x =</span> width_1, <span class="at" style="color: #657422;">y =</span> <span class="dv" style="color: #AD0000;">0</span>, <span class="at" style="color: #657422;">width =</span> width_2, <span class="at" style="color: #657422;">height =</span> <span class="dv" style="color: #AD0000;">1</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-div-bar-sep-neutral" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index_files/figure-html/fig-div-bar-sep-neutral-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Designed in this way, differences between positive and negative results now stand out a bit more, the sum of Agree and Strongly Agree are easier to read, and the Neutral values are both easier to read and compare <span class="citation" data-cites="Few:2016">(Few 2016)</span>.</p>
+</blockquote>
+<p>As Muth and Aisch point out, this design gives a good idea of the “competition” between agreement and disagreement. In this case, across all questions more than 60% of the respondents agreed and in all but one instance fewer than 10% disagreed.</p>
+<p>In addition, between 15-30% responded Neutral. We don’t know if that means “I don’t know” or “I have no opinion” or “Sometimes I agree and sometimes I don’t”or “I’m tired of answering Likert-style surveys” or something else—which is a very good reason to graph Neutral on the side.</p>
+<p>I like this design.</p>
+</section>
+<section id="stacked-bars" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="stacked-bars">100% stacked bars</h2>
+<p>The final of the three designs is the 100% stacked bar—which until now I have not considered as effective as diverging stacked-bars at conveying survey results. What makes the difference today is Muth and Aisch’s suggestion to add a secondary scale along the top of the chart—a simple and elegant contribution.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;"># create the likert list</span></span>
+<span id="cb9-2">likert_list <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">likert</span>(<span class="at" style="color: #657422;">summary =</span> dt)</span>
+<span id="cb9-3"></span>
+<span id="cb9-4"><span class="co" style="color: #5E5E5E;"># set scale limits</span></span>
+<span id="cb9-5">my_limits <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">100</span>)</span>
+<span id="cb9-6"></span>
+<span id="cb9-7"><span class="co" style="color: #5E5E5E;"># recode the opinion options</span></span>
+<span id="cb9-8"><span class="fu" style="color: #4758AB;">setnames_opinion_labels</span>(likert_list<span class="sc" style="color: #5E5E5E;">$</span>results)</span>
+<span id="cb9-9"></span>
+<span id="cb9-10"><span class="co" style="color: #5E5E5E;"># create the chart</span></span>
+<span id="cb9-11"><span class="fu" style="color: #4758AB;">plot</span>(likert_list, </span>
+<span id="cb9-12">     <span class="at" style="color: #657422;">centered =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,              <span class="co" style="color: #5E5E5E;"># 100% stacked bars</span></span>
+<span id="cb9-13">     <span class="at" style="color: #657422;">include.center  =</span> <span class="cn" style="color: #8f5902;">TRUE</span>,        <span class="co" style="color: #5E5E5E;"># include neutral</span></span>
+<span id="cb9-14">     <span class="at" style="color: #657422;">plot.percent.low     =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb9-15">     <span class="at" style="color: #657422;">plot.percent.neutral =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb9-16">     <span class="at" style="color: #657422;">plot.percent.high    =</span> <span class="cn" style="color: #8f5902;">FALSE</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-17">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> my_limits, </span>
+<span id="cb9-18">                     <span class="at" style="color: #657422;">breaks =</span> my_breaks, </span>
+<span id="cb9-19">                     <span class="at" style="color: #657422;">sec.axis =</span> <span class="fu" style="color: #4758AB;">sec_axis</span>( <span class="co" style="color: #5E5E5E;"># second scale</span></span>
+<span id="cb9-20">                       <span class="at" style="color: #657422;">trans =</span> <span class="cf" style="color: #003B4F;">function</span>(z) z <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">100</span>, </span>
+<span id="cb9-21">                       <span class="at" style="color: #657422;">breaks =</span> my_breaks, </span>
+<span id="cb9-22">                       <span class="at" style="color: #657422;">labels =</span> <span class="fu" style="color: #4758AB;">as.character</span>(<span class="fu" style="color: #4758AB;">abs</span>(my_breaks)))) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-23">  my_theme_elements <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-24">  my_hline</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-00-pct-stacked-bar" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index_files/figure-html/fig-00-pct-stacked-bar-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With the right boundary as a baseline, I read the top scale for agreement percentages; with the left boundary as a baseline, I read the bottom scale for disagreement percentages. We can easily quantify a comparison between strong opinions (outer left and outer right) or between total agreement and total disagreement. Neither of the divergent stacked-bar charts allow this level of direct visual access (though the bar segments could be directly labeled with their respective percentages).</p>
+<p>Like the previous chart, the rationale for ordering the rows is clear—the agreement total monotonically increase from bottom to top. Of lesser importance, this design also immediately communicates that the bar segments are parts of a whole—that each bar represents 100% of responses.</p>
+<p>The only disadvantage of this chart compared to the previous one is that the relative proportions of the Neutral responses are harder to compare. Neutrals are important data but the main story is usually a comparison between people who have opinions—that is, the bar segments to the left and right of the Neutral center.</p>
+<p>I have to agree with Muth and Aisch—this is an effective design.</p>
+</section>
+<section id="back-to-the-story" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="back-to-the-story">Back to the story</h2>
+<p>Were I to prepare this chart to accompany the original article, I might label the rows with shortened forms of the questions and cite the full questions in the text or in the data table. (Alternatively, <code>likert()</code> does have an argument to help manage longer question text.)</p>
+<div class="cell page-columns page-full" data-fig.asp="0.35">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">dt_story <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">copy</span>(dt)</span>
+<span id="cb10-2"></span>
+<span id="cb10-3"><span class="co" style="color: #5E5E5E;"># recode the opinion options</span></span>
+<span id="cb10-4"><span class="fu" style="color: #4758AB;">setnames_opinion_labels</span>(dt_story)</span>
+<span id="cb10-5"></span>
+<span id="cb10-6"><span class="co" style="color: #5E5E5E;"># recode the question labels</span></span>
+<span id="cb10-7">dt_story[, Item <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> question_labels]</span>
+<span id="cb10-8"></span>
+<span id="cb10-9"><span class="co" style="color: #5E5E5E;"># create the likert list</span></span>
+<span id="cb10-10">likert_list <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">likert</span>(<span class="at" style="color: #657422;">summary =</span> dt_story)</span>
+<span id="cb10-11"></span>
+<span id="cb10-12"><span class="co" style="color: #5E5E5E;"># set scale limits</span></span>
+<span id="cb10-13">my_limits  <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">100</span>)</span>
+<span id="cb10-14"></span>
+<span id="cb10-15"><span class="co" style="color: #5E5E5E;"># create the chart</span></span>
+<span id="cb10-16"><span class="fu" style="color: #4758AB;">plot</span>(likert_list, </span>
+<span id="cb10-17">     <span class="at" style="color: #657422;">centered =</span> <span class="cn" style="color: #8f5902;">FALSE</span>, </span>
+<span id="cb10-18">     <span class="at" style="color: #657422;">include.center  =</span> <span class="cn" style="color: #8f5902;">TRUE</span>, </span>
+<span id="cb10-19">     <span class="at" style="color: #657422;">plot.percent.low     =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb10-20">     <span class="at" style="color: #657422;">plot.percent.neutral =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb10-21">     <span class="at" style="color: #657422;">plot.percent.high    =</span> <span class="cn" style="color: #8f5902;">FALSE</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb10-22">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> my_limits, </span>
+<span id="cb10-23">                     <span class="at" style="color: #657422;">breaks =</span> my_breaks, </span>
+<span id="cb10-24">                     <span class="at" style="color: #657422;">sec.axis =</span> <span class="fu" style="color: #4758AB;">sec_axis</span>( <span class="co" style="color: #5E5E5E;"># second scale</span></span>
+<span id="cb10-25">                       <span class="at" style="color: #657422;">trans =</span> <span class="cf" style="color: #003B4F;">function</span>(z) z <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">100</span>, </span>
+<span id="cb10-26">                       <span class="at" style="color: #657422;">breaks =</span> my_breaks, </span>
+<span id="cb10-27">                       <span class="at" style="color: #657422;">labels =</span> <span class="fu" style="color: #4758AB;">as.character</span>(<span class="fu" style="color: #4758AB;">abs</span>(my_breaks)))) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb10-28">  my_theme_elements <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb10-29">  my_hline</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-editing-labels" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index_files/figure-html/fig-editing-labels-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As an example of the results discussion in the article, the “provide facts” paragraph states,</p>
+<blockquote class="blockquote">
+<p>In the third feedback question, 24 out of 31 students (77.4%) agreed that the case study motivated them to provide facts such as calculations and simulations to support their answers. Unlike a typical textbook problem where there is a definite answer, making an argument in a case study requires thinking beyond the material delivered in class. Therefore, the use of additional calculations and especially simulations were needed to support the argument <span class="citation" data-cites="Maxworth:2021">(Maxworth 2021)</span>.</p>
+</blockquote>
+<p>This is a perfectly straightforward description of the result and the chart supports the argument visually. In terms of the larger narrative, however, the chart provides a rationale for revising the narrative framework—instead of discussing the results in question order (Q1, Q2, …), discuss the results in order of level of agreement (highest to lowest), supported visually by the row order in the chart (top to bottom).</p>
+<p>I think the chart provides evidence for an additional assertion: that the preponderance of responses are <em>positive</em>,</p>
+<ul>
+<li>Between 61-77% of responses were positive over the full range of survey statements.</li>
+<li>The largest negative response was to the Analyze errors/misconceptions assertion at 13% (4 out of 31 responses); all other negatives were at 6.5% (2 of 31).</li>
+</ul>
+<p>Given the overall positive response, the small number of negatives may have resulted from a mismatch between a student and the case they selected. As the author states in their conclusion,</p>
+<blockquote class="blockquote">
+<p>In future implementations, an effort is needed to balance the choice distribution of cases. This can be done by designing the cases with the same level of difficulty, familiarity, and applicability.</p>
+</blockquote>
+<p>So while a chart was not necessary to support the author’s points, I think it would have added a small but important summary point that the case study approach was successful and warranted the further development outlined in the concluding section.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data</li>
+</ul>
+
+
+
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Few:2016" class="csl-entry">
+Few, Stephen. 2016. <span>Perceptual Edge</span>. <a href="https://www.perceptualedge.com/blog/?p=2239">https://www.perceptualedge.com/blog/?p=2239</a>.
+</div>
+<div id="ref-Heiberger+Robbins+2014" class="csl-entry">
+Heiberger, Richard M., and Naomi B. Robbins. 2014. <span>“<span class="nocase">Design of diverging stacked bar charts for Likert scales and other applications</span>.”</span> <em>Journal of Statistical Software</em> 57 (5). <a href="https://www.jstatsoft.org/article/view/v057i05">https://www.jstatsoft.org/article/view/v057i05</a>.
+</div>
+<div id="ref-Maxworth:2021" class="csl-entry">
+Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>.”</span> <em>Advances in Engineering Education</em> 9 (4): 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>.
+</div>
+<div id="ref-Muth+Aisch:2018" class="csl-entry">
+Muth, Lisa, and Gregor Aisch. 2018. <span>“<span class="nocase">The case against diverging stacked bars</span>.”</span> <span>Datawrapper</span>. <a href="https://blog.datawrapper.de/divergingbars/">https://blog.datawrapper.de/divergingbars/</a>.
+</div>
+<div id="ref-Robbins+Heiberger:2011" class="csl-entry">
+Robbins, Naomi B., and Richard M. Heiberger. 2011. <span>“<span class="nocase">Plotting Likert and other rating scales</span>.”</span> In <em>Joint Statistical Meeting Proceedings</em>, Survery Research Methods Section:1058–66. Alexandria, VA: American Statistical Association. <a href="https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf">https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf</a>.
+</div>
+</div></section></div> ]]></description>
+  <category>R</category>
+  <category>Data storytelling</category>
+  <category>Engineering education</category>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index.html</guid>
+  <pubDate>Sat, 12 Feb 2022 05:00:00 GMT</pubDate>
+  <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/thumbnail.png" medium="image" type="image/png" height="79" width="144"/>
 </item>
 <item>
   <title>Plot the variable of interest</title>

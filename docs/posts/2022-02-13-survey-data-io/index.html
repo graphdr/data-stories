@@ -279,11 +279,11 @@ Summary
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</p>
+<p><small><em>Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</em></small></p>
 </div>
 </div>
 <p>This post is a tutorial on how to prepare different forms of Likert-style survey data for the R likert package and using its output to create 100% stacked-bar charts. I focus on preparing the data for <code>likert()</code> input and editing its output for the final chart. For exploring the package functionality more fully, I recommend the tutorials by Laura Mudge <span class="citation" data-cites="Mudge:2019">(<a href="#ref-Mudge:2019" role="doc-biblioref">2019</a>)</span> and Jake Chanenson <span class="citation" data-cites="Chanenson:2021">(<a href="#ref-Chanenson:2021" role="doc-biblioref">2021</a>)</span>.</p>
-<p>In a companion post (not yet ported) I develop the R script for constructing the 100% stacked-bar chart and discuss the rationale for selecting it as a more effective design for Likert-style survey data.</p>
+<p>In a <a href="posts/2022-02-12-survey-data-chart-designs/index.html">companion post</a> I develop the R script for constructing the 100% stacked-bar chart and discuss the rationale for selecting it as a more effective design for Likert-style survey data.</p>
 <p>I use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6 (currently the development version).</p>
 <p>The R code for the post is listed under the “R code” pointers.</p>
 <div class="cell">
@@ -834,6 +834,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(sel_cols) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">round</span>(N_respondents <span class="sc">*</span> x<span class="sc">/</span><span class="dv">100</span>, <span class="dv">0</span>)), .SDcols <span class="ot">=</span> sel_cols]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -892,8 +893,9 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
+<p>&lt;&gt;</p>
 <p>This data structure is identical to the one we worked with in the previous section, so we know how to work with it.</p>
-</section>
+</small></section><small class="page-columns page-full">
 <section id="option-2-use-percentages-as-is" class="level3">
 <h3 class="anchored" data-anchor-id="option-2-use-percentages-as-is">Option 2: Use percentages as-is</h3>
 <p>This option might be necessary if we do not know the number of respondents replying to each question. Start by reading the data file and again rename the first column <code>Item</code> for consistency with the likert() function.</p>
@@ -1111,7 +1113,7 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 </section>
-</section>
+</small></section><small class="page-columns page-full">
 <section id="row-records" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="row-records">Row records</h2>
 <p>In row-record form, everything we want to know about an individual is in one row, that is, a row-record for that individual. Thus the number of rows equals the number of respondents.</p>
@@ -1619,7 +1621,7 @@ Character. Ordered vector of opinion level labels.
 
 </section>
 
-<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+</small><div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
 
 <ul>
 <li><a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data</li>
@@ -1637,7 +1639,7 @@ Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing
 <div id="ref-Mudge:2019" class="csl-entry" role="doc-biblioentry">
 Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert questions</span>.”</span> <a href="https://lmudge13.github.io/sample_code/likert_graphs.html">https://lmudge13.github.io/sample_code/likert_graphs.html</a>.
 </div>
-</div></section></div></main> <!-- /main -->
+</div></section></div></main><small> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
@@ -1719,7 +1721,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
-</div> <!-- /content -->
+</small></div><small> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
       <div class="nav-footer-center">
@@ -1734,4 +1736,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+</small></body></html>
