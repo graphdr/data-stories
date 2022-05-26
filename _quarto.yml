@@ -23,19 +23,18 @@ website:
         url: https://happygitwithr.com/
   navbar:
    right:
-    - text: "License"
-      href: license.html 
-    - text: "About"
-      href: about.qmd
     - text: "Contact"
       href: contact.qmd
+    - text: "About"
+      href: about.qmd
     - icon: git
       href: https://github.com/graphdr/data-stories
     - icon: rss
       href: index.xml     
   page-footer:
     center: 
-      - text: "Copyright 2022 Richard A. Layton"
+     - text: "License"
+       href: license.html 
   comments:
     utterances:
       repo: graphdr/data-stories 

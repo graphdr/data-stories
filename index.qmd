@@ -15,7 +15,7 @@ comments: false
 
 :::{.callout-note icon=false appearance="minimal"}
 ## 
-My previous blog at graphdoctor.com redirects here. I intend to gradually port my earlier posts to this site with minor editing and adding R code for reproducibility.
+<small><em>My previous blog at graphdoctor.com redirects here. I am porting my earlier posts with minor edits plus R code for reproducibility.</em></small>
 :::
 
 ### Software credits {.appendix}

@@ -1,5 +1,5 @@
 ---
-title: "License"
+title: "Open source licenses"
 description: |
   For text, images, code, and data.
 comments: false
@@ -7,6 +7,6 @@ comments: false
 
 The following licenses apply to the text, images, code, and data in this blog. My goal is to minimize legal encumbrances to the dissemination, sharing, use, and re-use of this work. However, the existing rights of authors whose work is cited are reserved to those authors.
 
-- [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) for my text and images  
-- [GPL-3](https://www.r-project.org/Licenses/GPL-3) for my code  
+- [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/legalcode) for text and images  
+- [GPL-3](https://www.r-project.org/Licenses/GPL-3) for code  
 - [CC0](https://wiki.creativecommons.org/wiki/CC0_use_for_data) for data  
