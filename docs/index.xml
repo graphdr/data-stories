@@ -304,8 +304,8 @@ Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative
 UCLA. 2021. <span>“<span class="nocase">Textbook examples: Visualizing Data by William S. Cleveland</span>.”</span> <span>UCLA Statistical Consulting Group</span>. <a href="https://stats.oarc.ucla.edu/other/examples/vizdata/">https://stats.oarc.ucla.edu/other/examples/vizdata/</a>.
 </div>
 </div></section></div> ]]></description>
-  <category>ggplot2</category>
   <category>R</category>
+  <category>ggplot2</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</guid>
   <pubDate>Wed, 09 Mar 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/thumbnail.png" medium="image" type="image/png" height="125" width="144"/>
