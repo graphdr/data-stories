@@ -15,7 +15,7 @@ cap-location: margin
 #| label: setup
 #| include: false
 
-# project directory is the working directory for knitr
+# knitr working directory -> project level
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 # printing options for data.table

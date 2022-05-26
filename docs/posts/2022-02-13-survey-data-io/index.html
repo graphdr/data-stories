@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.442">
+<meta name="generator" content="quarto-0.9.462">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -143,7 +143,7 @@ div.csl-indent {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed slimcontent">
 
 
 <div id="quarto-search-results"></div>
@@ -231,7 +231,7 @@ div.csl-indent {
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -349,13 +349,13 @@ Summary
 <span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="data" class="level2">
+<section id="data" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>The practice data in my example are from an engineering education article by Ashanthi Maxworth <span class="citation" data-cites="Maxworth:2021">(<a href="#ref-Maxworth:2021" role="doc-biblioref">2021</a>)</span>, selected because the data are compact and the survey includes a Neutral option. The table from the original article is shown below. There were 31 respondents.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
 <p><img src="survey-data.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">(Original Table 3) Percentage student responses for each question in the feedback form.</figcaption><p></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">(Original Table 3) Percentage student responses for each question in the feedback form.</figcaption><p></p>
 </figure>
 </div>
 <p>Survey data are most likely to be reported in one of three forms: summary percentages (as above), summary counts, or row-records. The <code>likert()</code> function accepts any of these forms as input. The practice data, in all three forms, are available in the blog data directory as CSV files.</p>
@@ -367,7 +367,7 @@ Summary
 <li><a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/case-study-2021-row-record.csv">row-records</a></li>
 </ul>
 </section>
-<section id="summary-counts" class="level2">
+<section id="summary-counts" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="summary-counts">Summary counts</h2>
 <p>Read the prepared data file in summary count form.</p>
 <div class="cell">
@@ -377,6 +377,7 @@ Summary
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/case-study-2021-count.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -435,6 +436,7 @@ Summary
 </table>
 </div>
 </div>
+</small><p><small></small></p>
 <section id="likert-input" class="level3">
 <h3 class="anchored" data-anchor-id="likert-input"><code>likert()</code> input</h3>
 <p>I rename the first column <code>Item</code> for consistency with the <code>likert()</code> function.</p>
@@ -520,35 +522,45 @@ Character. Ordered vector of opinion level labels.
 </dl>
 <p><br></p>
 </section>
-<section id="basic-chart" class="level3">
+<section id="basic-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="basic-chart">Basic chart</h3>
 <p>To use this list to create a chart, we assign it as the first argument of the <code>plot()</code> function.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the basic chart (default digits = 0 throws an error)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(likert_list, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-01-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-01" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-01-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: Default chart design from <code>likert()</code>.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="stacked-bar-chart" class="level3">
+<section id="stacked-bar-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="stacked-bar-chart">100% stacked bar chart</h3>
 <p>The same list can be used to create a 100% stacked-bar chart by assigning it as the first argument of <code>likert_100_pct_bar()</code>—a function (defined at the top of the post) that wraps <code>likert.plot</code> and sets the likert arguments and ggplot2 functions that produce my preferred design.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># customize the chart</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-02-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-02" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-02-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: Summary-count data, 100% stacked-bar chart.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="legend-key" class="level3">
+<section id="legend-key" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="legend-key">Legend key</h3>
 <p>The legend key is edited via the column names of <code>likert_list$results</code>. Viewing its column names,</p>
 <div class="cell">
@@ -589,18 +601,23 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 <p>The change can be seen in the structure above and in the revised figure.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-03-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-03" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-03-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: Editing the legend key.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="question-labels" class="level3">
+<section id="question-labels" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="question-labels">Question labels</h3>
 <p>The question labels are edited via the values in the <code>Item</code> column of <code>likert_list$results</code>. Viewing the first column in vector form,</p>
 <div class="cell">
@@ -640,19 +657,24 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 <p>Again, the change is seen in the structure above and in the revised figure.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-04-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-04" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-04-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 4: Editing the question labels.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p>This approach is somewhat ad-hoc, but works as long as you are careful to write the substitutions in the correct order. If I were programming these steps, I would create additional tables (as in a database) and join the substitutions by clearly assigned key variables.</p>
 </section>
-<section id="or-edit-the-labels-first" class="level3">
+<section id="or-edit-the-labels-first" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="or-edit-the-labels-first">Or edit the labels first</h3>
 <p>Alternatively one can produce the same result by editing the opinion labels and question labels of the initial data frame before submitting it to <code>likert()</code>. The row and column structure reflects the changes.</p>
 <div class="cell">
@@ -682,7 +704,7 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 <p>The likert list that results is nearly identical to the previous version except the <code>levels</code> vector uses the new opinion labels.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -712,13 +734,18 @@ Character. Ordered vector of opinion level labels.
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-05-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-05" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-05-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 5: Summary-count data, editing labels before invoking <code>likert()</code>.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 </section>
-<section id="summary-percentages" class="level2">
+<section id="summary-percentages" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="summary-percentages">Summary percentages</h2>
 <p>Read the prepared data file in summary percentage form. The percentages are directly from the table in the source article. Like before, I rename the first column <code>Item</code> for consistency with the <code>likert()</code> function.</p>
 <div class="cell">
@@ -731,6 +758,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -789,6 +817,7 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
+</small><p><small></small></p>
 <section id="option-1-convert-percentages-to-counts" class="level3">
 <h3 class="anchored" data-anchor-id="option-1-convert-percentages-to-counts">Option 1: Convert percentages to counts</h3>
 <p>This option is the most direct approach, assuming we know the number of respondents to each question. In this example we do (though this is not always the case). In this case study we have 31 respondents and all respondents replied to all the questions.</p>
@@ -878,6 +907,7 @@ Character. Ordered vector of opinion level labels.
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -936,6 +966,7 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
+</small><p><small></small></p>
 <p>With one row per question, the row percentages should sum to 100%. They do, but with an error due to rounding in the reported percentages.</p>
 <div class="cell">
 <details>
@@ -1037,10 +1068,10 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 </section>
-<section id="likert-output-1" class="level3">
+<section id="likert-output-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="likert-output-1"><code>likert()</code> output</h3>
 <p>To operate on this data frame, we again use the <code>summary</code> argument of <code>likert()</code>. The result is a list similar to that produced when we operated on summary counts and the same familiar chart.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -1070,13 +1101,18 @@ Character. Ordered vector of opinion level labels.
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 100% stacked bar chart</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-06-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-06" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-06-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 6: Summary-percentage data, 100% stacked-bar chart.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 </section>
-<section id="row-records" class="level2">
+<section id="row-records" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="row-records">Row records</h2>
 <p>In row-record form, everything we want to know about an individual is in one row, that is, a row-record for that individual. Thus the number of rows equals the number of respondents.</p>
 <p>I made up a practice data set in row-record form with 31 rows and 6 columns. These are fictitious data I designed specifically to have the same summary characteristics as the published summary data used earlier.</p>
@@ -1245,23 +1281,28 @@ Character. Ordered vector of opinion level labels.
 </dd>
 </dl>
 </section>
-<section id="draft-chart" class="level3">
+<section id="draft-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="draft-chart">Draft chart</h3>
 <p>With row-record data, the plot function requires both <code>results</code> and <code>items</code> from the output list. The chart is familiar, but the opinion labels are now the integers used to encode the survey results.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-07-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-07" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-07-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 7: Row-record data, 100% stacked-bar chart.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="legend-key-1" class="level3">
+<section id="legend-key-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="legend-key-1">Legend key</h3>
 <p>As before, the legend key is edited via the column names of <code>likert_list$results</code>. Note the corresponding changes in the likert list and chart.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
@@ -1301,15 +1342,20 @@ Character. Ordered vector of opinion level labels.
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-08-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-08" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-08-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 8: Row-record data, editing the legend key.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="question-labels-1" class="level3">
+<section id="question-labels-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="question-labels-1">Question labels</h3>
 <p>With row-record data, both <code>results</code> and <code>items</code> data frames must be revised to edit the question labels. Note the corresponding changes in the likert list and chart.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode Item column of $results</span></span>
@@ -1352,12 +1398,17 @@ Character. Ordered vector of opinion level labels.
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-09-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-09" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-09-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 9: Row-record data, editing the question labels.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="or-edit-the-labels-first-1" class="level3">
+<section id="or-edit-the-labels-first-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="or-edit-the-labels-first-1">Or edit the labels first</h3>
 <p>As before, we have an alternative approach: one can produce the same result by editing the opinion labels and question labels of the data frame before submitting it to likert(). Question labels are substituted for the column names. Opinion levels (as text) are substituted for the encoded integers, i.e., 1 = Strongly Disagree through 5 = Strongly Agree.</p>
 <p>To illustrate, I start with a fresh row-record data set.</p>
@@ -1426,7 +1477,7 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 <p>Input to <code>likert()</code> produces the familiar chart.</p>
-<div class="cell" data-fig.asp="0.35">
+<div class="cell page-columns page-full" data-fig.asp="0.35">
 <details>
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -1461,8 +1512,13 @@ Character. Ordered vector of opinion level labels.
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/chart-10-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-10" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 10: Row-record data, editing labels before invoking <code>likert()</code>.</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1490,6 +1546,7 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 <p>Rounding the digits, we produce a publication-ready table. I’m assuming the abbreviated question labels are OK—if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart—a structure that could be useful to the reader.</p>
+<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1556,6 +1613,7 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
+</small><p><small></small></p>
 <p>The values in this table were computed by likert from the fictitious row-record data. The numbers agree with the source data table.</p>
 </section>
 

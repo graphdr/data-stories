@@ -8,14 +8,14 @@ date-format: "YYYY-MM-DD"
 draft: false
 categories: [R, data storytelling, engineering education]
 image: "thumbnail.png"
+cap-location: margin
 ---
-
 
 ```{r}
 #| label: setup
 #| include: false
 
-# project directory is the working directory for knitr
+# knitr working directory -> project level
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 options(

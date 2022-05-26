@@ -8,13 +8,14 @@ date-format: "YYYY-MM-DD"
 draft: false
 categories: [R]
 image: "thumbnail.png"
+cap-location: margin
 ---
 
 ```{r}
 #| label: setup
 #| include: false
 
-# project directory is the working directory for knitr
+# knitr working directory -> project level
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 options(
@@ -135,11 +136,12 @@ Read the prepared data file in summary count form.
 dt <- fread("data/case-study-2021-count.csv")
 ```
 
+<small>
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
-
+</small>
 
 ### `likert()` input 
 
@@ -208,8 +210,10 @@ The components of the list are:
 
 To use this list to create a chart, we assign it as the first argument of the `plot()` function.  
 
-```{r fig.asp=0.35}
-#| label: chart-01
+```{r}
+#| label: fig-chart-01
+#| fig-asp: 0.35
+#| fig-cap: "Default chart design from `likert()`."
 
 # create the basic chart (default digits = 0 throws an error)
 plot(likert_list, digits = 1)
@@ -224,8 +228,10 @@ plot(likert_list, digits = 1)
 
 The same list can be used to create a 100% stacked-bar chart by assigning it as the first argument of `likert_100_pct_bar()`---a function (defined at the top of the post) that wraps `likert.plot` and sets the likert arguments and ggplot2 functions that produce my preferred design.  
 
-```{r fig.asp=0.35}
-#| label: chart-02
+```{r}
+#| label: fig-chart-02
+#| fig-asp: 0.35
+#| fig-cap: "Summary-count data, 100% stacked-bar chart."
 
 # customize the chart
 likert_100_pct_bar(likert_list)
@@ -258,8 +264,10 @@ str(likert_list)
 
 The change can be seen in the structure above and in the revised figure.  
 
-```{r fig.asp=0.35}
-#| label: chart-03
+```{r}
+#| label: fig-chart-03
+#| fig-asp: 0.35
+#| fig-cap: "Editing the legend key."
 
 # create the chart
 likert_100_pct_bar(likert_list)
@@ -291,8 +299,10 @@ str(likert_list)
 
 Again, the change is seen in the structure above and in the revised figure.  
 
-```{r fig.asp=0.35}
-#| label: chart-04
+```{r}
+#| label: fig-chart-04
+#| fig-asp: 0.35
+#| fig-cap: "Editing the question labels."
 
 # create the chart
 likert_100_pct_bar(likert_list)
@@ -329,8 +339,10 @@ dt[]
 
 The likert list that results is nearly identical to the previous version except the `levels` vector uses the new opinion labels.
 
-```{r fig.asp=0.35}
-#| label: chart-05
+```{r}
+#| label: fig-chart-05
+#| fig-asp: 0.35
+#| fig-cap: "Summary-count data, editing labels before invoking `likert()`."
 
 # create the likert list
 likert_list <- likert(summary = dt)
@@ -359,11 +371,12 @@ dt <- fread("data/case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
+<small>
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
-
+</small>
 
 
 
@@ -412,10 +425,12 @@ dt <- fread("data/case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
+<small>
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
+</small>
 
 With one row per question, the row percentages should sum to 100%. They do, but with an error due to rounding in the reported percentages. 
 
@@ -485,8 +500,10 @@ dt[]
 
 To operate on this data frame, we again use the `summary` argument of `likert()`. The result is a list similar to that produced when we operated on summary counts and the same familiar chart. 
 
-```{r fig.asp=0.35}
-#| label: chart-06
+```{r}
+#| label: fig-chart-06
+#| fig-asp: 0.35
+#| fig-cap: "Summary-percentage data, 100% stacked-bar chart."
 
 # create the likert list
 likert_list <- likert(summary = dt)
@@ -614,8 +631,10 @@ The components of the list are:
 
 With row-record data, the plot function requires both `results` and `items` from the output list. The chart is familiar, but the opinion labels are now the integers used to encode the survey results. 
 
-```{r fig.asp = 0.35}
-#| label: chart-07
+```{r}
+#| label: fig-chart-07
+#| fig-asp: 0.35
+#| fig-cap: "Row-record data, 100% stacked-bar chart."
 
 likert_100_pct_bar(likert_list)
 ```
@@ -633,8 +652,10 @@ likert_100_pct_bar(likert_list)
 
 As before, the legend key is edited via the column names of `likert_list$results`. Note the corresponding changes in the likert list and chart. 
 
-```{r fig.asp = 0.35}
-#| label: chart-08
+```{r}
+#| label: fig-chart-08
+#| fig-asp: 0.35
+#| fig-cap: "Row-record data, editing the legend key."
 
 # recode the opinion options
 setnames(likert_list$results, 
@@ -659,8 +680,10 @@ likert_100_pct_bar(likert_list)
 
 With row-record data, both `results` and `items` data frames must be revised to edit the question labels. Note the corresponding changes in the likert list and chart.
 
-```{r fig.asp=0.35}
-#| label: chart-09
+```{r}
+#| label: fig-chart-09
+#| fig-asp: 0.35
+#| fig-cap: "Row-record data, editing the question labels."
 
 # recode Item column of $results
 likert_list$results[, Item := question_labels]
@@ -722,8 +745,10 @@ dt[]
 
 Input to `likert()` produces the familiar chart. 
 
-```{r fig.asp=0.35}
-#| label: chart-10
+```{r}
+#| label: fig-chart-10
+#| fig-asp: 0.35
+#| fig-cap: "Row-record data, editing labels before invoking `likert()`."
 
 # create the likert list
 likert_list <- likert(items = dt)
@@ -751,10 +776,13 @@ likert_list$results
 
 Rounding the digits, we produce a publication-ready table. I'm assuming the abbreviated question labels are OK---if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart---a structure that could be useful to the reader. 
 
+<small>
 ```{r}
 #| echo: false
+#| label: count-data
 knitr::kable(likert_list$result, digits = 1)
 ```
+</small>
 
 The values in this table were computed by likert from the fictitious row-record data. The numbers agree with the source data table. 
 

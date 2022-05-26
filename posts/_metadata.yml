@@ -5,15 +5,14 @@ author: Richard Layton
 freeze: true
 toc-depth: 2
 toc: true
-# citation: true
+# citation: true # wait for bug fix
 
 # knitr chunk options
 execute:
-#   error: false
    message: false
    warning: false
 
-
+# note, tips, etc., my summaries at the top of a post
 callout-icon: false;
 callout-appearance: minimal
 
