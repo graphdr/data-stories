@@ -10,7 +10,378 @@
 <atom:link href="https://graphdr.github.io/data-stories/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
 <generator>quarto-0.9.462</generator>
-<lastBuildDate>Wed, 09 Mar 2022 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 27 May 2022 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Revisiting a lying chart</title>
+  <link>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index.html</link>
+  <description><![CDATA[ 
+
+
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><small><em>I critique and correct a well-known visual lie from a 2015 Congressional hearing in which the authors abuse chart-making conventions to serve their rhetorical goals. I explore what authentic stories these data tell and what authentic questions the data raise. Originally posted in 2017, here I update the data set through 2020, comment on the emerging trends, and add R code and provide data sets for reproducibility. </em></small></p>
+</div>
+</div>
+<p>On 2015-09-29 in a televised Congressional hearing, Representative Jason Chaffetz, Chairman of the US House Committee on Oversight and Government Reform, challenged Cecile Richards, president of the Planned Parenthood Federation of America (PPFA), to respond to this graph,</p>
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/chaffetz-lying-chart.png" class="img-fluid" style="width:80.0%"></p>
+<p>At the hearing, Ms.&nbsp;Richards responded to the graph’s misleading message, saying “It doesn’t feel like we’re trying to get to the truth here.”</p>
+<p>Interviewed two days later, Chairman Chaffetz <a href="https://talkingpointsmemo.com/livewire/jason-chaffetz-planned-parenthood-cnn">denied</a> the graph was misleading. He ignored questions about the <em>visual message</em> and disingenuously focused on the <em>text</em>, saying, “I stand by the numbers.”</p>
+<p>Chaffetz’s denial notwithstanding, visual displays convey visual messages. And the data for this graph were compiled in a 2015 <a href="https://aul.org/wp-content/uploads/2018/11/AUL-Mega-Center-Report-06-24-2015.pdf">propaganda piece</a> by Americans United for Life (AUL), a forced-birth organization dedicated to restricting reproductive rights of pregnant parents.</p>
+<p>Immediately following the hearing, a number of data visualization experts published critiques, for example, <a href="https://www.politifact.com/factchecks/2015/oct/01/jason-chaffetz/chart-shown-planned-parenthood-hearing-misleading-/">Linda Qiu</a>, <a href="https://qz.com/580859/the-most-misleading-charts-of-2015-fixed/">Keith Collins</a>, <a href="https://www.theodysseyonline.com/graphs-gone-wild">Tessa Dignum</a>, or <a href="https://www.motherjones.com/kevin-drum/2015/09/lying-charts-anti-abortion-edition/">Kevin Drum</a>.</p>
+<p>In this post, I focus on how Chaffetz abuses the conventions of visual rhetoric to serve his rhetorical goals and what truthful stories are actually told by these data.</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># packages used </span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggplot2"</span>)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"data.table"</span>)</span></code></pre></div>
+</details>
+</div>
+<section id="rhetorical-abuses-of-the-original-chart" class="level2">
+<h2 class="anchored" data-anchor-id="rhetorical-abuses-of-the-original-chart">Rhetorical abuses of the original chart</h2>
+<p>The vertical scales for the two arrows are different (a “dual y-axis”), implying that 327,000 is greater than 935,573. To conceal the problem, the authors purposefully omit the vertical scales while retaining the horizontal time scale.</p>
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/chaffetz-lying-chart-2.png" class="img-fluid" style="width:90.0%"></p>
+<p>The authors use a conventional numerical horizontal time scale to create the perception that their message has a rational basis in the data, yet they visually distort the relationships among these numbers to support their predetermined message. Visually, in 2013, abortions appear to exceed cancer screenings by a ratio of more than of 3:1.</p>
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/chaffetz-lying-chart-3.png" class="img-fluid" style="width:90.0%"></p>
+<p>The authors promote their views further by selecting value-laden colors. Pink, associated in the US with breast cancer awareness, is good (“life-saving” in the graph subtitle), while red is bad, what the AUL calls “life-destructive”, implying blood and death (the AUL casts Planned Parenthood as “Abortion, Inc”).</p>
+<p>The arrowheads distort the story, suggesting a “strong continuation of these trends, which we don’t know to be true” (Noah Iliinsky, interviewed by <a href="https://www.politifact.com/factchecks/2015/oct/01/jason-chaffetz/chart-shown-planned-parenthood-hearing-misleading-/">Linda Qiu</a>).</p>
+<p>The time scale implies that 8 years of data are displayed. However, numerical values are shown for only 2006 and 2013. And data markers—a visual convention of the scatterplot form—are not shown at all. Edward Tufte has argued that graphics like this have achieved a “graphical absolute zero, a null data-ink ratio” <span class="citation" data-cites="Tufte:1983">(Tufte 1983, 95)</span>.</p>
+<p>Furthermore, that the lines cross creates the unsubtle visual implication that the trend in abortions is a dominant trend—which is the entire point of the deception.</p>
+<p>Here, I show the four data markers, omit the arrowhead drama, and emphasize the text (the numbers that Chaffetz “stands behind”). The revised graph forces us to see how little information is being conveyed and how the relationships have been visually distorted.</p>
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/chaffetz-lying-chart-4.png" class="img-fluid" style="width:90.0%"></p>
+</section>
+<section id="redesigning-the-graph" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="redesigning-the-graph">Redesigning the graph</h2>
+<p>In redesigning the graph, as others did immediately following the hearing, my goal is to discover what undistorted stories these data tell. I obtained the data from Planned Parenthood annual reports (e.g., <a href="https://www.plannedparenthood.org/uploads/filer_public/18/40/1840b04b-55d3-4c00-959d-11817023ffc8/20170526_annualreport_p02_singles.pdf">2016</a>, <a href="https://www.plannedparenthood.org/files/2114/5089/0863/2014-2015_PPFA_Annual_Report_.pdf">2015</a>, <a href="https://www.plannedparenthood.org/files/7413/9620/1089/AR-FY13_111213_vF_rev3_ISSUU.pdf">2014</a>, etc.), the same sources claimed by Jason Chaffetz and the AUL.</p>
+<p>I start by reading in the data (updated to include data through 2020). The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/ppfa-data-all-services.csv">CSV file</a>.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read the PPFA data set, all years, all services</span></span>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/ppfa-data-update.csv"</span>, <span class="at" style="color: #657422;">header =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;"># examine the result</span></span>
+<span id="cb2-5">dt[]</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     year       service       N
+    &lt;int&gt;        &lt;char&gt;   &lt;int&gt;
+ 1:  2006 contraception 3977333
+ 2:  2007 contraception 3889980
+ 3:  2009 contraception 3685437
+ 4:  2010 contraception 3685437
+ 5:  2011 contraception 3436813
+---                            
+80:  2016         other  108309
+81:  2017         other  103585
+82:  2018         other  103640
+83:  2019         other   87990
+84:  2020         other   92570</code></pre>
+</div>
+</div>
+<p>I start by showing the same four numbers with a common vertical scale and applying a color scheme that is not value-laden.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;"># for this chart, restrict the data to two years and two services </span></span>
+<span id="cb4-2">x <span class="ot" style="color: #003B4F;">&lt;-</span> dt[year <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2013</span>) <span class="sc" style="color: #5E5E5E;">&amp;</span> service <span class="sc" style="color: #5E5E5E;">%chin%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"cancer"</span>, <span class="st" style="color: #20794D;">"abortion"</span>)]</span>
+<span id="cb4-3"></span>
+<span id="cb4-4"><span class="co" style="color: #5E5E5E;"># graph </span></span>
+<span id="cb4-5">f <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">ggplot</span>(x, <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> year, <span class="at" style="color: #657422;">y =</span> N<span class="sc" style="color: #5E5E5E;">/</span><span class="fl" style="color: #AD0000;">1e6</span>, <span class="at" style="color: #657422;">color =</span> service)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-6">  <span class="fu" style="color: #4758AB;">geom_line</span>() <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-7">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-8">  <span class="fu" style="color: #4758AB;">theme_light</span>(<span class="at" style="color: #657422;">base_size =</span> <span class="dv" style="color: #AD0000;">12</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-9">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"none"</span>, </span>
+<span id="cb4-10">        <span class="at" style="color: #657422;">panel.grid.minor.y =</span> <span class="fu" style="color: #4758AB;">element_blank</span>()) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb4-11">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Year"</span>, <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"Services (millions)"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-12">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="fl" style="color: #AD0000;">4.5</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">2</span>, <span class="dv" style="color: #AD0000;">3</span>, <span class="dv" style="color: #AD0000;">4</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-13">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2014</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-14">  <span class="fu" style="color: #4758AB;">scale_color_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"#8c510a"</span>, <span class="st" style="color: #20794D;">"#01665e"</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-15">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>, </span>
+<span id="cb4-16">           <span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2006</span>), </span>
+<span id="cb4-17">           <span class="at" style="color: #657422;">y =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fl" style="color: #AD0000;">0.5</span>, <span class="fl" style="color: #AD0000;">2.2</span>), </span>
+<span id="cb4-18">           <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"abortion"</span>, <span class="st" style="color: #20794D;">"cancer screening and prevention"</span>), </span>
+<span id="cb4-19">           <span class="at" style="color: #657422;">hjust =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>))</span>
+<span id="cb4-20"></span>
+<span id="cb4-21"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb4-22">f</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-01" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index_files/figure-html/fig-chart-01-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next, I include the data for all available years, including 2014 data which has become available since the time of the hearing.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;"># same two services but all pre-2014 data</span></span>
+<span id="cb5-2">x <span class="ot" style="color: #003B4F;">&lt;-</span> dt[year <span class="sc" style="color: #5E5E5E;">&lt;=</span> <span class="dv" style="color: #AD0000;">2014</span> <span class="sc" style="color: #5E5E5E;">&amp;</span> service <span class="sc" style="color: #5E5E5E;">%chin%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"cancer"</span>, <span class="st" style="color: #20794D;">"abortion"</span>)]</span>
+<span id="cb5-3"></span>
+<span id="cb5-4"><span class="co" style="color: #5E5E5E;"># edit the current chart object</span></span>
+<span id="cb5-5">f <span class="ot" style="color: #003B4F;">&lt;-</span> f <span class="sc" style="color: #5E5E5E;">%+%</span> </span>
+<span id="cb5-6">  x</span>
+<span id="cb5-7"></span>
+<span id="cb5-8"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb5-9">f</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-02" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index_files/figure-html/fig-chart-02-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Already the story has a nuance. The data provoke the question: what caused the decline in cancer screening and prevention services after 2009? The AUL claims the decline is evidence of Planned Parenthood’s changing business model, from a provider of “life-saving” to “life-destructive” services. An explanation more in touch with reality is the enactment of the Affordable Care Act (ACA) in 2010, providing more people access to health insurance thereby potentially reducing their reliance on Planned Parenthood. In addition, especially since 2003, the medical community has recommended less frequent procedures for the early detection of cancer (<a href="https://www.cancer.org/health-care-professionals/american-cancer-society-prevention-early-detection-guidelines/overview/chronological-history-of-acs-recommendations.html">American Cancer Society</a>).</p>
+<p>The Planned Parenthood annual reports indicate that abortion and cancer screening and prevention are not the only services they provide. The next figure adds contraception, STI/STD testing and treatment, pregnancy and prenatal care, and “other” services: all the services in the data set.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;"># for this chart, all services from 2006 to 2014</span></span>
+<span id="cb6-2">x <span class="ot" style="color: #003B4F;">&lt;-</span> dt[year <span class="sc" style="color: #5E5E5E;">&lt;=</span> <span class="dv" style="color: #AD0000;">2014</span>]</span>
+<span id="cb6-3"></span>
+<span id="cb6-4"><span class="co" style="color: #5E5E5E;"># edit the current chart object</span></span>
+<span id="cb6-5">f <span class="ot" style="color: #003B4F;">&lt;-</span> f <span class="sc" style="color: #5E5E5E;">%+%</span> </span>
+<span id="cb6-6">  x <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-7">  <span class="fu" style="color: #4758AB;">scale_color_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"#5ab4ac"</span>, <span class="st" style="color: #20794D;">"mediumorchid4"</span>, <span class="st" style="color: #20794D;">"#8c510a"</span>, <span class="st" style="color: #20794D;">"mediumpurple1"</span>, <span class="st" style="color: #20794D;">"#01665e"</span>, <span class="st" style="color: #20794D;">"tan"</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb6-8">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>,</span>
+<span id="cb6-9">           <span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">2006</span>,</span>
+<span id="cb6-10">           <span class="at" style="color: #657422;">y =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="fl" style="color: #AD0000;">0.5</span>, <span class="fl" style="color: #AD0000;">1.4</span>, <span class="fl" style="color: #AD0000;">2.2</span>, <span class="fl" style="color: #AD0000;">2.8</span>, <span class="fl" style="color: #AD0000;">4.2</span>),</span>
+<span id="cb6-11">           <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"other"</span>,</span>
+<span id="cb6-12">                     <span class="st" style="color: #20794D;">"abortion"</span>,</span>
+<span id="cb6-13">                     <span class="st" style="color: #20794D;">"pregnancy and prenatal care"</span>,</span>
+<span id="cb6-14">                     <span class="st" style="color: #20794D;">"cancer screening and prevention"</span>,</span>
+<span id="cb6-15">                     <span class="st" style="color: #20794D;">"STI/STD test/treat"</span>,</span>
+<span id="cb6-16">                     <span class="st" style="color: #20794D;">"contraception"</span>),</span>
+<span id="cb6-17">           <span class="at" style="color: #657422;">hjust =</span> <span class="dv" style="color: #AD0000;">0</span>)</span>
+<span id="cb6-18"></span>
+<span id="cb6-19"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb6-20">f</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-03" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index_files/figure-html/fig-chart-03-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This graph suggests we might want to find out what caused the increase in STI/STD testing and treatment or what’s behind the gradual decline in contraceptive services. The graph also shows that compared to the number of cancer services, between two and four times as many STI/STD services were provided. A similar ratio obtains for cancer services compared to contraception. Moreover, on this common scale, abortion services appear to be fairly constant, especially compared to the dramatic changes seen in other types of service.</p>
+<p>So why did the original graph compare abortion only to cancer screening? The answer is <em>cherry picking</em> (ignoring inconvenient data): the decline in cancer screening and prevention services is the only trend in these data that can be used to support AUL’s argument that Planned Parenthood is “abandoning life-saving” services.</p>
+<p>In a final refinement of the data, I account for population increase. To avoid a distorted view of time-series data, numbers of services should be studied on a per capita basis—in the same vein as accounting for inflation when studying dollar amounts over time.</p>
+<p>I use total US population data from the US Census <span class="citation" data-cites="WorldBank:2022">(World Bank 2022-01-14)</span>. These data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/ppfa-data-us-pop.csv">CSV file</a>.</p>
+<p>Dividing the number of annual services by the annual population yields the per-capita version of the chart (strictly speaking, services per 1000 people). STI/STD services have seen a slight per capita decline since 2011, a trend not seen in the earlier figure. Otherwise, nothing stands out as particularly noteworthy compared to the earlier graph.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;"># read in the population data </span></span>
+<span id="cb7-2">pop <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/ppfa-data-us-pop.csv"</span>, <span class="at" style="color: #657422;">header =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb7-3"></span>
+<span id="cb7-4"><span class="co" style="color: #5E5E5E;"># join and compute the per-capita values</span></span>
+<span id="cb7-5">x <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">merge</span>(x, pop, <span class="at" style="color: #657422;">by =</span> <span class="st" style="color: #20794D;">"year"</span>, <span class="at" style="color: #657422;">all.x =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb7-6">x[, per_thou <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">round</span>(N <span class="sc" style="color: #5E5E5E;">/</span> (us_pop <span class="sc" style="color: #5E5E5E;">/</span> <span class="dv" style="color: #AD0000;">1000</span>), <span class="dv" style="color: #AD0000;">1</span>)]</span>
+<span id="cb7-7"></span>
+<span id="cb7-8"><span class="co" style="color: #5E5E5E;"># graph</span></span>
+<span id="cb7-9">f <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">ggplot</span>(x, <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> year, <span class="at" style="color: #657422;">y =</span> per_thou, <span class="at" style="color: #657422;">color =</span> service)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-10">  <span class="fu" style="color: #4758AB;">geom_line</span>() <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-11">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-12">  <span class="fu" style="color: #4758AB;">theme_light</span>(<span class="at" style="color: #657422;">base_size =</span> <span class="dv" style="color: #AD0000;">12</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-13">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"none"</span>, </span>
+<span id="cb7-14">        <span class="at" style="color: #657422;">panel.grid.minor.y =</span> <span class="fu" style="color: #4758AB;">element_blank</span>()) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb7-15">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Year"</span>, <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"Services (per 1000 people)"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-16">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">16</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">16</span>, <span class="dv" style="color: #AD0000;">4</span>)) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb7-17">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2014</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-18">  <span class="fu" style="color: #4758AB;">scale_color_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"#5ab4ac"</span>, <span class="st" style="color: #20794D;">"mediumorchid4"</span>, <span class="st" style="color: #20794D;">"#8c510a"</span>, <span class="st" style="color: #20794D;">"mediumpurple1"</span>, <span class="st" style="color: #20794D;">"#01665e"</span>, <span class="st" style="color: #20794D;">"tan"</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-19">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>,</span>
+<span id="cb7-20">           <span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">2006</span>,</span>
+<span id="cb7-21">           <span class="at" style="color: #657422;">y =</span> <span class="fl" style="color: #AD0000;">3.35</span><span class="sc" style="color: #5E5E5E;">*</span><span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="fl" style="color: #AD0000;">0.5</span>, <span class="fl" style="color: #AD0000;">1.4</span>, <span class="fl" style="color: #AD0000;">2.2</span>, <span class="fl" style="color: #AD0000;">2.8</span>, <span class="fl" style="color: #AD0000;">4.2</span>),</span>
+<span id="cb7-22">           <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"other"</span>, </span>
+<span id="cb7-23">                     <span class="st" style="color: #20794D;">"abortion"</span>, </span>
+<span id="cb7-24">                     <span class="st" style="color: #20794D;">"pregnancy and prenatal care"</span>, </span>
+<span id="cb7-25">                     <span class="st" style="color: #20794D;">"cancer screening and prevention"</span>, </span>
+<span id="cb7-26">                     <span class="st" style="color: #20794D;">"STI/STD test/treat"</span>, </span>
+<span id="cb7-27">                     <span class="st" style="color: #20794D;">"contraception"</span>),</span>
+<span id="cb7-28">           <span class="at" style="color: #657422;">hjust =</span> <span class="dv" style="color: #AD0000;">0</span>)</span>
+<span id="cb7-29"></span>
+<span id="cb7-30"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb7-31">f</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-04" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index_files/figure-html/fig-chart-04-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Lastly, because Jason Chaffetz (following AUL) claims that Planned Parenthood’s business model is based on decreasing “life-saving” procedures and increasing abortions (by implication, “death-serving” procedures), the obvious comparison would be between abortion services and non-abortion services. The next figure shows that comparison directly.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;"># again, all services from 2006 to 2014</span></span>
+<span id="cb8-2">x <span class="ot" style="color: #003B4F;">&lt;-</span> dt[year <span class="sc" style="color: #5E5E5E;">&lt;=</span> <span class="dv" style="color: #AD0000;">2014</span>]</span>
+<span id="cb8-3"></span>
+<span id="cb8-4"><span class="co" style="color: #5E5E5E;"># sum total services by year</span></span>
+<span id="cb8-5">x[, total <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">sum</span>(N), by <span class="ot" style="color: #003B4F;">=</span> year]</span>
+<span id="cb8-6"></span>
+<span id="cb8-7"><span class="co" style="color: #5E5E5E;"># create non-abortion summary</span></span>
+<span id="cb8-8">x <span class="ot" style="color: #003B4F;">&lt;-</span> x[service <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"abortion"</span>]</span>
+<span id="cb8-9">x[, abortion <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> N]</span>
+<span id="cb8-10">x[, nonabortion <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> total <span class="sc" style="color: #5E5E5E;">-</span> N]</span>
+<span id="cb8-11">x <span class="ot" style="color: #003B4F;">&lt;-</span> x[, .(year, abortion, nonabortion)]</span>
+<span id="cb8-12"></span>
+<span id="cb8-13"><span class="co" style="color: #5E5E5E;"># transform to row-record form</span></span>
+<span id="cb8-14">x <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">melt</span>(x, </span>
+<span id="cb8-15">          <span class="at" style="color: #657422;">id =</span> <span class="st" style="color: #20794D;">"year"</span>, </span>
+<span id="cb8-16">          <span class="at" style="color: #657422;">measure.vars =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"abortion"</span>, <span class="st" style="color: #20794D;">"nonabortion"</span>), </span>
+<span id="cb8-17">          <span class="at" style="color: #657422;">variable.name =</span> <span class="st" style="color: #20794D;">"service"</span>, </span>
+<span id="cb8-18">          <span class="at" style="color: #657422;">value.name =</span> <span class="st" style="color: #20794D;">"N"</span>)</span>
+<span id="cb8-19"></span>
+<span id="cb8-20"><span class="co" style="color: #5E5E5E;"># adjust for population </span></span>
+<span id="cb8-21">x <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">merge</span>(x, pop, <span class="at" style="color: #657422;">by =</span> <span class="st" style="color: #20794D;">"year"</span>, <span class="at" style="color: #657422;">all.x =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb8-22">x[, per_thou <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">round</span>(N <span class="sc" style="color: #5E5E5E;">/</span> (us_pop <span class="sc" style="color: #5E5E5E;">/</span> <span class="dv" style="color: #AD0000;">1000</span>), <span class="dv" style="color: #AD0000;">1</span>)]</span>
+<span id="cb8-23"></span>
+<span id="cb8-24"><span class="co" style="color: #5E5E5E;"># chart</span></span>
+<span id="cb8-25"><span class="fu" style="color: #4758AB;">ggplot</span>(x, <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> year, <span class="at" style="color: #657422;">y =</span> per_thou, <span class="at" style="color: #657422;">color =</span> service)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-26">  <span class="fu" style="color: #4758AB;">geom_line</span>() <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-27">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-28">  <span class="fu" style="color: #4758AB;">theme_light</span>(<span class="at" style="color: #657422;">base_size =</span> <span class="dv" style="color: #AD0000;">12</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-29">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"none"</span>, </span>
+<span id="cb8-30">        <span class="at" style="color: #657422;">panel.grid.minor.y =</span> <span class="fu" style="color: #4758AB;">element_blank</span>()) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb8-31">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Year"</span>, <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"Services (per 1000 people)"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-32">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">40</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">40</span>, <span class="dv" style="color: #AD0000;">10</span>)) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb8-33">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2014</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-34">  <span class="fu" style="color: #4758AB;">scale_color_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"#8c510a"</span>, <span class="st" style="color: #20794D;">"#01665e"</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-35">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>,</span>
+<span id="cb8-36">           <span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">2006</span>,</span>
+<span id="cb8-37">           <span class="at" style="color: #657422;">y =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">3</span>, <span class="dv" style="color: #AD0000;">37</span>),</span>
+<span id="cb8-38">           <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"abortion"</span>,</span>
+<span id="cb8-39">                     <span class="st" style="color: #20794D;">"all other health services"</span>),</span>
+<span id="cb8-40">           <span class="at" style="color: #657422;">hjust =</span> <span class="dv" style="color: #AD0000;">0</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-05" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index_files/figure-html/fig-chart-05-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The data support Planned Parenthood’s assertion that abortion services account for a fairly constant 3% of all services they provide. However, accounting for “services” rather than numbers of people served is problematic, as discussed by the <a href="https://www.washingtonpost.com/news/fact-checker/wp/2015/08/12/for-planned-parenthood-abortion-stats-3-percent-and-94-percent-are-both-misleading/">Michelle Ye Hee Lee</a> of the Washington Post. Nevertheless, I use numbers of services here because those are the data values Chaffetz and the AUL quoted.</p>
+</section>
+<section id="what-stories-do-the-data-tell" class="level2">
+<h2 class="anchored" data-anchor-id="what-stories-do-the-data-tell">What stories do the data tell?</h2>
+<p>Exploring the data as we have raises new questions.</p>
+<ol type="1">
+<li>Why have non-abortion services (including cancer screening) dropped off in recent years?</li>
+<li>What explains the dramatic increase in STI/STD treatments?</li>
+</ol>
+<p>We have to look beyond the raw numbers to find a larger context.</p>
+<p>Regarding the drop-off in PPFA non-abortion services, the ACA was enacted in 2010. Between 2010 and 2014, the US Census Bureau <a href="https://www.census.gov/content/dam/Census/library/publications/2015/demo/p60-253.pdf">reports</a> that the percentage of the US population who were uninsured decreased from 16% to about 12%.</p>
+<p>Because a high percentage of Planned Parenthood’s patients can be assumed to be uninsured (in <a href="https://www.plannedparenthood.org/files/4314/8183/5009/20161207_Defunding_fs_d01_1.pdf">2014</a>, 75% had incomes at or below 150% of the federal poverty level), we might expect a correlation between decreases in the percent uninsured and the percent using PPFA services. And so it is. Between 2010 and 2014, the annual number of Planned Parenthood patients decreased from <a href="https://www.factcheck.org/2012/10/planned-parenthood-and-mammograms/">3 M</a> to about <a href="https://www.factcheck.org/2015/09/planned-parenthoods-services/">2.7 M</a>.</p>
+<p>Thus a decrease in the number of uninsured is accompanied by a decrease in the number of PPFA patients.</p>
+<p>Regarding the increase in STI/STD services, the National Coalition of STD Directors <a href="https://www.ncsddc.org/stds-hit-record-highs-again-threatening-millions-of-american-lives/">report</a> that STI/STD cases in the US have tripled (2003–2016) while at the same time opioid abuse has <a href="https://www.cms.gov/About-CMS/Agency-Information/Emergency/EPRO/Current-Emergencies/Ongoing-emergencies">exploded</a> and:</p>
+<ul>
+<li>Opioid users are at higher risk of contracting STI/STDs and less likely to seek treatment.<br>
+</li>
+<li>Drug-resistant strains of STI/STDs have emerged.</li>
+<li>State and local funding for STD budgets (2003–2016) was cut 40%.</li>
+</ul>
+<p>With the leveling off of PPFA STI/STD treatments after 2010, we again see a possible correlation with passage of the ACA. A decrease in the number of uninsured is accompanied by a decrease in the number of PPFA STI/STD patients.</p>
+<p>Lastly, Planned Parenthood receives approximately $500 M in federal funds (out of a $3.65 T budget in 2017)—a minuscule 0.014% of the federal budget to serve about 1% of the population, only a fraction of which are abortion patients.</p>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>In the bigger picture, the evidence suggests that increasing the number of people having health insurance reduces the number of people relying on Planned Parenthood for reproductive health care.</p>
+<p>And regardless of how one compares the number of abortion services to other services, PPFA abortion services per capita remain fairly constant and a small percentage of the population from year to year.</p>
+<p>The original graph is a deliberate visual lie.</p>
+</section>
+<section id="update" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="update">2022 update</h2>
+<p>Updating the data set to 2020 (the most recent data available) yields the chart below. The story here is that since 2014, all but two classes of services have been fairly constant on a per-capita basis.</p>
+<p>The story that stands out visually is the decrease in contraceptive services and the concomitant increase in STI/STD services.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.85">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;"># use the updated data set</span></span>
+<span id="cb9-2">x <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">copy</span>(dt)</span>
+<span id="cb9-3">x <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">merge</span>(x, pop, <span class="at" style="color: #657422;">by =</span> <span class="st" style="color: #20794D;">"year"</span>, <span class="at" style="color: #657422;">all.x =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb9-4">x[, per_thou <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">round</span>(N <span class="sc" style="color: #5E5E5E;">/</span> (us_pop <span class="sc" style="color: #5E5E5E;">/</span> <span class="dv" style="color: #AD0000;">1000</span>), <span class="dv" style="color: #AD0000;">1</span>)]</span>
+<span id="cb9-5"></span>
+<span id="cb9-6"><span class="co" style="color: #5E5E5E;"># edit the previous chart object</span></span>
+<span id="cb9-7">f <span class="ot" style="color: #003B4F;">&lt;-</span> f <span class="sc" style="color: #5E5E5E;">%+%</span> </span>
+<span id="cb9-8">  x <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-9">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">17</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">20</span>, <span class="dv" style="color: #AD0000;">4</span>)) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb9-10">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2020</span>), <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2020</span>, <span class="dv" style="color: #AD0000;">2</span>)) </span>
+<span id="cb9-11"></span>
+<span id="cb9-12"><span class="co" style="color: #5E5E5E;"># display </span></span>
+<span id="cb9-13">f</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-06" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index_files/figure-html/fig-chart-06-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To place these data in context, a recent study reports a significant decline in teen sex education <span class="citation" data-cites="Lindberg+Kantor:2022">(Lindberg and Kantor 2022)</span>,</p>
+<blockquote class="blockquote">
+<p>Young people today are less likely to receive instruction on key sex education topics than they were 25 years ago … in 1995, 87% of females and 81% of males reported sex education about birth control methods, compared with 64% and 63% in 2015–2019, respectively.</p>
+</blockquote>
+<p>A report by the CDC reinforces the importance of effective sexual health care <span class="citation" data-cites="CDC:2022">(CDC 2022)</span>,</p>
+<blockquote class="blockquote">
+<p>In 2020, over half (53%) of reported cases of STDs were among adolescents and young adults aged 15–24 years. … disparities [by race/ethnicity] reflect differential access to <em>quality sexual health care</em> [emphasis mine], as well as differences in sexual network characteristics.</p>
+</blockquote>
+<p>The decline in effective sexual health care and the ongoing abuse of opioids are likely causes behind the contraception/STD trends seem in these data.</p>
+<p>From this perspective, the story in these data has nothing to do with cancer screening or abortion services as conveyed in the original deceptive graph. Instead, the data should be compelling us to action to reign in the spread of STI/STDs by delivering widespread, effective sex education and increasing access and use of contraceptives.</p>
+<p>Grievously, in 2022, many US state legislatures are planning the converse.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-CDC:2022" class="csl-entry">
+CDC. 2022. <span>“<span class="nocase">Sexually transmitted disease surveillance 2020: Natiuonal overview</span>.”</span> <span>Centers for disease Control and Prevention</span>. <a href="https://www.cdc.gov/std/statistics/2020/overview.htm">https://www.cdc.gov/std/statistics/2020/overview.htm</a>.
+</div>
+<div id="ref-Lindberg+Kantor:2022" class="csl-entry">
+Lindberg, Laura D., and Leslie M. Kantor. 2022. <span>“<span class="nocase">Adolescents’ receipt of sex education in a nationally representative sample, 2011–-2019</span>.”</span> <em>Journal of Adolescent Health</em> 70 (2): 290–97. <a href="https://doi.org/10.1016/j.jadohealth.2021.08.027">https://doi.org/10.1016/j.jadohealth.2021.08.027</a>.
+</div>
+<div id="ref-Tufte:1983" class="csl-entry">
+Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+</div>
+<div id="ref-WorldBank:2022" class="csl-entry">
+World Bank. 2022-01-14. <span>“<span class="nocase">Population total for United States</span>.”</span> <span>Federal Reserve Bank of St. Louis</span>. <a href="https://fred.stlouisfed.org/series/POPTOTUSA647NWDB">https://fred.stlouisfed.org/series/POPTOTUSA647NWDB</a>.
+</div>
+</div></section></div> ]]></description>
+  <category>R</category>
+  <category>Data storytelling</category>
+  <category>Visual lies</category>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index.html</guid>
+  <pubDate>Fri, 27 May 2022 04:00:00 GMT</pubDate>
+  <media:content url="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/thumbnail.png" medium="image" type="image/png" height="82" width="144"/>
+</item>
 <item>
   <title>Facets that are not small multiples</title>
   <link>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</link>

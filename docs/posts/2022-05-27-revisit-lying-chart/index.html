@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.462">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="dcterms.date" content="2022-05-27">
+<meta name="description" content="Revisiting the rhetoric of a deliberate visual lie, updating the data set, and providing data and code for reproducibility.">
+
+<title>Layton R blog - Revisiting a lying chart</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-git" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Revisiting a lying chart</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">r-bloggers</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">stackoverflow</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">data.table</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">happy git</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#rhetorical-abuses-of-the-original-chart" id="toc-rhetorical-abuses-of-the-original-chart" class="nav-link active" data-scroll-target="#rhetorical-abuses-of-the-original-chart">Rhetorical abuses of the original chart</a></li>
+  <li><a href="#redesigning-the-graph" id="toc-redesigning-the-graph" class="nav-link" data-scroll-target="#redesigning-the-graph">Redesigning the graph</a></li>
+  <li><a href="#what-stories-do-the-data-tell" id="toc-what-stories-do-the-data-tell" class="nav-link" data-scroll-target="#what-stories-do-the-data-tell">What stories do the data tell?</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  <li><a href="#update" id="toc-update" class="nav-link" data-scroll-target="#update">2022 update</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Revisiting a lying chart</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Data storytelling</div>
+    <div class="quarto-category">Visual lies</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>Revisiting the rhetoric of a deliberate visual lie, updating the data set, and providing data and code for reproducibility.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-05-27</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><small><em>I critique and correct a well-known visual lie from a 2015 Congressional hearing in which the authors abuse chart-making conventions to serve their rhetorical goals. I explore what authentic stories these data tell and what authentic questions the data raise. Originally posted in 2017, here I update the data set through 2020, comment on the emerging trends, and add R code and provide data sets for reproducibility. </em></small></p>
+</div>
+</div>
+<p>On 2015-09-29 in a televised Congressional hearing, Representative Jason Chaffetz, Chairman of the US House Committee on Oversight and Government Reform, challenged Cecile Richards, president of the Planned Parenthood Federation of America (PPFA), to respond to this graph,</p>
+<p><img src="chaffetz-lying-chart.png" class="img-fluid" style="width:80.0%"></p>
+<p>At the hearing, Ms.&nbsp;Richards responded to the graph’s misleading message, saying “It doesn’t feel like we’re trying to get to the truth here.”</p>
+<p>Interviewed two days later, Chairman Chaffetz <a href="https://talkingpointsmemo.com/livewire/jason-chaffetz-planned-parenthood-cnn">denied</a> the graph was misleading. He ignored questions about the <em>visual message</em> and disingenuously focused on the <em>text</em>, saying, “I stand by the numbers.”</p>
+<p>Chaffetz’s denial notwithstanding, visual displays convey visual messages. And the data for this graph were compiled in a 2015 <a href="https://aul.org/wp-content/uploads/2018/11/AUL-Mega-Center-Report-06-24-2015.pdf">propaganda piece</a> by Americans United for Life (AUL), a forced-birth organization dedicated to restricting reproductive rights of pregnant parents.</p>
+<p>Immediately following the hearing, a number of data visualization experts published critiques, for example, <a href="https://www.politifact.com/factchecks/2015/oct/01/jason-chaffetz/chart-shown-planned-parenthood-hearing-misleading-/">Linda Qiu</a>, <a href="https://qz.com/580859/the-most-misleading-charts-of-2015-fixed/">Keith Collins</a>, <a href="https://www.theodysseyonline.com/graphs-gone-wild">Tessa Dignum</a>, or <a href="https://www.motherjones.com/kevin-drum/2015/09/lying-charts-anti-abortion-edition/">Kevin Drum</a>.</p>
+<p>In this post, I focus on how Chaffetz abuses the conventions of visual rhetoric to serve his rhetorical goals and what truthful stories are actually told by these data.</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># packages used </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="rhetorical-abuses-of-the-original-chart" class="level2">
+<h2 class="anchored" data-anchor-id="rhetorical-abuses-of-the-original-chart">Rhetorical abuses of the original chart</h2>
+<p>The vertical scales for the two arrows are different (a “dual y-axis”), implying that 327,000 is greater than 935,573. To conceal the problem, the authors purposefully omit the vertical scales while retaining the horizontal time scale.</p>
+<p><img src="chaffetz-lying-chart-2.png" class="img-fluid" style="width:90.0%"></p>
+<p>The authors use a conventional numerical horizontal time scale to create the perception that their message has a rational basis in the data, yet they visually distort the relationships among these numbers to support their predetermined message. Visually, in 2013, abortions appear to exceed cancer screenings by a ratio of more than of 3:1.</p>
+<p><img src="chaffetz-lying-chart-3.png" class="img-fluid" style="width:90.0%"></p>
+<p>The authors promote their views further by selecting value-laden colors. Pink, associated in the US with breast cancer awareness, is good (“life-saving” in the graph subtitle), while red is bad, what the AUL calls “life-destructive”, implying blood and death (the AUL casts Planned Parenthood as “Abortion, Inc”).</p>
+<p>The arrowheads distort the story, suggesting a “strong continuation of these trends, which we don’t know to be true” (Noah Iliinsky, interviewed by <a href="https://www.politifact.com/factchecks/2015/oct/01/jason-chaffetz/chart-shown-planned-parenthood-hearing-misleading-/">Linda Qiu</a>).</p>
+<p>The time scale implies that 8 years of data are displayed. However, numerical values are shown for only 2006 and 2013. And data markers—a visual convention of the scatterplot form—are not shown at all. Edward Tufte has argued that graphics like this have achieved a “graphical absolute zero, a null data-ink ratio” <span class="citation" data-cites="Tufte:1983">(<a href="#ref-Tufte:1983" role="doc-biblioref">Tufte 1983, 95</a>)</span>.</p>
+<p>Furthermore, that the lines cross creates the unsubtle visual implication that the trend in abortions is a dominant trend—which is the entire point of the deception.</p>
+<p>Here, I show the four data markers, omit the arrowhead drama, and emphasize the text (the numbers that Chaffetz “stands behind”). The revised graph forces us to see how little information is being conveyed and how the relationships have been visually distorted.</p>
+<p><img src="chaffetz-lying-chart-4.png" class="img-fluid" style="width:90.0%"></p>
+</section>
+<section id="redesigning-the-graph" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="redesigning-the-graph">Redesigning the graph</h2>
+<p>In redesigning the graph, as others did immediately following the hearing, my goal is to discover what undistorted stories these data tell. I obtained the data from Planned Parenthood annual reports (e.g., <a href="https://www.plannedparenthood.org/uploads/filer_public/18/40/1840b04b-55d3-4c00-959d-11817023ffc8/20170526_annualreport_p02_singles.pdf">2016</a>, <a href="https://www.plannedparenthood.org/files/2114/5089/0863/2014-2015_PPFA_Annual_Report_.pdf">2015</a>, <a href="https://www.plannedparenthood.org/files/7413/9620/1089/AR-FY13_111213_vF_rev3_ISSUU.pdf">2014</a>, etc.), the same sources claimed by Jason Chaffetz and the AUL.</p>
+<p>I start by reading in the data (updated to include data through 2020). The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/ppfa-data-all-services.csv">CSV file</a>.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the PPFA data set, all years, all services</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/ppfa-data-update.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the result</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     year       service       N
+    &lt;int&gt;        &lt;char&gt;   &lt;int&gt;
+ 1:  2006 contraception 3977333
+ 2:  2007 contraception 3889980
+ 3:  2009 contraception 3685437
+ 4:  2010 contraception 3685437
+ 5:  2011 contraception 3436813
+---                            
+80:  2016         other  108309
+81:  2017         other  103585
+82:  2018         other  103640
+83:  2019         other   87990
+84:  2020         other   92570</code></pre>
+</div>
+</div>
+<p>I start by showing the same four numbers with a common vertical scale and applying a color scheme that is not value-laden.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for this chart, restrict the data to two years and two services </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dt[year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2006</span>, <span class="dv">2013</span>) <span class="sc">&amp;</span> service <span class="sc">%chin%</span> <span class="fu">c</span>(<span class="st">"cancer"</span>, <span class="st">"abortion"</span>)]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># graph </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(x, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> N<span class="sc">/</span><span class="fl">1e6</span>, <span class="at">color =</span> service)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Services (millions)"</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">4.5</span>), <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2006</span>, <span class="dv">2014</span>)) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#8c510a"</span>, <span class="st">"#01665e"</span>)) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">2006</span>, <span class="dv">2006</span>), </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">2.2</span>), </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"abortion"</span>, <span class="st">"cancer screening and prevention"</span>), </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-01" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-01-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: Values from the deceptive chart graphed with a common y-scale.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next, I include the data for all available years, including 2014 data which has become available since the time of the hearing.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same two services but all pre-2014 data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dt[year <span class="sc">&lt;=</span> <span class="dv">2014</span> <span class="sc">&amp;</span> service <span class="sc">%chin%</span> <span class="fu">c</span>(<span class="st">"cancer"</span>, <span class="st">"abortion"</span>)]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the current chart object</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f <span class="sc">%+%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-02" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-02-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: Including missing data. Note that 2008 data are unavailable.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Already the story has a nuance. The data provoke the question: what caused the decline in cancer screening and prevention services after 2009? The AUL claims the decline is evidence of Planned Parenthood’s changing business model, from a provider of “life-saving” to “life-destructive” services. An explanation more in touch with reality is the enactment of the Affordable Care Act (ACA) in 2010, providing more people access to health insurance thereby potentially reducing their reliance on Planned Parenthood. In addition, especially since 2003, the medical community has recommended less frequent procedures for the early detection of cancer (<a href="https://www.cancer.org/health-care-professionals/american-cancer-society-prevention-early-detection-guidelines/overview/chronological-history-of-acs-recommendations.html">American Cancer Society</a>).</p>
+<p>The Planned Parenthood annual reports indicate that abortion and cancer screening and prevention are not the only services they provide. The next figure adds contraception, STI/STD testing and treatment, pregnancy and prenatal care, and “other” services: all the services in the data set.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for this chart, all services from 2006 to 2014</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dt[year <span class="sc">&lt;=</span> <span class="dv">2014</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the current chart object</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f <span class="sc">%+%</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#5ab4ac"</span>, <span class="st">"mediumorchid4"</span>, <span class="st">"#8c510a"</span>, <span class="st">"mediumpurple1"</span>, <span class="st">"#01665e"</span>, <span class="st">"tan"</span>)) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2006</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">1.4</span>, <span class="fl">2.2</span>, <span class="fl">2.8</span>, <span class="fl">4.2</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"other"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"abortion"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"pregnancy and prenatal care"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"cancer screening and prevention"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"STI/STD test/treat"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"contraception"</span>),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-03" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-03-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: Adding some context by including all PPFA services.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This graph suggests we might want to find out what caused the increase in STI/STD testing and treatment or what’s behind the gradual decline in contraceptive services. The graph also shows that compared to the number of cancer services, between two and four times as many STI/STD services were provided. A similar ratio obtains for cancer services compared to contraception. Moreover, on this common scale, abortion services appear to be fairly constant, especially compared to the dramatic changes seen in other types of service.</p>
+<p>So why did the original graph compare abortion only to cancer screening? The answer is <em>cherry picking</em> (ignoring inconvenient data): the decline in cancer screening and prevention services is the only trend in these data that can be used to support AUL’s argument that Planned Parenthood is “abandoning life-saving” services.</p>
+<p>In a final refinement of the data, I account for population increase. To avoid a distorted view of time-series data, numbers of services should be studied on a per capita basis—in the same vein as accounting for inflation when studying dollar amounts over time.</p>
+<p>I use total US population data from the US Census <span class="citation" data-cites="WorldBank:2022">(<a href="#ref-WorldBank:2022" role="doc-biblioref">World Bank 2022-01-14</a>)</span>. These data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/ppfa-data-us-pop.csv">CSV file</a>.</p>
+<p>Dividing the number of annual services by the annual population yields the per-capita version of the chart (strictly speaking, services per 1000 people). STI/STD services have seen a slight per capita decline since 2011, a trend not seen in the earlier figure. Otherwise, nothing stands out as particularly noteworthy compared to the earlier graph.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the population data </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/ppfa-data-us-pop.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># join and compute the per-capita values</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">merge</span>(x, pop, <span class="at">by =</span> <span class="st">"year"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>x[, per_thou <span class="sc">:</span><span class="er">=</span> <span class="fu">round</span>(N <span class="sc">/</span> (us_pop <span class="sc">/</span> <span class="dv">1000</span>), <span class="dv">1</span>)]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># graph</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(x, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> per_thou, <span class="at">color =</span> service)) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Services (per 1000 people)"</span>) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">16</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">16</span>, <span class="dv">4</span>)) <span class="sc">+</span> </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2006</span>, <span class="dv">2014</span>)) <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#5ab4ac"</span>, <span class="st">"mediumorchid4"</span>, <span class="st">"#8c510a"</span>, <span class="st">"mediumpurple1"</span>, <span class="st">"#01665e"</span>, <span class="st">"tan"</span>)) <span class="sc">+</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2006</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fl">3.35</span><span class="sc">*</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">1.4</span>, <span class="fl">2.2</span>, <span class="fl">2.8</span>, <span class="fl">4.2</span>),</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"other"</span>, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"abortion"</span>, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"pregnancy and prenatal care"</span>, </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"cancer screening and prevention"</span>, </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"STI/STD test/treat"</span>, </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"contraception"</span>),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-04" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-04-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 4: Adjusting for population increase.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Lastly, because Jason Chaffetz (following AUL) claims that Planned Parenthood’s business model is based on decreasing “life-saving” procedures and increasing abortions (by implication, “death-serving” procedures), the obvious comparison would be between abortion services and non-abortion services. The next figure shows that comparison directly.</p>
+<div class="cell page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># again, all services from 2006 to 2014</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dt[year <span class="sc">&lt;=</span> <span class="dv">2014</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># sum total services by year</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>x[, total <span class="sc">:</span><span class="er">=</span> <span class="fu">sum</span>(N), by <span class="ot">=</span> year]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create non-abortion summary</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x[service <span class="sc">==</span> <span class="st">"abortion"</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>x[, abortion <span class="sc">:</span><span class="er">=</span> N]</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>x[, nonabortion <span class="sc">:</span><span class="er">=</span> total <span class="sc">-</span> N]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x[, .(year, abortion, nonabortion)]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># transform to row-record form</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">melt</span>(x, </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">id =</span> <span class="st">"year"</span>, </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"abortion"</span>, <span class="st">"nonabortion"</span>), </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">variable.name =</span> <span class="st">"service"</span>, </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">value.name =</span> <span class="st">"N"</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># adjust for population </span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">merge</span>(x, pop, <span class="at">by =</span> <span class="st">"year"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>x[, per_thou <span class="sc">:</span><span class="er">=</span> <span class="fu">round</span>(N <span class="sc">/</span> (us_pop <span class="sc">/</span> <span class="dv">1000</span>), <span class="dv">1</span>)]</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># chart</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> per_thou, <span class="at">color =</span> service)) <span class="sc">+</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, </span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Services (per 1000 people)"</span>) <span class="sc">+</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">10</span>)) <span class="sc">+</span> </span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2006</span>, <span class="dv">2014</span>)) <span class="sc">+</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#8c510a"</span>, <span class="st">"#01665e"</span>)) <span class="sc">+</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2006</span>,</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">37</span>),</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"abortion"</span>,</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"all other health services"</span>),</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-05" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-05-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 5: Adjusting the visual rhetoric of the chart to the verbal rhetoric used by Chaffetz and AUL.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The data support Planned Parenthood’s assertion that abortion services account for a fairly constant 3% of all services they provide. However, accounting for “services” rather than numbers of people served is problematic, as discussed by the <a href="https://www.washingtonpost.com/news/fact-checker/wp/2015/08/12/for-planned-parenthood-abortion-stats-3-percent-and-94-percent-are-both-misleading/">Michelle Ye Hee Lee</a> of the Washington Post. Nevertheless, I use numbers of services here because those are the data values Chaffetz and the AUL quoted.</p>
+</section>
+<section id="what-stories-do-the-data-tell" class="level2">
+<h2 class="anchored" data-anchor-id="what-stories-do-the-data-tell">What stories do the data tell?</h2>
+<p>Exploring the data as we have raises new questions.</p>
+<ol type="1">
+<li>Why have non-abortion services (including cancer screening) dropped off in recent years?</li>
+<li>What explains the dramatic increase in STI/STD treatments?</li>
+</ol>
+<p>We have to look beyond the raw numbers to find a larger context.</p>
+<p>Regarding the drop-off in PPFA non-abortion services, the ACA was enacted in 2010. Between 2010 and 2014, the US Census Bureau <a href="https://www.census.gov/content/dam/Census/library/publications/2015/demo/p60-253.pdf">reports</a> that the percentage of the US population who were uninsured decreased from 16% to about 12%.</p>
+<p>Because a high percentage of Planned Parenthood’s patients can be assumed to be uninsured (in <a href="https://www.plannedparenthood.org/files/4314/8183/5009/20161207_Defunding_fs_d01_1.pdf">2014</a>, 75% had incomes at or below 150% of the federal poverty level), we might expect a correlation between decreases in the percent uninsured and the percent using PPFA services. And so it is. Between 2010 and 2014, the annual number of Planned Parenthood patients decreased from <a href="https://www.factcheck.org/2012/10/planned-parenthood-and-mammograms/">3 M</a> to about <a href="https://www.factcheck.org/2015/09/planned-parenthoods-services/">2.7 M</a>.</p>
+<p>Thus a decrease in the number of uninsured is accompanied by a decrease in the number of PPFA patients.</p>
+<p>Regarding the increase in STI/STD services, the National Coalition of STD Directors <a href="https://www.ncsddc.org/stds-hit-record-highs-again-threatening-millions-of-american-lives/">report</a> that STI/STD cases in the US have tripled (2003–2016) while at the same time opioid abuse has <a href="https://www.cms.gov/About-CMS/Agency-Information/Emergency/EPRO/Current-Emergencies/Ongoing-emergencies">exploded</a> and:</p>
+<ul>
+<li>Opioid users are at higher risk of contracting STI/STDs and less likely to seek treatment.<br>
+</li>
+<li>Drug-resistant strains of STI/STDs have emerged.</li>
+<li>State and local funding for STD budgets (2003–2016) was cut 40%.</li>
+</ul>
+<p>With the leveling off of PPFA STI/STD treatments after 2010, we again see a possible correlation with passage of the ACA. A decrease in the number of uninsured is accompanied by a decrease in the number of PPFA STI/STD patients.</p>
+<p>Lastly, Planned Parenthood receives approximately $500 M in federal funds (out of a $3.65 T budget in 2017)—a minuscule 0.014% of the federal budget to serve about 1% of the population, only a fraction of which are abortion patients.</p>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>In the bigger picture, the evidence suggests that increasing the number of people having health insurance reduces the number of people relying on Planned Parenthood for reproductive health care.</p>
+<p>And regardless of how one compares the number of abortion services to other services, PPFA abortion services per capita remain fairly constant and a small percentage of the population from year to year.</p>
+<p>The original graph is a deliberate visual lie.</p>
+</section>
+<section id="update" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="update">2022 update</h2>
+<p>Updating the data set to 2020 (the most recent data available) yields the chart below. The story here is that since 2014, all but two classes of services have been fairly constant on a per-capita basis.</p>
+<p>The story that stands out visually is the decrease in contraceptive services and the concomitant increase in STI/STD services.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.85">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use the updated data set</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">merge</span>(x, pop, <span class="at">by =</span> <span class="st">"year"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>x[, per_thou <span class="sc">:</span><span class="er">=</span> <span class="fu">round</span>(N <span class="sc">/</span> (us_pop <span class="sc">/</span> <span class="dv">1000</span>), <span class="dv">1</span>)]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the previous chart object</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> f <span class="sc">%+%</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">17</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">4</span>)) <span class="sc">+</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2006</span>, <span class="dv">2020</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2006</span>, <span class="dv">2020</span>, <span class="dv">2</span>)) </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># display </span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-chart-06" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-chart-06-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 6: Updating the chart with current data available.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To place these data in context, a recent study reports a significant decline in teen sex education <span class="citation" data-cites="Lindberg+Kantor:2022">(<a href="#ref-Lindberg+Kantor:2022" role="doc-biblioref">Lindberg and Kantor 2022</a>)</span>,</p>
+<blockquote class="blockquote">
+<p>Young people today are less likely to receive instruction on key sex education topics than they were 25 years ago … in 1995, 87% of females and 81% of males reported sex education about birth control methods, compared with 64% and 63% in 2015–2019, respectively.</p>
+</blockquote>
+<p>A report by the CDC reinforces the importance of effective sexual health care <span class="citation" data-cites="CDC:2022">(<a href="#ref-CDC:2022" role="doc-biblioref">CDC 2022</a>)</span>,</p>
+<blockquote class="blockquote">
+<p>In 2020, over half (53%) of reported cases of STDs were among adolescents and young adults aged 15–24 years. … disparities [by race/ethnicity] reflect differential access to <em>quality sexual health care</em> [emphasis mine], as well as differences in sexual network characteristics.</p>
+</blockquote>
+<p>The decline in effective sexual health care and the ongoing abuse of opioids are likely causes behind the contraception/STD trends seem in these data.</p>
+<p>From this perspective, the story in these data has nothing to do with cancer screening or abortion services as conveyed in the original deceptive graph. Instead, the data should be compelling us to action to reign in the spread of STI/STDs by delivering widespread, effective sex education and increasing access and use of contraceptives.</p>
+<p>Grievously, in 2022, many US state legislatures are planning the converse.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-CDC:2022" class="csl-entry" role="doc-biblioentry">
+CDC. 2022. <span>“<span class="nocase">Sexually transmitted disease surveillance 2020: Natiuonal overview</span>.”</span> <span>Centers for disease Control and Prevention</span>. <a href="https://www.cdc.gov/std/statistics/2020/overview.htm">https://www.cdc.gov/std/statistics/2020/overview.htm</a>.
+</div>
+<div id="ref-Lindberg+Kantor:2022" class="csl-entry" role="doc-biblioentry">
+Lindberg, Laura D., and Leslie M. Kantor. 2022. <span>“<span class="nocase">Adolescents’ receipt of sex education in a nationally representative sample, 2011–-2019</span>.”</span> <em>Journal of Adolescent Health</em> 70 (2): 290–97. <a href="https://doi.org/10.1016/j.jadohealth.2021.08.027">https://doi.org/10.1016/j.jadohealth.2021.08.027</a>.
+</div>
+<div id="ref-Tufte:1983" class="csl-entry" role="doc-biblioentry">
+Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+</div>
+<div id="ref-WorldBank:2022" class="csl-entry" role="doc-biblioentry">
+World Bank. 2022-01-14. <span>“<span class="nocase">Population total for United States</span>.”</span> <span>Federal Reserve Bank of St. Louis</span>. <a href="https://fred.stlouisfed.org/series/POPTOTUSA647NWDB">https://fred.stlouisfed.org/series/POPTOTUSA647NWDB</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+</ul>
+      </div>
+  </div>
+</footer>
+
+
+
+</body></html>

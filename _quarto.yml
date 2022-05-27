@@ -45,7 +45,7 @@ format:
     css: styles.css
     code-fold: true
     code-summary: "R code"
-    code-overflow: wrap
+    code-overflow: scroll
     code-copy: true
 
 
