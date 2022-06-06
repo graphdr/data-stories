@@ -136,12 +136,12 @@ Read the prepared data file in summary count form.
 dt <- fread("data/case-study-2021-count.csv")
 ```
 
-<small>
+
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
-</small>
+
 
 ### `likert()` input 
 
@@ -371,12 +371,12 @@ dt <- fread("data/case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
-<small>
+
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
-</small>
+
 
 
 
@@ -399,12 +399,12 @@ sel_cols <- names(dt)[sapply(dt, is.numeric)]
 dt[, c(sel_cols) := lapply(.SD, function(x) round(N_respondents * x/100, 0)), .SDcols = sel_cols]
 ```
 
-<small>
+
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
-<\small>
+
 
 This data structure is identical to the one we worked with in the previous section, so we know how to work with it. 
 
@@ -427,12 +427,12 @@ dt <- fread("data/case-study-2021-percent.csv")
 setnames_Item(dt)
 ```
 
-<small>
+
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
-</small>
+
 
 With one row per question, the row percentages should sum to 100%. They do, but with an error due to rounding in the reported percentages. 
 
@@ -778,13 +778,13 @@ likert_list$results
 
 Rounding the digits, we produce a publication-ready table. I'm assuming the abbreviated question labels are OK---if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart---a structure that could be useful to the reader. 
 
-<small>
+
 ```{r}
 #| echo: false
 #| label: count-data
 knitr::kable(likert_list$result, digits = 1)
 ```
-</small>
+
 
 The values in this table were computed by likert from the fictitious row-record data. The numbers agree with the source data table. 
 

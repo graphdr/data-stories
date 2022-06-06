@@ -77,7 +77,6 @@ Summary
 <section id="data-structure" class="level2">
 <h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
 <p>The data structure is outlined in Table&nbsp;1: two quantitative variables evolving over time (yearly). The funding measurement is a ratio of (presumably) nominal dollars in each year, so adjusting for inflation is unnecessary.</p>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <div id="tbl-data-structure" class="anchored">
@@ -107,7 +106,6 @@ Summary
 </div>
 </div>
 </div>
-</small><p><small></small></p>
 <p>I transcribed the data values from the original chart. These data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/budget-justice.csv">CSV file</a>. Here I add the governors’ names for annotating the charts.</p>
 <div class="cell">
 <details>
@@ -1294,7 +1292,6 @@ Summary
 <span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-count.csv"</span>)</span></code></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1353,7 +1350,6 @@ Summary
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <section id="likert-input" class="level3">
 <h3 class="anchored" data-anchor-id="likert-input"><code>likert()</code> input</h3>
 <p>I rename the first column <code>Item</code> for consistency with the <code>likert()</code> function.</p>
@@ -1675,7 +1671,6 @@ Character. Ordered vector of opinion level labels.
 <span id="cb24-5"><span class="fu" style="color: #4758AB;">setnames_Item</span>(dt)</span></code></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1734,7 +1729,6 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <section id="option-1-convert-percentages-to-counts" class="level3">
 <h3 class="anchored" data-anchor-id="option-1-convert-percentages-to-counts">Option 1: Convert percentages to counts</h3>
 <p>This option is the most direct approach, assuming we know the number of respondents to each question. In this example we do (though this is not always the case). In this case study we have 31 respondents and all respondents replied to all the questions.</p>
@@ -1751,7 +1745,6 @@ Character. Ordered vector of opinion level labels.
 <span id="cb25-8">dt[, <span class="fu" style="color: #4758AB;">c</span>(sel_cols) <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">lapply</span>(.SD, <span class="cf" style="color: #003B4F;">function</span>(x) <span class="fu" style="color: #4758AB;">round</span>(N_respondents <span class="sc" style="color: #5E5E5E;">*</span> x<span class="sc" style="color: #5E5E5E;">/</span><span class="dv" style="color: #AD0000;">100</span>, <span class="dv" style="color: #AD0000;">0</span>)), .SDcols <span class="ot" style="color: #003B4F;">=</span> sel_cols]</span></code></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1810,9 +1803,8 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-<p>&lt;&gt;</p>
 <p>This data structure is identical to the one we worked with in the previous section, so we know how to work with it.</p>
-</small></section><small class="page-columns page-full">
+</section>
 <section id="option-2-use-percentages-as-is" class="level3">
 <h3 class="anchored" data-anchor-id="option-2-use-percentages-as-is">Option 2: Use percentages as-is</h3>
 <p>This option might be necessary if we do not know the number of respondents replying to each question. Start by reading the data file and again rename the first column <code>Item</code> for consistency with the likert() function.</p>
@@ -1826,7 +1818,6 @@ Character. Ordered vector of opinion level labels.
 <span id="cb26-5"><span class="fu" style="color: #4758AB;">setnames_Item</span>(dt)</span></code></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1885,7 +1876,6 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <p>With one row per question, the row percentages should sum to 100%. They do, but with an error due to rounding in the reported percentages.</p>
 <div class="cell">
 <details>
@@ -2030,7 +2020,7 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 </section>
-</small></section><small class="page-columns page-full">
+</section>
 <section id="row-records" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="row-records">Row records</h2>
 <p>In row-record form, everything we want to know about an individual is in one row, that is, a row-record for that individual. Thus the number of rows equals the number of respondents.</p>
@@ -2465,7 +2455,6 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 <p>Rounding the digits, we produce a publication-ready table. I’m assuming the abbreviated question labels are OK—if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart—a structure that could be useful to the reader.</p>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -2532,13 +2521,12 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <p>The values in this table were computed by likert from the fictitious row-record data. The numbers agree with the source data table.</p>
 </section>
 
 </section>
 
-</small><div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
 
 <ul>
 <li><a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data</li>
@@ -2651,7 +2639,6 @@ Summary
 <span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/case-study-2021-count.csv"</span>)</span></code></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -2710,7 +2697,6 @@ Summary
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <p>I rename the first column <code>Item</code>, and the data frame is ready to input to the <code>likert()</code> function. Because my goal is comparing chart designs, I’m not interested in the specific survey questions, so I leave the question labels in their abbreviated form (Q1, Q2, …).</p>
 <div class="cell">
 <details>
@@ -3095,7 +3081,6 @@ Summary
 </figure>
 </div>
 <p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1. The multiway dot chart was designed specifically for data of this type: one quantitative variable depending on two independent categorical variables <span class="citation" data-cites="Cleveland:1993">(Cleveland, 1993, p. 302)</span>.</p>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -3123,7 +3108,6 @@ Summary
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/honeycomb-2021.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
@@ -3386,12 +3370,24 @@ Summary
 </div>
 <p>The important feature of this design is that the majority of the percentages compared in the original text are visually compared in the figure. It also conveys all the textual information from the original data table.</p>
 <p>Like the missing entries in the original data table, missing inquiry types are easy to spot by the absence of a data marker. (In a strict sense, these are not missing data; the actual values are zero—as shown in the numerical columns of the side bar-charts.)</p>
-<p>We can also see that the top three types of inquiry have the same rank order in all grade levels. The bar charts help us recognize the extent to which the top two inquiry types dominate the literature.<br>
-n An added rhetorical advatage of this design to potential audiences such as pre-college teachers or creators of pre-college engineering materials is the snapshot it provides of the state of their area of interest.</p>
+<p>We can also see that the top three types of inquiry have the same rank order in all grade levels. The bar charts help us recognize the extent to which the top two inquiry types dominate the literature.</p>
+<p>An added rhetorical advantage of this design to potential audiences such as pre-college teachers or creators of pre-college engineering materials is the snapshot it provides of the state of their area of interest.</p>
 <p>Lastly, that the organization of the chart is visually more effective suggests that a reorganization of the argument could also be more effective. The primary organization of the chart is by grade-level band. If I were to align the logic of the argument with the logic of the display, then the text too would be organized by grade-level band. For example, I might start the discussion as follows:</p>
-<p><small> The elementary school grade level had only three types of inquiry but the highest number of articles overall (N = 63). DBT is by far the largest portion of articles (75%) with UCD (21%) and ENS (4%) making up the rest.</small></p><small>
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Organizing the argument by grade level
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>The elementary school grade level had only three types of inquiry but the highest number of articles overall (N = 63). DBT is by far the largest portion of articles (75%) with UCD (21%) and ENS (4%) making up the rest.</em></p><em>
 <p>Compared to the elementary level, the middle school level had nearly as many articles (N = 51) and the same top three inquiry types. But with more inquiry types, the top three inquiries comprised smaller percentages of the whole: DBT (67%), UCD (18%), ENS (6%). Middle school is also the only level in which all six inquiry types are present.</p>
-</small><p><small>In contrast, the high school level … etc. </small></p>
+</em><p><em>In contrast, the high school level … etc. </em></p>
+</div>
+</div>
 <p>Aligning visual rhetoric and verbal rhetoric in this fashion can be an important aid to a reader trying to follow the discussion. Moreover, this process can be an important aid to an authorial team in developing their message in the first place. The iterative interplay between constructing a chart and constructing an argument—between visual rhetoric and verbal rhetoric—is one of the most important aspects of data visualization.</p>
 
 </section>
@@ -3902,7 +3898,6 @@ Summary
 <section id="data-structure" class="level2">
 <h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
 <p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1.</p>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <div id="tbl-data-structure" class="anchored">
@@ -3932,7 +3927,6 @@ Summary
 </div>
 </div>
 </div>
-</small><p><small></small></p>
 <p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/retention-2007.csv">CSV file</a>.</p>
 <div class="cell">
 <details>

@@ -106,12 +106,12 @@ Read the prepared data file in summary count form.
 dt <- fread("data/case-study-2021-count.csv")
 ```
 
-<small>
+
 ```{r}
 #| echo: false
 knitr::kable(dt)
 ```
-</small>
+
 
 I rename the first column `Item`, and the data frame is ready to input to the `likert()` function. Because my goal is comparing chart designs, I'm not  interested in the specific survey questions, so I leave the question labels in their abbreviated form (Q1, Q2, ...). 
 

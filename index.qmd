@@ -23,6 +23,7 @@ comments: false
 - [`R`](https://www.r-project.org/) and [`RStudio`](https://www.rstudio.com/)
 - [`data.table`](https://CRAN.R-project.org/package=data.table) for manipulating data    
 - [`ggplot2`](https://CRAN.R-project.org/package=ggplot2) for data graphics   
+- [`ggpubfigs`](https://github.com/JLSteenwyk/ggpubfigs) for color vision deficient inclusive palettes 
 - [`quarto`](https://quarto.org/) for constructing this blog
 
     

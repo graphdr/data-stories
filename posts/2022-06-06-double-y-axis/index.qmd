@@ -83,7 +83,7 @@ Given the data at hand, I show that charts better suited to the visual task can 
 
 The data structure is outlined in @tbl-data-structure: two quantitative variables evolving over time (yearly). The funding measurement is a ratio of (presumably) nominal dollars in each year, so adjusting for inflation is unnecessary. 
 
-<small>
+
 ```{r}
 #| label: tbl-data-structure
 #| tbl-cap: Data structure
@@ -97,7 +97,7 @@ x <- wrapr::build_frame(
 
 knitr::kable(x)
 ```
-</small>
+
 
 I transcribed the data values from the original chart. These data are available in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/budget-justice.csv). Here I add the governors' names for annotating the charts. 
 

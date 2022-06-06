@@ -377,7 +377,6 @@ Summary
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/case-study-2021-count.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -436,7 +435,6 @@ Summary
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <section id="likert-input" class="level3">
 <h3 class="anchored" data-anchor-id="likert-input"><code>likert()</code> input</h3>
 <p>I rename the first column <code>Item</code> for consistency with the <code>likert()</code> function.</p>
@@ -758,7 +756,6 @@ Character. Ordered vector of opinion level labels.
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -817,7 +814,6 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <section id="option-1-convert-percentages-to-counts" class="level3">
 <h3 class="anchored" data-anchor-id="option-1-convert-percentages-to-counts">Option 1: Convert percentages to counts</h3>
 <p>This option is the most direct approach, assuming we know the number of respondents to each question. In this example we do (though this is not always the case). In this case study we have 31 respondents and all respondents replied to all the questions.</p>
@@ -834,7 +830,6 @@ Character. Ordered vector of opinion level labels.
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(sel_cols) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">round</span>(N_respondents <span class="sc">*</span> x<span class="sc">/</span><span class="dv">100</span>, <span class="dv">0</span>)), .SDcols <span class="ot">=</span> sel_cols]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -893,9 +888,8 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-<p>&lt;&gt;</p>
 <p>This data structure is identical to the one we worked with in the previous section, so we know how to work with it.</p>
-</small></section><small class="page-columns page-full">
+</section>
 <section id="option-2-use-percentages-as-is" class="level3">
 <h3 class="anchored" data-anchor-id="option-2-use-percentages-as-is">Option 2: Use percentages as-is</h3>
 <p>This option might be necessary if we do not know the number of respondents replying to each question. Start by reading the data file and again rename the first column <code>Item</code> for consistency with the likert() function.</p>
@@ -909,7 +903,6 @@ Character. Ordered vector of opinion level labels.
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames_Item</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -968,7 +961,6 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <p>With one row per question, the row percentages should sum to 100%. They do, but with an error due to rounding in the reported percentages.</p>
 <div class="cell">
 <details>
@@ -1113,7 +1105,7 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 </section>
-</small></section><small class="page-columns page-full">
+</section>
 <section id="row-records" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="row-records">Row records</h2>
 <p>In row-record form, everything we want to know about an individual is in one row, that is, a row-record for that individual. Thus the number of rows equals the number of respondents.</p>
@@ -1548,7 +1540,6 @@ Character. Ordered vector of opinion level labels.
 </div>
 </div>
 <p>Rounding the digits, we produce a publication-ready table. I’m assuming the abbreviated question labels are OK—if not, each could be replaced with its complete assertion. In this form, the rows of the table are in the same order as the rows of the chart—a structure that could be useful to the reader.</p>
-<p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1615,13 +1606,12 @@ Character. Ordered vector of opinion level labels.
 </table>
 </div>
 </div>
-</small><p><small></small></p>
 <p>The values in this table were computed by likert from the fictitious row-record data. The numbers agree with the source data table.</p>
 </section>
 
 </section>
 
-</small><div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
 
 <ul>
 <li><a href="https://CRAN.R-project.org/package=likert"><code>likert</code></a> for manipulating and plotting Likert-style data</li>
@@ -1639,7 +1629,7 @@ Maxworth, A. (2021). <span class="nocase">Looking ahead: Advancing engineering e
 <div id="ref-Mudge:2019" class="csl-entry" role="doc-biblioentry">
 Mudge, L. (2019). <em><span class="nocase">Data visualization for Likert questions</span></em>. <a href="https://lmudge13.github.io/sample_code/likert_graphs.html">https://lmudge13.github.io/sample_code/likert_graphs.html</a>
 </div>
-</div></section></div></main><small> <!-- /main -->
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const icon = "";
@@ -1721,7 +1711,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
-</small></div><small> <!-- /content -->
+</div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
       <div class="nav-footer-center">
@@ -1736,4 +1726,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</small></body></html>
+</body></html>
