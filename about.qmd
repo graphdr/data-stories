@@ -19,13 +19,8 @@ My dad was a guitar player and taught me my first chords. I've been songwriting 
 
 ![](images/guitar2.png){width="50%"}
 
-**Work life**
+**Brief bio**
 
-I am a graduate of California State University, Northridge (1991), and the University of Washington (1993, 1995). I taught mechanical engineering courses at Rose-Hulman Institute of Technology from 2000-2020, co-authoring two books in that time.
+I am a Californian, born in Redding and living lots of places---Yuba City, Sacramento, Alameda, Paso Robles, and Simi Valley to name a few. I am a graduate of California State University, Northridge (1991), and the University of Washington (1993, 1995). I taught mechanical engineering courses at Rose-Hulman Institute of Technology in Terre Haute, Indiana, from 2000-2020.
 
-![](images/ecm.jpg){width="40%"}![](images/mems.jpg){width="50%"}
-
-
-**Retirement** 
-
-I retired from teaching in 2020 and spend my time doing songwriting, yard work,  woodworking, R data graphics consulting, and opening doors for cats who give me doleful looks when a door fails to open on perpetual summer.
+I retired from teaching in 2020 and spend my time songwriting, woodworking, R data graphics consulting and blogging, and opening doors for cats who give me doleful looks when a door fails to open on perpetual summer.

@@ -1,0 +1,21 @@
+study,start,end,Topic,Sex,pct
+1,1995,1995,Birth control,Female,87
+1,1995,1995,Birth control,Male,81
+1,1995,1995,Say no to sex,Female,92
+1,1995,1995,Say no to sex,Male,74
+2,2002,2002,Birth control,Female,70
+2,2002,2002,Birth control,Male,66
+2,2002,2002,Say no to sex,Female,86
+2,2002,2002,Say no to sex,Male,83
+3,2006,2010,Birth control,Female,70
+3,2006,2010,Birth control,Male,61
+3,2006,2010,Say no to sex,Female,89
+3,2006,2010,Say no to sex,Male,82
+4,2011,2015,Birth control,Female,66
+4,2011,2015,Birth control,Male,58
+4,2011,2015,Say no to sex,Female,84
+4,2011,2015,Say no to sex,Male,82
+5,2015,2019,Birth control,Female,64
+5,2015,2019,Birth control,Male,63
+5,2015,2019,Say no to sex,Female,81
+5,2015,2019,Say no to sex,Male,80

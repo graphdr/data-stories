@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.462">
+<meta name="generator" content="quarto-0.9.479">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -102,23 +102,6 @@ div.csl-indent {
 }
 </style>
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<link href="../../images/favicon.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -141,6 +124,23 @@ div.csl-indent {
 
 
 <link rel="stylesheet" href="../../styles.css">
+<script src="..\..\site_libs\quarto-nav\quarto-nav.js"></script>
+<script src="..\..\site_libs\quarto-nav\headroom.min.js"></script>
+<script src="..\..\site_libs\clipboard\clipboard.min.js"></script>
+<script src="..\..\site_libs\quarto-search\autocomplete.umd.js"></script>
+<script src="..\..\site_libs\quarto-search\fuse.min.js"></script>
+<script src="..\..\site_libs\quarto-search\quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="..\..\site_libs\quarto-html\quarto.js"></script>
+<script src="..\..\site_libs\quarto-html\popper.min.js"></script>
+<script src="..\..\site_libs\quarto-html\tippy.umd.min.js"></script>
+<script src="..\..\site_libs\quarto-html\anchor.min.js"></script>
+<link href="..\..\site_libs\quarto-html\tippy.css" rel="stylesheet">
+<link href="..\..\site_libs\quarto-html\quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="..\..\site_libs\bootstrap\bootstrap.min.js"></script>
+<link href="..\..\site_libs\bootstrap\bootstrap-icons.css" rel="stylesheet">
+<link href="..\..\site_libs\bootstrap\bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-sidebar floating nav-fixed slimcontent">
@@ -285,11 +285,11 @@ Summary
 </div>
 <p><em>Small multiple</em> design is a good design choice for many data structures. To facilitate visual comparisons, every small-multiple frame (variously called panels, facets, or subplots) has identical scales.</p>
 <blockquote class="blockquote">
-<p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">(<a href="#ref-Tufte:1983" role="doc-biblioref">Tufte 1983, 170</a>)</span></p>
+<p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">(<a href="#ref-Tufte:1983" role="doc-biblioref">Tufte, 1983, p. 170</a>)</span></p>
 </blockquote>
 <p><em>Multiway data</em>—a data structure comprising two independent categorical variables and one quantitative response variable—is well-matched to small multiple design.</p>
 <blockquote class="blockquote">
-<p>What distinguishes multiway data is the cross-classification of the categorical variables; there is a value of the response for each combination of levels of the two categorical variables <span class="citation" data-cites="Cleveland:1993">(<a href="#ref-Cleveland:1993" role="doc-biblioref">Cleveland 1993, 303</a>)</span>.</p>
+<p>What distinguishes multiway data is the cross-classification of the categorical variables; there is a value of the response for each combination of levels of the two categorical variables <span class="citation" data-cites="Cleveland:1993">(<a href="#ref-Cleveland:1993" role="doc-biblioref">Cleveland, 1993, p. 303</a>)</span>.</p>
 </blockquote>
 <p>However, if the categories happen to be <em>dependent</em>, the data are not multiway and the small multiple design fails. Having come across data of this type in a recent article, I thought it would be interesting to illustrate, given one quantitative variable and two categorical variables, how category independence or dependence influences chart design.</p>
 <p>I start with a multiway data set and point out that, as a small-multiple design, the panels share common scales. In ggplot2, small multiples are usually created using <code>facet_wrap()</code>.</p>
@@ -305,8 +305,8 @@ Summary
 </div>
 <section id="multiway-example" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="multiway-example">Multiway example</h2>
-<p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">(<a href="#ref-Cleveland:1993" role="doc-biblioref">1993, 303</a>)</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
-<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(<a href="#ref-UCLA:2021" role="doc-biblioref">UCLA 2021</a>)</span> and saved it in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/livestock-1967.csv">CSV file</a>.</p>
+<p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">(<a href="#ref-Cleveland:1993" role="doc-biblioref">1993, p. 303</a>)</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
+<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(<a href="#ref-UCLA:2021" role="doc-biblioref">UCLA, 2021</a>)</span> and saved it in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/livestock-1967.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -354,7 +354,7 @@ Summary
 </section>
 <section id="when-categories-are-dependent" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="when-categories-are-dependent">When categories are dependent</h2>
-<p>The data set that inspired this post is from an article on a creative expression assignment used in a first-year engineering course <span class="citation" data-cites="Chambers+Reid:2021">(<a href="#ref-Chambers+Reid:2021" role="doc-biblioref">Chambers and Reid 2021</a>)</span>. In response to COVID-19, the course had transitioned from a highly interactive, in-person experience to an asynchronous, online model.</p>
+<p>The data set that inspired this post is from an article on a creative expression assignment used in a first-year engineering course <span class="citation" data-cites="Chambers+Reid:2021">(<a href="#ref-Chambers+Reid:2021" role="doc-biblioref">Chambers &amp; Reid, 2021</a>)</span>. In response to COVID-19, the course had transitioned from a highly interactive, in-person experience to an asynchronous, online model.</p>
 <blockquote class="blockquote">
 <p>The instructors designed an assignment to encourage students to creatively express how the course interruption and transition online was affecting them. The assignment encouraged complete freedom of expression and choice of media.</p>
 </blockquote>
@@ -542,18 +542,18 @@ Summary
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="doc-bibliography">
 <div id="ref-Chambers+Reid:2021" class="csl-entry" role="doc-biblioentry">
-Chambers, Benjamin D., and Kenneth J. Reid. 2021. <span>“<span class="nocase">Looking ahead: From driving Cars in the lobby to online: Using open creative expression to understand student emotions about transitioning to remote instruction during the COVID-19 crisis</span>.”</span> <em>Advances in Engineering Education</em> 9 (4). <a href="https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view">https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view</a>.
+Chambers, B. D., &amp; Reid, K. J. (2021). <span class="nocase">Looking ahead: From driving Cars in the lobby to online: Using open creative expression to understand student emotions about transitioning to remote instruction during the COVID-19 crisis</span>. <em>Advances in Engineering Education</em>, <em>9</em>(4). <a href="https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view">https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view</a>
 </div>
 <div id="ref-Cleveland:1993" class="csl-entry" role="doc-biblioentry">
-Cleveland, William S. 1993. <em><span>Visualizing Data</span></em>. Summit, NJ: <span>Hobart Press</span>.
+Cleveland, W. S. (1993). <em><span>Visualizing Data</span></em>. <span>Hobart Press</span>.
 </div>
 <div id="ref-Tufte:1983" class="csl-entry" role="doc-biblioentry">
-Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+Tufte, E. (1983). <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. <span>Graphics Press</span>.
 </div>
 <div id="ref-UCLA:2021" class="csl-entry" role="doc-biblioentry">
-UCLA. 2021. <span>“<span class="nocase">Textbook examples: Visualizing Data by William S. Cleveland</span>.”</span> <span>UCLA Statistical Consulting Group</span>. <a href="https://stats.oarc.ucla.edu/other/examples/vizdata/">https://stats.oarc.ucla.edu/other/examples/vizdata/</a>.
+UCLA. (2021). <em><span class="nocase">Textbook examples: Visualizing Data by William S. Cleveland</span></em>. <span>UCLA Statistical Consulting Group</span>. <a href="https://stats.oarc.ucla.edu/other/examples/vizdata/">https://stats.oarc.ucla.edu/other/examples/vizdata/</a>
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

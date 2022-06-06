@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.462">
+<meta name="generator" content="quarto-0.9.479">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -102,23 +102,6 @@ div.csl-indent {
 }
 </style>
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<link href="../../images/favicon.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -141,6 +124,23 @@ div.csl-indent {
 
 
 <link rel="stylesheet" href="../../styles.css">
+<script src="..\..\site_libs\quarto-nav\quarto-nav.js"></script>
+<script src="..\..\site_libs\quarto-nav\headroom.min.js"></script>
+<script src="..\..\site_libs\clipboard\clipboard.min.js"></script>
+<script src="..\..\site_libs\quarto-search\autocomplete.umd.js"></script>
+<script src="..\..\site_libs\quarto-search\fuse.min.js"></script>
+<script src="..\..\site_libs\quarto-search\quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="..\..\site_libs\quarto-html\quarto.js"></script>
+<script src="..\..\site_libs\quarto-html\popper.min.js"></script>
+<script src="..\..\site_libs\quarto-html\tippy.umd.min.js"></script>
+<script src="..\..\site_libs\quarto-html\anchor.min.js"></script>
+<link href="..\..\site_libs\quarto-html\tippy.css" rel="stylesheet">
+<link href="..\..\site_libs\quarto-html\quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="..\..\site_libs\bootstrap\bootstrap.min.js"></script>
+<link href="..\..\site_libs\bootstrap\bootstrap-icons.css" rel="stylesheet">
+<link href="..\..\site_libs\bootstrap\bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-sidebar floating nav-fixed slimcontent">
@@ -286,7 +286,7 @@ Summary
 </div>
 </div>
 <p>For a recent presentation, I needed to graph the results of a Likert-style survey.</p>
-<p>In the past I tended to use the diverging stacked-bar design by Robbins and Heiberger <span class="citation" data-cites="Robbins+Heiberger:2011 Heiberger+Robbins+2014">(<a href="#ref-Robbins+Heiberger:2011" role="doc-biblioref">2011</a>; <a href="#ref-Heiberger+Robbins+2014" role="doc-biblioref">2014</a>)</span>. Browsing for alternatives, I found the essays by Stephen Few <span class="citation" data-cites="Few:2016">(<a href="#ref-Few:2016" role="doc-biblioref">2016</a>)</span> and Lisa Charlotte Muth and Gregor Aisch <span class="citation" data-cites="Muth+Aisch:2018">(<a href="#ref-Muth+Aisch:2018" role="doc-biblioref">2018</a>)</span> to be well-reasoned and useful.</p>
+<p>In the past I tended to use the diverging stacked-bar design by Robbins and Heiberger <span class="citation" data-cites="Robbins+Heiberger:2011 Heiberger+Robbins+2014">(<a href="#ref-Heiberger+Robbins+2014" role="doc-biblioref">2014</a>; <a href="#ref-Robbins+Heiberger:2011" role="doc-biblioref">2011</a>)</span>. Browsing for alternatives, I found the essays by Stephen Few <span class="citation" data-cites="Few:2016">(<a href="#ref-Few:2016" role="doc-biblioref">2016</a>)</span> and Lisa Charlotte Muth and Gregor Aisch <span class="citation" data-cites="Muth+Aisch:2018">(<a href="#ref-Muth+Aisch:2018" role="doc-biblioref">2018</a>)</span> to be well-reasoned and useful.</p>
 <p>In this post, I reconstruct the three chart designs from Muth and Aisch with two goals in mind: to reproduce and comment on the comparisons they make using a data set of my choosing; and to share the source data and my R code.</p>
 <p>Here, however, I do not discuss the R code in any detail. In a <a href="../2022-02-13-survey-data-io/index.html">companion post</a>, I focus on R for preparing different forms of source data for the likert package and editing the results for publication-ready charts.</p>
 <p>I primarily use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6.</p>
@@ -485,7 +485,7 @@ Summary
 <p>The top-down row order is by decreasing agreement totals (Agree + Strongly Agree). In contrast, by Heiberger and Robbins’ definition, the row position of Q2 and Q4 would be swapped so that the maximum endpoint monotonically decreases top to bottom.</p>
 <p>Describing a diverging stacked bar chart, Robbins and Heiberger say,</p>
 <blockquote class="blockquote">
-<p>It is difficult to compare lengths without a common baseline. In this situation, we are primarily interested in the total percent to the right or left of the zero line; the breakdown into strongly or not is of lesser interest so that the primary comparisons do have a common baseline of zero <span class="citation" data-cites="Robbins+Heiberger:2011">(<a href="#ref-Robbins+Heiberger:2011" role="doc-biblioref">Robbins and Heiberger 2011, 1060</a>)</span>.</p>
+<p>It is difficult to compare lengths without a common baseline. In this situation, we are primarily interested in the total percent to the right or left of the zero line; the breakdown into strongly or not is of lesser interest so that the primary comparisons do have a common baseline of zero <span class="citation" data-cites="Robbins+Heiberger:2011">(<a href="#ref-Robbins+Heiberger:2011" role="doc-biblioref">Robbins &amp; Heiberger, 2011, p. 1060</a>)</span>.</p>
 </blockquote>
 <p>I agree—if we assume the Neutrals can treated as half positive and half negative. Muth and Aisch point out that we have no way of knowing that this is true. Because being truthful is a first principle of ethical data visualization, this assumption makes me uneasy. A lot depends on how the survey questions are worded and how the people surveyed interpret the Neutral response. In this specific case, I’m not certain the Neutrals can treated as half positive and half negative. Thus, the zero reference line does not establish a common baseline and we lose the ability to make effective visual comparisons.</p>
 <p>We can recover the common baseline at zero by moving Neutral to a side chart of its own.</p>
@@ -608,7 +608,7 @@ Summary
 </div>
 </div>
 <blockquote class="blockquote">
-<p>Designed in this way, differences between positive and negative results now stand out a bit more, the sum of Agree and Strongly Agree are easier to read, and the Neutral values are both easier to read and compare <span class="citation" data-cites="Few:2016">(<a href="#ref-Few:2016" role="doc-biblioref">Few 2016</a>)</span>.</p>
+<p>Designed in this way, differences between positive and negative results now stand out a bit more, the sum of Agree and Strongly Agree are easier to read, and the Neutral values are both easier to read and compare <span class="citation" data-cites="Few:2016">(<a href="#ref-Few:2016" role="doc-biblioref">Few, 2016</a>)</span>.</p>
 </blockquote>
 <p>As Muth and Aisch point out, this design gives a good idea of the “competition” between agreement and disagreement. In this case, across all questions more than 60% of the respondents agreed and in all but one instance fewer than 10% disagreed.</p>
 <p>In addition, between 15-30% responded Neutral. We don’t know if that means “I don’t know” or “I have no opinion” or “Sometimes I agree and sometimes I don’t”or “I’m tired of answering Likert-style surveys” or something else—which is a very good reason to graph Neutral on the side.</p>
@@ -706,7 +706,7 @@ Summary
 </div>
 <p>As an example of the results discussion in the article, the “provide facts” paragraph states,</p>
 <blockquote class="blockquote">
-<p>In the third feedback question, 24 out of 31 students (77.4%) agreed that the case study motivated them to provide facts such as calculations and simulations to support their answers. Unlike a typical textbook problem where there is a definite answer, making an argument in a case study requires thinking beyond the material delivered in class. Therefore, the use of additional calculations and especially simulations were needed to support the argument <span class="citation" data-cites="Maxworth:2021">(<a href="#ref-Maxworth:2021" role="doc-biblioref">Maxworth 2021</a>)</span>.</p>
+<p>In the third feedback question, 24 out of 31 students (77.4%) agreed that the case study motivated them to provide facts such as calculations and simulations to support their answers. Unlike a typical textbook problem where there is a definite answer, making an argument in a case study requires thinking beyond the material delivered in class. Therefore, the use of additional calculations and especially simulations were needed to support the argument <span class="citation" data-cites="Maxworth:2021">(<a href="#ref-Maxworth:2021" role="doc-biblioref">Maxworth, 2021</a>)</span>.</p>
 </blockquote>
 <p>This is a perfectly straightforward description of the result and the chart supports the argument visually. In terms of the larger narrative, however, the chart provides a rationale for revising the narrative framework—instead of discussing the results in question order (Q1, Q2, …), discuss the results in order of level of agreement (highest to lowest), supported visually by the row order in the chart (top to bottom).</p>
 <p>I think the chart provides evidence for an additional assertion: that the preponderance of responses are <em>positive</em>,</p>
@@ -730,21 +730,21 @@ Summary
 
 
 
-</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="doc-bibliography">
 <div id="ref-Few:2016" class="csl-entry" role="doc-biblioentry">
-Few, Stephen. 2016. <span>Perceptual Edge</span>. <a href="https://www.perceptualedge.com/blog/?p=2239">https://www.perceptualedge.com/blog/?p=2239</a>.
+Few, S. (2016). <span>Perceptual Edge</span>. <a href="https://www.perceptualedge.com/blog/?p=2239">https://www.perceptualedge.com/blog/?p=2239</a>
 </div>
 <div id="ref-Heiberger+Robbins+2014" class="csl-entry" role="doc-biblioentry">
-Heiberger, Richard M., and Naomi B. Robbins. 2014. <span>“<span class="nocase">Design of diverging stacked bar charts for Likert scales and other applications</span>.”</span> <em>Journal of Statistical Software</em> 57 (5). <a href="https://www.jstatsoft.org/article/view/v057i05">https://www.jstatsoft.org/article/view/v057i05</a>.
+Heiberger, R. M., &amp; Robbins, N. B. (2014). <span class="nocase">Design of diverging stacked bar charts for Likert scales and other applications</span>. <em>Journal of Statistical Software</em>, <em>57</em>(5). <a href="https://www.jstatsoft.org/article/view/v057i05">https://www.jstatsoft.org/article/view/v057i05</a>
 </div>
 <div id="ref-Maxworth:2021" class="csl-entry" role="doc-biblioentry">
-Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>.”</span> <em>Advances in Engineering Education</em> 9 (4): 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>.
+Maxworth, A. (2021). <span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>. <em>Advances in Engineering Education</em>, <em>9</em>(4), 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>
 </div>
 <div id="ref-Muth+Aisch:2018" class="csl-entry" role="doc-biblioentry">
-Muth, Lisa, and Gregor Aisch. 2018. <span>“<span class="nocase">The case against diverging stacked bars</span>.”</span> <span>Datawrapper</span>. <a href="https://blog.datawrapper.de/divergingbars/">https://blog.datawrapper.de/divergingbars/</a>.
+Muth, L. C., &amp; Aisch, G. (2018). <em><span class="nocase">The case against diverging stacked bars</span></em>. Blog post. <a href="https://blog.datawrapper.de/divergingbars/">https://blog.datawrapper.de/divergingbars/</a>
 </div>
 <div id="ref-Robbins+Heiberger:2011" class="csl-entry" role="doc-biblioentry">
-Robbins, Naomi B., and Richard M. Heiberger. 2011. <span>“<span class="nocase">Plotting Likert and other rating scales</span>.”</span> In <em>Joint Statistical Meeting Proceedings</em>, Survery Research Methods Section:1058–66. Alexandria, VA: American Statistical Association. <a href="https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf">https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf</a>.
+Robbins, N. B., &amp; Heiberger, R. M. (2011). <span class="nocase">Plotting Likert and other rating scales</span>. <em>Joint Statistical Meeting Proceedings</em>, <em>Survery Research Methods Section</em>, 1058–1066. <a href="https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf">https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf</a>
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

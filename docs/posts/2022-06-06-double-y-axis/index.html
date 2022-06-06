@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.479">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="dcterms.date" content="2022-06-06">
+<meta name="description" content="An example of replacing a dual axis chart with alternatives better suited to drawing inferences about the data.">
+
+<title>Layton R blog - Another case for redesigning dual axis charts</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<script src="..\..\site_libs\quarto-nav\quarto-nav.js"></script>
+<script src="..\..\site_libs\quarto-nav\headroom.min.js"></script>
+<script src="..\..\site_libs\clipboard\clipboard.min.js"></script>
+<script src="..\..\site_libs\quarto-search\autocomplete.umd.js"></script>
+<script src="..\..\site_libs\quarto-search\fuse.min.js"></script>
+<script src="..\..\site_libs\quarto-search\quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="..\..\site_libs\quarto-html\quarto.js"></script>
+<script src="..\..\site_libs\quarto-html\popper.min.js"></script>
+<script src="..\..\site_libs\quarto-html\tippy.umd.min.js"></script>
+<script src="..\..\site_libs\quarto-html\anchor.min.js"></script>
+<link href="..\..\site_libs\quarto-html\tippy.css" rel="stylesheet">
+<link href="..\..\site_libs\quarto-html\quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="..\..\site_libs\bootstrap\bootstrap.min.js"></script>
+<link href="..\..\site_libs\bootstrap\bootstrap-icons.css" rel="stylesheet">
+<link href="..\..\site_libs\bootstrap\bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-git" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Another case for redesigning dual axis charts</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">r-bloggers</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">stackoverflow</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">data.table</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">happy git</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-original-chart" id="toc-the-original-chart" class="nav-link active" data-scroll-target="#the-original-chart">The original chart</a></li>
+  <li><a href="#data-structure" id="toc-data-structure" class="nav-link" data-scroll-target="#data-structure">Data structure</a></li>
+  <li><a href="#side-by-side-chart" id="toc-side-by-side-chart" class="nav-link" data-scroll-target="#side-by-side-chart">Side-by-side chart</a></li>
+  <li><a href="#indexed-chart" id="toc-indexed-chart" class="nav-link" data-scroll-target="#indexed-chart">Indexed chart</a></li>
+  <li><a href="#connected-scatterplot" id="toc-connected-scatterplot" class="nav-link" data-scroll-target="#connected-scatterplot">Connected scatterplot</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Another case for redesigning dual axis charts</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Data storytelling</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>An example of replacing a dual axis chart with alternatives better suited to drawing inferences about the data.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-06-06</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><small><em>The author of a recent article plots two time series in a dual axis chart as visual evidence of a correlation between the two series. I re-plot the data using three recommended alternatives: a side-by-side chart, an indexed chart, and a connected scatterplot. The alternate charts are superior to the dual axis chart for drawing inferences about the data.</em></small></p>
+</div>
+</div>
+<p>Dual axis charts, often used to compare two data series, are problematic even when designed with care. As Lisa Charlotte Muth explains,</p>
+<blockquote class="blockquote">
+<p>We believe that charts with two different y-axes make it hard for most people to intuitively make right statements about two data series. We recommend two alternatives strongly: using two charts instead of one and using indexed charts. <span class="citation" data-cites="Muth:2018">(<a href="#ref-Muth:2018" role="doc-biblioref">Muth, 2018</a>)</span></p>
+</blockquote>
+<p>Muth cites essays on the subject by Stephen Few <span class="citation" data-cites="Few:2008">(<a href="#ref-Few:2008" role="doc-biblioref">2008</a>)</span>, <a href="http://stephanieevergreen.com/two-alternatives-to-using-a-second-y-axis/">Stephanie Evergreen</a>, and <a href="https://www.storytellingwithdata.com/blog/2016/2/1/be-gone-dual-y-axis">Cole Nussbaumer Knaflic</a>, plus a StackOverflow thread by <a href="https://stackoverflow.com/questions/30987654321%6099219/ggplot-with-2-y-axes-on-each-side-and-different-scales/3101876#3101876">Hadley Wickham</a> on why ggplot2 does not support dual axis charts.</p>
+<p>In this post, I critique a dual-axis chart of two time series, re-plot the data using a side-by-side chart, an indexed chart, and a connected scatterplot, and compare the messages conveyed by the new charts to those of the dual axis chart.</p>
+<p>For reproducibility, the R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># packages used </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggpubfigs"</span>) <span class="co"># color vision deficient inclusive palettes </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="the-original-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-original-chart">The original chart</h2>
+<p>In a recent article, Christopher Newfield <span class="citation" data-cites="Newfield:2021">(<a href="#ref-Newfield:2021" role="doc-biblioref">2021</a>)</span> addresses the structural racism of higher education funding. He uses data from the University of California (UC) system to illustrate several points.</p>
+<p>In one instance, he uses the dual axis chart shown below to compare two time series of UC data from 1999 to 2017: declining percentage of White undergraduate enrollment and declining funding as a fraction of state personal income.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="Newfield-fig2.jpg" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Original chart. <span class="citation" data-cites="Newfield:2021">(<a href="#ref-Newfield:2021" role="doc-biblioref">Newfield, 2021</a>)</span></figcaption><p></p>
+</figure>
+</div>
+<p>Referring to the chart, Newfield writes,</p>
+<blockquote class="blockquote">
+<p>… as figure 2 illustrates, when the Democrats started their still-unbroken one-party rule of the legislature in the late 1990s, they did not break the racialized funding pattern in the state universities that [Gov.&nbsp;Pete] Wilson had launched. As white enrollment goes down, the state reduces net funding. The strong Democratic majority has defunded the UC system in <em>direct proportion</em> [emphasis mine] with its decline in white student share—except when the Arnold Schwarzenegger cuts and Jerry Brown cuts, also bipartisan, made it even worse.</p>
+</blockquote>
+<p>To a data science practitioner, “direct proportion” implies a linear correlation between data series. In a dual axis chart, however, the appearance of correlation can be misleading because the scales of the two axes are arbitrary.</p>
+<p>The article continues,</p>
+<blockquote class="blockquote">
+<p>Whatever their intentions, Republicans and Democrats collectively gave less state support to the diverse UC than to the white UC on which both postwar parties had happily spent.</p>
+</blockquote>
+<p>Agreed. The chart yields this message as a direct observation. In a later chart I quantify these cuts, showing that levels of funding in 2017 are only 60% of their levels in 1999.</p>
+<p>He concludes this section with,</p>
+<blockquote class="blockquote">
+<p>They [the Democratic majority legislature] yoked … major gains in BA attainment for students of color to steady funding cuts that saved money for the state’s white voting majority.</p>
+<p>As the Biden-Harris administration settles in, it’s worth remembering that the biggest blue state’s higher education policy has been a textbook case of the systemic racism that became a national byword in 2020.</p>
+</blockquote>
+<p>Given the data at hand, I show that charts better suited to the visual task can reveal nuances in the story obscured by the dual axis design.</p>
+</section>
+<section id="data-structure" class="level2">
+<h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
+<p>The data structure is outlined in <a href="#tbl-data-structure">Table&nbsp;1</a>: two quantitative variables evolving over time (yearly). The funding measurement is a ratio of (presumably) nominal dollars in each year, so adjusting for inflation is unnecessary.</p>
+<p><small></small></p><small>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-data-structure" class="anchored">
+<table class="table table-sm table-striped">
+<caption>Table 1: Data structure</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">structure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">categorical, ordinal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">percent White enrollment</td>
+<td style="text-align: left;">quantitative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UC funds fraction of state income</td>
+<td style="text-align: left;">quantitative</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</small><p><small></small></p>
+<p>I transcribed the data values from the original chart. These data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/budget-justice.csv">CSV file</a>. Here I add the governors’ names for annotating the charts.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read from the blog data directory</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/budget-justice.csv"</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">colClasses =</span> <span class="fu">list</span>(<span class="at">double =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"white_pct"</span>)))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># add governor names</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>dt[, gov <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  year <span class="sc">&lt;</span> <span class="dv">2004</span>, <span class="st">"Gray Davis"</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  year <span class="sc">&gt;=</span> <span class="dv">2004</span> <span class="sc">&amp;</span> year <span class="sc">&lt;</span> <span class="dv">2011</span>, <span class="st">"A. Schwarzenegger"</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  year <span class="sc">&gt;=</span> <span class="dv">2011</span>, <span class="st">"Jerry Brown"</span>)]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># display</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>dt[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     year white_pct fund_frac               gov
+    &lt;num&gt;     &lt;num&gt;     &lt;num&gt;            &lt;char&gt;
+ 1:  1999        40      0.43        Gray Davis
+ 2:  2000        40      0.44        Gray Davis
+ 3:  2001        39      0.41        Gray Davis
+ 4:  2002        38      0.42        Gray Davis
+ 5:  2003        38      0.40        Gray Davis
+ 6:  2004        37      0.35 A. Schwarzenegger
+ 7:  2005        37      0.34 A. Schwarzenegger
+ 8:  2006        36      0.33 A. Schwarzenegger
+ 9:  2007        36      0.33 A. Schwarzenegger
+10:  2008        35      0.20 A. Schwarzenegger
+11:  2009        34      0.22 A. Schwarzenegger
+12:  2010        33      0.32 A. Schwarzenegger
+13:  2011        32      0.24       Jerry Brown
+14:  2012        30      0.24       Jerry Brown
+15:  2013        29      0.26       Jerry Brown
+16:  2014        28      0.27       Jerry Brown
+17:  2015        27      0.27       Jerry Brown
+18:  2016        26      0.28       Jerry Brown
+19:  2017        25      0.27       Jerry Brown</code></pre>
+</div>
+</div>
+</section>
+<section id="side-by-side-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="side-by-side-chart">Side-by-side chart</h2>
+<p>Muth and others recommend plotting two data series in separate charts. Stephen Few, for example, says</p>
+<blockquote class="blockquote">
+<p>The first and most obvious [approach] is to place them in separate graphs, positioned close to one another so that the patterns in each can be compared to one another, but magnitude comparisons will be discouraged. <span class="citation" data-cites="Few:2008">(<a href="#ref-Few:2008" role="doc-biblioref">Few, 2008</a>)</span></p>
+</blockquote>
+<p>Following this prescription, I plot the two data series in <a href="#fig-two-charts">Figure&nbsp;1</a> using separate panels having their own vertical, quantitative scales but sharing a common time scale. I select an aspect ratio that emphasizes the slopes of the line segments.</p>
+<p>Newfield mentions the terms of two California governors, so I annotate the chart to indicate the gubernatorial terms that span these data: Gray Davis (Democrat), Arnold Schwarzenegger (Republican), and Jerry Brown (Democrat).</p>
+<div class="cell page-columns page-full" data-fig.asp="0.4">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform to block record form</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dt_melt <span class="ot">&lt;-</span> <span class="fu">melt</span>(dt, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">measure.vars  =</span> <span class="fu">c</span>(<span class="st">"white_pct"</span>, <span class="st">"fund_frac"</span>), </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">variable.name =</span> <span class="st">"data_series"</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">value.name    =</span> <span class="st">"value"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># stand-alone data frame for annotating gubernatorial terms</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>gov_text <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Davis"</span>, <span class="st">"Schwarzenegger"</span>, <span class="st">"Brown"</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_series =</span> <span class="st">"fund_frac"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">2001</span>, <span class="fl">2007.5</span>, <span class="dv">2014</span>),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fl">0.38</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># vector for relabeling the facets</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>facet_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"UC funding fraction of state personal income"</span>, </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"White undergraduate % enrollment"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(facet_labels) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"fund_frac"</span>, <span class="st">"white_pct"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># chart</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt_melt, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(data_series), </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">2</span>, </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>, </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">data_series =</span> facet_labels)) <span class="sc">+</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="dv">1999</span>, <span class="dv">2017</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># delineate gubernatorial terms</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(<span class="dv">2004</span>, <span class="dv">2011</span>), </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"gray30"</span>, </span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.5</span>, </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> gov_text,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> label),</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-two-charts" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-two-charts-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: Redrawing the dual axis chart as a side-by-side chart with gubernatorial terms delineated.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The decrease in the White undergraduate population fraction is fairly steady over this time span. This is not surprising given the changing demographics of the state: in 2000, Non-Hispanic whites were 46% of the state population; in 2010, 40%; and in 2020, 35% <span class="citation" data-cites="Allen+Turner:2011 McGhee+Paluch+Hsieh:2021">(<a href="#ref-Allen+Turner:2011" role="doc-biblioref">Allen &amp; Turner, 2011</a>; <a href="#ref-McGhee+Paluch+Hsieh:2021" role="doc-biblioref">McGhee et al., 2021</a>)</span>.</p>
+<p>UC funding decreases as well, but with greater irregularity, especially during the Schwarzenegger years. Even ignoring the cuts associated with the 2008 global financial debacle, Schwarzenegger’s tenure concludes with the largest cuts in the data set.</p>
+<p>Yet contrary to Newfield’s assertion that Jerry Brown’s cuts “made it even worse,” the funding trend changes course under Brown. It doesn’t get much better, but it doesn’t get worse either.</p>
+</section>
+<section id="indexed-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="indexed-chart">Indexed chart</h2>
+<p>The second choice of many experts is the indexed chart. Again, from Stephen Few,</p>
+<blockquote class="blockquote">
+<p>The other less obvious solution, which works only for time series, is to convert all sets of values to a common quantitative scale by displaying percentage differences between each value and a reference (or index) value. For instance, select a particular point in time, such as the first interval that appears in the graph, and express each subsequent value as the percentage difference between it and the initial value. <span class="citation" data-cites="Few:2008">(<a href="#ref-Few:2008" role="doc-biblioref">Few, 2008</a>)</span></p>
+</blockquote>
+<p>Selecting 1999 as the index year, in <a href="#fig-indexed">Figure&nbsp;2</a> I graph enrollment change with respect to its index (40%) and funding change with respect to its index (0.43). Thus both series share a common quantitative scale as well as a common time scale.</p>
+<p>In reading the chart, for example, a change of −10% indicates the variable has dropped by 10% relative to its 1999 index value.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform to block record form </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dt_idx <span class="ot">&lt;-</span> <span class="fu">melt</span>(dt, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"white_pct"</span>, <span class="st">"fund_frac"</span>), </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">variable.name =</span> <span class="st">"data_series"</span>, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">value.name =</span> <span class="st">"measure"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute percent change relative to 1999</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setkeyv</span>(dt_idx, <span class="fu">c</span>(<span class="st">"data_series"</span>, <span class="st">"year"</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>dt_idx[, idx <span class="sc">:</span><span class="er">=</span> measure[<span class="dv">1</span>], by <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"data_series"</span>)]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>dt_idx[, rel_change <span class="sc">:</span><span class="er">=</span>  <span class="dv">100</span> <span class="sc">*</span> ((measure <span class="sc">/</span> idx) <span class="sc">-</span> <span class="dv">1</span>)]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create the base chart for all versions of indexed charts</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dt_idx, </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> rel_change, <span class="at">color =</span> data_series)) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 1999 baseline</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1999</span>, <span class="at">xend =</span> <span class="dv">2017</span>, </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">0</span>), </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> <span class="st">"gray30"</span>, </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                   <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2017</span>, </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="dv">0</span>, </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"1999 baseline"</span>, </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">1</span>, </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># delineate gubernatorial terms</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(<span class="dv">2004</span>, <span class="dv">2011</span>),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"gray30"</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> dt_idx[data_series <span class="sc">==</span> <span class="st">"fund_frac"</span> <span class="sc">&amp;</span> year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2001</span>, <span class="dv">2008</span>, <span class="dv">2014</span>)], </span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> <span class="sc">-</span><span class="dv">56</span>, <span class="at">label =</span> gov), </span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># label the two data series</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="dv">2017</span>, </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">22</span>, <span class="sc">-</span><span class="dv">44</span>), </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"White enrollment share"</span>, <span class="st">"Funding"</span>), </span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), </span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="co"># points, scales, labels, theme</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Percent change since 1999"</span>) <span class="sc">+</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">friendly_pal</span>(<span class="st">"contrast_three"</span>)) <span class="sc">+</span> </span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2000</span>, <span class="dv">2020</span>, <span class="dv">5</span>), </span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>                     <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="dv">1999</span>, <span class="dv">2020</span>, <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">10</span>), </span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"\U2212"</span>, <span class="fu">seq</span>(<span class="dv">50</span>, <span class="dv">10</span>, <span class="sc">-</span><span class="dv">10</span>)), <span class="fu">paste0</span>(<span class="st">"\U00B1"</span>, <span class="st">"0%"</span>))) <span class="sc">+</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="co"># connect the dots for the first indexed chart</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linetype =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-indexed" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-indexed-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: How UC enrollment and funding change relative to their values in 1999.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In an indexed chart, lines that are <em>locally parallel</em> indicate a potential correlation between data series.</p>
+<p>To check for parallels, I replace the connect-the-dots lines with regression curves. At first glance, the lines are approximately parallel, suggesting a correlation. The problem is lack of fit: a linear fit is a good model for the enrollment data but a poor model for the funding data.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot overall regression lines</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-indexed-2" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-indexed-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: Trying a linear fit to both data series.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The shape of the funding data is clearly different from one governor to the next. In the next chart, I create separate funding regressions by governor, ignoring the 2008-09 data as outliers, and I leave the enrollment linear fit as is. The aspect ratio is arbitrary: in this chart, relative parallelism is the indicator, not the slope itself.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># leave enrollment fit as is</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">data =</span> dt_idx[data_series <span class="sc">==</span> <span class="st">"white_pct"</span>], </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"lm"</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add regression lines by governor</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> dt_idx[data_series <span class="sc">==</span> <span class="st">"fund_frac"</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2004</span>],</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"lm"</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> dt_idx[data_series <span class="sc">==</span> <span class="st">"fund_frac"</span> <span class="sc">&amp;</span> year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2004</span><span class="sc">:</span><span class="dv">2007</span>, <span class="dv">2010</span><span class="sc">:</span><span class="dv">2011</span>)],</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"lm"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> dt_idx[data_series <span class="sc">==</span> <span class="st">"fund_frac"</span> <span class="sc">&amp;</span> year <span class="sc">&gt;=</span> <span class="dv">2011</span>],</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"lm"</span>, </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-indexed-3" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-indexed-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 4: Applying separate funding regressions by governor.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again looking for parallel lines, I think this chart brings the shapes of the funding trends by governor more clearly to the forefront.</p>
+<ul>
+<li>Under Davis, the enrollment and funding lines are nearly parallel, indicating a potential correlation.</li>
+<li>Under Schwarzenegger, the lines are again roughly parallel though at lower funding levels—again indicating a potential correlation.</li>
+<li>Under Brown, the two lines are clearly not parallel—a negative slope for enrollment, a positive slope for funding. These results argue against a correlation under Brown.</li>
+</ul>
+</section>
+<section id="connected-scatterplot" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="connected-scatterplot">Connected scatterplot</h2>
+<p>Scatterplots are designed to reveal correlations between two quantitative variables.</p>
+<p>However, our two quantitative variables are both time series, adding a third variable to the story. To account for the time sequence, the data markers in a scatterplot are sequentially connected—yielding the “connected scatterplot” design. As Muth says,</p>
+<blockquote class="blockquote">
+<p>Suddenly, time doesn’t move from left to right, but wiggles through space.</p>
+</blockquote>
+<p>The connected scatterplot for the UC enrollment/funding data is given in <a href="#fig-first-design">Figure&nbsp;5</a>: enrollment data along the x-axis, funding data along the y-axis; each data marker represents the enrollment-funding relationship in a given year; data markers are connected in sequence by year; and starting and ending years are labeled to orient the reader. The 1:1 aspect ratio makes relative diagonals easier to identify (more on this shortly).</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x =</span> white_pct, <span class="at">y =</span> fund_frac)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"White undergraduate enrollment (%)"</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"UC funding / State  personal income"</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> dt[year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1999</span>, <span class="dv">2017</span>)],</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">label =</span> year), </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">nudge_y =</span> <span class="sc">-</span> <span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-first-design" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-first-design-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 5: Initial connected scatterplot.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The non-intuitive aspect of this chart is that time reads from right to left, which is likely to confuse some readers.</p>
+<p>I reverse the direction of the time path in <a href="#fig-third-design">Figure&nbsp;6</a> by transforming the enrollment variable to percent enrollment of students of color (which increases over time.) I also encode the gubernatorial terms using color and add several year labels to assist the reader. (The data marker for 2006 overprints the identical value for 2005.) The color palette is selected to accommodate viewers with a color vision deficiency.</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add end-of-term dummy rows grouping by governor</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dum_row <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dum_row <span class="ot">&lt;-</span> dum_row[year <span class="sc">==</span> <span class="dv">2004</span> <span class="sc">|</span> year <span class="sc">==</span> <span class="dv">2011</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dum_row[year <span class="sc">==</span> <span class="dv">2004</span>, gov <span class="sc">:</span><span class="er">=</span> <span class="st">"Gray Davis"</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>dum_row[year <span class="sc">==</span> <span class="dv">2011</span>, gov <span class="sc">:</span><span class="er">=</span> <span class="st">"A. Schwarzenegger"</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>dt_conn <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(dt, dum_row))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># add a column to ensure correct order</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>dt_conn[, order_gov <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  gov <span class="sc">%chin%</span> <span class="st">"Gray Davis"</span>, <span class="dv">1</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  gov <span class="sc">%chin%</span> <span class="st">"A. Schwarzenegger"</span>, <span class="dv">2</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  gov <span class="sc">%chin%</span> <span class="st">"Jerry Brown"</span>, <span class="dv">3</span> </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">setkeyv</span>(dt_conn, <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"order_gov"</span>))</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># base plot for connected scatterplot. color = gov uses the dummy rows</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dt_conn, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">100</span> <span class="sc">-</span> white_pct, <span class="at">y =</span> fund_frac, <span class="at">color =</span> gov)) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Enrollment of students of color (%)"</span>, </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"UC funding / State  personal income"</span>) <span class="sc">+</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># label selected years with original dt</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> dt[year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1999</span>, <span class="dv">2004</span>, <span class="dv">2008</span>, <span class="dv">2011</span>, <span class="dv">2017</span>)],</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">label =</span> year), </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>           <span class="at">nudge_x =</span> <span class="fl">0.7</span>  <span class="sc">*</span> <span class="fu">c</span>( <span class="dv">0</span>,  <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>), </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>           <span class="at">nudge_y =</span> <span class="fl">0.01</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,   <span class="dv">0</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># label governors once per span</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> dt_conn[year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2001</span>, <span class="dv">2008</span>, <span class="dv">2014</span>)], </span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">label =</span> gov), </span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>            <span class="at">nudge_x =</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>            <span class="at">nudge_y =</span> <span class="fl">0.03</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>), </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">fontface =</span> <span class="st">"bold"</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co"># first connected scatterplot chart, connect the dots</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_path</span>(<span class="at">linetype =</span> <span class="dv">2</span>)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-third-design" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-third-design-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 6: Final connected scatterplot. UC funding as a function of percent enrollment of students of color.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In a connected scatterplot, lines on a <em>relative diagonal</em> indicate a potential correlation between variables.</p>
+<blockquote class="blockquote">
+<p>… positive correlations show up as relatively diagonal lines along the “forward slash” axis of the connected scatterplot, while negative correlations show up on the “backslash” axis. <span class="citation" data-cites="Haroz+Kosara+Franconeri:2016">(<a href="#ref-Haroz+Kosara+Franconeri:2016" role="doc-biblioref">Haroz et al., 2016</a>)</span></p>
+</blockquote>
+<p>To help tease out the underlying visual pattern, I add regression lines within the gubernatorial segments as before (ignoring the funding data in 2008–09 as outliers), yielding <a href="#fig-sc-regression">Figure&nbsp;7</a>. The 1:1 aspect ratio makes relative diagonals easier to identify.</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot regression lines over gubernatorial terms</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>q <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">data =</span> dt_conn[<span class="sc">!</span>year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2008</span>, <span class="dv">2009</span>)], </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"lm"</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-sc-regression" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-sc-regression-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 7: Identifying potential correlations over different gubernatorial terms.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The chart yields a story consistent with my earlier findings,</p>
+<ul>
+<li>A negative diagonal, as in the Davis and Schwarzenegger years, indicates a negative correlation, that is, a correlation between decreasing funding and increasing percent enrollment of students of color.</li>
+<li>A relatively flat slope, as in the Brown years, indicates that funding is fairly static, independent of the change in population fraction. No correlation.</li>
+</ul>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>Each of the three alternate chart designs is more effective than the dual axis chart at revealing and conveying the stories in these data.</p>
+<p>Of the three alternatives, I suspect that the side-by-side chart would work best for most audiences. The trends can be seen without having to explain the normalization of the indexed chart or the path-through-time of the connected scatterplot.</p>
+<p>However, the indexed chart and the connected scatterplot are better than the side-by-side chart at revealing correlations: parallel lines in the indexed chart; diagonal lines in the connected scatterplot.</p>
+<p>Taken all together, I think the revised charts support these statements:</p>
+<ul>
+<li>UC funding was cut under Democratic governor Gray Davis and cut even more under Republican governor Schwarzenegger.</li>
+<li>UC funding leveled off under Democratic governor Brown—not improving much but not getting worse.</li>
+<li>Over the same time period, the fraction of White undergraduate enrollment steadily decreased.</li>
+</ul>
+<p>And these inferences:</p>
+<ul>
+<li>The increasing percentage of students of color is consistent with the increasing percentage of people of color in the state.</li>
+<li>The correlation between race and funding is more readily demonstrated for Davis’ and Schwarzenegger’s terms in office than it is in Brown’s.</li>
+</ul>
+<p>Yet, as Newfield reminds us—before, during, and after the time span of these data, the <em>legislature</em> has been under one-party, Democratic rule; a legislature that has repeatedly cut the UC budget such that in 2017 funding as a percent of state personal income is only 60% of what it was in 1999—a persistent devaluation of higher education as a public good.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="doc-bibliography">
+<div id="ref-Allen+Turner:2011" class="csl-entry" role="doc-biblioentry">
+Allen, J. P., &amp; Turner, E. (2011). <span class="nocase">Patterns of population change in California, 2000–2010</span>. <em>The California Geographer</em>, <em>51</em>. <a href="http://www.csun.edu/~hfgeg005/eturner/images/Pubs/Allen-Turner12_PatternsOfPopChgInCA_00_10.pdf">http://www.csun.edu/~hfgeg005/eturner/images/Pubs/Allen-Turner12_PatternsOfPopChgInCA_00_10.pdf</a>
+</div>
+<div id="ref-Few:2008" class="csl-entry" role="doc-biblioentry">
+Few, S. (2008). <em><span class="nocase">Dual-scaled axes in graphs: Are they ever the best solution?</span></em> Newsletter. <a href="https://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf">https://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf</a>
+</div>
+<div id="ref-Haroz+Kosara+Franconeri:2016" class="csl-entry" role="doc-biblioentry">
+Haroz, S., Kosara, R., &amp; Franconeri, S. (2016). <span class="nocase">The connected scatterplot for presenting paired time series</span>. <em>IEEE Transactions on Visualization and Computer Graphics</em>, <em>22</em>(9), 2174–2186. <a href="https://doi.org/10.1109/TVCG.2015.2502587">https://doi.org/10.1109/TVCG.2015.2502587</a>
+</div>
+<div id="ref-McGhee+Paluch+Hsieh:2021" class="csl-entry" role="doc-biblioentry">
+McGhee, E., Paluch, J., &amp; Hsieh, V. (2021). <em>New census data sheds light on <span class="nocase">California’s</span> changes</em>. Blog post. <a href="https://www.ppic.org/blog/new-census-data-sheds-light-on-californias-changes/">https://www.ppic.org/blog/new-census-data-sheds-light-on-californias-changes/</a>
+</div>
+<div id="ref-Muth:2018" class="csl-entry" role="doc-biblioentry">
+Muth, L. C. (2018). <em><span class="nocase">Why not to use two axes, and what to use instead</span></em>. Blog post. <a href="https://blog.datawrapper.de/dualaxis/">https://blog.datawrapper.de/dualaxis/</a>
+</div>
+<div id="ref-Newfield:2021" class="csl-entry" role="doc-biblioentry">
+Newfield, C. (2021). <span class="nocase">Budget justice: Addressing the structural racism of higher education funding</span>. <em>Academe</em>, <em>107</em>(2), 57–64. <a href="https://www.aaup.org/article/budget-justice#.Ypes1ajMJag">https://www.aaup.org/article/budget-justice#.Ypes1ajMJag</a>
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+</ul>
+      </div>
+  </div>
+</footer>
+
+
+
+</body></html>

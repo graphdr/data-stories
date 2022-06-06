@@ -9,8 +9,506 @@
 <link>https://graphdr.github.io/data-stories/index.html#category=R</link>
 <atom:link href="https://graphdr.github.io/data-stories/index-r.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
-<generator>quarto-0.9.462</generator>
-<lastBuildDate>Fri, 27 May 2022 04:00:00 GMT</lastBuildDate>
+<generator>quarto-0.9.479</generator>
+<lastBuildDate>Mon, 06 Jun 2022 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Another case for redesigning dual axis charts</title>
+  <link>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index.html</link>
+  <description><![CDATA[ 
+
+
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><small><em>The author of a recent article plots two time series in a dual axis chart as visual evidence of a correlation between the two series. I re-plot the data using three recommended alternatives: a side-by-side chart, an indexed chart, and a connected scatterplot. The alternate charts are superior to the dual axis chart for drawing inferences about the data.</em></small></p>
+</div>
+</div>
+<p>Dual axis charts, often used to compare two data series, are problematic even when designed with care. As Lisa Charlotte Muth explains,</p>
+<blockquote class="blockquote">
+<p>We believe that charts with two different y-axes make it hard for most people to intuitively make right statements about two data series. We recommend two alternatives strongly: using two charts instead of one and using indexed charts. <span class="citation" data-cites="Muth:2018">(Muth, 2018)</span></p>
+</blockquote>
+<p>Muth cites essays on the subject by Stephen Few <span class="citation" data-cites="Few:2008">(2008)</span>, <a href="http://stephanieevergreen.com/two-alternatives-to-using-a-second-y-axis/">Stephanie Evergreen</a>, and <a href="https://www.storytellingwithdata.com/blog/2016/2/1/be-gone-dual-y-axis">Cole Nussbaumer Knaflic</a>, plus a StackOverflow thread by <a href="https://stackoverflow.com/questions/30987654321%6099219/ggplot-with-2-y-axes-on-each-side-and-different-scales/3101876#3101876">Hadley Wickham</a> on why ggplot2 does not support dual axis charts.</p>
+<p>In this post, I critique a dual-axis chart of two time series, re-plot the data using a side-by-side chart, an indexed chart, and a connected scatterplot, and compare the messages conveyed by the new charts to those of the dual axis chart.</p>
+<p>For reproducibility, the R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># packages used </span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"data.table"</span>)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggplot2"</span>)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggpubfigs"</span>) <span class="co" style="color: #5E5E5E;"># color vision deficient inclusive palettes </span></span></code></pre></div>
+</details>
+</div>
+<section id="the-original-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-original-chart">The original chart</h2>
+<p>In a recent article, Christopher Newfield <span class="citation" data-cites="Newfield:2021">(2021)</span> addresses the structural racism of higher education funding. He uses data from the University of California (UC) system to illustrate several points.</p>
+<p>In one instance, he uses the dual axis chart shown below to compare two time series of UC data from 1999 to 2017: declining percentage of White undergraduate enrollment and declining funding as a fraction of state personal income.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/Newfield-fig2.jpg" class="img-fluid figure-img"></p>
+<p></p><p></p>
+</figure>
+</div>
+<p>Referring to the chart, Newfield writes,</p>
+<blockquote class="blockquote">
+<p>… as figure 2 illustrates, when the Democrats started their still-unbroken one-party rule of the legislature in the late 1990s, they did not break the racialized funding pattern in the state universities that [Gov.&nbsp;Pete] Wilson had launched. As white enrollment goes down, the state reduces net funding. The strong Democratic majority has defunded the UC system in <em>direct proportion</em> [emphasis mine] with its decline in white student share—except when the Arnold Schwarzenegger cuts and Jerry Brown cuts, also bipartisan, made it even worse.</p>
+</blockquote>
+<p>To a data science practitioner, “direct proportion” implies a linear correlation between data series. In a dual axis chart, however, the appearance of correlation can be misleading because the scales of the two axes are arbitrary.</p>
+<p>The article continues,</p>
+<blockquote class="blockquote">
+<p>Whatever their intentions, Republicans and Democrats collectively gave less state support to the diverse UC than to the white UC on which both postwar parties had happily spent.</p>
+</blockquote>
+<p>Agreed. The chart yields this message as a direct observation. In a later chart I quantify these cuts, showing that levels of funding in 2017 are only 60% of their levels in 1999.</p>
+<p>He concludes this section with,</p>
+<blockquote class="blockquote">
+<p>They [the Democratic majority legislature] yoked … major gains in BA attainment for students of color to steady funding cuts that saved money for the state’s white voting majority.</p>
+<p>As the Biden-Harris administration settles in, it’s worth remembering that the biggest blue state’s higher education policy has been a textbook case of the systemic racism that became a national byword in 2020.</p>
+</blockquote>
+<p>Given the data at hand, I show that charts better suited to the visual task can reveal nuances in the story obscured by the dual axis design.</p>
+</section>
+<section id="data-structure" class="level2">
+<h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
+<p>The data structure is outlined in Table&nbsp;1: two quantitative variables evolving over time (yearly). The funding measurement is a ratio of (presumably) nominal dollars in each year, so adjusting for inflation is unnecessary.</p>
+<p><small></small></p><small>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-data-structure" class="anchored">
+<table class="table table-sm table-striped">
+<caption>Table 1: Data structure</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">structure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">categorical, ordinal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">percent White enrollment</td>
+<td style="text-align: left;">quantitative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UC funds fraction of state income</td>
+<td style="text-align: left;">quantitative</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</small><p><small></small></p>
+<p>I transcribed the data values from the original chart. These data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/budget-justice.csv">CSV file</a>. Here I add the governors’ names for annotating the charts.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read from the blog data directory</span></span>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/budget-justice.csv"</span>, </span>
+<span id="cb2-3">            <span class="at" style="color: #657422;">colClasses =</span> <span class="fu" style="color: #4758AB;">list</span>(<span class="at" style="color: #657422;">double =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"year"</span>, <span class="st" style="color: #20794D;">"white_pct"</span>)))</span>
+<span id="cb2-4"></span>
+<span id="cb2-5"><span class="co" style="color: #5E5E5E;"># add governor names</span></span>
+<span id="cb2-6">dt[, gov <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">fcase</span>(</span>
+<span id="cb2-7">  year <span class="sc" style="color: #5E5E5E;">&lt;</span> <span class="dv" style="color: #AD0000;">2004</span>, <span class="st" style="color: #20794D;">"Gray Davis"</span>, </span>
+<span id="cb2-8">  year <span class="sc" style="color: #5E5E5E;">&gt;=</span> <span class="dv" style="color: #AD0000;">2004</span> <span class="sc" style="color: #5E5E5E;">&amp;</span> year <span class="sc" style="color: #5E5E5E;">&lt;</span> <span class="dv" style="color: #AD0000;">2011</span>, <span class="st" style="color: #20794D;">"A. Schwarzenegger"</span>, </span>
+<span id="cb2-9">  year <span class="sc" style="color: #5E5E5E;">&gt;=</span> <span class="dv" style="color: #AD0000;">2011</span>, <span class="st" style="color: #20794D;">"Jerry Brown"</span>)]</span>
+<span id="cb2-10"></span>
+<span id="cb2-11"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb2-12">dt[]</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     year white_pct fund_frac               gov
+    &lt;num&gt;     &lt;num&gt;     &lt;num&gt;            &lt;char&gt;
+ 1:  1999        40      0.43        Gray Davis
+ 2:  2000        40      0.44        Gray Davis
+ 3:  2001        39      0.41        Gray Davis
+ 4:  2002        38      0.42        Gray Davis
+ 5:  2003        38      0.40        Gray Davis
+ 6:  2004        37      0.35 A. Schwarzenegger
+ 7:  2005        37      0.34 A. Schwarzenegger
+ 8:  2006        36      0.33 A. Schwarzenegger
+ 9:  2007        36      0.33 A. Schwarzenegger
+10:  2008        35      0.20 A. Schwarzenegger
+11:  2009        34      0.22 A. Schwarzenegger
+12:  2010        33      0.32 A. Schwarzenegger
+13:  2011        32      0.24       Jerry Brown
+14:  2012        30      0.24       Jerry Brown
+15:  2013        29      0.26       Jerry Brown
+16:  2014        28      0.27       Jerry Brown
+17:  2015        27      0.27       Jerry Brown
+18:  2016        26      0.28       Jerry Brown
+19:  2017        25      0.27       Jerry Brown</code></pre>
+</div>
+</div>
+</section>
+<section id="side-by-side-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="side-by-side-chart">Side-by-side chart</h2>
+<p>Muth and others recommend plotting two data series in separate charts. Stephen Few, for example, says</p>
+<blockquote class="blockquote">
+<p>The first and most obvious [approach] is to place them in separate graphs, positioned close to one another so that the patterns in each can be compared to one another, but magnitude comparisons will be discouraged. <span class="citation" data-cites="Few:2008">(Few, 2008)</span></p>
+</blockquote>
+<p>Following this prescription, I plot the two data series in Figure&nbsp;1 using separate panels having their own vertical, quantitative scales but sharing a common time scale. I select an aspect ratio that emphasizes the slopes of the line segments.</p>
+<p>Newfield mentions the terms of two California governors, so I annotate the chart to indicate the gubernatorial terms that span these data: Gray Davis (Democrat), Arnold Schwarzenegger (Republican), and Jerry Brown (Democrat).</p>
+<div class="cell page-columns page-full" data-fig.asp="0.4">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;"># transform to block record form</span></span>
+<span id="cb4-2">dt_melt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">melt</span>(dt, </span>
+<span id="cb4-3">                <span class="at" style="color: #657422;">measure.vars  =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"white_pct"</span>, <span class="st" style="color: #20794D;">"fund_frac"</span>), </span>
+<span id="cb4-4">                <span class="at" style="color: #657422;">variable.name =</span> <span class="st" style="color: #20794D;">"data_series"</span>, </span>
+<span id="cb4-5">                <span class="at" style="color: #657422;">value.name    =</span> <span class="st" style="color: #20794D;">"value"</span>)</span>
+<span id="cb4-6"></span>
+<span id="cb4-7"><span class="co" style="color: #5E5E5E;"># stand-alone data frame for annotating gubernatorial terms</span></span>
+<span id="cb4-8">gov_text <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(</span>
+<span id="cb4-9">  <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Davis"</span>, <span class="st" style="color: #20794D;">"Schwarzenegger"</span>, <span class="st" style="color: #20794D;">"Brown"</span>),</span>
+<span id="cb4-10">  <span class="at" style="color: #657422;">data_series =</span> <span class="st" style="color: #20794D;">"fund_frac"</span>,</span>
+<span id="cb4-11">  <span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2001</span>, <span class="fl" style="color: #AD0000;">2007.5</span>, <span class="dv" style="color: #AD0000;">2014</span>),</span>
+<span id="cb4-12">  <span class="at" style="color: #657422;">y =</span> <span class="fl" style="color: #AD0000;">0.38</span></span>
+<span id="cb4-13">)</span>
+<span id="cb4-14"></span>
+<span id="cb4-15"><span class="co" style="color: #5E5E5E;"># vector for relabeling the facets</span></span>
+<span id="cb4-16">facet_labels <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"UC funding fraction of state personal income"</span>, </span>
+<span id="cb4-17">                  <span class="st" style="color: #20794D;">"White undergraduate % enrollment"</span>)</span>
+<span id="cb4-18"><span class="fu" style="color: #4758AB;">names</span>(facet_labels) <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"fund_frac"</span>, <span class="st" style="color: #20794D;">"white_pct"</span>)</span>
+<span id="cb4-19"></span>
+<span id="cb4-20"><span class="co" style="color: #5E5E5E;"># chart</span></span>
+<span id="cb4-21"><span class="fu" style="color: #4758AB;">ggplot</span>(<span class="at" style="color: #657422;">data =</span> dt_melt, <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> year, <span class="at" style="color: #657422;">y =</span> value)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-22">  <span class="fu" style="color: #4758AB;">facet_wrap</span>(<span class="fu" style="color: #4758AB;">vars</span>(data_series), </span>
+<span id="cb4-23">             <span class="at" style="color: #657422;">ncol =</span> <span class="dv" style="color: #AD0000;">2</span>, </span>
+<span id="cb4-24">             <span class="at" style="color: #657422;">scales =</span> <span class="st" style="color: #20794D;">"free_y"</span>, </span>
+<span id="cb4-25">             <span class="at" style="color: #657422;">labeller =</span> <span class="fu" style="color: #4758AB;">labeller</span>(<span class="at" style="color: #657422;">data_series =</span> facet_labels)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-26">  <span class="fu" style="color: #4758AB;">geom_line</span>(<span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>, <span class="at" style="color: #657422;">linetype =</span> <span class="dv" style="color: #AD0000;">2</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-27">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">2</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-28">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">minor_breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">1999</span>, <span class="dv" style="color: #AD0000;">2017</span>, <span class="dv" style="color: #AD0000;">1</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-29">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Year"</span>, <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">""</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-30">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">panel.grid.minor.y =</span> <span class="fu" style="color: #4758AB;">element_blank</span>()) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-31">  </span>
+<span id="cb4-32">  <span class="co" style="color: #5E5E5E;"># delineate gubernatorial terms</span></span>
+<span id="cb4-33">  <span class="fu" style="color: #4758AB;">geom_vline</span>(<span class="at" style="color: #657422;">xintercept =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2004</span>, <span class="dv" style="color: #AD0000;">2011</span>), </span>
+<span id="cb4-34">             <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"gray30"</span>, </span>
+<span id="cb4-35">             <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>, </span>
+<span id="cb4-36">             <span class="at" style="color: #657422;">linetype =</span> <span class="dv" style="color: #AD0000;">2</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb4-37">  <span class="fu" style="color: #4758AB;">geom_text</span>(<span class="at" style="color: #657422;">data =</span> gov_text,</span>
+<span id="cb4-38">            <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> x, <span class="at" style="color: #657422;">y =</span> y, <span class="at" style="color: #657422;">label =</span> label),</span>
+<span id="cb4-39">            <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-two-charts" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index_files/figure-html/fig-two-charts-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The decrease in the White undergraduate population fraction is fairly steady over this time span. This is not surprising given the changing demographics of the state: in 2000, Non-Hispanic whites were 46% of the state population; in 2010, 40%; and in 2020, 35% <span class="citation" data-cites="Allen+Turner:2011 McGhee+Paluch+Hsieh:2021">(Allen &amp; Turner, 2011; McGhee et al., 2021)</span>.</p>
+<p>UC funding decreases as well, but with greater irregularity, especially during the Schwarzenegger years. Even ignoring the cuts associated with the 2008 global financial debacle, Schwarzenegger’s tenure concludes with the largest cuts in the data set.</p>
+<p>Yet contrary to Newfield’s assertion that Jerry Brown’s cuts “made it even worse,” the funding trend changes course under Brown. It doesn’t get much better, but it doesn’t get worse either.</p>
+</section>
+<section id="indexed-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="indexed-chart">Indexed chart</h2>
+<p>The second choice of many experts is the indexed chart. Again, from Stephen Few,</p>
+<blockquote class="blockquote">
+<p>The other less obvious solution, which works only for time series, is to convert all sets of values to a common quantitative scale by displaying percentage differences between each value and a reference (or index) value. For instance, select a particular point in time, such as the first interval that appears in the graph, and express each subsequent value as the percentage difference between it and the initial value. <span class="citation" data-cites="Few:2008">(Few, 2008)</span></p>
+</blockquote>
+<p>Selecting 1999 as the index year, in Figure&nbsp;2 I graph enrollment change with respect to its index (40%) and funding change with respect to its index (0.43). Thus both series share a common quantitative scale as well as a common time scale.</p>
+<p>In reading the chart, for example, a change of −10% indicates the variable has dropped by 10% relative to its 1999 index value.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;"># transform to block record form </span></span>
+<span id="cb5-2">dt_idx <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">melt</span>(dt, </span>
+<span id="cb5-3">               <span class="at" style="color: #657422;">measure.vars =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"white_pct"</span>, <span class="st" style="color: #20794D;">"fund_frac"</span>), </span>
+<span id="cb5-4">               <span class="at" style="color: #657422;">variable.name =</span> <span class="st" style="color: #20794D;">"data_series"</span>, </span>
+<span id="cb5-5">               <span class="at" style="color: #657422;">value.name =</span> <span class="st" style="color: #20794D;">"measure"</span>)</span>
+<span id="cb5-6"></span>
+<span id="cb5-7"><span class="co" style="color: #5E5E5E;"># compute percent change relative to 1999</span></span>
+<span id="cb5-8"><span class="fu" style="color: #4758AB;">setkeyv</span>(dt_idx, <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"data_series"</span>, <span class="st" style="color: #20794D;">"year"</span>))</span>
+<span id="cb5-9">dt_idx[, idx <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> measure[<span class="dv" style="color: #AD0000;">1</span>], by <span class="ot" style="color: #003B4F;">=</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"data_series"</span>)]</span>
+<span id="cb5-10">dt_idx[, rel_change <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span>  <span class="dv" style="color: #AD0000;">100</span> <span class="sc" style="color: #5E5E5E;">*</span> ((measure <span class="sc" style="color: #5E5E5E;">/</span> idx) <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">1</span>)]</span>
+<span id="cb5-11"></span>
+<span id="cb5-12"><span class="co" style="color: #5E5E5E;"># create the base chart for all versions of indexed charts</span></span>
+<span id="cb5-13">p <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">ggplot</span>(<span class="at" style="color: #657422;">data =</span> dt_idx, </span>
+<span id="cb5-14">            <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> year, <span class="at" style="color: #657422;">y =</span> rel_change, <span class="at" style="color: #657422;">color =</span> data_series)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-15">  </span>
+<span id="cb5-16">  <span class="co" style="color: #5E5E5E;"># 1999 baseline</span></span>
+<span id="cb5-17">  <span class="fu" style="color: #4758AB;">geom_segment</span>(<span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">1999</span>, <span class="at" style="color: #657422;">xend =</span> <span class="dv" style="color: #AD0000;">2017</span>, </span>
+<span id="cb5-18">                   <span class="at" style="color: #657422;">y =</span> <span class="dv" style="color: #AD0000;">0</span>, <span class="at" style="color: #657422;">yend =</span> <span class="dv" style="color: #AD0000;">0</span>), </span>
+<span id="cb5-19">                   <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"gray30"</span>, </span>
+<span id="cb5-20">                   <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-21">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>, </span>
+<span id="cb5-22">           <span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">2017</span>, </span>
+<span id="cb5-23">           <span class="at" style="color: #657422;">y =</span> <span class="dv" style="color: #AD0000;">0</span>, </span>
+<span id="cb5-24">           <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"1999 baseline"</span>, </span>
+<span id="cb5-25">           <span class="at" style="color: #657422;">hjust =</span> <span class="dv" style="color: #AD0000;">1</span>, </span>
+<span id="cb5-26">           <span class="at" style="color: #657422;">vjust =</span> <span class="sc" style="color: #5E5E5E;">-</span><span class="fl" style="color: #AD0000;">0.5</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-27">  </span>
+<span id="cb5-28">  <span class="co" style="color: #5E5E5E;"># delineate gubernatorial terms</span></span>
+<span id="cb5-29">  <span class="fu" style="color: #4758AB;">geom_vline</span>(<span class="at" style="color: #657422;">xintercept =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2004</span>, <span class="dv" style="color: #AD0000;">2011</span>),</span>
+<span id="cb5-30">             <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"gray30"</span>,</span>
+<span id="cb5-31">             <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>,</span>
+<span id="cb5-32">             <span class="at" style="color: #657422;">linetype =</span> <span class="dv" style="color: #AD0000;">2</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-33">  <span class="fu" style="color: #4758AB;">geom_text</span>(<span class="at" style="color: #657422;">data =</span> dt_idx[data_series <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"fund_frac"</span> <span class="sc" style="color: #5E5E5E;">&amp;</span> year <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2001</span>, <span class="dv" style="color: #AD0000;">2008</span>, <span class="dv" style="color: #AD0000;">2014</span>)], </span>
+<span id="cb5-34">            <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">y =</span> <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">56</span>, <span class="at" style="color: #657422;">label =</span> gov), </span>
+<span id="cb5-35">            <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"black"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-36">  </span>
+<span id="cb5-37">  <span class="co" style="color: #5E5E5E;"># label the two data series</span></span>
+<span id="cb5-38">  <span class="fu" style="color: #4758AB;">annotate</span>(<span class="st" style="color: #20794D;">"text"</span>, </span>
+<span id="cb5-39">           <span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">2017</span>, </span>
+<span id="cb5-40">           <span class="at" style="color: #657422;">y =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">22</span>, <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">44</span>), </span>
+<span id="cb5-41">           <span class="at" style="color: #657422;">label =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"White enrollment share"</span>, <span class="st" style="color: #20794D;">"Funding"</span>), </span>
+<span id="cb5-42">           <span class="at" style="color: #657422;">hjust =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">1</span>), </span>
+<span id="cb5-43">           <span class="at" style="color: #657422;">vjust =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-44">  </span>
+<span id="cb5-45">  <span class="co" style="color: #5E5E5E;"># points, scales, labels, theme</span></span>
+<span id="cb5-46">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb5-47">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Year"</span>, <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"Percent change since 1999"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-48">  <span class="fu" style="color: #4758AB;">scale_color_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">friendly_pal</span>(<span class="st" style="color: #20794D;">"contrast_three"</span>)) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb5-49">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">2000</span>, <span class="dv" style="color: #AD0000;">2020</span>, <span class="dv" style="color: #AD0000;">5</span>), </span>
+<span id="cb5-50">                     <span class="at" style="color: #657422;">minor_breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">1999</span>, <span class="dv" style="color: #AD0000;">2020</span>, <span class="dv" style="color: #AD0000;">1</span>)) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb5-51">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">50</span>, <span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">10</span>), </span>
+<span id="cb5-52">                     <span class="at" style="color: #657422;">labels =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">paste0</span>(<span class="st" style="color: #20794D;">"\U2212"</span>, <span class="fu" style="color: #4758AB;">seq</span>(<span class="dv" style="color: #AD0000;">50</span>, <span class="dv" style="color: #AD0000;">10</span>, <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">10</span>)), <span class="fu" style="color: #4758AB;">paste0</span>(<span class="st" style="color: #20794D;">"\U00B1"</span>, <span class="st" style="color: #20794D;">"0%"</span>))) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-53">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">panel.grid.minor.y =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(), </span>
+<span id="cb5-54">        <span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"none"</span>)</span>
+<span id="cb5-55"></span>
+<span id="cb5-56"><span class="co" style="color: #5E5E5E;"># connect the dots for the first indexed chart</span></span>
+<span id="cb5-57">p <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">geom_line</span>(<span class="at" style="color: #657422;">linetype =</span> <span class="dv" style="color: #AD0000;">1</span>, <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-indexed" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index_files/figure-html/fig-indexed-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In an indexed chart, lines that are <em>locally parallel</em> indicate a potential correlation between data series.</p>
+<p>To check for parallels, I replace the connect-the-dots lines with regression curves. At first glance, the lines are approximately parallel, suggesting a correlation. The problem is lack of fit: a linear fit is a good model for the enrollment data but a poor model for the funding data.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;"># plot overall regression lines</span></span>
+<span id="cb6-2">p <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">geom_smooth</span>(<span class="at" style="color: #657422;">method =</span> <span class="st" style="color: #20794D;">"lm"</span>, <span class="at" style="color: #657422;">se =</span> <span class="cn" style="color: #8f5902;">FALSE</span>, <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-indexed-2" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index_files/figure-html/fig-indexed-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The shape of the funding data is clearly different from one governor to the next. In the next chart, I create separate funding regressions by governor, ignoring the 2008-09 data as outliers, and I leave the enrollment linear fit as is. The aspect ratio is arbitrary: in this chart, relative parallelism is the indicator, not the slope itself.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;"># leave enrollment fit as is</span></span>
+<span id="cb7-2">p <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">geom_smooth</span>(<span class="at" style="color: #657422;">data =</span> dt_idx[data_series <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"white_pct"</span>], </span>
+<span id="cb7-3">                <span class="at" style="color: #657422;">method =</span> <span class="st" style="color: #20794D;">"lm"</span>, </span>
+<span id="cb7-4">                <span class="at" style="color: #657422;">se =</span> <span class="cn" style="color: #8f5902;">FALSE</span>, </span>
+<span id="cb7-5">                <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-6">  </span>
+<span id="cb7-7">  <span class="co" style="color: #5E5E5E;"># add regression lines by governor</span></span>
+<span id="cb7-8">  <span class="fu" style="color: #4758AB;">geom_smooth</span>(<span class="at" style="color: #657422;">data =</span> dt_idx[data_series <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"fund_frac"</span> <span class="sc" style="color: #5E5E5E;">&amp;</span> year <span class="sc" style="color: #5E5E5E;">&lt;=</span> <span class="dv" style="color: #AD0000;">2004</span>],</span>
+<span id="cb7-9">              <span class="at" style="color: #657422;">method =</span> <span class="st" style="color: #20794D;">"lm"</span>, </span>
+<span id="cb7-10">              <span class="at" style="color: #657422;">se =</span> <span class="cn" style="color: #8f5902;">FALSE</span>, </span>
+<span id="cb7-11">              <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-12">  <span class="fu" style="color: #4758AB;">geom_smooth</span>(<span class="at" style="color: #657422;">data =</span> dt_idx[data_series <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"fund_frac"</span> <span class="sc" style="color: #5E5E5E;">&amp;</span> year <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2004</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">2007</span>, <span class="dv" style="color: #AD0000;">2010</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">2011</span>)],</span>
+<span id="cb7-13">              <span class="at" style="color: #657422;">method =</span> <span class="st" style="color: #20794D;">"lm"</span>,</span>
+<span id="cb7-14">              <span class="at" style="color: #657422;">se =</span> <span class="cn" style="color: #8f5902;">FALSE</span>,</span>
+<span id="cb7-15">              <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-16">  <span class="fu" style="color: #4758AB;">geom_smooth</span>(<span class="at" style="color: #657422;">data =</span> dt_idx[data_series <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"fund_frac"</span> <span class="sc" style="color: #5E5E5E;">&amp;</span> year <span class="sc" style="color: #5E5E5E;">&gt;=</span> <span class="dv" style="color: #AD0000;">2011</span>],</span>
+<span id="cb7-17">              <span class="at" style="color: #657422;">method =</span> <span class="st" style="color: #20794D;">"lm"</span>, </span>
+<span id="cb7-18">              <span class="at" style="color: #657422;">se =</span> <span class="cn" style="color: #8f5902;">FALSE</span>, </span>
+<span id="cb7-19">              <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">0.5</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-indexed-3" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index_files/figure-html/fig-indexed-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again looking for parallel lines, I think this chart brings the shapes of the funding trends by governor more clearly to the forefront.</p>
+<ul>
+<li>Under Davis, the enrollment and funding lines are nearly parallel, indicating a potential correlation.</li>
+<li>Under Schwarzenegger, the lines are again roughly parallel though at lower funding levels—again indicating a potential correlation.</li>
+<li>Under Brown, the two lines are clearly not parallel—a negative slope for enrollment, a positive slope for funding. These results argue against a correlation under Brown.</li>
+</ul>
+</section>
+<section id="connected-scatterplot" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="connected-scatterplot">Connected scatterplot</h2>
+<p>Scatterplots are designed to reveal correlations between two quantitative variables.</p>
+<p>However, our two quantitative variables are both time series, adding a third variable to the story. To account for the time sequence, the data markers in a scatterplot are sequentially connected—yielding the “connected scatterplot” design. As Muth says,</p>
+<blockquote class="blockquote">
+<p>Suddenly, time doesn’t move from left to right, but wiggles through space.</p>
+</blockquote>
+<p>The connected scatterplot for the UC enrollment/funding data is given in Figure&nbsp;5: enrollment data along the x-axis, funding data along the y-axis; each data marker represents the enrollment-funding relationship in a given year; data markers are connected in sequence by year; and starting and ending years are labeled to orient the reader. The 1:1 aspect ratio makes relative diagonals easier to identify (more on this shortly).</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;">ggplot</span>(dt, <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> white_pct, <span class="at" style="color: #657422;">y =</span> fund_frac)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-2">  <span class="fu" style="color: #4758AB;">geom_path</span>(<span class="at" style="color: #657422;">linetype =</span> <span class="dv" style="color: #AD0000;">2</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-3">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-4">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"White undergraduate enrollment (%)"</span>, </span>
+<span id="cb8-5">       <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"UC funding / State  personal income"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb8-6">  <span class="fu" style="color: #4758AB;">geom_text</span>(<span class="at" style="color: #657422;">data =</span> dt[year <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1999</span>, <span class="dv" style="color: #AD0000;">2017</span>)],</span>
+<span id="cb8-7">           <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">label =</span> year), </span>
+<span id="cb8-8">           <span class="at" style="color: #657422;">nudge_y =</span> <span class="sc" style="color: #5E5E5E;">-</span> <span class="fl" style="color: #AD0000;">0.01</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-first-design" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index_files/figure-html/fig-first-design-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The non-intuitive aspect of this chart is that time reads from right to left, which is likely to confuse some readers.</p>
+<p>I reverse the direction of the time path in Figure&nbsp;6 by transforming the enrollment variable to percent enrollment of students of color (which increases over time.) I also encode the gubernatorial terms using color and add several year labels to assist the reader. (The data marker for 2006 overprints the identical value for 2005.) The color palette is selected to accommodate viewers with a color vision deficiency.</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;"># add end-of-term dummy rows grouping by governor</span></span>
+<span id="cb9-2">dum_row <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">copy</span>(dt)</span>
+<span id="cb9-3">dum_row <span class="ot" style="color: #003B4F;">&lt;-</span> dum_row[year <span class="sc" style="color: #5E5E5E;">==</span> <span class="dv" style="color: #AD0000;">2004</span> <span class="sc" style="color: #5E5E5E;">|</span> year <span class="sc" style="color: #5E5E5E;">==</span> <span class="dv" style="color: #AD0000;">2011</span>]</span>
+<span id="cb9-4">dum_row[year <span class="sc" style="color: #5E5E5E;">==</span> <span class="dv" style="color: #AD0000;">2004</span>, gov <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="st" style="color: #20794D;">"Gray Davis"</span>]</span>
+<span id="cb9-5">dum_row[year <span class="sc" style="color: #5E5E5E;">==</span> <span class="dv" style="color: #AD0000;">2011</span>, gov <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="st" style="color: #20794D;">"A. Schwarzenegger"</span>]</span>
+<span id="cb9-6">dt_conn <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">rbindlist</span>(<span class="fu" style="color: #4758AB;">list</span>(dt, dum_row))</span>
+<span id="cb9-7"></span>
+<span id="cb9-8"><span class="co" style="color: #5E5E5E;"># add a column to ensure correct order</span></span>
+<span id="cb9-9">dt_conn[, order_gov <span class="sc" style="color: #5E5E5E;">:</span><span class="er" style="color: #AD0000;">=</span> <span class="fu" style="color: #4758AB;">fcase</span>(</span>
+<span id="cb9-10">  gov <span class="sc" style="color: #5E5E5E;">%chin%</span> <span class="st" style="color: #20794D;">"Gray Davis"</span>, <span class="dv" style="color: #AD0000;">1</span>, </span>
+<span id="cb9-11">  gov <span class="sc" style="color: #5E5E5E;">%chin%</span> <span class="st" style="color: #20794D;">"A. Schwarzenegger"</span>, <span class="dv" style="color: #AD0000;">2</span>,</span>
+<span id="cb9-12">  gov <span class="sc" style="color: #5E5E5E;">%chin%</span> <span class="st" style="color: #20794D;">"Jerry Brown"</span>, <span class="dv" style="color: #AD0000;">3</span> </span>
+<span id="cb9-13">)]</span>
+<span id="cb9-14"><span class="fu" style="color: #4758AB;">setkeyv</span>(dt_conn, <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"year"</span>, <span class="st" style="color: #20794D;">"order_gov"</span>))</span>
+<span id="cb9-15"></span>
+<span id="cb9-16"><span class="co" style="color: #5E5E5E;"># base plot for connected scatterplot. color = gov uses the dummy rows</span></span>
+<span id="cb9-17">p <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">ggplot</span>(dt_conn, <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> <span class="dv" style="color: #AD0000;">100</span> <span class="sc" style="color: #5E5E5E;">-</span> white_pct, <span class="at" style="color: #657422;">y =</span> fund_frac, <span class="at" style="color: #657422;">color =</span> gov)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-18">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">3</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-19">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Enrollment of students of color (%)"</span>, </span>
+<span id="cb9-20">       <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"UC funding / State  personal income"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-21">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"none"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-22">  </span>
+<span id="cb9-23">  <span class="co" style="color: #5E5E5E;"># label selected years with original dt</span></span>
+<span id="cb9-24">  <span class="fu" style="color: #4758AB;">geom_text</span>(<span class="at" style="color: #657422;">data =</span> dt[year <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1999</span>, <span class="dv" style="color: #AD0000;">2004</span>, <span class="dv" style="color: #AD0000;">2008</span>, <span class="dv" style="color: #AD0000;">2011</span>, <span class="dv" style="color: #AD0000;">2017</span>)],</span>
+<span id="cb9-25">           <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">label =</span> year), </span>
+<span id="cb9-26">           <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"black"</span>, </span>
+<span id="cb9-27">           <span class="at" style="color: #657422;">nudge_x =</span> <span class="fl" style="color: #AD0000;">0.7</span>  <span class="sc" style="color: #5E5E5E;">*</span> <span class="fu" style="color: #4758AB;">c</span>( <span class="dv" style="color: #AD0000;">0</span>,  <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>, <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>,  <span class="dv" style="color: #AD0000;">0</span>,  <span class="dv" style="color: #AD0000;">0</span>), </span>
+<span id="cb9-28">           <span class="at" style="color: #657422;">nudge_y =</span> <span class="fl" style="color: #AD0000;">0.01</span> <span class="sc" style="color: #5E5E5E;">*</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>,   <span class="dv" style="color: #AD0000;">0</span>, <span class="fl" style="color: #AD0000;">0.5</span>, <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>, <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb9-29">  </span>
+<span id="cb9-30">  <span class="co" style="color: #5E5E5E;"># label governors once per span</span></span>
+<span id="cb9-31">  <span class="fu" style="color: #4758AB;">geom_text</span>(<span class="at" style="color: #657422;">data =</span> dt_conn[year <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2001</span>, <span class="dv" style="color: #AD0000;">2008</span>, <span class="dv" style="color: #AD0000;">2014</span>)], </span>
+<span id="cb9-32">            <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">label =</span> gov), </span>
+<span id="cb9-33">            <span class="at" style="color: #657422;">nudge_x =</span> <span class="fl" style="color: #AD0000;">0.5</span> <span class="sc" style="color: #5E5E5E;">*</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">0</span>), </span>
+<span id="cb9-34">            <span class="at" style="color: #657422;">nudge_y =</span> <span class="fl" style="color: #AD0000;">0.03</span> <span class="sc" style="color: #5E5E5E;">*</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">2</span>, <span class="sc" style="color: #5E5E5E;">-</span><span class="dv" style="color: #AD0000;">1</span>), </span>
+<span id="cb9-35">            <span class="at" style="color: #657422;">fontface =</span> <span class="st" style="color: #20794D;">"bold"</span>)</span>
+<span id="cb9-36"></span>
+<span id="cb9-37"><span class="co" style="color: #5E5E5E;"># first connected scatterplot chart, connect the dots</span></span>
+<span id="cb9-38">q <span class="ot" style="color: #003B4F;">&lt;-</span> p <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">geom_path</span>(<span class="at" style="color: #657422;">linetype =</span> <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb9-39">q</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-third-design" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index_files/figure-html/fig-third-design-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In a connected scatterplot, lines on a <em>relative diagonal</em> indicate a potential correlation between variables.</p>
+<blockquote class="blockquote">
+<p>… positive correlations show up as relatively diagonal lines along the “forward slash” axis of the connected scatterplot, while negative correlations show up on the “backslash” axis. <span class="citation" data-cites="Haroz+Kosara+Franconeri:2016">(Haroz et al., 2016)</span></p>
+</blockquote>
+<p>To help tease out the underlying visual pattern, I add regression lines within the gubernatorial segments as before (ignoring the funding data in 2008–09 as outliers), yielding Figure&nbsp;7. The 1:1 aspect ratio makes relative diagonals easier to identify.</p>
+<div class="cell page-columns page-full" data-fig.asp="1">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;"># plot regression lines over gubernatorial terms</span></span>
+<span id="cb10-2">q <span class="sc" style="color: #5E5E5E;">+</span> <span class="fu" style="color: #4758AB;">geom_smooth</span>(<span class="at" style="color: #657422;">data =</span> dt_conn[<span class="sc" style="color: #5E5E5E;">!</span>year <span class="sc" style="color: #5E5E5E;">%in%</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2008</span>, <span class="dv" style="color: #AD0000;">2009</span>)], </span>
+<span id="cb10-3">                <span class="at" style="color: #657422;">method =</span> <span class="st" style="color: #20794D;">"lm"</span>, </span>
+<span id="cb10-4">                <span class="at" style="color: #657422;">se =</span> <span class="cn" style="color: #8f5902;">FALSE</span>, </span>
+<span id="cb10-5">                <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">1</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-sc-regression" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index_files/figure-html/fig-sc-regression-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The chart yields a story consistent with my earlier findings,</p>
+<ul>
+<li>A negative diagonal, as in the Davis and Schwarzenegger years, indicates a negative correlation, that is, a correlation between decreasing funding and increasing percent enrollment of students of color.</li>
+<li>A relatively flat slope, as in the Brown years, indicates that funding is fairly static, independent of the change in population fraction. No correlation.</li>
+</ul>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>Each of the three alternate chart designs is more effective than the dual axis chart at revealing and conveying the stories in these data.</p>
+<p>Of the three alternatives, I suspect that the side-by-side chart would work best for most audiences. The trends can be seen without having to explain the normalization of the indexed chart or the path-through-time of the connected scatterplot.</p>
+<p>However, the indexed chart and the connected scatterplot are better than the side-by-side chart at revealing correlations: parallel lines in the indexed chart; diagonal lines in the connected scatterplot.</p>
+<p>Taken all together, I think the revised charts support these statements:</p>
+<ul>
+<li>UC funding was cut under Democratic governor Gray Davis and cut even more under Republican governor Schwarzenegger.</li>
+<li>UC funding leveled off under Democratic governor Brown—not improving much but not getting worse.</li>
+<li>Over the same time period, the fraction of White undergraduate enrollment steadily decreased.</li>
+</ul>
+<p>And these inferences:</p>
+<ul>
+<li>The increasing percentage of students of color is consistent with the increasing percentage of people of color in the state.</li>
+<li>The correlation between race and funding is more readily demonstrated for Davis’ and Schwarzenegger’s terms in office than it is in Brown’s.</li>
+</ul>
+<p>Yet, as Newfield reminds us—before, during, and after the time span of these data, the <em>legislature</em> has been under one-party, Democratic rule; a legislature that has repeatedly cut the UC budget such that in 2017 funding as a percent of state personal income is only 60% of what it was in 1999—a persistent devaluation of higher education as a public good.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
+<div id="ref-Allen+Turner:2011" class="csl-entry">
+Allen, J. P., &amp; Turner, E. (2011). <span class="nocase">Patterns of population change in California, 2000–2010</span>. <em>The California Geographer</em>, <em>51</em>. <a href="http://www.csun.edu/~hfgeg005/eturner/images/Pubs/Allen-Turner12_PatternsOfPopChgInCA_00_10.pdf">http://www.csun.edu/~hfgeg005/eturner/images/Pubs/Allen-Turner12_PatternsOfPopChgInCA_00_10.pdf</a>
+</div>
+<div id="ref-Few:2008" class="csl-entry">
+Few, S. (2008). <em><span class="nocase">Dual-scaled axes in graphs: Are they ever the best solution?</span></em> Newsletter. <a href="https://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf">https://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf</a>
+</div>
+<div id="ref-Haroz+Kosara+Franconeri:2016" class="csl-entry">
+Haroz, S., Kosara, R., &amp; Franconeri, S. (2016). <span class="nocase">The connected scatterplot for presenting paired time series</span>. <em>IEEE Transactions on Visualization and Computer Graphics</em>, <em>22</em>(9), 2174–2186. <a href="https://doi.org/10.1109/TVCG.2015.2502587">https://doi.org/10.1109/TVCG.2015.2502587</a>
+</div>
+<div id="ref-McGhee+Paluch+Hsieh:2021" class="csl-entry">
+McGhee, E., Paluch, J., &amp; Hsieh, V. (2021). <em>New census data sheds light on <span class="nocase">California’s</span> changes</em>. Blog post. <a href="https://www.ppic.org/blog/new-census-data-sheds-light-on-californias-changes/">https://www.ppic.org/blog/new-census-data-sheds-light-on-californias-changes/</a>
+</div>
+<div id="ref-Muth:2018" class="csl-entry">
+Muth, L. C. (2018). <em><span class="nocase">Why not to use two axes, and what to use instead</span></em>. Blog post. <a href="https://blog.datawrapper.de/dualaxis/">https://blog.datawrapper.de/dualaxis/</a>
+</div>
+<div id="ref-Newfield:2021" class="csl-entry">
+Newfield, C. (2021). <span class="nocase">Budget justice: Addressing the structural racism of higher education funding</span>. <em>Academe</em>, <em>107</em>(2), 57–64. <a href="https://www.aaup.org/article/budget-justice#.Ypes1ajMJag">https://www.aaup.org/article/budget-justice#.Ypes1ajMJag</a>
+</div>
+</div></section></div> ]]></description>
+  <category>R</category>
+  <category>Data storytelling</category>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index.html</guid>
+  <pubDate>Mon, 06 Jun 2022 04:00:00 GMT</pubDate>
+  <media:content url="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/thumbnail.png" medium="image" type="image/png" height="51" width="144"/>
+</item>
 <item>
   <title>Revisiting a lying chart</title>
   <link>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index.html</link>
@@ -55,7 +553,7 @@ Summary
 <p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/chaffetz-lying-chart-3.png" class="img-fluid" style="width:90.0%"></p>
 <p>The authors promote their views further by selecting value-laden colors. Pink, associated in the US with breast cancer awareness, is good (“life-saving” in the graph subtitle), while red is bad, what the AUL calls “life-destructive”, implying blood and death (the AUL casts Planned Parenthood as “Abortion, Inc”).</p>
 <p>The arrowheads distort the story, suggesting a “strong continuation of these trends, which we don’t know to be true” (Noah Iliinsky, interviewed by <a href="https://www.politifact.com/factchecks/2015/oct/01/jason-chaffetz/chart-shown-planned-parenthood-hearing-misleading-/">Linda Qiu</a>).</p>
-<p>The time scale implies that 8 years of data are displayed. However, numerical values are shown for only 2006 and 2013. And data markers—a visual convention of the scatterplot form—are not shown at all. Edward Tufte has argued that graphics like this have achieved a “graphical absolute zero, a null data-ink ratio” <span class="citation" data-cites="Tufte:1983">(Tufte 1983, 95)</span>.</p>
+<p>The time scale implies that 8 years of data are displayed. However, numerical values are shown for only 2006 and 2013. And data markers—a visual convention of the scatterplot form—are not shown at all. Edward Tufte has argued that graphics like this have achieved a “graphical absolute zero, a null data-ink ratio” <span class="citation" data-cites="Tufte:1983">(Tufte, 1983, p. 95)</span>.</p>
 <p>Furthermore, that the lines cross creates the unsubtle visual implication that the trend in abortions is a dominant trend—which is the entire point of the deception.</p>
 <p>Here, I show the four data markers, omit the arrowhead drama, and emphasize the text (the numbers that Chaffetz “stands behind”). The revised graph forces us to see how little information is being conveyed and how the relationships have been visually distorted.</p>
 <p><img src="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/chaffetz-lying-chart-4.png" class="img-fluid" style="width:90.0%"></p>
@@ -186,7 +684,7 @@ Summary
 <p>This graph suggests we might want to find out what caused the increase in STI/STD testing and treatment or what’s behind the gradual decline in contraceptive services. The graph also shows that compared to the number of cancer services, between two and four times as many STI/STD services were provided. A similar ratio obtains for cancer services compared to contraception. Moreover, on this common scale, abortion services appear to be fairly constant, especially compared to the dramatic changes seen in other types of service.</p>
 <p>So why did the original graph compare abortion only to cancer screening? The answer is <em>cherry picking</em> (ignoring inconvenient data): the decline in cancer screening and prevention services is the only trend in these data that can be used to support AUL’s argument that Planned Parenthood is “abandoning life-saving” services.</p>
 <p>In a final refinement of the data, I account for population increase. To avoid a distorted view of time-series data, numbers of services should be studied on a per capita basis—in the same vein as accounting for inflation when studying dollar amounts over time.</p>
-<p>I use total US population data from the US Census <span class="citation" data-cites="WorldBank:2022">(World Bank 2022-01-14)</span>. These data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/ppfa-data-us-pop.csv">CSV file</a>.</p>
+<p>I use total US population data from the US Census <span class="citation" data-cites="WorldBank:2022">(World Bank, 2022-01-14)</span>. These data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/ppfa-data-us-pop.csv">CSV file</a>.</p>
 <p>Dividing the number of annual services by the annual population yields the per-capita version of the chart (strictly speaking, services per 1000 people). STI/STD services have seen a slight per capita decline since 2011, a trend not seen in the earlier figure. Otherwise, nothing stands out as particularly noteworthy compared to the earlier graph.</p>
 <div class="cell page-columns page-full">
 <details>
@@ -345,11 +843,11 @@ Summary
 </div>
 </div>
 </div>
-<p>To place these data in context, a recent study reports a significant decline in teen sex education <span class="citation" data-cites="Lindberg+Kantor:2022">(Lindberg and Kantor 2022)</span>,</p>
+<p>To place these data in context, a recent study reports a significant decline in teen sex education <span class="citation" data-cites="Lindberg+Kantor:2022">(Lindberg &amp; Kantor, 2022)</span>,</p>
 <blockquote class="blockquote">
 <p>Young people today are less likely to receive instruction on key sex education topics than they were 25 years ago … in 1995, 87% of females and 81% of males reported sex education about birth control methods, compared with 64% and 63% in 2015–2019, respectively.</p>
 </blockquote>
-<p>A report by the CDC reinforces the importance of effective sexual health care <span class="citation" data-cites="CDC:2022">(CDC 2022)</span>,</p>
+<p>A report by the CDC reinforces the importance of effective sexual health care <span class="citation" data-cites="CDC:2022">(CDC, 2022)</span>,</p>
 <blockquote class="blockquote">
 <p>In 2020, over half (53%) of reported cases of STDs were among adolescents and young adults aged 15–24 years. … disparities [by race/ethnicity] reflect differential access to <em>quality sexual health care</em> [emphasis mine], as well as differences in sexual network characteristics.</p>
 </blockquote>
@@ -361,18 +859,18 @@ Summary
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
 <div id="ref-CDC:2022" class="csl-entry">
-CDC. 2022. <span>“<span class="nocase">Sexually transmitted disease surveillance 2020: Natiuonal overview</span>.”</span> <span>Centers for disease Control and Prevention</span>. <a href="https://www.cdc.gov/std/statistics/2020/overview.htm">https://www.cdc.gov/std/statistics/2020/overview.htm</a>.
+CDC. (2022). <em><span class="nocase">Sexually transmitted disease surveillance 2020: Natiuonal overview</span></em>. <span>Centers for disease Control and Prevention</span>. <a href="https://www.cdc.gov/std/statistics/2020/overview.htm">https://www.cdc.gov/std/statistics/2020/overview.htm</a>
 </div>
 <div id="ref-Lindberg+Kantor:2022" class="csl-entry">
-Lindberg, Laura D., and Leslie M. Kantor. 2022. <span>“<span class="nocase">Adolescents’ receipt of sex education in a nationally representative sample, 2011–-2019</span>.”</span> <em>Journal of Adolescent Health</em> 70 (2): 290–97. <a href="https://doi.org/10.1016/j.jadohealth.2021.08.027">https://doi.org/10.1016/j.jadohealth.2021.08.027</a>.
+Lindberg, L. D., &amp; Kantor, L. M. (2022). <span class="nocase">Adolescents’ receipt of sex education in a nationally representative sample, 2011–-2019</span>. <em>Journal of Adolescent Health</em>, <em>70</em>(2), 290–297. <a href="https://doi.org/10.1016/j.jadohealth.2021.08.027">https://doi.org/10.1016/j.jadohealth.2021.08.027</a>
 </div>
 <div id="ref-Tufte:1983" class="csl-entry">
-Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+Tufte, E. (1983). <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. <span>Graphics Press</span>.
 </div>
 <div id="ref-WorldBank:2022" class="csl-entry">
-World Bank. 2022-01-14. <span>“<span class="nocase">Population total for United States</span>.”</span> <span>Federal Reserve Bank of St. Louis</span>. <a href="https://fred.stlouisfed.org/series/POPTOTUSA647NWDB">https://fred.stlouisfed.org/series/POPTOTUSA647NWDB</a>.
+World Bank. (2022-01-14). <em><span class="nocase">Population total for United States</span></em>. <span>Federal Reserve Bank of St. Louis</span>. <a href="https://fred.stlouisfed.org/series/POPTOTUSA647NWDB">https://fred.stlouisfed.org/series/POPTOTUSA647NWDB</a>
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
@@ -404,11 +902,11 @@ Summary
 </div>
 <p><em>Small multiple</em> design is a good design choice for many data structures. To facilitate visual comparisons, every small-multiple frame (variously called panels, facets, or subplots) has identical scales.</p>
 <blockquote class="blockquote">
-<p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">(Tufte 1983, 170)</span></p>
+<p>Small multiples resemble the frames of a movie: a series of graphics, showing the same combination of variables, indexed by changes in another variable. <span class="citation" data-cites="Tufte:1983">(Tufte, 1983, p. 170)</span></p>
 </blockquote>
 <p><em>Multiway data</em>—a data structure comprising two independent categorical variables and one quantitative response variable—is well-matched to small multiple design.</p>
 <blockquote class="blockquote">
-<p>What distinguishes multiway data is the cross-classification of the categorical variables; there is a value of the response for each combination of levels of the two categorical variables <span class="citation" data-cites="Cleveland:1993">(Cleveland 1993, 303)</span>.</p>
+<p>What distinguishes multiway data is the cross-classification of the categorical variables; there is a value of the response for each combination of levels of the two categorical variables <span class="citation" data-cites="Cleveland:1993">(Cleveland, 1993, p. 303)</span>.</p>
 </blockquote>
 <p>However, if the categories happen to be <em>dependent</em>, the data are not multiway and the small multiple design fails. Having come across data of this type in a recent article, I thought it would be interesting to illustrate, given one quantitative variable and two categorical variables, how category independence or dependence influences chart design.</p>
 <p>I start with a multiway data set and point out that, as a small-multiple design, the panels share common scales. In ggplot2, small multiples are usually created using <code>facet_wrap()</code>.</p>
@@ -424,8 +922,8 @@ Summary
 </div>
 <section id="multiway-example" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="multiway-example">Multiway example</h2>
-<p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">(1993, 303)</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
-<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(UCLA 2021)</span> and saved it in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/livestock-1967.csv">CSV file</a>.</p>
+<p>The literal textbook example of multiway data and chart design is the livestock chart by Cleveland <span class="citation" data-cites="Cleveland:1993">(1993, p. 303)</span>. The data set contains counts of 5 types of farm animals in 26 countries in 1967. The independent categories are country and animal type; the quantitative variable is the count.</p>
+<p>I obtained a reproduction of the data from <span class="citation" data-cites="UCLA:2021">(UCLA, 2021)</span> and saved it in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/livestock-1967.csv">CSV file</a>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -473,7 +971,7 @@ Summary
 </section>
 <section id="when-categories-are-dependent" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="when-categories-are-dependent">When categories are dependent</h2>
-<p>The data set that inspired this post is from an article on a creative expression assignment used in a first-year engineering course <span class="citation" data-cites="Chambers+Reid:2021">(Chambers and Reid 2021)</span>. In response to COVID-19, the course had transitioned from a highly interactive, in-person experience to an asynchronous, online model.</p>
+<p>The data set that inspired this post is from an article on a creative expression assignment used in a first-year engineering course <span class="citation" data-cites="Chambers+Reid:2021">(Chambers &amp; Reid, 2021)</span>. In response to COVID-19, the course had transitioned from a highly interactive, in-person experience to an asynchronous, online model.</p>
 <blockquote class="blockquote">
 <p>The instructors designed an assignment to encourage students to creatively express how the course interruption and transition online was affecting them. The assignment encouraged complete freedom of expression and choice of media.</p>
 </blockquote>
@@ -661,18 +1159,18 @@ Summary
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
 <div id="ref-Chambers+Reid:2021" class="csl-entry">
-Chambers, Benjamin D., and Kenneth J. Reid. 2021. <span>“<span class="nocase">Looking ahead: From driving Cars in the lobby to online: Using open creative expression to understand student emotions about transitioning to remote instruction during the COVID-19 crisis</span>.”</span> <em>Advances in Engineering Education</em> 9 (4). <a href="https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view">https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view</a>.
+Chambers, B. D., &amp; Reid, K. J. (2021). <span class="nocase">Looking ahead: From driving Cars in the lobby to online: Using open creative expression to understand student emotions about transitioning to remote instruction during the COVID-19 crisis</span>. <em>Advances in Engineering Education</em>, <em>9</em>(4). <a href="https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view">https://drive.google.com/file/d/1oizZikgEzYKbIlIaBSlaxln5oIpZ4pa3/view</a>
 </div>
 <div id="ref-Cleveland:1993" class="csl-entry">
-Cleveland, William S. 1993. <em><span>Visualizing Data</span></em>. Summit, NJ: <span>Hobart Press</span>.
+Cleveland, W. S. (1993). <em><span>Visualizing Data</span></em>. <span>Hobart Press</span>.
 </div>
 <div id="ref-Tufte:1983" class="csl-entry">
-Tufte, Edward. 1983. <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+Tufte, E. (1983). <em><span class="nocase">The Visual Display of Quantitative Information</span></em>. <span>Graphics Press</span>.
 </div>
 <div id="ref-UCLA:2021" class="csl-entry">
-UCLA. 2021. <span>“<span class="nocase">Textbook examples: Visualizing Data by William S. Cleveland</span>.”</span> <span>UCLA Statistical Consulting Group</span>. <a href="https://stats.oarc.ucla.edu/other/examples/vizdata/">https://stats.oarc.ucla.edu/other/examples/vizdata/</a>.
+UCLA. (2021). <em><span class="nocase">Textbook examples: Visualizing Data by William S. Cleveland</span></em>. <span>UCLA Statistical Consulting Group</span>. <a href="https://stats.oarc.ucla.edu/other/examples/vizdata/">https://stats.oarc.ucla.edu/other/examples/vizdata/</a>
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
@@ -1565,7 +2063,7 @@ Character. Ordered vector of opinion level labels.
 31:    31     4     4     5     5     5</code></pre>
 </div>
 </div>
-<p>The first column is a fictitious respondent ID. The remaining columns represent responses to the survey questions. For basic charts like those shown here, all columns should be question responses, so I delete the ID. Though I don’t cover it here, additional non-question columns are allowed for grouping the results. See, for example, <span class="citation" data-cites="Mudge:2019">(Mudge 2019)</span>.</p>
+<p>The first column is a fictitious respondent ID. The remaining columns represent responses to the survey questions. For basic charts like those shown here, all columns should be question responses, so I delete the ID. Though I don’t cover it here, additional non-question columns are allowed for grouping the results. See, for example, <span class="citation" data-cites="Mudge:2019">(Mudge, 2019)</span>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -2048,15 +2546,15 @@ Character. Ordered vector of opinion level labels.
 
 
 
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
 <div id="ref-Chanenson:2021" class="csl-entry">
-Chanenson, Jake. 2021. <span>“<span>On Likert Scales In R</span>.”</span> <a href="https://jakec007.github.io/2021-06-23-R-likert/">https://jakec007.github.io/2021-06-23-R-likert/</a>.
+Chanenson, J. (2021). <em><span>On Likert Scales In R</span></em>. <a href="https://jakec007.github.io/2021-06-23-R-likert/">https://jakec007.github.io/2021-06-23-R-likert/</a>
 </div>
 <div id="ref-Maxworth:2021" class="csl-entry">
-Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>.”</span> <em>Advances in Engineering Education</em> 9 (4): 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>.
+Maxworth, A. (2021). <span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>. <em>Advances in Engineering Education</em>, <em>9</em>(4), 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>
 </div>
 <div id="ref-Mudge:2019" class="csl-entry">
-Mudge, Laura. 2019. <span>“<span class="nocase">Data visualization for Likert questions</span>.”</span> <a href="https://lmudge13.github.io/sample_code/likert_graphs.html">https://lmudge13.github.io/sample_code/likert_graphs.html</a>.
+Mudge, L. (2019). <em><span class="nocase">Data visualization for Likert questions</span></em>. <a href="https://lmudge13.github.io/sample_code/likert_graphs.html">https://lmudge13.github.io/sample_code/likert_graphs.html</a>
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
@@ -2085,7 +2583,7 @@ Summary
 </div>
 </div>
 <p>For a recent presentation, I needed to graph the results of a Likert-style survey.</p>
-<p>In the past I tended to use the diverging stacked-bar design by Robbins and Heiberger <span class="citation" data-cites="Robbins+Heiberger:2011 Heiberger+Robbins+2014">(2011; 2014)</span>. Browsing for alternatives, I found the essays by Stephen Few <span class="citation" data-cites="Few:2016">(2016)</span> and Lisa Charlotte Muth and Gregor Aisch <span class="citation" data-cites="Muth+Aisch:2018">(2018)</span> to be well-reasoned and useful.</p>
+<p>In the past I tended to use the diverging stacked-bar design by Robbins and Heiberger <span class="citation" data-cites="Robbins+Heiberger:2011 Heiberger+Robbins+2014">(2014; 2011)</span>. Browsing for alternatives, I found the essays by Stephen Few <span class="citation" data-cites="Few:2016">(2016)</span> and Lisa Charlotte Muth and Gregor Aisch <span class="citation" data-cites="Muth+Aisch:2018">(2018)</span> to be well-reasoned and useful.</p>
 <p>In this post, I reconstruct the three chart designs from Muth and Aisch with two goals in mind: to reproduce and comment on the comparisons they make using a data set of my choosing; and to share the source data and my R code.</p>
 <p>Here, however, I do not discuss the R code in any detail. In a <a href="../2022-02-13-survey-data-io/index.html">companion post</a>, I focus on R for preparing different forms of source data for the likert package and editing the results for publication-ready charts.</p>
 <p>I primarily use data.table, ggplot2, and likert R packages. An appealing feature of likert is its compatibility with data.table and ggplot2 functionality. Note that to reproduce this work, likert must be at least version 1.3.6.</p>
@@ -2284,7 +2782,7 @@ Summary
 <p>The top-down row order is by decreasing agreement totals (Agree + Strongly Agree). In contrast, by Heiberger and Robbins’ definition, the row position of Q2 and Q4 would be swapped so that the maximum endpoint monotonically decreases top to bottom.</p>
 <p>Describing a diverging stacked bar chart, Robbins and Heiberger say,</p>
 <blockquote class="blockquote">
-<p>It is difficult to compare lengths without a common baseline. In this situation, we are primarily interested in the total percent to the right or left of the zero line; the breakdown into strongly or not is of lesser interest so that the primary comparisons do have a common baseline of zero <span class="citation" data-cites="Robbins+Heiberger:2011">(Robbins and Heiberger 2011, 1060)</span>.</p>
+<p>It is difficult to compare lengths without a common baseline. In this situation, we are primarily interested in the total percent to the right or left of the zero line; the breakdown into strongly or not is of lesser interest so that the primary comparisons do have a common baseline of zero <span class="citation" data-cites="Robbins+Heiberger:2011">(Robbins &amp; Heiberger, 2011, p. 1060)</span>.</p>
 </blockquote>
 <p>I agree—if we assume the Neutrals can treated as half positive and half negative. Muth and Aisch point out that we have no way of knowing that this is true. Because being truthful is a first principle of ethical data visualization, this assumption makes me uneasy. A lot depends on how the survey questions are worded and how the people surveyed interpret the Neutral response. In this specific case, I’m not certain the Neutrals can treated as half positive and half negative. Thus, the zero reference line does not establish a common baseline and we lose the ability to make effective visual comparisons.</p>
 <p>We can recover the common baseline at zero by moving Neutral to a side chart of its own.</p>
@@ -2407,7 +2905,7 @@ Summary
 </div>
 </div>
 <blockquote class="blockquote">
-<p>Designed in this way, differences between positive and negative results now stand out a bit more, the sum of Agree and Strongly Agree are easier to read, and the Neutral values are both easier to read and compare <span class="citation" data-cites="Few:2016">(Few 2016)</span>.</p>
+<p>Designed in this way, differences between positive and negative results now stand out a bit more, the sum of Agree and Strongly Agree are easier to read, and the Neutral values are both easier to read and compare <span class="citation" data-cites="Few:2016">(Few, 2016)</span>.</p>
 </blockquote>
 <p>As Muth and Aisch point out, this design gives a good idea of the “competition” between agreement and disagreement. In this case, across all questions more than 60% of the respondents agreed and in all but one instance fewer than 10% disagreed.</p>
 <p>In addition, between 15-30% responded Neutral. We don’t know if that means “I don’t know” or “I have no opinion” or “Sometimes I agree and sometimes I don’t”or “I’m tired of answering Likert-style surveys” or something else—which is a very good reason to graph Neutral on the side.</p>
@@ -2505,7 +3003,7 @@ Summary
 </div>
 <p>As an example of the results discussion in the article, the “provide facts” paragraph states,</p>
 <blockquote class="blockquote">
-<p>In the third feedback question, 24 out of 31 students (77.4%) agreed that the case study motivated them to provide facts such as calculations and simulations to support their answers. Unlike a typical textbook problem where there is a definite answer, making an argument in a case study requires thinking beyond the material delivered in class. Therefore, the use of additional calculations and especially simulations were needed to support the argument <span class="citation" data-cites="Maxworth:2021">(Maxworth 2021)</span>.</p>
+<p>In the third feedback question, 24 out of 31 students (77.4%) agreed that the case study motivated them to provide facts such as calculations and simulations to support their answers. Unlike a typical textbook problem where there is a definite answer, making an argument in a case study requires thinking beyond the material delivered in class. Therefore, the use of additional calculations and especially simulations were needed to support the argument <span class="citation" data-cites="Maxworth:2021">(Maxworth, 2021)</span>.</p>
 </blockquote>
 <p>This is a perfectly straightforward description of the result and the chart supports the argument visually. In terms of the larger narrative, however, the chart provides a rationale for revising the narrative framework—instead of discussing the results in question order (Q1, Q2, …), discuss the results in order of level of agreement (highest to lowest), supported visually by the row order in the chart (top to bottom).</p>
 <p>I think the chart provides evidence for an additional assertion: that the preponderance of responses are <em>positive</em>,</p>
@@ -2529,21 +3027,21 @@ Summary
 
 
 
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
 <div id="ref-Few:2016" class="csl-entry">
-Few, Stephen. 2016. <span>Perceptual Edge</span>. <a href="https://www.perceptualedge.com/blog/?p=2239">https://www.perceptualedge.com/blog/?p=2239</a>.
+Few, S. (2016). <span>Perceptual Edge</span>. <a href="https://www.perceptualedge.com/blog/?p=2239">https://www.perceptualedge.com/blog/?p=2239</a>
 </div>
 <div id="ref-Heiberger+Robbins+2014" class="csl-entry">
-Heiberger, Richard M., and Naomi B. Robbins. 2014. <span>“<span class="nocase">Design of diverging stacked bar charts for Likert scales and other applications</span>.”</span> <em>Journal of Statistical Software</em> 57 (5). <a href="https://www.jstatsoft.org/article/view/v057i05">https://www.jstatsoft.org/article/view/v057i05</a>.
+Heiberger, R. M., &amp; Robbins, N. B. (2014). <span class="nocase">Design of diverging stacked bar charts for Likert scales and other applications</span>. <em>Journal of Statistical Software</em>, <em>57</em>(5). <a href="https://www.jstatsoft.org/article/view/v057i05">https://www.jstatsoft.org/article/view/v057i05</a>
 </div>
 <div id="ref-Maxworth:2021" class="csl-entry">
-Maxworth, Ashanthi. 2021. <span>“<span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>.”</span> <em>Advances in Engineering Education</em> 9 (4): 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>.
+Maxworth, A. (2021). <span class="nocase">Looking ahead: Advancing engineering education through case studies in introductory courses</span>. <em>Advances in Engineering Education</em>, <em>9</em>(4), 1–9. <a href="https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing">https://drive.google.com/file/d/1r3w6gQfCHvnahXuyKD9Yeb1kYYWHd2cE/view?usp=sharing</a>
 </div>
 <div id="ref-Muth+Aisch:2018" class="csl-entry">
-Muth, Lisa, and Gregor Aisch. 2018. <span>“<span class="nocase">The case against diverging stacked bars</span>.”</span> <span>Datawrapper</span>. <a href="https://blog.datawrapper.de/divergingbars/">https://blog.datawrapper.de/divergingbars/</a>.
+Muth, L. C., &amp; Aisch, G. (2018). <em><span class="nocase">The case against diverging stacked bars</span></em>. Blog post. <a href="https://blog.datawrapper.de/divergingbars/">https://blog.datawrapper.de/divergingbars/</a>
 </div>
 <div id="ref-Robbins+Heiberger:2011" class="csl-entry">
-Robbins, Naomi B., and Richard M. Heiberger. 2011. <span>“<span class="nocase">Plotting Likert and other rating scales</span>.”</span> In <em>Joint Statistical Meeting Proceedings</em>, Survery Research Methods Section:1058–66. Alexandria, VA: American Statistical Association. <a href="https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf">https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf</a>.
+Robbins, N. B., &amp; Heiberger, R. M. (2011). <span class="nocase">Plotting Likert and other rating scales</span>. <em>Joint Statistical Meeting Proceedings</em>, <em>Survery Research Methods Section</em>, 1058–1066. <a href="https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf">https://www.montana.edu/msse/Data_analysis/Likert%20Survey%20Graphs.pdf</a>
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
@@ -2573,7 +3071,7 @@ Summary
 <p><small><em>I redesign a stacked-bar chart to attempt to better align the logic of the display with the logic of the argument. The visual structure of the redesigned chart suggests a concomitant reorganization of the prose, illustrating the interplay between visual and verbal rhetoric.</em></small></p>
 </div>
 </div>
-<p>In a 2021 article, the authors summarize 134 engineering-curricula articles for teachers of pre-college students. The authors classify the articles by grade level and the type of engineering inquiry <span class="citation" data-cites="Purzer+Quintana-Cifuentes+Menekse:2021">(Purzer, Quintana-Cifuentes, and Menekse 2021)</span>.</p>
+<p>In a 2021 article, the authors summarize 134 engineering-curricula articles for teachers of pre-college students. The authors classify the articles by grade level and the type of engineering inquiry <span class="citation" data-cites="Purzer+Quintana-Cifuentes+Menekse:2021">(Purzer et al., 2021)</span>.</p>
 <p>In section 7, the authors include a data table of numbers of articles by grade level and inquiry type. A stacked-bar chart represents the numbers in the table. In supporting their argument, however, the authors cite <em>ratios</em> of these values—ratios that might be inferred, but are not directly displayed, in the chart provided.</p>
 <p>I take the text to represent the authors’ intended message and look for ways to more effectively represent that message visually.</p>
 <p>My intention is not to critique the article as a whole, which develops a “honeycomb of engineering” research framework for examining how engineering concepts and practices are taught at pre-college levels. I focus instead on the interplay between data, argument, and charts in one section only.</p>
@@ -2596,7 +3094,7 @@ Summary
 <p></p><p></p>
 </figure>
 </div>
-<p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1. The multiway dot chart was designed specifically for data of this type: one quantitative variable depending on two independent categorical variables <span class="citation" data-cites="Cleveland:1993">(Cleveland 1993, 302)</span>.</p>
+<p>Because the structure of a data set is an important factor in designing a chart, I classify the variables in Table 1. The multiway dot chart was designed specifically for data of this type: one quantitative variable depending on two independent categorical variables <span class="citation" data-cites="Cleveland:1993">(Cleveland, 1993, p. 302)</span>.</p>
 <p><small></small></p><small>
 <div class="cell">
 <div class="cell-output-display">
@@ -2727,7 +3225,7 @@ Summary
 </div>
 </div>
 </div>
-<p>In this design, based on <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 135)</span>, bars are drawn horizontally so the labels are easily read. Combined with the tabulated numbers, a scale is unnecessary. To respect the proportion among the data, bars are shown in full (starting at zero). Because grade level is an ordinal category (ordered levels), I order the rows in “graph order,” that is, with increasing grade level from bottom to top.</p>
+<p>In this design, based on <span class="citation" data-cites="Doumont:2009">(Doumont, 2009, p. 135)</span>, bars are drawn horizontally so the labels are easily read. Combined with the tabulated numbers, a scale is unnecessary. To respect the proportion among the data, bars are shown in full (starting at zero). Because grade level is an ordinal category (ordered levels), I order the rows in “graph order,” that is, with increasing grade level from bottom to top.</p>
 <p>In contrast, if the point of the original chart is to compare totals by type of inquiry—which the original figure supports but the text neglects—then a similar chart-table could be used. Because inquiry type is a nominal category (unordered levels), rows are ordered by the number of articles by type.</p>
 <div class="cell page-columns page-full" data-fig.asp="0.3">
 <details>
@@ -2906,21 +3404,21 @@ n An added rhetorical advatage of this design to potential audiences such as pre
 
 
 
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
 <div id="ref-Cleveland:1993" class="csl-entry">
-Cleveland, William S. 1993. <em><span>Visualizing Data</span></em>. Summit, NJ: <span>Hobart Press</span>.
+Cleveland, W. S. (1993). <em><span>Visualizing Data</span></em>. <span>Hobart Press</span>.
 </div>
 <div id="ref-Doumont:2009" class="csl-entry">
-Doumont, Jean-luc. 2009. <em><span class="nocase">Trees, Maps, and Theorems</span></em>. Belgium: <span>Principiae</span>.
+Doumont, J. (2009). <em><span class="nocase">Trees, Maps, and Theorems</span></em>. <span>Principiae</span>.
 </div>
 <div id="ref-Evergreen:2021" class="csl-entry">
-Evergreen, Stephanie. 2021. <span>“<span class="nocase">The most important question in data visualization</span>.”</span> <span>Evergreen Data</span>. <a href="https://stephanieevergreen.com/most-important-question/">https://stephanieevergreen.com/most-important-question/</a>.
+Evergreen, S. (2021). <em><span class="nocase">The most important question in data visualization</span></em>. <span>Evergreen Data</span>. <a href="https://stephanieevergreen.com/most-important-question/">https://stephanieevergreen.com/most-important-question/</a>
 </div>
 <div id="ref-Knaflic:2017" class="csl-entry">
-Knaflic, Cole Nussbaumer. 2017. <span>“<span class="nocase">Making a case for stacked bars</span>.”</span> <span>Storytelling with Data</span>. <a href="https://www.storytellingwithdata.com/blog/2017/11/13/making-a-case-for-stacked-bars">https://www.storytellingwithdata.com/blog/2017/11/13/making-a-case-for-stacked-bars</a>.
+Knaflic, C. N. (2017). <em><span class="nocase">Making a case for stacked bars</span></em>. <span>Storytelling with Data</span>. <a href="https://www.storytellingwithdata.com/blog/2017/11/13/making-a-case-for-stacked-bars">https://www.storytellingwithdata.com/blog/2017/11/13/making-a-case-for-stacked-bars</a>
 </div>
 <div id="ref-Purzer+Quintana-Cifuentes+Menekse:2021" class="csl-entry">
-Purzer, Şenay, Jenny Quintana-Cifuentes, and Mushin Menekse. 2021. <span>“<span class="nocase">The honeycomb of engineering framework: Philosophy of engineering guiding precollege engineering education</span>.”</span> <em>Journal of Engineering Education</em> 111 (1): 19–39. <a href="https://doi.org/10.1002/jee.20441">https://doi.org/10.1002/jee.20441</a>.
+Purzer, Şenay, Quintana-Cifuentes, J., &amp; Menekse, M. (2021). <span class="nocase">The honeycomb of engineering framework: Philosophy of engineering guiding precollege engineering education</span>. <em>Journal of Engineering Education</em>, <em>111</em>(1), 19–39. <a href="https://doi.org/10.1002/jee.20441">https://doi.org/10.1002/jee.20441</a>
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
@@ -2950,7 +3448,7 @@ Summary
 <p><small><em>The rhetorical shortcomings of stacked-bar charts are overcome using alternative designs better suited for making visual comparisons. Both examples start as stacked-bar charts but end as different types, based on the variables to be shown and the messages to be conveyed.</em></small></p>
 </div>
 </div>
-<p>In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs <span class="citation" data-cites="Main+Wang+Tan:2021">(Main, Wang, and Tan 2021)</span>. The charts are truthful but not particularly informative—the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments.</p>
+<p>In a recent article, the authors used two stacked bar charts to illustrate data on postdoctoral engineering PhDs <span class="citation" data-cites="Main+Wang+Tan:2021">(Main et al., 2021)</span>. The charts are truthful but not particularly informative—the visual logic of stacked bars tends to obscure rather than inform insight. By redesigning the charts, I hope to better align the logic of the visuals with the logic of the arguments.</p>
 <p>The data in the article are summarized from the National Science Foundation’s (NSF) 1993–2013 Survey of Doctorate Recipients (SDR) and 1985–2013 Survey of Earned Doctorates (SED). I couldn’t find the original NSF annual data tables, so I approximated the values for my charts by measuring the lengths of bar segments in the original figures.</p>
 <p>My purpose is not to find fault with the authors. Indeed, stacked bar charts like these are found throughout the NSF publications that report on the raw data. The authors can hardly be faulted for conforming to visual conventions sustained by the NSF.</p>
 <p>The R code for the post is listed under the “R code” pointers.</p>
@@ -2982,7 +3480,7 @@ Summary
 </ul>
 <p>The data are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/fig2.csv">CSV file</a>.</p>
 <p><strong>Exploratory design: evolutions</strong></p>
-<p>A prominent element of this stacked-bar design is time on the horizontal axis. A visual convention in this discourse community is that independent variables occupy horizontal axes, implying here that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 141)</span>.</p>
+<p>A prominent element of this stacked-bar design is time on the horizontal axis. A visual convention in this discourse community is that independent variables occupy horizontal axes, implying here that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont, 2009, p. 141)</span>.</p>
 <p>The figure below shows the stacked-bar data as a collection of evolutions—how survey percentages vary over time conditioned by the reason for obtaining postdoc training. The panels are organized in “graph order”, that is, increasing median value from left to right and from bottom to top (the panel median is shown as a horizontal reference line in each panel).</p>
 <div class="cell page-columns page-full" data-fig.asp="1">
 <details>
@@ -3009,7 +3507,7 @@ Summary
 </div>
 <p>No particular time-dependent trend stands out. However, two of the panels—Training in areas outside of PhD field and Other employment not available—appear to be inversely correlated. This made me wonder if and to what extent correlations exist.</p>
 <p><strong>Exploratory design: correlations</strong></p>
-<p>One approach to visualizing multivariate correlations is a scatterplot matrix, a grid of scatterplots of pairwise relationships <span class="citation" data-cites="Emerson+Green+etal:2013">(Emerson et al. 2013)</span> as shown below. The lower triangle shows graphs of data taken two variables at a time with each data marker representing a year (the time variable is still present); the diagonal shows the distribution of each reason; and the upper triangle gives the pairwise Pearson correlation coefficients.</p>
+<p>One approach to visualizing multivariate correlations is a scatterplot matrix, a grid of scatterplots of pairwise relationships <span class="citation" data-cites="Emerson+Green+etal:2013">(Emerson et al., 2013)</span> as shown below. The lower triangle shows graphs of data taken two variables at a time with each data marker representing a year (the time variable is still present); the diagonal shows the distribution of each reason; and the upper triangle gives the pairwise Pearson correlation coefficients.</p>
 <div class="cell page-columns page-full">
 <details>
 <summary>R code</summary>
@@ -3101,7 +3599,7 @@ Summary
 </ul>
 <p>Mildly interesting, but not really compelling.</p>
 <p><strong>Final design: distributions</strong></p>
-<p>The evolution-assumption in the previous designs imposes an unnecessary barrier to finding stories in these data: time in this case is a prominent, but trivial, variable—the design <em>emphasizes the trivial</em> <span class="citation" data-cites="Wainer:1997">(Wainer 1997, 30)</span>.</p>
+<p>The evolution-assumption in the previous designs imposes an unnecessary barrier to finding stories in these data: time in this case is a prominent, but trivial, variable—the design <em>emphasizes the trivial</em> <span class="citation" data-cites="Wainer:1997">(Wainer, 1997, p. 30)</span>.</p>
 <p>Having the year in the data does not mean we have to use it. Ignoring time, I’m left with a data set comprising distributions of percentages conditioned by reason. For comparing distributions, the appropriate graph design is a box and whisker plot—the conventions of the box and whisker plot should be familiar to members of this discourse community.</p>
 <div class="cell page-columns page-full">
 <details>
@@ -3130,7 +3628,7 @@ Summary
 <p>The most frequently indicated reasons for taking a postdoc after PhD completion were additional training in PhD field, additional training outside of PhD field, and postdoc training is generally expected for careers in their PhD field. The reasons that engineering PhDs provided for obtaining postdoc training fluctuates between 1995 and 2011.</p>
 </blockquote>
 <p>My conclusions differ slightly from theirs and have a bit more nuance, though in neither case are the messages particularly compelling.</p>
-<p>Nevertheless, the redesigned chart has an impact in serving its rhetorical goal better than the original. What one <em>sees</em> in the chart and what one <em>reads</em> in the text are more closely aligned than in the original. As Tufte <span class="citation" data-cites="Tufte:1997">(1997, 53)</span> writes,</p>
+<p>Nevertheless, the redesigned chart has an impact in serving its rhetorical goal better than the original. What one <em>sees</em> in the chart and what one <em>reads</em> in the text are more closely aligned than in the original. As Tufte <span class="citation" data-cites="Tufte:1997">(1997, p. 53)</span> writes,</p>
 <blockquote class="blockquote">
 <p>…if displays of data are to be truthful and compelling, the design logic of the display must reflect the intellectual logic of the analysis…</p>
 </blockquote>
@@ -3163,7 +3661,7 @@ Summary
 </ul>
 <p>The data are available in the blog data directory as a <a href="https://github.com/graphdr/data-stories/blob/main/data/fig3.csv">CSV file</a>.</p>
 <p><strong>Redesign: dot chart</strong></p>
-<p>Stacked bars of this type, like pie charts, show fractions of a whole. Such charts are a “good choice for lay audiences, but they certainly lack the accuracy of alternative representations” <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 134)</span>. Such data are often best encoded using dot charts—charts with dots along a common scale <span class="citation" data-cites="Cleveland:1984">(Cleveland 1984)</span>.</p>
+<p>Stacked bars of this type, like pie charts, show fractions of a whole. Such charts are a “good choice for lay audiences, but they certainly lack the accuracy of alternative representations” <span class="citation" data-cites="Doumont:2009">(Doumont, 2009, p. 134)</span>. Such data are often best encoded using dot charts—charts with dots along a common scale <span class="citation" data-cites="Cleveland:1984">(Cleveland, 1984)</span>.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -3260,7 +3758,7 @@ Summary
 </section>
 <section id="recognizing-conventional-grip" class="level2">
 <h2 class="anchored" data-anchor-id="recognizing-conventional-grip">Recognizing conventional grip</h2>
-<p>I mentioned in the introduction that NSF reports from which some of these data were obtained sustain the visual convention of stacked bar charts even though the stacked-bar design is deficient compared to alternative designs available. This persistence of convention highlights what Kostelnick and Hassett call the <em>tenacity of conventional grip</em> <span class="citation" data-cites="Kostelnick+Hassett:2003">(2003, 171)</span>. They write,</p>
+<p>I mentioned in the introduction that NSF reports from which some of these data were obtained sustain the visual convention of stacked bar charts even though the stacked-bar design is deficient compared to alternative designs available. This persistence of convention highlights what Kostelnick and Hassett call the <em>tenacity of conventional grip</em> <span class="citation" data-cites="Kostelnick+Hassett:2003">(2003, p. 171)</span>. They write,</p>
 <blockquote class="blockquote">
 <p>Readers become highly invested in the status quo because it cuts a well-worn path, and deviations from that familiar path can seem arduous, risky, and unnecessary. The well-worn path can give sanction to conventuional practices that seem to violate perceptual principles of effective design…once readers have acquired a knack for reading these conventions, readers become quite proficient and may strongly resist wandering off that path.</p>
 </blockquote>
@@ -3279,27 +3777,27 @@ Summary
 
 
 
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
 <div id="ref-Cleveland:1984" class="csl-entry">
-Cleveland, William S. 1984. <span>“<a href=""><span class="nocase">Graphical methods for data presentation: Full scale breaks, dot charts, and multibased logging</span></a>.”</span> <em>The American Statistician</em> 38 (4): 270–80.
+Cleveland, W. S. (1984). <a href=""><span class="nocase">Graphical methods for data presentation: Full scale breaks, dot charts, and multibased logging</span></a>. <em>The American Statistician</em>, <em>38</em>(4), 270–280.
 </div>
 <div id="ref-Doumont:2009" class="csl-entry">
-Doumont, Jean-luc. 2009. <em><span class="nocase">Trees, Maps, and Theorems</span></em>. Belgium: <span>Principiae</span>.
+Doumont, J. (2009). <em><span class="nocase">Trees, Maps, and Theorems</span></em>. <span>Principiae</span>.
 </div>
 <div id="ref-Emerson+Green+etal:2013" class="csl-entry">
-Emerson, John W., Walton A. Green, Barret Schloerke, Jason Crowley, Dianne Cook, Heike Hofmann, and Hadley Wickham. 2013. <span>“<span class="nocase">The generalized pair plot</span>.”</span> <em>Journal of Computational and Graphical Statistics</em> 22 (1): 79–91. <a href="https://doi:10.1080/10618600.2012.694762">doi:10.1080/10618600.2012.694762</a>.
+Emerson, J. W., Green, W. A., Schloerke, B., Crowley, J., Cook, D., Hofmann, H., &amp; Wickham, H. (2013). <span class="nocase">The generalized pair plot</span>. <em>Journal of Computational and Graphical Statistics</em>, <em>22</em>(1), 79–91. <a href="https://doi:10.1080/10618600.2012.694762">doi:10.1080/10618600.2012.694762</a>
 </div>
 <div id="ref-Kostelnick+Hassett:2003" class="csl-entry">
-Kostelnick, Charles, and Michael Hassett. 2003. <em><span>Shaping Information</span></em>. Carbondale, IL: <span>Southern Illinois university Press</span>.
+Kostelnick, C., &amp; Hassett, M. (2003). <em><span>Shaping Information</span></em>. <span>Southern Illinois university Press</span>.
 </div>
 <div id="ref-Main+Wang+Tan:2021" class="csl-entry">
-Main, Joyce B., Yanbing Wang, and Li Tan. 2021. <span>“<span class="nocase">The career outlook of engineering PhDs: Influence of postdoctoral research positions on early career salaries and the attainment of tenure-track faculty positions</span>.”</span> <em>Journal of Engineering Education</em> 110 (4): 977–1002. <a href="https://doi.org/10.1002/jee.20416">https://doi.org/10.1002/jee.20416</a>.
+Main, J. B., Wang, Y., &amp; Tan, L. (2021). <span class="nocase">The career outlook of engineering PhDs: Influence of postdoctoral research positions on early career salaries and the attainment of tenure-track faculty positions</span>. <em>Journal of Engineering Education</em>, <em>110</em>(4), 977–1002. <a href="https://doi.org/10.1002/jee.20416">https://doi.org/10.1002/jee.20416</a>
 </div>
 <div id="ref-Tufte:1997" class="csl-entry">
-Tufte, Edward. 1997. <em><span>Visual Explanations</span></em>. Cheshire, CT: <span>Graphics Press</span>.
+Tufte, E. (1997). <em><span>Visual Explanations</span></em>. <span>Graphics Press</span>.
 </div>
 <div id="ref-Wainer:1997" class="csl-entry">
-Wainer, Howard. 1997. <em><span>Visual Revelations</span></em>. Mahwah, NJ: <span>Lawrence Erlbaum Assoc.</span>
+Wainer, H. (1997). <em><span>Visual Revelations</span></em>. <span>Lawrence Erlbaum Assoc.</span>
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
@@ -3342,7 +3840,7 @@ Summary
 </div>
 <section id="the-original-graph" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-original-graph">The original graph</h2>
-<p>The graph shows a time series of retention rates for two cohorts of undergraduate students <span class="citation" data-cites="Fortenberry+Sullivan+etal:2007">(Fortenberry et al. 2007)</span>. One cohort had matriculated in engineering in a First Year Engineering Program (FYEP) and one cohort had not (non-FYEP). The main story is clear, that retention rates drop over time for both cohorts but that FYEP students are always retained at a higher rate than non-FYEP students. Yet the graph design distorts one comparison and omits another.</p>
+<p>The graph shows a time series of retention rates for two cohorts of undergraduate students <span class="citation" data-cites="Fortenberry+Sullivan+etal:2007">(Fortenberry et al., 2007)</span>. One cohort had matriculated in engineering in a First Year Engineering Program (FYEP) and one cohort had not (non-FYEP). The main story is clear, that retention rates drop over time for both cohorts but that FYEP students are always retained at a higher rate than non-FYEP students. Yet the graph design distorts one comparison and omits another.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
 <p><img src="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/science-figure.png" class="img-fluid figure-img"></p>
@@ -3446,7 +3944,7 @@ Summary
 </section>
 <section id="redesign" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="redesign">Redesign</h2>
-<p>A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont 2009, 141)</span>. The difference between the two cohorts is clearly seen to be nearly constant.</p>
+<p>A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont, 2009, p. 141)</span>. The difference between the two cohorts is clearly seen to be nearly constant.</p>
 <div class="cell page-columns page-full" data-fig.asp="0.4">
 <details>
 <summary>R code</summary>
@@ -3536,7 +4034,7 @@ Summary
 </section>
 <section id="context" class="level2">
 <h2 class="anchored" data-anchor-id="context">Context</h2>
-<p>My critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the “rhetoric of science” <span class="citation" data-cites="Kostelnick:2008">(Kostelnick 2008)</span>. However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we’ve missed an opportunity to tell important human stories.</p>
+<p>My critique to this point has focused on clarity and a minimalist design aesthetic, hallmarks of the “rhetoric of science” <span class="citation" data-cites="Kostelnick:2008">(Kostelnick, 2008)</span>. However, recognizing that these downward sloping curves represent decisions made by real students invites us to ask about the human stories in these data. Are the students in either group better off? Are the students who leave engineering graduating in other disciplines? Is retention even a concern to students? In light of such questions, the graphs seem inadequate, as if we’ve missed an opportunity to tell important human stories.</p>
 <p>In the text of the article, the authors do address such concerns. Retention rates reflect student decisions that are influenced almost exclusively by human factors: “student’s background, college administrative issues, academic and social integration, attitude and motivation, and fit within an institution.” Thus the retention data are a surrogate measure of some combination of these factors.</p>
 <p>The original graph displays only six paired values (rate and semester). And though my redesigned graph corrects the distortions of the original, it still displays only eight paired values. Neither graph has the visual impact it might have had if designed to convey the important story the authors tell in their prose.</p>
 
@@ -3548,15 +4046,15 @@ Summary
 
 
 
-</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
 <div id="ref-Doumont:2009" class="csl-entry">
-Doumont, Jean-luc. 2009. <em><span class="nocase">Trees, Maps, and Theorems</span></em>. Belgium: <span>Principiae</span>.
+Doumont, J. (2009). <em><span class="nocase">Trees, Maps, and Theorems</span></em>. <span>Principiae</span>.
 </div>
 <div id="ref-Fortenberry+Sullivan+etal:2007" class="csl-entry">
-Fortenberry, Norman L., Jacquelyn F. Sullivan, Peter N. Jordan, and Daniel W. Knight. 2007. <span>“<span class="nocase">Engineering education research aids instruction</span>.”</span> <em>Science</em> 317 (5842): 1175–76. <a href="https://doi.org/10.1126/science.1143834">https://doi.org/10.1126/science.1143834</a>.
+Fortenberry, N. L., Sullivan, J. F., Jordan, P. N., &amp; Knight, D. W. (2007). <span class="nocase">Engineering education research aids instruction</span>. <em>Science</em>, <em>317</em>(5842), 1175–1176. <a href="https://doi.org/10.1126/science.1143834">https://doi.org/10.1126/science.1143834</a>
 </div>
 <div id="ref-Kostelnick:2008" class="csl-entry">
-Kostelnick, Charles. 2008. <span>“<a href=""><span class="nocase">The visual rhetoric of data displays: The conundrum of clarity</span></a>.”</span> <em>IEEE Transactions on Professional Communication</em> 51 (1): 116–30.
+Kostelnick, C. (2008). <a href=""><span class="nocase">The visual rhetoric of data displays: The conundrum of clarity</span></a>. <em>IEEE Transactions on Professional Communication</em>, <em>51</em>(1), 116–130.
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
