@@ -28,7 +28,7 @@ options(
 ::: callout-note
 ## Summary
 
-TBD
+<em>TBD</em>
 :::
 
 ## Background

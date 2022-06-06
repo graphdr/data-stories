@@ -1,6 +1,6 @@
 # options that apply to all posts in this directory
 bibliography: ../references.bib
-csl: ../journal-of-the-association-for-information-science-and-technology.csl
+csl: ../information-science-and-technology.csl
 title-block-banner: false
 author: Richard Layton
 freeze: true

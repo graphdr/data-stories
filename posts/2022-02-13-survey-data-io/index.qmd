@@ -27,7 +27,7 @@ options(
 
 :::{.callout-note}
 ## Summary 
-<small><em>Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</em></small>
+<em>Given Likert-style survey data in one of three common forms, I shape the data to suit the input requirements of the likert R package and use the output to create 100% stacked-bar charts. In each case, I illustrate two routine revision tasks: editing the question labels on the bars and editing the opinion levels in the legend.</em>
 :::
 
 This post is a tutorial on how to prepare different forms of Likert-style survey data for the R likert package and using its output to create  100% stacked-bar charts. I focus on preparing the data for `likert()` input and editing its output for the final chart. For exploring the package functionality  more fully, I recommend the tutorials by Laura Mudge [-@Mudge:2019] and Jake Chanenson  [-@Chanenson:2021].

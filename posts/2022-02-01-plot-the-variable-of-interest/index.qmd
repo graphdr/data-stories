@@ -27,7 +27,7 @@ options(
 
 :::{.callout-note}
 ## Summary 
-<small><em>I redesign a stacked-bar chart to attempt to better align the logic of the display with the logic of the argument. The visual structure of the redesigned chart suggests a concomitant reorganization of the prose,  illustrating the interplay between visual and verbal rhetoric.</em></small>
+<em>I redesign a stacked-bar chart to attempt to better align the logic of the display with the logic of the argument. The visual structure of the redesigned chart suggests a concomitant reorganization of the prose,  illustrating the interplay between visual and verbal rhetoric.</em>
 :::
 
 In a 2021 article, the authors summarize 134 engineering-curricula articles for teachers of pre-college students. The authors classify the articles by grade level and the type of engineering inquiry [@Purzer+Quintana-Cifuentes+Menekse:2021]. 

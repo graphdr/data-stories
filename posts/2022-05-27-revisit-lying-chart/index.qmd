@@ -28,8 +28,8 @@ options(
 
 :::{.callout-note}
 ## Summary 
-<small><em>I critique and correct a well-known visual lie from a 2015 Congressional hearing in which the authors abuse chart-making conventions to serve their rhetorical goals. I explore what authentic stories these data tell and what authentic questions the data raise. Originally posted in 2017, here I update the data set through 2020, comment on the emerging trends, and 
-add R code and provide data sets for reproducibility. </em></small>
+<em>I critique and correct a well-known visual lie from a 2015 Congressional hearing in which the authors abuse chart-making conventions to serve their rhetorical goals. I explore what authentic stories these data tell and what authentic questions the data raise. Originally posted in 2017, here I update the data set through 2020, comment on the emerging trends, and 
+add R code and provide data sets for reproducibility. </em>
 :::
 
 On 2015-09-29 in a televised Congressional hearing, Representative Jason Chaffetz, Chairman of the US House Committee on Oversight and Government Reform, challenged Cecile Richards, president of the Planned Parenthood Federation of America (PPFA), to respond to this graph,

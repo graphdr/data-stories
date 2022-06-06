@@ -30,7 +30,7 @@ options(
 
 :::{.callout-note}
 ## Summary 
-<small><em>TBD</em></small>
+<em>TBD</em>
 :::
 
 While working on a previous post, I cited an article on US sex education for adolescents [@Lindberg+Kantor:2022]. That article included a conventional clustered bar chart displaying results from the National Survey of Family Growth (NSFG). 

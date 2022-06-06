@@ -28,7 +28,7 @@ options(
 
 :::{.callout-note}
 ## Summary 
-<small><em>For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the `facet_wrap()` function; data with dependent categories require `facet_grid()` with its `scales` and `space` arguments to treat unequal vertical scales.</em></small>
+<em>For data structures having two categorical variables and one quantitative variable, this post illustrates how category independence or dependence influences chart design. Graphs with independent categories (multiway data) are easily created in ggplot2 with the `facet_wrap()` function; data with dependent categories require `facet_grid()` with its `scales` and `space` arguments to treat unequal vertical scales.</em>
 :::
 
 
