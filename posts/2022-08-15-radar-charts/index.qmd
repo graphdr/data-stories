@@ -126,7 +126,7 @@ In 1974, *Diplococcus pneumoniae* was renamed *Streptococcus pneumoniae*. In 198
 
 One of Wainer's goals was to illustrate how some chart designs, had they been investigated sooner, could have revealed an odd pattern in Burtin's data that might have led to an earlier reclassification of bacterium genus. My goal is different. I want to illustrate the relative effectiveness of two specific charts by considering the ease and accuracy of answering key domain-specific questions about the data.
 
-The data with current taxonomy are saved in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/data/antibiotic-bacteria-log10-mic.csvv).
+The data with current taxonomy are saved in the blog data directory as a [CSV file](https://raw.githubusercontent.com/graphdr/data-stories/main/data/antibiotic-bacteria-mic.csv).
 
 
 ```{r}
