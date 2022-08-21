@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.479">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="dcterms.date" content="2022-08-21">
+<meta name="description" content="A case study comparing the effectiveness of a radar chart to a faceted dot chart.">
+
+<title>Layton R blog - Spiders, facets, and dots, oh my!</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="..\..\site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="..\..\site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../../styles.css">
+<script src="..\..\site_libs\quarto-nav\quarto-nav.js"></script>
+<script src="..\..\site_libs\quarto-nav\headroom.min.js"></script>
+<script src="..\..\site_libs\clipboard\clipboard.min.js"></script>
+<script src="..\..\site_libs\quarto-search\autocomplete.umd.js"></script>
+<script src="..\..\site_libs\quarto-search\fuse.min.js"></script>
+<script src="..\..\site_libs\quarto-search\quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="..\..\site_libs\quarto-html\quarto.js"></script>
+<script src="..\..\site_libs\quarto-html\popper.min.js"></script>
+<script src="..\..\site_libs\quarto-html\tippy.umd.min.js"></script>
+<script src="..\..\site_libs\quarto-html\anchor.min.js"></script>
+<link href="..\..\site_libs\quarto-html\tippy.css" rel="stylesheet">
+<link href="..\..\site_libs\quarto-html\quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="..\..\site_libs\bootstrap\bootstrap.min.js"></script>
+<link href="..\..\site_libs\bootstrap\bootstrap-icons.css" rel="stylesheet">
+<link href="..\..\site_libs\bootstrap\bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-git" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Spiders, facets, and dots, oh my!</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">r-bloggers</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">stackoverflow</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">data.table</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">happy git</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
+  <li><a href="#shaping-the-data" id="toc-shaping-the-data" class="nav-link" data-scroll-target="#shaping-the-data">Shaping the data</a></li>
+  <li><a href="#radar-charts" id="toc-radar-charts" class="nav-link" data-scroll-target="#radar-charts">Radar charts</a></li>
+  <li><a href="#faceted-dot-chart" id="toc-faceted-dot-chart" class="nav-link" data-scroll-target="#faceted-dot-chart">Faceted dot chart</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Spiders, facets, and dots, oh my!</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">ggplot2</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">magick</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>A case study comparing the effectiveness of a radar chart to a faceted dot chart.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-08-21</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>I compare the effectiveness of two charts—a radar (or spider) chart and a faceted dot chart—in communicating information about Burtin’s 1951 antibiotics/bacteria data. The faceted dot chart is more effective, suggesting in general that radar charts should be replaced by dot-chart designs configured for the data at hand.</em></p>
+</div>
+</div>
+<p>At a recent virtual workshop, a participant asked my opinion of radar charts (also called spider charts). I replied that I think there are nearly always more effective alternatives.</p>
+<p>Other authors agree, e.g., Graham Odds <span class="citation" data-cites="Odds:2011">(<a href="#ref-Odds:2011" role="doc-biblioref">2011</a>)</span> and Stephen Few <span class="citation" data-cites="Few:2005">(<a href="#ref-Few:2005" role="doc-biblioref">2005</a>)</span>, concluding that bar charts or line charts communicate information more effectively than radar charts in nearly every case. I concur, but I thought it would be interesting to compare a radar chart to an alternative using somewhat more complex data than those in typical examples.</p>
+<p>I selected data from a 1951 chart by graphic designer Will Burtin (1908–1972) displaying the effectiveness of three antibiotics in inhibiting the growth of 16 bacteria. My inspiration is <em>Medical Illuminations</em> <span class="citation" data-cites="Wainer:2014">(<a href="#ref-Wainer:2014" role="doc-biblioref">2014</a>)</span> in which Howard Wainer discusses in detail twenty different charts of these data. In this post, I compare two new displays of these data—a radar chart and a faceted dot chart.</p>
+<p>For reproducibility, the R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># packages used </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggradar"</span>) <span class="co"># ggplot2 compatible radar charts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>For consistent radar charts, I wrap <code>ggradar()</code> in a custom function. I selected the ggradar package because it supports editing using conventional ggplot2 functions.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># custom function for consistent radar charts</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>make_radar_chart <span class="ot">&lt;-</span> <span class="cf">function</span>(dframe, subtitle) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># assign constants</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  tick <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  grid_lines <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  medium_gray <span class="ot">&lt;-</span> <span class="st">"gray70"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># delete all but the required columns</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  dframe <span class="ot">&lt;-</span> dframe[, .(Bacteria, Penicillin, Streptomycin, Neomycin)]</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create the radar chart using a subset of the data frame  </span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggradar</span>(<span class="at">plot.data =</span> dframe, </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>          <span class="co"># three grid lines allowed</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">values.radar =</span> grid_lines, </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">grid.min =</span> grid_lines[<span class="dv">1</span>], </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">grid.mid =</span> grid_lines[<span class="dv">2</span>], </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">grid.max =</span> grid_lines[<span class="dv">3</span>],</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>          <span class="co"># manual adjustments for clear viewing</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>          <span class="at">gridline.label.offset =</span> <span class="fl">1.5</span>, </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.extent.x.sf =</span> <span class="fl">1.5</span>, </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.extent.y.sf =</span> <span class="fl">1.25</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>          <span class="at">centre.y =</span> <span class="sc">-</span><span class="dv">4</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>          <span class="co"># aesthetics</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>          <span class="at">background.circle.colour =</span> <span class="st">"transparent"</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>          <span class="at">grid.label.size =</span> <span class="dv">5</span>, </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>          <span class="at">group.line.width =</span> <span class="fl">0.5</span>, </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>          <span class="at">group.point.size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ggplot2 edits, including tick marks along the P-axis</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">subtitle =</span> subtitle) <span class="sc">+</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>, </span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">face =</span> <span class="st">"bold"</span>, </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">hjust =</span> <span class="dv">0</span>, </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">4</span>, </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">color =</span> medium_gray), </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.background =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">6</span>, <span class="st">"mm"</span>), </span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.04</span>, <span class="fl">0.93</span>), <span class="co"># c(-0.04, 1.05), </span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.text  =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"italic"</span>), </span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="sc">-</span>tick, <span class="at">y =</span> <span class="dv">2</span>, <span class="at">xend =</span> tick, <span class="at">yend =</span> <span class="dv">2</span>, <span class="at">color =</span> medium_gray) <span class="sc">+</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="sc">-</span>tick, <span class="at">y =</span> <span class="dv">4</span>, <span class="at">xend =</span> tick, <span class="at">yend =</span> <span class="dv">4</span>, <span class="at">color =</span> medium_gray) <span class="sc">+</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="sc">-</span>tick, <span class="at">y =</span> <span class="dv">5</span>, <span class="at">xend =</span> tick, <span class="at">yend =</span> <span class="dv">5</span>, <span class="at">color =</span> medium_gray) <span class="sc">+</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="sc">-</span>tick, <span class="at">y =</span> <span class="dv">6</span>, <span class="at">xend =</span> tick, <span class="at">yend =</span> <span class="dv">6</span>, <span class="at">color =</span> medium_gray) </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>I transcribed the data from Wainer (Table 2.1, p.&nbsp;24) but updated the taxonomy of two bacteria that have been renamed since Burtin’s work.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>In 1974, <em>Diplococcus pneumoniae</em> was renamed <em>Streptococcus pneumoniae</em>. In 1984, <em>Streptococcus faecalis</em> was renamed <em>Enterococcus faecalis</em>.</p>
+</div></div><p>One of Wainer’s goals was to illustrate how some chart designs, had they been investigated sooner, could have revealed an odd pattern in Burtin’s data that might have led to an earlier reclassification of bacterium genus. My goal is different. I want to illustrate the relative effectiveness of two specific charts by considering the ease and accuracy of answering key domain-specific questions about the data.</p>
+<p>The data with current taxonomy are saved in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/data/antibiotic-bacteria-log10-mic.csvv">CSV file</a>.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the updated Burtin data set</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/antibiotic-bacteria-mic.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># examine the data</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>DT[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     Bacteria Gram_stain Penicillin Streptomycin Neomycin
+                       &lt;char&gt;     &lt;char&gt;      &lt;num&gt;        &lt;num&gt;    &lt;num&gt;
+ 1:      Aerobacter aerogenes   negative    8.7e+02         1.00    1.600
+ 2:        Bacillus anthracis   positive    1.0e-03         0.01    0.007
+ 3:          Brucella abortus   negative    1.0e+00         2.00    0.020
+ 4:  Streptococcus pneumoniae   positive    5.0e-04        11.00   10.000
+ 5:          Escherichia coli   negative    1.0e+02         0.40    0.100
+---                                                                      
+12:      Staphylococcus albus   positive    7.0e-03         0.10    0.001
+13:     Staphylococcus aureus   positive    3.0e-02         0.03    0.001
+14:     Enterococcus faecalis   positive    1.0e+00         1.00    0.100
+15: Streptococcus hemolyticus   positive    1.0e-03        14.00   10.000
+16:    Streptococcus viridans   positive    5.0e-03        10.00   40.000</code></pre>
+</div>
+</div>
+<p>The data set comprises three categorical variables and one quantitative variable as listed in <a href="#tbl-data-structure">Table&nbsp;1</a>. The quantitative variable is the <em>minimum inhibitory concentration</em> (MIC)—the least concentration of antibiotic that prevents growth of a bacterium in vitro, where <em>concentration</em> is the ratio of the drug to its liquid media in milligrams/deciliter (mg/dl).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-data-structure" class="anchored">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;"><caption>Table 1:  Data structure </caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> variable </th>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> structure </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> bacteria </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, nominal, 16 levels </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> antibiotic </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, nominal, 3 levels </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> min. inhibitory concentration (MIC) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> quantitative (mg/dl) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> Gram stain </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, 2 levels, dependent on bacteria </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The <em>Gram stain</em> variable indicates a bacterium’s response to a cell-staining method, named after bacteriologist Hans Christian Gram (1853–1938). After staining and counter-staining, those that remain purple are called Gram-positive; those that turn pink are called Gram-negative.</p>
+</section>
+<section id="shaping-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="shaping-the-data">Shaping the data</h2>
+<p>I’m not using Gram staining as a graph element, so I append the Gram-positive information to the name of the bacterium and drop the Gram-staining variable.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># append Gram-positive to bacteria names</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>DT[Gram_stain <span class="sc">==</span> <span class="st">"positive"</span>, Bacteria <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(Bacteria, <span class="st">"(+)"</span>)]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>DT[, Gram_stain <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># display the result</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>DT[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         Bacteria Penicillin Streptomycin Neomycin
+                           &lt;char&gt;      &lt;num&gt;        &lt;num&gt;    &lt;num&gt;
+ 1:          Aerobacter aerogenes    8.7e+02         1.00    1.600
+ 2:        Bacillus anthracis (+)    1.0e-03         0.01    0.007
+ 3:              Brucella abortus    1.0e+00         2.00    0.020
+ 4:  Streptococcus pneumoniae (+)    5.0e-04        11.00   10.000
+ 5:              Escherichia coli    1.0e+02         0.40    0.100
+---                                                               
+12:      Staphylococcus albus (+)    7.0e-03         0.10    0.001
+13:     Staphylococcus aureus (+)    3.0e-02         0.03    0.001
+14:     Enterococcus faecalis (+)    1.0e+00         1.00    0.100
+15: Streptococcus hemolyticus (+)    1.0e-03        14.00   10.000
+16:    Streptococcus viridans (+)    5.0e-03        10.00   40.000</code></pre>
+</div>
+</div>
+<p>I order the bacteria by the median of their three MIC values (per Wainer) and add a lowercase letter (a.–p.) to the bacteria names to provide a simple verification that the charts reflect the desired order.</p>
+<p>Because MIC values span several orders of magnitude, I also apply a log<sub>10</sub> transformation to the numerical columns.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># order bacteria by row-wise median MIC</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>DT[, median_MIC <span class="sc">:</span><span class="er">=</span> <span class="fu">apply</span>(.SD, <span class="dv">1</span>, median), .SDcols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Penicillin"</span>, <span class="st">"Streptomycin"</span>, <span class="st">"Neomycin"</span>)]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setorder</span>(DT, median_MIC)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># lowercase letters to verify bacteria order in the charts</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>DT[, order_ID <span class="sc">:</span><span class="er">=</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(DT)]]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>DT[, Bacteria <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(order_ID, <span class="st">". "</span>, Bacteria)]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>DT[, order_ID <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># transform MIC by log10</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>numeric_cols <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(DT, is.numeric))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>DT[ , (numeric_cols) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, log10), .SDcols <span class="ot">=</span> numeric_cols]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># display the result</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>DT[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            Bacteria Penicillin Streptomycin Neomycin
+                              &lt;char&gt;      &lt;num&gt;        &lt;num&gt;    &lt;num&gt;
+ 1:        a. Bacillus anthracis (+)     -3.000       -2.000   -2.155
+ 2:      b. Staphylococcus albus (+)     -2.155       -1.000   -3.000
+ 3:     c. Staphylococcus aureus (+)     -1.523       -1.523   -3.000
+ 4:              d. Proteus vulgaris      0.477       -1.000   -1.000
+ 5:              e. Escherichia coli      2.000       -0.398   -1.000
+---                                                                  
+12:        l. Pseudomonas aeruginosa      2.929        0.301   -0.398
+13:    m. Mycobacterium tuberculosis      2.903        0.699    0.301
+14:  n. Streptococcus pneumoniae (+)     -3.301        1.041    1.000
+15: o. Streptococcus hemolyticus (+)     -3.000        1.146    1.000
+16:    p. Streptococcus viridans (+)     -2.301        1.000    1.602
+    median_MIC
+         &lt;num&gt;
+ 1:     -2.155
+ 2:     -2.155
+ 3:     -1.523
+ 4:     -1.000
+ 5:     -0.398
+---           
+12:      0.301
+13:      0.699
+14:      1.000
+15:      1.000
+16:      1.000</code></pre>
+</div>
+</div>
+<p>Clinically plausible dosages are those less than 0.1 mg/dl or log<sub>10</sub>MIC ≤ –1. Thus concentrations greater than –1 indicate a bacterium that for clinical purposes can be considered <em>resistant</em> to the antibiotic.</p>
+<p>Wainer illustrates (in Figure 3.3 by Brian Schmotzer, p.&nbsp;54) that this resistance measure, summarized in <a href="#tbl-resistance-groupings">Table&nbsp;2</a>, is a useful criterion by which the data in a chart can be organized to answer key questions.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-resistance-groupings" class="anchored">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;"><caption>Table 2:  Bacterial resistance groupings </caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> Label </th>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> Bacterium is resistant to </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> None </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> None of the three antibiotics </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> P </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> Penicillin only </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> PS </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> Penicillin and Streptomycin only </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> SN </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> Streptomycin and Nemomycin only </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> PSN </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> All three antibiotics </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>I add these resistance labels to the data frame, creating a new categorical variable (<code>resistance</code>) that is dependent on the bacteria.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># classify bacteria by resistance</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>DT[, resistance <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  Penicillin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Streptomycin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Neomycin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span>, <span class="st">"PSN"</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  Penicillin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Streptomycin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Neomycin <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="st">"PS"</span>, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  Penicillin <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Streptomycin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Neomycin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span>, <span class="st">"SN"</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  Penicillin <span class="sc">&gt;</span>  <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Streptomycin <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Neomycin <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="st">"P"</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  Penicillin <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Streptomycin <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> Neomycin <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="st">"None"</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># display the result</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>DT[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            Bacteria Penicillin Streptomycin Neomycin
+                              &lt;char&gt;      &lt;num&gt;        &lt;num&gt;    &lt;num&gt;
+ 1:        a. Bacillus anthracis (+)     -3.000       -2.000   -2.155
+ 2:      b. Staphylococcus albus (+)     -2.155       -1.000   -3.000
+ 3:     c. Staphylococcus aureus (+)     -1.523       -1.523   -3.000
+ 4:              d. Proteus vulgaris      0.477       -1.000   -1.000
+ 5:              e. Escherichia coli      2.000       -0.398   -1.000
+---                                                                  
+12:        l. Pseudomonas aeruginosa      2.929        0.301   -0.398
+13:    m. Mycobacterium tuberculosis      2.903        0.699    0.301
+14:  n. Streptococcus pneumoniae (+)     -3.301        1.041    1.000
+15: o. Streptococcus hemolyticus (+)     -3.000        1.146    1.000
+16:    p. Streptococcus viridans (+)     -2.301        1.000    1.602
+    median_MIC resistance
+         &lt;num&gt;     &lt;char&gt;
+ 1:     -2.155       None
+ 2:     -2.155       None
+ 3:     -1.523       None
+ 4:     -1.000          P
+ 5:     -0.398         PS
+---                      
+12:      0.301        PSN
+13:      0.699        PSN
+14:      1.000         SN
+15:      1.000         SN
+16:      1.000         SN</code></pre>
+</div>
+</div>
+</section>
+<section id="radar-charts" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="radar-charts">Radar charts</h2>
+<p>This data frame is correctly shaped for <code>ggradar()</code> in <em>row-record</em> form, in which every record about a bacterium is in a single row.</p>
+<p><strong>Explaining a radar chart</strong></p>
+<p>I subset one bacterium (one row and four columns) from the data frame to illustrate radar-chart terminology in <a href="#fig-radar-components">Figure&nbsp;1</a>.</p>
+<div class="page-columns page-full">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select one row only from the data set </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[Bacteria <span class="sc">%ilike%</span> <span class="st">"abortus"</span>, .(Bacteria, Penicillin, Streptomycin, Neomycin)]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># display the result</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>data_group[]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create the sample radar chart</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Radar chart components"</span>) </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># annotate the features of the chart</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> <span class="fl">2.5</span>, <span class="at">label =</span> <span class="st">"dosage max grid line"</span>, </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"gray45"</span>) <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">y =</span> <span class="fl">5.7</span>, <span class="at">label =</span> <span class="st">"P-axis"</span>, </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">1.1</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"gray45"</span>) <span class="sc">+</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">3.1</span>, <span class="at">label =</span> <span class="st">"N-axis"</span>, </span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"gray45"</span>) <span class="sc">+</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="fl">4.1</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">3.1</span>, <span class="at">label =</span> <span class="st">"S-axis"</span>, </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"gray45"</span>) <span class="sc">+</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="fl">5.5</span>, <span class="at">y =</span> <span class="fl">5.5</span>, <span class="at">label =</span> <span class="st">"scale max grid line"</span>, </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"gray45"</span>) <span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">5</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">1.6</span>, <span class="at">label =</span> <span class="fu">expression</span>(<span class="st">"log"</span>[<span class="dv">10</span>]<span class="sc">~</span><span class="st">"MIC"</span>), </span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">0.2</span>, <span class="at">vjust =</span> <span class="fl">0.8</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"gray45"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell quarto-layout-panel page-columns page-full">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 85.0%;justify-content: center;">
+<pre><code>              Bacteria Penicillin Streptomycin Neomycin
+                &lt;char&gt;      &lt;num&gt;        &lt;num&gt;    &lt;num&gt;
+1: h. Brucella abortus          0        0.301     -1.7</code></pre>
+</div>
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 15.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top page-columns page-full">
+<div class="cell-output-display quarto-layout-cell page-columns page-full" style="flex-basis: 85.0%;justify-content: center;">
+<div id="fig-radar-components" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-radar-components-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 1: Illustrating the components of a radar chart with the log<sub>10</sub>MIC values of three antibiotics on one bacterium.</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 15.0%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+</div>
+</div>
+</div>
+<p>The axes of the chart encode the antibiotics: a P-axis (Penicillin), an S-axis (Streptomycin), and an N-axis (Neomycin). The three radial axes are rotated 120 degrees apart.</p>
+<p>The axes have identical scales marked with log<sub>10</sub>MIC equal to –3, –1, and +3 and connected with circular grid lines. Reference tick marks are added to the P-axis in integer increments.</p>
+<p>The log<sub>10</sub> concentration values are encoded as data markers <em>on the axes</em>—in this example, 0.0 on the P-axis, +0.3 on the S-axis, and –1.7 on the N-axis.</p>
+<p>Data markers inside the –1 grid line indicate clinically plausible MICs; points outside the line indicate resistance to the antibiotic. In this example, <em>Brucella abortus</em> is resistant to Penicillin and Streptomycin but not to Neomycin.</p>
+<p>The thin helper lines between data markers create a polygon for that bacterium to help distinguish it from other bacteria when more than one are graphed in the same chart. The polygons, while useful visual aids, are not generally useful for drawing inferences about the data.</p>
+<p><strong>Creating the radar charts</strong></p>
+<p>I use the <code>resistance</code> variable to subset the data frame and construct one radar chart per group, yielding the five charts assembled in <a href="#fig-five-radar">Figure&nbsp;2</a>. The legend keys verify that the charts retain the desired order of the bacteria, from (a) to (p) in order of increasing median MIC.</p>
+<div>
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[resistance <span class="sc">==</span> <span class="st">"None"</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Resistant to None"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[resistance <span class="sc">==</span> <span class="st">"P"</span>]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Resistant to P"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[resistance <span class="sc">==</span> <span class="st">"PS"</span>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Resistant to PS"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[resistance <span class="sc">==</span> <span class="st">"PSN"</span>]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Resistant to PSN"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[resistance <span class="sc">==</span> <span class="st">"SN"</span>]</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Resistant to SN"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell quarto-layout-panel">
+
+</div>
+</div>
+<div id="fig-five-radar" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="figures/five_radar.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 2: Radar charts of Burtin’s data with current bacteria taxonomy. Data points on the radial axes are log<sub>10</sub>MIC values.</figcaption><p></p>
+</figure>
+</div>
+<p>I assembled these images in a two-column format to make it possible to view all of them together. I made the font size as large as possible without overprinting important graphical elements. (The code for assembling the images is provided in an appendix.)</p>
+</section>
+<section id="faceted-dot-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="faceted-dot-chart">Faceted dot chart</h2>
+<p><strong>Shaping the data</strong></p>
+<p>For compatibility with <code>ggplot()</code>, I transform the data from row records to <em>block records</em>. In block-record form, everything about a bacterium occupies a “block” of rows. For example, <em>Bacillus anthracis</em> occupies the first three rows instead of the first row alone as it did previously. The utility of this form is that both <code>Antibiotic</code> and <code>Concentration</code> are explicit variables with one value per observation (row).</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>DT_facet <span class="ot">&lt;-</span> <span class="fu">melt</span>(DT, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"Bacteria"</span>, <span class="st">"median_MIC"</span>, <span class="st">"resistance"</span>), </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable.name =</span> <span class="st">"Antibiotic"</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable.factor =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">value.name =</span> <span class="st">"Concentration"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(DT_facet, <span class="fu">c</span>(<span class="st">"Bacteria"</span>, <span class="st">"Antibiotic"</span>, <span class="st">"Concentration"</span>,  <span class="st">"median_MIC"</span>, <span class="st">"resistance"</span>))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># order rows to illustrate block records</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>DT_facet[<span class="fu">order</span>(median_MIC, Bacteria)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            Bacteria   Antibiotic Concentration median_MIC
+                              &lt;char&gt;       &lt;char&gt;         &lt;num&gt;      &lt;num&gt;
+ 1:        a. Bacillus anthracis (+)   Penicillin         -3.00      -2.15
+ 2:        a. Bacillus anthracis (+) Streptomycin         -2.00      -2.15
+ 3:        a. Bacillus anthracis (+)     Neomycin         -2.15      -2.15
+ 4:      b. Staphylococcus albus (+)   Penicillin         -2.15      -2.15
+ 5:      b. Staphylococcus albus (+) Streptomycin         -1.00      -2.15
+---                                                                       
+44: o. Streptococcus hemolyticus (+) Streptomycin          1.15       1.00
+45: o. Streptococcus hemolyticus (+)     Neomycin          1.00       1.00
+46:    p. Streptococcus viridans (+)   Penicillin         -2.30       1.00
+47:    p. Streptococcus viridans (+) Streptomycin          1.00       1.00
+48:    p. Streptococcus viridans (+)     Neomycin          1.60       1.00
+    resistance
+        &lt;char&gt;
+ 1:       None
+ 2:       None
+ 3:       None
+ 4:       None
+ 5:       None
+---           
+44:         SN
+45:         SN
+46:         SN
+47:         SN
+48:         SN</code></pre>
+</div>
+</div>
+<p>We can add one more categorical variable (<code>efficacy</code>) to help visually distinguish between clinically plausible dosages (log<sub>10</sub>MIC ≤ –1) and bacterial resistance (log<sub>10</sub>MIC &gt; -1) in the faceted dot chart. <a href="#tbl-data-structure-2">Table&nbsp;3</a> lists the complete augmented set of variables.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># efficacy variable used as legend key</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>DT_facet[, efficacy <span class="sc">:</span><span class="er">=</span> <span class="fu">fifelse</span>(Concentration <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="st">"Effective"</span>, <span class="st">"Resistant"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-data-structure-2" class="anchored">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;"><caption>Table 3:  Augmented data structure </caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> variable </th>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> structure </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> bacteria </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, nominal, 16 levels </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> antibiotic </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, nominal, 3 levels </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> min. inhibitory concentration (MIC) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> quantitative (mg/dl) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> Gram stain </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, 2 levels, dependent on bacteria </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> resistance profile </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, 5 levels, dependent on bacteria </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> efficacy </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> categorical, 2 levels, dependent on MIC </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Creating the faceted dot chart</strong></p>
+<p>Before plotting, I edit the data to order the rows and panels and add a resistance subtitle.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># manually order the columns of the panel grid</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>DT_facet[, Antibiotic <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, factor, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Penicillin"</span>, <span class="st">"Streptomycin"</span>, <span class="st">"Neomycin"</span>)), .SDcols <span class="ot">=</span> <span class="st">"Antibiotic"</span>]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># order the bacteria as a factor</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>DT_facet[, Bacteria <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, factor, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(Bacteria)))), .SDcols <span class="ot">=</span> <span class="st">"Bacteria"</span>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># add a subtitle for the resistance category </span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>DT_facet[resistance <span class="sc">==</span> <span class="st">"None"</span>, resistance <span class="sc">:</span><span class="er">=</span> <span class="st">"Resistant</span><span class="sc">\n</span><span class="st">to</span><span class="sc">\n</span><span class="st">None"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The resulting chart has 15 facets in a 5 by 3 grid—five rows for the resistance variable and three columns for the antibiotic variable. Individual bacteria form an ordered vertical scale.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.7">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct the faceted dot chart</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DT_facet, <span class="fu">aes</span>(<span class="at">x =</span> Concentration, <span class="at">y =</span> Bacteria, <span class="at">color =</span> efficacy)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(Antibiotic),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">rows =</span> <span class="fu">vars</span>(<span class="fu">reorder</span>(resistance, median_MIC)), </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">switch =</span> <span class="st">"y"</span>, </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">space  =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># annotations</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"gray40"</span>) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data  =</span> DT_facet[resistance <span class="sc">==</span> <span class="st">"PSN"</span>], </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">y =</span> <span class="fl">1.5</span>, <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"max dose"</span>)),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">color =</span> <span class="st">"gray30"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scales</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">3.5</span>, <span class="fl">3.5</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"gray"</span>)) <span class="sc">+</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">position =</span> <span class="st">"right"</span>) <span class="sc">+</span> </span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"MIC (log10 mg/dl)"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># theme arguments</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MIC scale</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x   =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bacteria scale</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y   =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">angle =</span> <span class="dv">0</span>, <span class="at">face =</span> <span class="st">"italic"</span>), </span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># antibiotic labels</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x  =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># resistance labels</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.y.left  =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">angle =</span> <span class="dv">0</span>), </span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># panels</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border  =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">size =</span> <span class="fl">0.7</span>),</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">"mm"</span>), </span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># legend</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>, </span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text  =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>), </span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"mm"</span>)</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-faceted" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-faceted-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption margin-caption">Figure 3: Faceted dot chart of Burtin’s data with current bacteria taxonomy. Bacteria are ordered (a) through (p) by increasing median MIC.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The log<sub>10</sub>MIC variable is encoded on identical horizontal scales. The maximum clinically plausible dosage is indicated with a vertical dashed line, separating interactions that are effective from those that are resistant.</p>
+<p>For ggplot2 users, the interesting features of the code include:</p>
+<ul>
+<li><code>facet_grid(switch = "y")</code> with <code>scale_y_discrete(position = "right")</code> to place the bacteria labels on the right and the resistance category on the left</li>
+<li><code>facet_grid()</code> arguments <code>scales</code> and <code>space</code> to create evenly spaced rows when, because of dependent categories, no facets are small multiples.</li>
+</ul>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>Wainer poses five possible key questions that the data were gathered to answer (p.&nbsp;30). Two of those questions arise naturally from the basic data structure—that MIC observations correspond to unique antibiotic-bacterium combinations. The first question focuses on the <em>bacteria:</em></p>
+<ol type="1">
+<li>How do the bacteria group vis-à-vis their reaction to the antibiotics?</li>
+</ol>
+<p>As we have seen, grouping bacteria by their resistance profiles succeeds in revealing similarities. Both the radar chart and the faceted dot chart support this grouping <em>visually:</em> in the radar chart, by the similarity of polygons in an individual sub-plot; in the faceted chart, by the similarity of dot patterns in an individual facet.</p>
+<p>The second question focuses on the <em>antibiotics:</em></p>
+<ol start="2" type="1">
+<li>How do the antibiotics group with respect to their efficacy in controlling the bacteria?</li>
+</ol>
+<p>Consider first the efficacy of the drugs on one bacterium, e.g., item (g), <em>Salmonella schottmeulleri</em>. From the radar chart, we can infer that Neomycin is effective and that the other two drugs are resistant. However, the overprinting of data markers on the three axes makes it difficult to visually quantify the differences between the P-, S-, and N-value of MIC for this bacterium.</p>
+<p>In contrast, in the faceted dot chart, data markers for a bacterium are located in a row with one row per bacterium and one panel per antibiotic. There is no overprinting. Looking along row (g), we again see that Neomycin is effective and the others are resistant but we can also visually estimate the MIC values using the horizontal scale: Neomycin log<sub>10</sub>MIC ≈ –1, Streptomycin ≈ 0, and Penicillin ≈ 1.</p>
+<p>The faceted chart, compared to the radar chart, makes such differences easier to quantify. Adding more circular grid lines to the radar chart might improve our ability to estimate its MIC values, but the radar chart has an intrinsic potential for data markers (and the polygons) overprinting one another.</p>
+<p>Second, let’s consider differential efficacy of the drugs across groupings. For example, for how many of the resistance-groupings is penicillin effective? Using the radar charts, we examine the P-axis of all 5 charts and conclude that Penicillin is effective in two of the groupings. (The names of the groupings tell us this as well, but here I want to focus on the effectiveness of the visualization.)</p>
+<p>In the faceted chart, the five panels in the Penicillin column yield the same conclusion <em>at a glance.</em></p>
+<p>Wainer’s other three questions are:</p>
+<ol start="3" type="1">
+<li>What bacterium does this antibiotic kill?</li>
+<li>What antibiotic kills this bacterium?</li>
+<li>Does the “Gram staining” variable help us make decisions regarding which antibiotic to use?</li>
+</ol>
+<p>All three questions can be answered by both charts, but generally more quickly and clearly using the faceted dot chart. I leave the details of that comparison to the reader.</p>
+<p>In general, the advantages of the faceted dot chart include:</p>
+<ul>
+<li>Horizontal grid lines suffice to distinguish one bacterium from another.</li>
+<li>Greater visual access to patterns of data in different combinations.</li>
+<li>Relatively compact without sacrificing readability.</li>
+<li>Data markers do not overprint one another.</li>
+<li>Conventional horizontal scales.</li>
+</ul>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Using Will Burtin’s 1951 data on the efficacy of three antibiotics on 16 bacteria (with updated bacteria taxonomy), I compared the effectiveness of two types of charts by considering the ease and accuracy of answering key domain-specific questions.</p>
+<p>By using the same data organized in the same way, both charts are designed to convey the same message. Thus any differences in perceived effectiveness should be due to differences in chart structure, that is, characteristics of the chart intrinsic to its type.</p>
+<p>For the data at hand, a faceted dot chart communicates more effectively than a radar chart. Intrinsic differences between the two chart types suggest that in general appropriately configured dot charts are more effective than radar charts.</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://github.com/ricardo-bion/ggradar"><code>ggradar</code></a> for radar charts</li>
+<li><a href="https://cran.r-project.org/package=magick"><code>magick</code></a> for image processing</li>
+</ul>
+</div></section><section id="image-processing-with-magick" class="level3 appendix"><h2 class="quarto-appendix-heading">Image processing with magick</h2><div class="quarto-appendix-contents">
+
+<p>The following code chunk is provided for readers interested in the image processing I used to assemble the five radar charts into one figure. As usual in R, there are several ways to approach this task; here I use “magick,” an R package for advanced graphics and image processing.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># image processing using the magick package</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magick)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># custom functions</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>trim_radar <span class="ot">&lt;-</span> <span class="cf">function</span>(data_group, subtitle, img_path, name_png) {</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">make_radar_chart</span>(data_group, subtitle)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave_radar</span>(p, img_path, name_png)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  img <span class="ot">&lt;-</span> <span class="fu">image_read</span>(<span class="fu">paste0</span>(img_path, name_png))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  img <span class="ot">&lt;-</span> <span class="fu">image_trim</span>(img)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>ggsave_radar <span class="ot">&lt;-</span> <span class="cf">function</span>(p, img_path, name_png) {</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot =</span> p,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">path =</span> img_path, </span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> name_png,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">6.8</span>, </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">5</span>, </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">"in"</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co"># local path to figures</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>img_path <span class="ot">&lt;-</span> <span class="st">"posts/2022-08-15-radar-charts/figures/"</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># create individual radar charts</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>img1 <span class="ot">&lt;-</span> <span class="fu">trim_radar</span>(<span class="at">data_group =</span> DT[resistance <span class="sc">==</span> <span class="st">"None"</span>], </span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>           <span class="at">subtitle =</span> <span class="st">"Resistant to None"</span>, </span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>           <span class="at">img_path =</span> img_path, </span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">name_png =</span> <span class="st">"none.png"</span>)</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>img2 <span class="ot">&lt;-</span> <span class="fu">trim_radar</span>(<span class="at">data_group =</span> DT[resistance <span class="sc">==</span> <span class="st">"P"</span>], </span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">subtitle =</span> <span class="st">"Resistant to P"</span>, </span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>           <span class="at">img_path =</span> img_path, </span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>           <span class="at">name_png =</span> <span class="st">"p.png"</span>)</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>img3 <span class="ot">&lt;-</span> <span class="fu">trim_radar</span>(<span class="at">data_group =</span> DT[resistance <span class="sc">==</span> <span class="st">"PS"</span>], </span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>           <span class="at">subtitle =</span> <span class="st">"Resistant to PS"</span>, </span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>           <span class="at">img_path =</span> img_path, </span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">name_png =</span> <span class="st">"ps.png"</span>)</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>img4 <span class="ot">&lt;-</span> <span class="fu">trim_radar</span>(<span class="at">data_group =</span> DT[resistance <span class="sc">==</span> <span class="st">"PSN"</span>], </span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>           <span class="at">subtitle =</span> <span class="st">"Resistant to PSN"</span>, </span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">img_path =</span> img_path, </span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">name_png =</span> <span class="st">"psn.png"</span>)</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>img5 <span class="ot">&lt;-</span> <span class="fu">trim_radar</span>(<span class="at">data_group =</span> DT[resistance <span class="sc">==</span> <span class="st">"SN"</span>], </span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">subtitle =</span> <span class="st">"Resistant to SN"</span>, </span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>           <span class="at">img_path =</span> img_path, </span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>           <span class="at">name_png =</span> <span class="st">"sn.png"</span>)</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="co"># white box same width as figure to vertically offset second column</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">image_info</span>(img1)[[<span class="st">"width"</span>]]</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">image_info</span>(img1)[[<span class="st">"height"</span>]]</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>box <span class="ot">&lt;-</span> <span class="fu">image_blank</span>(<span class="at">width =</span> w, <span class="at">height =</span> h <span class="sc">*</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="co"># thin vertical separation strip</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>white_strip <span class="ot">&lt;-</span> <span class="fu">image_blank</span>(<span class="at">width =</span> <span class="dv">30</span>, <span class="at">height =</span> h, <span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>gray_strip  <span class="ot">&lt;-</span> <span class="fu">image_blank</span>(<span class="at">width =</span> <span class="dv">5</span>, <span class="at">height =</span> h, <span class="at">color =</span> <span class="st">"gray70"</span>)</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a><span class="co"># assemble composite figure</span></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>img1 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(img1, white_strip, gray_strip, white_strip), <span class="at">stack =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>img2 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(img2, white_strip, gray_strip, white_strip), <span class="at">stack =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>img3 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(img3, white_strip, gray_strip, white_strip), <span class="at">stack =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>col_1 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(img1, img2, img3), <span class="at">stack =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>col_2 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(box, img4, img5), <span class="at">stack =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>img   <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(col_1, col_2), <span class="at">stack =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="co"># write final image to file</span></span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="fu">image_write</span>(img, <span class="at">path =</span> <span class="fu">paste0</span>(img_path, <span class="st">"five_radar.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="doc-bibliography">
+<div id="ref-Few:2005" class="csl-entry" role="doc-biblioentry">
+Few, S. (2005). <em>Keep radar graphs below the radar—far below</em>. Newsletter. <a href="https://www.perceptualedge.com/articles/dmreview/radar_graphs.pdf">https://www.perceptualedge.com/articles/dmreview/radar_graphs.pdf</a>
+</div>
+<div id="ref-Odds:2011" class="csl-entry" role="doc-biblioentry">
+Odds, G. (2011). <em><span class="nocase">A critique of radar charts</span></em>. Blog post. <a href="https://blog.scottlogic.com/2011/09/23/a-critique-of-radar-charts.html">https://blog.scottlogic.com/2011/09/23/a-critique-of-radar-charts.html</a>
+</div>
+<div id="ref-Wainer:2014" class="csl-entry" role="doc-biblioentry">
+Wainer, H. (2014). <em><span>Medical Illuminations</span></em>. Oxford University Press.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+</ul>
+      </div>
+  </div>
+</footer>
+
+
+
+</body></html>
