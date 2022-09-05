@@ -10,7 +10,251 @@
 <atom:link href="https://graphdr.github.io/data-stories/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
 <generator>quarto-0.9.479</generator>
-<lastBuildDate>Sun, 21 Aug 2022 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 05 Sep 2022 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Multiple studies, one chart</title>
+  <link>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/index.html</link>
+  <description><![CDATA[ 
+
+
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>I redesign a grouped-bar chart to attempt to better align the logic of the display with the logic of the argument. The redesigned chart provides better visual access to year-by-year comparisons by different combinations of categories and reveals nuances in the data not obvious in the original chart.</em></p>
+</div>
+</div>
+<p>In working on a <a href="../2022-05-27-revisit-lying-chart/index.html">previous post</a>, I cited an article on US sex education for adolescents <span class="citation" data-cites="Lindberg+Kantor:2022">(Lindberg &amp; Kantor, 2022)</span>. That article included a conventional grouped bar chart displaying results of five surveys over 25 years from the National Survey of Family Growth (NSFG).</p>
+<p>The chart caught my attention because its visual design is slightly dissonant with its rhetorical purpose. Its purpose is to support the assertion that five surveys over 25 years reveal a decline in US sex education. Time is the implicit independent variable. The chart design, however, uses grouped bars in which evolution over time is not encoded to scale.</p>
+<p>The original chart supports the authors’ argument, but I was curious if a redesigned chart, treating time as a scaled, explicit independent variable, could improve the visual rhetoric. And if so, does it reveal aspects of the data stories previously hidden?</p>
+<p>The R code for the post is listed under the “R code” pointers.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># packages used </span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"data.table"</span>)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggplot2"</span>)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;">library</span>(<span class="st" style="color: #20794D;">"ggpubfigs"</span>)</span></code></pre></div>
+</details>
+</div>
+<section id="the-original-chart" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-original-chart">The original chart</h2>
+<p>The grouped bar chart by Lindberg and Kantor illustrates the changing fraction of US adolescents receiving sex education instruction from 1995 to 2019. The results are compiled from 5 studies, each with its own time span. Bars are grouped by educational topic and student sex.</p>
+<div id="fig-original" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/gr2_lrg.jpg" class="img-fluid figure-img"></p>
+<p></p><p></p>
+</figure>
+</div>
+<p>In their prose, the authors make the argument that</p>
+<blockquote class="blockquote">
+<p>Young people today are less likely to receive instruction on key sex education topics than they were 25 years ago, as indicated by comparing the prevalence estimates from 2011–2015 and 2015–2019 calculated in this study to published estimates from earlier NSFG rounds.</p>
+</blockquote>
+<p>The chart supports the assertion. The quantitative variable (percentage) is the bar height, encoded using a zero baseline that (correctly) avoids distorting visual comparisons. The survey years—the implicit independent variable—are in sequence from left to right and are encoded by a sequential gray-scale fill.</p>
+<p>Grouped-bar charts are generally OK for visually comparing bar heights within a group, but less useful for comparing between groups. For example, the evolution of “Say No to Sex” for Females clearly shows a descending trend; the same information for Males is fairly constant. The design does not, however, facilitate direct, year-by-year comparisons between data in different clusters. Nor does it visually encode the temporal span of a study within the overall 25 years.</p>
+<p>In addition, much of the chart portrays what Edward Tufte calls “non-data-ink.” In this instance, only the bar height (percentage) and the gray-scale (survey years) encode data—neither the width of a bar nor the area of a bar convey information. Such non-data-ink can distract a viewer from the intended message. In this example, the filled-in bars create a visual geography that draws my eye to the center of a cluster area—a sort of visual center of gravity. I have to consciously focus on the bar tops to make comparisons.</p>
+<p>In my redesigned chart, I attempt to address these issues.</p>
+</section>
+<section id="data-structure" class="level2">
+<h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
+<p>The data structure is outlined in Table&nbsp;1. The percentage of teens aged 15–19 receiving instruction is the single quantitative variable. Because three of the studies cover a span of years, I treat the starting and ending years as separate variables.</p>
+<p><small></small></p><small>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-data-structure" class="anchored">
+<table class="table table-sm table-striped">
+<caption>Table 1: Data structure</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">structure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year study starts</td>
+<td style="text-align: left;">categorical, ordinal, five levels</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">year study ends</td>
+<td style="text-align: left;">categorical, ordinal, five levels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">educational topic</td>
+<td style="text-align: left;">categorical, nominal, two levels</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">student sex</td>
+<td style="text-align: left;">categorical, nominal, two levels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">percent receiving instruction</td>
+<td style="text-align: left;">quantitative</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</small><p><small></small></p>
+<p>I don’t have the original data tables, so I approximated the values by measuring the bar lengths in the original figure. These estimates are available in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/sex-ed-topics-data.csv">CSV file</a>.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># read the data </span></span>
+<span id="cb2-2">dt <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fread</span>(<span class="st" style="color: #20794D;">"data/sex-ed-topics-data.csv"</span>, </span>
+<span id="cb2-3">            <span class="at" style="color: #657422;">colClasses =</span> <span class="fu" style="color: #4758AB;">list</span>(<span class="at" style="color: #657422;">double =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"start"</span>, <span class="st" style="color: #20794D;">"end"</span>, <span class="st" style="color: #20794D;">"pct"</span>)))</span>
+<span id="cb2-4"></span>
+<span id="cb2-5"><span class="co" style="color: #5E5E5E;"># display</span></span>
+<span id="cb2-6">dt[]</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    study start   end         Topic    Sex   pct
+    &lt;int&gt; &lt;num&gt; &lt;num&gt;        &lt;char&gt; &lt;char&gt; &lt;num&gt;
+ 1:     1  1995  1995 Birth control Female    87
+ 2:     1  1995  1995 Birth control   Male    81
+ 3:     1  1995  1995 Say no to sex Female    92
+ 4:     1  1995  1995 Say no to sex   Male    74
+ 5:     2  2002  2002 Birth control Female    70
+ 6:     2  2002  2002 Birth control   Male    66
+ 7:     2  2002  2002 Say no to sex Female    86
+ 8:     2  2002  2002 Say no to sex   Male    83
+ 9:     3  2006  2010 Birth control Female    70
+10:     3  2006  2010 Birth control   Male    61
+11:     3  2006  2010 Say no to sex Female    89
+12:     3  2006  2010 Say no to sex   Male    82
+13:     4  2011  2015 Birth control Female    66
+14:     4  2011  2015 Birth control   Male    58
+15:     4  2011  2015 Say no to sex Female    84
+16:     4  2011  2015 Say no to sex   Male    82
+17:     5  2015  2019 Birth control Female    64
+18:     5  2015  2019 Birth control   Male    63
+19:     5  2015  2019 Say no to sex Female    81
+20:     5  2015  2019 Say no to sex   Male    80
+    study start   end         Topic    Sex   pct</code></pre>
+</div>
+</div>
+</section>
+<section id="redesign" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="redesign">Redesign</h2>
+<p>To organize the chart, I convert the <code>Topic</code> and <code>Sex</code> variables to factors. I select the order of the factor levels to control the placement of panels and legend entries.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;"># manually order two categories</span></span>
+<span id="cb4-2">dt<span class="sc" style="color: #5E5E5E;">$</span>Topic <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">factor</span>(dt<span class="sc" style="color: #5E5E5E;">$</span>Topic, <span class="at" style="color: #657422;">levels =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Say no to sex"</span>, <span class="st" style="color: #20794D;">"Birth control"</span>))</span>
+<span id="cb4-3">dt<span class="sc" style="color: #5E5E5E;">$</span>Sex   <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">factor</span>(dt<span class="sc" style="color: #5E5E5E;">$</span>Sex,   <span class="at" style="color: #657422;">levels =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Female"</span>, <span class="st" style="color: #20794D;">"Male"</span>))</span></code></pre></div>
+</details>
+</div>
+<p>The original article argues that the decline in the quantitative variable evolves over time, thus a scatterplot design is my starting point. Time (discrete years) is on the horizontal scale and the percent receiving instruction on the vertical scale. One-year surveys are represented with “point” data markers and multi-year surveys with line segments. Topics are assigned to panels and sex to color.</p>
+<div class="cell page-columns page-full" data-fig.asp="0.8">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;">ggplot</span>() <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-2">  <span class="fu" style="color: #4758AB;">geom_point</span>(<span class="at" style="color: #657422;">data =</span> dt[start <span class="sc" style="color: #5E5E5E;">==</span> end], </span>
+<span id="cb5-3">             <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> start, <span class="at" style="color: #657422;">y =</span> pct, <span class="at" style="color: #657422;">color =</span> Sex), </span>
+<span id="cb5-4">             <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">2.5</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-5">  <span class="fu" style="color: #4758AB;">geom_segment</span>(<span class="at" style="color: #657422;">data =</span> dt[start <span class="sc" style="color: #5E5E5E;">!=</span> end], </span>
+<span id="cb5-6">               <span class="at" style="color: #657422;">mapping =</span> <span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">x =</span> start, <span class="at" style="color: #657422;">xend =</span> end, <span class="at" style="color: #657422;">y =</span> pct, <span class="at" style="color: #657422;">yend =</span> pct, <span class="at" style="color: #657422;">color =</span> Sex), </span>
+<span id="cb5-7">               <span class="at" style="color: #657422;">size =</span> <span class="fl" style="color: #AD0000;">1.5</span>) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb5-8">  <span class="fu" style="color: #4758AB;">facet_wrap</span>(<span class="fu" style="color: #4758AB;">vars</span>(Topic), <span class="at" style="color: #657422;">ncol =</span> <span class="dv" style="color: #AD0000;">2</span>) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb5-9">  </span>
+<span id="cb5-10">  <span class="co" style="color: #5E5E5E;"># scales</span></span>
+<span id="cb5-11">  <span class="fu" style="color: #4758AB;">scale_x_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1994</span>, <span class="dv" style="color: #AD0000;">2020</span>), </span>
+<span id="cb5-12">                     <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">1995</span>, <span class="dv" style="color: #AD0000;">2002</span>, <span class="dv" style="color: #AD0000;">2006</span>, <span class="dv" style="color: #AD0000;">2011</span>, <span class="dv" style="color: #AD0000;">2015</span>, <span class="dv" style="color: #AD0000;">2019</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-13">  <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(<span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">50</span>, <span class="dv" style="color: #AD0000;">100</span>)) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-14">  <span class="fu" style="color: #4758AB;">scale_color_manual</span>(<span class="at" style="color: #657422;">values =</span> <span class="fu" style="color: #4758AB;">friendly_pal</span>(<span class="st" style="color: #20794D;">"vibrant_seven"</span>)) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb5-15">  <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"Survey year or span, inclusive"</span>, </span>
+<span id="cb5-16">       <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"Percentage (%)"</span>, </span>
+<span id="cb5-17">       <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Comparing results of 5 surveys over 25 years"</span>) <span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb5-18">  </span>
+<span id="cb5-19">  <span class="co" style="color: #5E5E5E;"># customize the theme </span></span>
+<span id="cb5-20">  <span class="fu" style="color: #4758AB;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb5-21">  <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position =</span> <span class="st" style="color: #20794D;">"right"</span>, </span>
+<span id="cb5-22">        <span class="at" style="color: #657422;">panel.spacing.x =</span> <span class="fu" style="color: #4758AB;">unit</span>(<span class="dv" style="color: #AD0000;">5</span>, <span class="st" style="color: #20794D;">"mm"</span>), </span>
+<span id="cb5-23">        <span class="at" style="color: #657422;">panel.grid.minor.x =</span> <span class="fu" style="color: #4758AB;">element_blank</span>(), </span>
+<span id="cb5-24">        <span class="at" style="color: #657422;">panel.border =</span> <span class="fu" style="color: #4758AB;">element_rect</span>(<span class="at" style="color: #657422;">fill =</span> <span class="cn" style="color: #8f5902;">NA</span>, <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"gray70"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-revised" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/index_files/figure-html/fig-revised-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Unlike the original chart, the time scale is in correct proportion. Scale markings match the survey dates.</p>
+<p>Like the original, the vertical scale is the percentage receiving instruction. Unlike bar charts however, this chart does not require a zero baseline. I select an aspect ratio to highlight, but not distort, the comparisons.</p>
+<p>With topics in separate panels, the relative trends are much easier to see. With sex encoded by color, each facet permits a direct, year-by-year comparison between Female and Male survey responses on a topic.</p>
+<p>Comparisons between panels is more difficult than comparisons within a panel, but removing the non-data-ink has made it easier to compare the data by topic and sex over time and in specific study years.</p>
+<div class="callout-tip callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip for ggplot2 users
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An interesting challenge was choosing “geoms” when some studies appear in one year only and other studies span several years. If I use the segment geom only, the one-year studies disappear from the chart—in discrete time, these data have zero width as line segments.</p>
+<p>My solution is to use a point geom for the one-year surveys and a segment geom for the multi-year surveys with each geom acting on its own data subset.</p>
+</div>
+</div>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>The authors’ discussion of the original chart include the following points, that the revised chart also supports:</p>
+<ul>
+<li>Young people today are less likely to receive instruction on key sex education topics than they were 25 years ago</li>
+<li>For abstinence instruction, the share of female adolescents receiving instruction declined over the 25 year span; for males, the share increased once then remained stable.</li>
+<li>For contraception instruction, the share declined over 25 years for both sexes, though the most recent survey showed a relative increase for males.</li>
+</ul>
+<p>The revised chart supports each of these points with greater visual clarity than the original. Moreover, the new chart supports two additional, general observations:</p>
+<ol type="1">
+<li><p>Females receive instruction at higher rates than males (though the gap has closed in recent years).</p></li>
+<li><p>Abstinence is nearly always instructed at higher rates than contraception.</p></li>
+</ol>
+<p>In my opinion, the first observation would seem to reflect a cultural bias that views pregnancy as a “womans’ issue” <span class="citation" data-cites="Phillips:2018">(Phillips, 2018)</span>. The second, our society’s willingness to indulge in (and fund) wishful thinking <span class="citation" data-cites="Guttmacher:2021">(Guttmacher Institute, 2021)</span>.</p>
+<p>The authors’ original argument is supported by the new chart and with greater visual access to the underlying data than the original grouped bar chart. Thus in response to my original question, I think the visual rhetoric has been improved and previously hidden nuance has been revealed.</p>
+<p>Lastly, encoding time to scale does not yield any particularly interesting insights regarding the survey results—but it does display the relative timing and duration of the surveys, possibly enhancing the credibility of the evidence.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://github.com/JLSteenwyk/ggpubfigs"><code>ggpubfigs</code></a> for color-vision-deficient-friendly palettes</li>
+</ul>
+
+
+
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2">
+<div id="ref-Guttmacher:2021" class="csl-entry">
+Guttmacher Institute. (2021). <em><span class="nocase">Federally funded abstinence-only programs: Harmful and ineffective</span></em>. Blog post. <a href="https://www.guttmacher.org/fact-sheet/abstinence-only-programs">https://www.guttmacher.org/fact-sheet/abstinence-only-programs</a>
+</div>
+<div id="ref-Lindberg+Kantor:2022" class="csl-entry">
+Lindberg, L. D., &amp; Kantor, L. M. (2022). <span class="nocase">Adolescents’ receipt of sex education in a nationally representative sample, 2011–-2019</span>. <em>Journal of Adolescent Health</em>, <em>70</em>(2), 290–297. <a href="https://doi.org/10.1016/j.jadohealth.2021.08.027">https://doi.org/10.1016/j.jadohealth.2021.08.027</a>
+</div>
+<div id="ref-Phillips:2018" class="csl-entry">
+Phillips, A. (2018). <em>How capitalism and the patriarchy built our problematic birth control situation</em>. Blog post; Adios, Barbie. <a href="https://www.adiosbarbie.com/2018/02/capitalism-patriarchy-built-problematic-birth-control-situation/">https://www.adiosbarbie.com/2018/02/capitalism-patriarchy-built-problematic-birth-control-situation/</a>
+</div>
+</div></section></div> ]]></description>
+  <category>R</category>
+  <category>Data storytelling</category>
+  <category>ggplot2</category>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/index.html</guid>
+  <pubDate>Mon, 05 Sep 2022 04:00:00 GMT</pubDate>
+  <media:content url="https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/thumbnail.png" medium="image" type="image/png" height="84" width="144"/>
+</item>
 <item>
   <title>Spiders, facets, and dots, oh my!</title>
   <link>https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/index.html</link>
