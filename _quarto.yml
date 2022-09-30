@@ -19,6 +19,8 @@ website:
         url: https://stackoverflow.com/questions/tagged/r
       - section: "data.table"
         url: https://rdatatable.gitlab.io/data.table/
+      - section: "ggplot2"
+        url: https://ggplot2.tidyverse.org/
       - section: "happy git"
         url: https://happygitwithr.com/
   navbar:
