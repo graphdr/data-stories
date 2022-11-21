@@ -1,0 +1,409 @@
+---
+title: "Introducing formatdown"
+description: |
+    Provides powers-of-ten formatting for a numerical vector or data frame column when creating documents in rmarkdown or quarto markdown. 
+date: "November 21, 2022"
+date-format: "YYYY--MM--DD"
+categories: [R, engineering notation, scientific notation, units, rmarkdown, quarto]
+image: "thumbnail.png"
+cap-location: margin
+draft: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| tbl-cap-location: top
+
+# knitr working directory -> project level
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+# printing options for data.table
+options(
+  datatable.print.nrows = 10,
+  datatable.print.topn = 5,
+  datatable.print.class = TRUE
+)
+
+```
+
+:::{.callout-note}
+## Summary 
+<em>Convert the elements of a numerical vector or data frame column to character strings in which the numbers are formatted using powers-of-ten notation in scientific or engineering form and delimited for rendering as inline equations in an rmarkdown document.</em>
+:::
+
+Initial release of the  [`formatdown`](https://CRAN.R-project.org/package=formatdown) R package providing tools for formatting output in `rmarkdown` or `quarto` markdown documents. 
+
+This first version has one function only, `format_power()`, for converting numbers to character strings formatted in powers-of-ten notation and delimited in `$...$` for rendering as inline equations in `.Rmd` or `.qmd` output documents. Provides two powers-of-ten formatting options---scientific notation and engineering notation---with an option to omit powers-of-ten notation for a specified range of exponents. 
+
+To illustrate the different formats, I show in @tbl-examples the same number rendered using different formats, all with 4 significant digits.  
+
+The R code for the post is listed under the “R code” pointers. In the examples, I use `data.table` syntax for data manipulation, though the code can be translated into `base R` or `dplyr` syntax if desired. 
+
+```{r}
+library("formatdown")
+library("data.table")
+
+x <- 4.567E-4                                   # value
+x1 <- format_power(x, 4, omit_power = c(-6, 0)) # omit power-of-ten
+x2 <- format_power(x, 4, format = "sci")        # scientific
+x3 <- format_power(x, 4)                        # engineering
+
+# render in markdown table below
+```
+
+| Notation       | Name   | Value                  | Rendered as |
+|:---------------|:------:|:----------------------------|-------:|  
+| without $10^n$ |  `x1`  | `"$0.0004567$"`             | `r x1` |
+| scientific     |  `x2`  | `"$4.567\\times{10}^{-4}$"` | `r x2` | 
+| engineering    |  `x3`  | `"$456.7\\times{10}^{-6}$"` | `r x3` |
+
+: Rendering a number using different formats {#tbl-examples}{tbl-colwidths="[20,20,30,30]"}
+
+
+
+
+
+
+## Background 
+
+My first attempt to provide powers-of-ten formatting was in my 2016 package, [`docxtools`](https://CRAN.R-project.org/package=docxtools). That implementation has several shortcomings.  
+
+I wrote its formatting function to accept a data frame as input, which entailed a lot of programming overhead to separate numerical from non-numerical variable classes and to reassemble them after the numerical columns were formatted. This could have been simplified with judicious use of `lapply()`, with which I was not sufficiently experienced at the time. I also failed to take advantage of `formatC()` in constructing the output. 
+
+With `formatdown`, my goal is to provide similar functionality but with more concise code, greater flexibility, and a more balanced approach to package dependencies. 
+
+
+
+
+
+
+## Improvements
+
+The primary design change is that the `format_power()` function operates on a numerical *vector* instead of a *data frame*. The benefits of this change are: 1) simpler code that should be easier to revise and maintain; 2) scalar values can be formatted for rendering inline; and 3) data frames can still be formatted, by column, using `lapply()`. 
+
+To illustrate formatting a scalar value inline, the markup for Avogadro's number (`x = 6.0221E+23`) in engineering format is given by,  
+
+````{verbatim, lang = "markdown"}
+#| eval: false
+    $N_A =$ `r format_power(x, digits = 5, format = "engr")`
+````
+
+which is rendered (in this output document) as $N_A =$ `r format_power(6.0221E+23, digits = 5, format = "engr")`. 
+
+The second improvement is the addition of an option for scientific notation. For example, the markup for Avogadro's number in scientific notation  is given by, 
+
+````{verbatim, lang = "markdown"}
+#| eval: false
+    $N_A =$ `r format_power(x, digits = 5, format = "sci")`
+````
+
+which renders as $N_A =$ `r format_power(6.0221E+23, digits = 5, format = "sci")`. 
+
+The third improvement is the addition of an option for omitting powers-of-ten notation over a range of exponents. For example, the markup for `x = 1.23E-4` in decimal notation is given by, 
+
+````{verbatim, lang = "markdown"}
+#| eval: false
+    $x =$ `r format_power(x = 1.234E-4, omit_power = c(-4, 0))`
+````
+
+which renders as $x =$ `r format_power(x = 1.23E-4, omit_power = c(-4, 0) )`. 
+
+A final (internal) improvement is a more balanced approach to package dependencies. With a tighter focus on what `formatdown` is to accomplish compared to `docxtools`, I have reduced the dependencies to `checkmate`,  `wrapr`, and `data.table`. 
+
+The package [vignette](https://graphdr.github.io/formatdown/articles/) illustrates package usage in detail. 
+
+However, having successfully submitted the package to CRAN, I started working on this post and immediately (!) uncovered an issue that had not appeared while working on the package vignettes. 
+
+
+
+
+
+## Delimiter issue
+
+I wrote the package vignette using the `rmarkdown::html_vignette` output style per usual. All the formatted output rendered as expected in that document. I write this blog using [quarto](https://quarto.org/docs/websites/website-blog.html). As seen in the examples above, inline math is rendered as expected. 
+
+The issue arises when using `knitr::kable()` and `kableExtra::kbl()` to display data tables in this blog post. To illustrate, consider this data frame, included with `formatdown` (ideal gas properties of air at room temperature). 
+
+```{r}
+density
+```
+
+Formatting the pressure column, the markup looks OK. 
+
+```{r}
+DT <- copy(density)
+DT$p_Pa <- format_power(DT$p_Pa, 4)
+DT
+```
+
+`knitr::kable()` yields the expected output with pressure formatted in engineering notation. 
+
+```{r}
+knitr::kable(DT, align = "r")
+```
+
+
+
+
+
+
+
+### Problem
+
+`kableExtra::kbl()` does not render the math markup as expected. 
+
+```{r}
+kableExtra::kbl(DT, align = "r")
+```
+
+In fact, having loaded `kableExtra` above, `knitr::kable()` now fails in the same way.
+
+```{r}
+knitr::kable(DT, align = "r")
+```
+
+
+
+
+
+
+
+### Solution
+
+I found a suggestion from [MathJax](https://docs.mathjax.org/en/v2.7-latest/a#tex-and-latex-input) to replace the `$ ... $` delimiters with `\\( ... \\)`. I wrote a short function (below) to do that. 
+
+```{r}
+# Substitute math delimiters
+sub_delim <- function(x) {
+  x <- sub("\\$", "\\\\(", x) # first $
+  x <- sub("\\$", "\\\\)", x) # second $
+}
+
+DT$p_Pa <- sub_delim(DT$p_Pa)
+DT
+```
+
+`knitr::kable()` yields the expected output. 
+
+```{r}
+knitr::kable(DT, align = "c")
+```
+
+`kableExtra::kbl()` yields the expected output.
+
+```{r}
+kableExtra::kbl(DT, align = "c")
+```
+
+I can use the features from `kableExtra` to print a pretty table.
+
+```{r}
+#| label: tbl-pretty
+#| tbl-cap: Data frame displayed using kableExtra
+library("kableExtra")
+
+var_names <- c("Date", "Trial", "Humidity", "Temperature", "Pressure", "Gas constant", "Density" )
+var_units <- c("", "", "", "[K]", "[Pa]", "[J/(kg K)]", "[kg/m\\(^3\\)]")
+var_align <- "r"
+
+DT |> 
+  kbl(align = var_align, col.names = var_units) |>
+  column_spec(1:6, color = "black", background = "white") |>
+  add_header_above(header = var_names, align = var_align, background = "#c7eae5", line_sep = 0) |>
+  kable_paper(lightable_options = "basic", full_width = TRUE)
+```
+
+
+
+
+
+
+### Follow up
+
+To address this issue, the next version of `format_power()` will include a new `delim` argument, 
+
+        format_power(x, digits, format, omit_power, delim)
+
+that allows a user to set the math delimiters to `$ ... $` or `\\( ... \\)`  or even custom left and right markup to suit their environment. 
+
+
+
+
+
+
+
+## Fixed exponents
+
+Preparing this post, I adapted a table of water properties from the [hydraulics](https://cran.r-project.org/web/packages/hydraulics/index.html) package to use as an example and discovered another, more subtle issue. First, I'll construct the data frame. 
+
+```{r}
+# Construct a table of water properties
+temperature     <- seq(0, 45, 10) + 273.15
+density         <- c(1000, 1000, 998, 996, 992)
+specific_weight <- c(9809, 9807, 9793, 9768, 9734)
+viscosity       <- c(173, 131, 102, 81.7, 67.0) * 1E-8
+bulk_modulus    <- c(202, 210, 218, 225, 228) * 1E+7
+
+water <- data.table(temperature, density, specific_weight, viscosity,  bulk_modulus)
+
+water
+```
+
+
+
+
+
+
+
+### Problem
+
+I format all the columns and change the delimiters as described earlier and display the result. The viscosity column reveals the problem. 
+
+```{r}
+DT <- copy(water)
+
+# 5 signif digits
+cols_to_format <- c("temperature")
+DT[, (cols_to_format) := lapply(.SD, function(x) format_power(x, 5)), .SDcols = cols_to_format]
+
+# 4 signif digits
+cols_to_format <- c("specific_weight")
+DT[, (cols_to_format) := lapply(.SD, function(x) format_power(x, 4)), .SDcols = cols_to_format]
+
+# 3 signif digits
+cols_to_format <- c("viscosity", "bulk_modulus")
+DT[, (cols_to_format) := lapply(.SD, function(x) format_power(x)), .SDcols = cols_to_format]
+
+# 3 signif digits omit powers
+cols_to_format <- c("density")
+DT[, (cols_to_format) := lapply(.SD, function(x) format_power(x, omit_power = c(0, 3))), .SDcols = cols_to_format]
+
+# change the delimiters
+DT <- DT[, lapply(.SD, function(x) sub_delim(x))]
+
+# Table 
+DT |> 
+  kbl(align = "cclrrrr") |>
+  kable_paper(lightable_options = "basic", full_width = TRUE) |>
+  row_spec(0, background = "#c7eae5") |>
+  column_spec(1:5, color = "black", background = "white")
+```
+
+The viscosity column displays three values using $10^{-6}$ and two using $10^{-9}$. Visually comparing the values in a column is easier if the powers of ten are identical. The table below illustrates the desired result, created by manually editing the two viscosity values. 
+
+```{r}
+# Manually edit strings to illustrate
+DT$viscosity[4] <- "\\(0.82\\times{10}^{-6}\\)"
+DT$viscosity[5] <- "\\(0.67\\times{10}^{-6}\\)"
+
+# Table 
+DT |> 
+  kbl(align = "cclrrrr") |>
+  kable_paper(lightable_options = "basic", full_width = TRUE) |>
+  row_spec(0, background = "#c7eae5") |>
+  column_spec(1:5, color = "black", background = "white")
+```
+
+This revision satisfies two conventions of tabulating empirical engineering information. 
+
+1. *Units.* &nbsp; With all the reported values reported to the same power-of-ten, the units can all be interpreted in the same way. In this case for example, the units of the viscosity coefficients (1.73, 1.31, etc.) are all micro-Pascal-seconds ($\mu$Pa-s). 
+
+2. *Uncertainty.* &nbsp; In rewriting the two viscosity values, I changed from three *significant digits* to two *decimal places*, consistent with the assumption that empirical information is reported to the same level of uncertainty unless noted otherwise.  
+
+
+
+
+
+### Potential revision
+
+Add the `water` data to `formatdown` and the following functionality to `format_power()`. 
+
+1. A new argument (perhaps `fixed_power`) that automatically selects a fixed exponent for a numerical vector or permits the user to directly assign a fixed exponent.
+
+        format_power(x, digits, format, omit_power, delim, fixed_power)
+
+1. In conjunction with the fixed power-of-ten, I would also round all numbers in a column to the same number of decimal places to address the uncertainty assumption. This could be a separate argument. 
+
+
+
+
+
+
+
+## Units
+
+And now for something completely different!
+
+Thinking about measurement units, I looked for relevant R packages and found [units](https://CRAN.R-project.org/package=units). With appropriate units, powers-of-ten notation can be practically eliminated. For example, a pressure reading of `r format_power(2.02E+9)` Pa can be reported as $2.02$ GPa. 
+
+To illustrate, I start with the basic water data, 
+
+```{r}
+water
+```
+
+With tools from the `units` package, I can define a symbol `uP` to represent micropoise (a non-SI viscosity unit equal to 10$^{-7}$ Pa-s). And I can write a short function to convert the numbers from basic units to displayed units, for example, converting Pa to GPa (gigapascal) or Pa-s to $\mu$P (micropoise).  
+
+```{r}
+library("units")
+
+# Define the uP units
+install_unit("uP", "micropoise", "micropoise")
+
+# Function to assign and convert units 
+assign_units <- function(x, base_unit, display_unit) {
+  
+  # convert x to "Units" class in base units
+  units(x) <- base_unit
+  
+  # convert from basic to display units
+  units(x) <- as_units(display_unit)
+  
+  # return value
+  x
+}
+```
+
+Convert each column and output the results. 
+
+```{r}
+# Apply to one variable at a time
+DT <- copy(water)
+DT$temperature     <- assign_units(DT$temperature, "K", "degree_C")
+DT$density         <- assign_units(DT$density, "kg/m^3", "kg/m^3")
+DT$specific_weight <- assign_units(DT$specific_weight, "N/m^3", "kN/m^3")
+DT$viscosity       <- assign_units(DT$viscosity, "Pa*s", "uP")
+DT$bulk_modulus    <- assign_units(DT$bulk_modulus, "Pa", "GPa")
+
+# Output
+DT |> 
+  kbl(align = "r") |>
+  kable_paper(lightable_options = "basic", full_width = TRUE) |>
+  row_spec(0, background = "#c7eae5") |>
+  column_spec(1:5, color = "black", background = "white") 
+```
+
+The entries in the data frame are still numeric but are of the "Units" class, enabling math operations among values with compatible units. See the [units](https://r-quantities.github.io/units/) website for details. 
+
+```{r}
+str(DT)
+```
+
+If I were to refine this table further, I would report the numerical values without labels in each cell, moving the unit labels to a sub-header row. Possible future work. 
+
+### Potential revision
+
+Incorporate tools from the `units` package to create a new function (perhaps `format_units()`) that would convert basic units to display units that can substitute for powers-of-ten notation. 
+
+
+## Closing
+
+The new `formatdown` package formats numbers in powers-of-ten notation for inline math markup. A new argument is already in the works for managing the math delimiters. Potential new features include a fixed power-of-tens option as well as replacing powers-of-ten notation with deliberate manipulation of physical units.  
+
+
+### Additional software credits {.appendix}
+
+- [`checkmate`](https://mllg.github.io/checkmate/) for internal function argument checks 
+- [`wrapr`](https://winvector.github.io/wrapr/) for internal function authoring tools
+- [`units`](https://r-quantities.github.io/units/) for managing units of  physical quantities 

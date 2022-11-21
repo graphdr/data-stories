@@ -4,7 +4,7 @@ description: |
   A case study comparing the effectiveness of a radar chart to a faceted dot chart. 
 date: "2022-08-21"
 date-format: "YYYY-MM-DD"
-categories: [R, ggplot2, data storytelling, magick]
+categories: [R, ggplot2, Data storytelling, magick]
 image: "thumbnail.png"
 cap-location: margin
 draft: false
@@ -404,7 +404,7 @@ ggplot(DT_facet, aes(x = Concentration, y = Bacteria, color = efficacy)) +
              space  = "free_y") +
   
   # annotations
-  geom_vline(xintercept = -1, linetype = 2, size = 0.5, color = "gray40") +
+  geom_vline(xintercept = -1, linetype = 2, linewidth = 0.5, color = "gray40") +
   geom_text(data  = DT_facet[resistance == "PSN"], 
             mapping = aes(x = -1, y = 1.5, label = c("max dose")),
             vjust = -0.4, hjust = 0, angle = 90, color = "gray30", size = 3) +
@@ -427,7 +427,7 @@ ggplot(DT_facet, aes(x = Concentration, y = Bacteria, color = efficacy)) +
     # resistance labels
     strip.text.y.left  = element_text(size = 10, hjust = 1, angle = 0), 
     # panels
-    panel.border  = element_rect(fill = NA, color = "gray90", size = 0.7),
+    panel.border  = element_rect(fill = NA, color = "gray90", linewidth = 0.7),
     panel.spacing = unit(1, "mm"), 
     # legend
     legend.position = "bottom", 

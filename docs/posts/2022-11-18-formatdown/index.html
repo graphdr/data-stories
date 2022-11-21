@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.479">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="description" content="Provides powers-of-ten formatting for a numerical vector or data frame column when creating documents in rmarkdown or quarto markdown.">
+
+<title>Layton R blog - Introducing formatdown</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="..\..\site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="..\..\site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+<script src="..\..\site_libs\quarto-nav\quarto-nav.js"></script>
+<script src="..\..\site_libs\quarto-nav\headroom.min.js"></script>
+<script src="..\..\site_libs\clipboard\clipboard.min.js"></script>
+<script src="..\..\site_libs\quarto-search\autocomplete.umd.js"></script>
+<script src="..\..\site_libs\quarto-search\fuse.min.js"></script>
+<script src="..\..\site_libs\quarto-search\quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="..\..\site_libs\quarto-html\quarto.js"></script>
+<script src="..\..\site_libs\quarto-html\popper.min.js"></script>
+<script src="..\..\site_libs\quarto-html\tippy.umd.min.js"></script>
+<script src="..\..\site_libs\quarto-html\anchor.min.js"></script>
+<link href="..\..\site_libs\quarto-html\tippy.css" rel="stylesheet">
+<link href="..\..\site_libs\quarto-html\quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="..\..\site_libs\bootstrap\bootstrap.min.js"></script>
+<link href="..\..\site_libs\bootstrap\bootstrap-icons.css" rel="stylesheet">
+<link href="..\..\site_libs\bootstrap\bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"><i class="bi bi-git" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Introducing formatdown</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">r-bloggers</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">stackoverflow</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">data.table</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://ggplot2.tidyverse.org/" class="sidebar-item-text sidebar-link">ggplot2</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">happy git</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#improvements" id="toc-improvements" class="nav-link" data-scroll-target="#improvements">Improvements</a></li>
+  <li><a href="#delimiter-issue" id="toc-delimiter-issue" class="nav-link" data-scroll-target="#delimiter-issue">Delimiter issue</a></li>
+  <li><a href="#fixed-exponents" id="toc-fixed-exponents" class="nav-link" data-scroll-target="#fixed-exponents">Fixed exponents</a></li>
+  <li><a href="#units" id="toc-units" class="nav-link" data-scroll-target="#units">Units</a></li>
+  <li><a href="#closing" id="toc-closing" class="nav-link" data-scroll-target="#closing">Closing</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Introducing formatdown</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">engineering notation</div>
+    <div class="quarto-category">scientific notation</div>
+    <div class="quarto-category">units</div>
+    <div class="quarto-category">rmarkdown</div>
+    <div class="quarto-category">quarto</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>Provides powers-of-ten formatting for a numerical vector or data frame column when creating documents in rmarkdown or quarto markdown.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022–11–21</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-note callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Convert the elements of a numerical vector or data frame column to character strings in which the numbers are formatted using powers-of-ten notation in scientific or engineering form and delimited for rendering as inline equations in an rmarkdown document.</em></p>
+</div>
+</div>
+<p>Initial release of the <a href="https://CRAN.R-project.org/package=formatdown"><code>formatdown</code></a> R package providing tools for formatting output in <code>rmarkdown</code> or <code>quarto</code> markdown documents.</p>
+<p>This first version has one function only, <code>format_power()</code>, for converting numbers to character strings formatted in powers-of-ten notation and delimited in <code>$...$</code> for rendering as inline equations in <code>.Rmd</code> or <code>.qmd</code> output documents. Provides two powers-of-ten formatting options—scientific notation and engineering notation—with an option to omit powers-of-ten notation for a specified range of exponents.</p>
+<p>To illustrate the different formats, I show in <a href="#tbl-examples">Table&nbsp;1</a> the same number rendered using different formats, all with 4 significant digits.</p>
+<p>The R code for the post is listed under the “R code” pointers. In the examples, I use <code>data.table</code> syntax for data manipulation, though the code can be translated into <code>base R</code> or <code>dplyr</code> syntax if desired.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"formatdown"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fl">4.567E-4</span>                                   <span class="co"># value</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">format_power</span>(x, <span class="dv">4</span>, <span class="at">omit_power =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">6</span>, <span class="dv">0</span>)) <span class="co"># omit power-of-ten</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">format_power</span>(x, <span class="dv">4</span>, <span class="at">format =</span> <span class="st">"sci"</span>)        <span class="co"># scientific</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">format_power</span>(x, <span class="dv">4</span>)                        <span class="co"># engineering</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># render in markdown table below</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="tbl-examples" class="anchored">
+<table class="table">
+<caption>Table 1: Rendering a number using different formats</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Notation</th>
+<th style="text-align: center;">Name</th>
+<th style="text-align: left;">Value</th>
+<th style="text-align: right;">Rendered as</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">without <span class="math inline">\(10^n\)</span></td>
+<td style="text-align: center;"><code>x1</code></td>
+<td style="text-align: left;"><code>"$0.0004567$"</code></td>
+<td style="text-align: right;"><span class="math inline">\(0.0004567\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scientific</td>
+<td style="text-align: center;"><code>x2</code></td>
+<td style="text-align: left;"><code>"$4.567\\times{10}^{-4}$"</code></td>
+<td style="text-align: right;"><span class="math inline">\(4.567\times{10}^{-4}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">engineering</td>
+<td style="text-align: center;"><code>x3</code></td>
+<td style="text-align: left;"><code>"$456.7\\times{10}^{-6}$"</code></td>
+<td style="text-align: right;"><span class="math inline">\(456.7\times{10}^{-6}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>My first attempt to provide powers-of-ten formatting was in my 2016 package, <a href="https://CRAN.R-project.org/package=docxtools"><code>docxtools</code></a>. That implementation has several shortcomings.</p>
+<p>I wrote its formatting function to accept a data frame as input, which entailed a lot of programming overhead to separate numerical from non-numerical variable classes and to reassemble them after the numerical columns were formatted. This could have been simplified with judicious use of <code>lapply()</code>, with which I was not sufficiently experienced at the time. I also failed to take advantage of <code>formatC()</code> in constructing the output.</p>
+<p>With <code>formatdown</code>, my goal is to provide similar functionality but with more concise code, greater flexibility, and a more balanced approach to package dependencies.</p>
+</section>
+<section id="improvements" class="level2">
+<h2 class="anchored" data-anchor-id="improvements">Improvements</h2>
+<p>The primary design change is that the <code>format_power()</code> function operates on a numerical <em>vector</em> instead of a <em>data frame</em>. The benefits of this change are: 1) simpler code that should be easier to revise and maintain; 2) scalar values can be formatted for rendering inline; and 3) data frames can still be formatted, by column, using <code>lapply()</code>.</p>
+<p>To illustrate formatting a scalar value inline, the markup for Avogadro’s number (<code>x = 6.0221E+23</code>) in engineering format is given by,</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="in">    $N_A =$ `r format_power(x, digits = 5, format = "engr")`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which is rendered (in this output document) as <span class="math inline">\(N_A =\)</span> <span class="math inline">\(602.21\times{10}^{21}\)</span>.</p>
+<p>The second improvement is the addition of an option for scientific notation. For example, the markup for Avogadro’s number in scientific notation is given by,</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">    $N_A =$ `r format_power(x, digits = 5, format = "sci")`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which renders as <span class="math inline">\(N_A =\)</span> <span class="math inline">\(6.0221\times{10}^{23}\)</span>.</p>
+<p>The third improvement is the addition of an option for omitting powers-of-ten notation over a range of exponents. For example, the markup for <code>x = 1.23E-4</code> in decimal notation is given by,</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">    $x =$ `r format_power(x = 1.234E-4, omit_power = c(-4, 0))`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which renders as <span class="math inline">\(x =\)</span> <span class="math inline">\(0.000123\)</span>.</p>
+<p>A final (internal) improvement is a more balanced approach to package dependencies. With a tighter focus on what <code>formatdown</code> is to accomplish compared to <code>docxtools</code>, I have reduced the dependencies to <code>checkmate</code>, <code>wrapr</code>, and <code>data.table</code>.</p>
+<p>The package <a href="https://graphdr.github.io/formatdown/articles/">vignette</a> illustrates package usage in detail.</p>
+<p>However, having successfully submitted the package to CRAN, I started working on this post and immediately (!) uncovered an issue that had not appeared while working on the package vignettes.</p>
+</section>
+<section id="delimiter-issue" class="level2">
+<h2 class="anchored" data-anchor-id="delimiter-issue">Delimiter issue</h2>
+<p>I wrote the package vignette using the <code>rmarkdown::html_vignette</code> output style per usual. All the formatted output rendered as expected in that document. I write this blog using <a href="https://quarto.org/docs/websites/website-blog.html">quarto</a>. As seen in the examples above, inline math is rendered as expected.</p>
+<p>The issue arises when using <code>knitr::kable()</code> and <code>kableExtra::kbl()</code> to display data tables in this blog post. To illustrate, consider this data frame, included with <code>formatdown</code> (ideal gas properties of air at room temperature).</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>density</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>         date  trial humidity    T_K   p_Pa     R  density
+       &lt;Date&gt; &lt;char&gt;   &lt;fctr&gt;  &lt;num&gt;  &lt;num&gt; &lt;int&gt;    &lt;num&gt;
+1: 2018-06-12      a      low 294.05 101100   287 1.197976
+2: 2018-06-13      b     high 294.15 101000   287 1.196384
+3: 2018-06-14      c   medium 294.65 101100   287 1.195536
+4: 2018-06-15      d      low 293.35 101000   287 1.199647
+5: 2018-06-16      e     high 293.85 101100   287 1.198791</code></pre>
+</div>
+</div>
+<p>Formatting the pressure column, the markup looks OK.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">copy</span>(density)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>p_Pa <span class="ot">&lt;-</span> <span class="fu">format_power</span>(DT<span class="sc">$</span>p_Pa, <span class="dv">4</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>DT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>         date  trial humidity    T_K                   p_Pa     R  density
+       &lt;Date&gt; &lt;char&gt;   &lt;fctr&gt;  &lt;num&gt;                 &lt;char&gt; &lt;int&gt;    &lt;num&gt;
+1: 2018-06-12      a      low 294.05 $101.1\\times{10}^{3}$   287 1.197976
+2: 2018-06-13      b     high 294.15 $101.0\\times{10}^{3}$   287 1.196384
+3: 2018-06-14      c   medium 294.65 $101.1\\times{10}^{3}$   287 1.195536
+4: 2018-06-15      d      low 293.35 $101.0\\times{10}^{3}$   287 1.199647
+5: 2018-06-16      e     high 293.85 $101.1\\times{10}^{3}$   287 1.198791</code></pre>
+</div>
+</div>
+<p><code>knitr::kable()</code> yields the expected output with pressure formatted in engineering notation.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">"r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 32%">
+<col style="width: 5%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">date</th>
+<th style="text-align: right;">trial</th>
+<th style="text-align: right;">humidity</th>
+<th style="text-align: right;">T_K</th>
+<th style="text-align: right;">p_Pa</th>
+<th style="text-align: right;">R</th>
+<th style="text-align: right;">density</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2018-06-12</td>
+<td style="text-align: right;">a</td>
+<td style="text-align: right;">low</td>
+<td style="text-align: right;">294.05</td>
+<td style="text-align: right;"><span class="math inline">\(101.1\times{10}^{3}\)</span></td>
+<td style="text-align: right;">287</td>
+<td style="text-align: right;">1.197976</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2018-06-13</td>
+<td style="text-align: right;">b</td>
+<td style="text-align: right;">high</td>
+<td style="text-align: right;">294.15</td>
+<td style="text-align: right;"><span class="math inline">\(101.0\times{10}^{3}\)</span></td>
+<td style="text-align: right;">287</td>
+<td style="text-align: right;">1.196384</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2018-06-14</td>
+<td style="text-align: right;">c</td>
+<td style="text-align: right;">medium</td>
+<td style="text-align: right;">294.65</td>
+<td style="text-align: right;"><span class="math inline">\(101.1\times{10}^{3}\)</span></td>
+<td style="text-align: right;">287</td>
+<td style="text-align: right;">1.195536</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2018-06-15</td>
+<td style="text-align: right;">d</td>
+<td style="text-align: right;">low</td>
+<td style="text-align: right;">293.35</td>
+<td style="text-align: right;"><span class="math inline">\(101.0\times{10}^{3}\)</span></td>
+<td style="text-align: right;">287</td>
+<td style="text-align: right;">1.199647</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2018-06-16</td>
+<td style="text-align: right;">e</td>
+<td style="text-align: right;">high</td>
+<td style="text-align: right;">293.85</td>
+<td style="text-align: right;"><span class="math inline">\(101.1\times{10}^{3}\)</span></td>
+<td style="text-align: right;">287</td>
+<td style="text-align: right;">1.198791</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="problem" class="level3">
+<h3 class="anchored" data-anchor-id="problem">Problem</h3>
+<p><code>kableExtra::kbl()</code> does not render the math markup as expected.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kbl</span>(DT, <span class="at">align =</span> <span class="st">"r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> date </th>
+   <th style="text-align:right;"> trial </th>
+   <th style="text-align:right;"> humidity </th>
+   <th style="text-align:right;"> T_K </th>
+   <th style="text-align:right;"> p_Pa </th>
+   <th style="text-align:right;"> R </th>
+   <th style="text-align:right;"> density </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2018-06-12 </td>
+   <td style="text-align:right;"> a </td>
+   <td style="text-align:right;"> low </td>
+   <td style="text-align:right;"> 294.05 </td>
+   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.197976 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-13 </td>
+   <td style="text-align:right;"> b </td>
+   <td style="text-align:right;"> high </td>
+   <td style="text-align:right;"> 294.15 </td>
+   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.196384 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-14 </td>
+   <td style="text-align:right;"> c </td>
+   <td style="text-align:right;"> medium </td>
+   <td style="text-align:right;"> 294.65 </td>
+   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.195536 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-15 </td>
+   <td style="text-align:right;"> d </td>
+   <td style="text-align:right;"> low </td>
+   <td style="text-align:right;"> 293.35 </td>
+   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.199647 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-16 </td>
+   <td style="text-align:right;"> e </td>
+   <td style="text-align:right;"> high </td>
+   <td style="text-align:right;"> 293.85 </td>
+   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.198791 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>In fact, having loaded <code>kableExtra</code> above, <code>knitr::kable()</code> now fails in the same way.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">"r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> date </th>
+   <th style="text-align:right;"> trial </th>
+   <th style="text-align:right;"> humidity </th>
+   <th style="text-align:right;"> T_K </th>
+   <th style="text-align:right;"> p_Pa </th>
+   <th style="text-align:right;"> R </th>
+   <th style="text-align:right;"> density </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2018-06-12 </td>
+   <td style="text-align:right;"> a </td>
+   <td style="text-align:right;"> low </td>
+   <td style="text-align:right;"> 294.05 </td>
+   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.197976 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-13 </td>
+   <td style="text-align:right;"> b </td>
+   <td style="text-align:right;"> high </td>
+   <td style="text-align:right;"> 294.15 </td>
+   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.196384 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-14 </td>
+   <td style="text-align:right;"> c </td>
+   <td style="text-align:right;"> medium </td>
+   <td style="text-align:right;"> 294.65 </td>
+   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.195536 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-15 </td>
+   <td style="text-align:right;"> d </td>
+   <td style="text-align:right;"> low </td>
+   <td style="text-align:right;"> 293.35 </td>
+   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.199647 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2018-06-16 </td>
+   <td style="text-align:right;"> e </td>
+   <td style="text-align:right;"> high </td>
+   <td style="text-align:right;"> 293.85 </td>
+   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> 287 </td>
+   <td style="text-align:right;"> 1.198791 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="solution" class="level3">
+<h3 class="anchored" data-anchor-id="solution">Solution</h3>
+<p>I found a suggestion from <a href="https://docs.mathjax.org/en/v2.7-latest/a#tex-and-latex-input">MathJax</a> to replace the <code>$ ... $</code> delimiters with <code>\\( ... \\)</code>. I wrote a short function (below) to do that.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Substitute math delimiters</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sub_delim <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">$"</span>, <span class="st">"</span><span class="sc">\\\\</span><span class="st">("</span>, x) <span class="co"># first $</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">$"</span>, <span class="st">"</span><span class="sc">\\\\</span><span class="st">)"</span>, x) <span class="co"># second $</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>p_Pa <span class="ot">&lt;-</span> <span class="fu">sub_delim</span>(DT<span class="sc">$</span>p_Pa)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>DT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>         date  trial humidity    T_K                       p_Pa     R  density
+       &lt;Date&gt; &lt;char&gt;   &lt;fctr&gt;  &lt;num&gt;                     &lt;char&gt; &lt;int&gt;    &lt;num&gt;
+1: 2018-06-12      a      low 294.05 \\(101.1\\times{10}^{3}\\)   287 1.197976
+2: 2018-06-13      b     high 294.15 \\(101.0\\times{10}^{3}\\)   287 1.196384
+3: 2018-06-14      c   medium 294.65 \\(101.1\\times{10}^{3}\\)   287 1.195536
+4: 2018-06-15      d      low 293.35 \\(101.0\\times{10}^{3}\\)   287 1.199647
+5: 2018-06-16      e     high 293.85 \\(101.1\\times{10}^{3}\\)   287 1.198791</code></pre>
+</div>
+</div>
+<p><code>knitr::kable()</code> yields the expected output.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:center;"> date </th>
+   <th style="text-align:center;"> trial </th>
+   <th style="text-align:center;"> humidity </th>
+   <th style="text-align:center;"> T_K </th>
+   <th style="text-align:center;"> p_Pa </th>
+   <th style="text-align:center;"> R </th>
+   <th style="text-align:center;"> density </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> 2018-06-12 </td>
+   <td style="text-align:center;"> a </td>
+   <td style="text-align:center;"> low </td>
+   <td style="text-align:center;"> 294.05 </td>
+   <td style="text-align:center;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.197976 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-13 </td>
+   <td style="text-align:center;"> b </td>
+   <td style="text-align:center;"> high </td>
+   <td style="text-align:center;"> 294.15 </td>
+   <td style="text-align:center;"> \(101.0\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.196384 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-14 </td>
+   <td style="text-align:center;"> c </td>
+   <td style="text-align:center;"> medium </td>
+   <td style="text-align:center;"> 294.65 </td>
+   <td style="text-align:center;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.195536 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-15 </td>
+   <td style="text-align:center;"> d </td>
+   <td style="text-align:center;"> low </td>
+   <td style="text-align:center;"> 293.35 </td>
+   <td style="text-align:center;"> \(101.0\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.199647 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-16 </td>
+   <td style="text-align:center;"> e </td>
+   <td style="text-align:center;"> high </td>
+   <td style="text-align:center;"> 293.85 </td>
+   <td style="text-align:center;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.198791 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p><code>kableExtra::kbl()</code> yields the expected output.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kbl</span>(DT, <span class="at">align =</span> <span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:center;"> date </th>
+   <th style="text-align:center;"> trial </th>
+   <th style="text-align:center;"> humidity </th>
+   <th style="text-align:center;"> T_K </th>
+   <th style="text-align:center;"> p_Pa </th>
+   <th style="text-align:center;"> R </th>
+   <th style="text-align:center;"> density </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> 2018-06-12 </td>
+   <td style="text-align:center;"> a </td>
+   <td style="text-align:center;"> low </td>
+   <td style="text-align:center;"> 294.05 </td>
+   <td style="text-align:center;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.197976 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-13 </td>
+   <td style="text-align:center;"> b </td>
+   <td style="text-align:center;"> high </td>
+   <td style="text-align:center;"> 294.15 </td>
+   <td style="text-align:center;"> \(101.0\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.196384 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-14 </td>
+   <td style="text-align:center;"> c </td>
+   <td style="text-align:center;"> medium </td>
+   <td style="text-align:center;"> 294.65 </td>
+   <td style="text-align:center;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.195536 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-15 </td>
+   <td style="text-align:center;"> d </td>
+   <td style="text-align:center;"> low </td>
+   <td style="text-align:center;"> 293.35 </td>
+   <td style="text-align:center;"> \(101.0\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.199647 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 2018-06-16 </td>
+   <td style="text-align:center;"> e </td>
+   <td style="text-align:center;"> high </td>
+   <td style="text-align:center;"> 293.85 </td>
+   <td style="text-align:center;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:center;"> 287 </td>
+   <td style="text-align:center;"> 1.198791 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>I can use the features from <code>kableExtra</code> to print a pretty table.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"kableExtra"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Date"</span>, <span class="st">"Trial"</span>, <span class="st">"Humidity"</span>, <span class="st">"Temperature"</span>, <span class="st">"Pressure"</span>, <span class="st">"Gas constant"</span>, <span class="st">"Density"</span> )</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>var_units <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="st">"[K]"</span>, <span class="st">"[Pa]"</span>, <span class="st">"[J/(kg K)]"</span>, <span class="st">"[kg/m</span><span class="sc">\\</span><span class="st">(^3</span><span class="sc">\\</span><span class="st">)]"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>var_align <span class="ot">&lt;-</span> <span class="st">"r"</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>DT <span class="sc">|&gt;</span> </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">align =</span> var_align, <span class="at">col.names =</span> var_units) <span class="sc">|&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">background =</span> <span class="st">"white"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="at">header =</span> var_names, <span class="at">align =</span> var_align, <span class="at">background =</span> <span class="st">"#c7eae5"</span>, <span class="at">line_sep =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">lightable_options =</span> <span class="st">"basic"</span>, <span class="at">full_width =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="tbl-pretty" class="anchored">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;"><caption>Table 2:  Data frame displayed using kableExtra </caption>
+ <thead>
+<tr>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:0px;padding-right:0px;text-align: right; padding-right: 4px; padding-left: 4px; background-color: #c7eae5 !important;" colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Date</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:0px;padding-right:0px;text-align: right; padding-right: 4px; padding-left: 4px; background-color: #c7eae5 !important;" colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Trial</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:0px;padding-right:0px;text-align: right; padding-right: 4px; padding-left: 4px; background-color: #c7eae5 !important;" colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Humidity</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:0px;padding-right:0px;text-align: right; padding-right: 4px; padding-left: 4px; background-color: #c7eae5 !important;" colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Temperature</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:0px;padding-right:0px;text-align: right; padding-right: 4px; padding-left: 4px; background-color: #c7eae5 !important;" colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Pressure</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:0px;padding-right:0px;text-align: right; padding-right: 4px; padding-left: 4px; background-color: #c7eae5 !important;" colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Gas constant</div></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:0px;padding-right:0px;text-align: right; padding-right: 4px; padding-left: 4px; background-color: #c7eae5 !important;" colspan="1"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Density</div></th>
+</tr>
+  <tr>
+   <th style="text-align:right;">  </th>
+   <th style="text-align:right;">  </th>
+   <th style="text-align:right;">  </th>
+   <th style="text-align:right;"> [K] </th>
+   <th style="text-align:right;"> [Pa] </th>
+   <th style="text-align:right;"> [J/(kg K)] </th>
+   <th style="text-align:right;"> [kg/m\(^3\)] </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2018-06-12 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> a </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> low </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 294.05 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 287 </td>
+   <td style="text-align:right;"> 1.197976 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2018-06-13 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> b </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> high </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 294.15 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(101.0\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 287 </td>
+   <td style="text-align:right;"> 1.196384 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2018-06-14 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> c </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> medium </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 294.65 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 287 </td>
+   <td style="text-align:right;"> 1.195536 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2018-06-15 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> d </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> low </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 293.35 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(101.0\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 287 </td>
+   <td style="text-align:right;"> 1.199647 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2018-06-16 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> e </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> high </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 293.85 </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(101.1\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 287 </td>
+   <td style="text-align:right;"> 1.198791 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="follow-up" class="level3">
+<h3 class="anchored" data-anchor-id="follow-up">Follow up</h3>
+<p>To address this issue, the next version of <code>format_power()</code> will include a new <code>delim</code> argument,</p>
+<pre><code>    format_power(x, digits, format, omit_power, delim)</code></pre>
+<p>that allows a user to set the math delimiters to <code>$ ... $</code> or <code>\\( ... \\)</code> or even custom left and right markup to suit their environment.</p>
+</section>
+</section>
+<section id="fixed-exponents" class="level2">
+<h2 class="anchored" data-anchor-id="fixed-exponents">Fixed exponents</h2>
+<p>Preparing this post, I adapted a table of water properties from the <a href="https://cran.r-project.org/web/packages/hydraulics/index.html">hydraulics</a> package to use as an example and discovered another, more subtle issue. First, I’ll construct the data frame.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct a table of water properties</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>temperature     <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">10</span>) <span class="sc">+</span> <span class="fl">273.15</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>density         <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">1000</span>, <span class="dv">998</span>, <span class="dv">996</span>, <span class="dv">992</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>specific_weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9809</span>, <span class="dv">9807</span>, <span class="dv">9793</span>, <span class="dv">9768</span>, <span class="dv">9734</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>viscosity       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">173</span>, <span class="dv">131</span>, <span class="dv">102</span>, <span class="fl">81.7</span>, <span class="fl">67.0</span>) <span class="sc">*</span> <span class="fl">1E-8</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>bulk_modulus    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">202</span>, <span class="dv">210</span>, <span class="dv">218</span>, <span class="dv">225</span>, <span class="dv">228</span>) <span class="sc">*</span> <span class="fl">1E+7</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>water <span class="ot">&lt;-</span> <span class="fu">data.table</span>(temperature, density, specific_weight, viscosity,  bulk_modulus)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>water</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   temperature density specific_weight viscosity bulk_modulus
+         &lt;num&gt;   &lt;num&gt;           &lt;num&gt;     &lt;num&gt;        &lt;num&gt;
+1:      273.15    1000            9809  1.73e-06     2.02e+09
+2:      283.15    1000            9807  1.31e-06     2.10e+09
+3:      293.15     998            9793  1.02e-06     2.18e+09
+4:      303.15     996            9768  8.17e-07     2.25e+09
+5:      313.15     992            9734  6.70e-07     2.28e+09</code></pre>
+</div>
+</div>
+<section id="problem-1" class="level3">
+<h3 class="anchored" data-anchor-id="problem-1">Problem</h3>
+<p>I format all the columns and change the delimiters as described earlier and display the result. The viscosity column reveals the problem.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">copy</span>(water)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 signif digits</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>cols_to_format <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"temperature"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>DT[, (cols_to_format) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_power</span>(x, <span class="dv">5</span>)), .SDcols <span class="ot">=</span> cols_to_format]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 signif digits</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>cols_to_format <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"specific_weight"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>DT[, (cols_to_format) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_power</span>(x, <span class="dv">4</span>)), .SDcols <span class="ot">=</span> cols_to_format]</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 signif digits</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>cols_to_format <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"viscosity"</span>, <span class="st">"bulk_modulus"</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>DT[, (cols_to_format) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_power</span>(x)), .SDcols <span class="ot">=</span> cols_to_format]</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 signif digits omit powers</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>cols_to_format <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"density"</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>DT[, (cols_to_format) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_power</span>(x, <span class="at">omit_power =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))), .SDcols <span class="ot">=</span> cols_to_format]</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co"># change the delimiters</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> DT[, <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">sub_delim</span>(x))]</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Table </span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>DT <span class="sc">|&gt;</span> </span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">align =</span> <span class="st">"cclrrrr"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">lightable_options =</span> <span class="st">"basic"</span>, <span class="at">full_width =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">background =</span> <span class="st">"#c7eae5"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">background =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;background-color: #c7eae5 !important;"> temperature </th>
+   <th style="text-align:center;background-color: #c7eae5 !important;"> density </th>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> specific_weight </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> viscosity </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> bulk_modulus </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(273.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(1000\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.809\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(1.73\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.02\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(283.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(1000\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.807\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(1.31\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.10\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(293.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(998\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.793\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(1.02\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.18\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(303.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(996\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.768\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(817\times{10}^{-9}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.25\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(313.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(992\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.734\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(670\times{10}^{-9}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.28\times{10}^{9}\) </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>The viscosity column displays three values using <span class="math inline">\(10^{-6}\)</span> and two using <span class="math inline">\(10^{-9}\)</span>. Visually comparing the values in a column is easier if the powers of ten are identical. The table below illustrates the desired result, created by manually editing the two viscosity values.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually edit strings to illustrate</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>viscosity[<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="st">"</span><span class="sc">\\</span><span class="st">(0.82</span><span class="sc">\\</span><span class="st">times{10}^{-6}</span><span class="sc">\\</span><span class="st">)"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>viscosity[<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="st">"</span><span class="sc">\\</span><span class="st">(0.67</span><span class="sc">\\</span><span class="st">times{10}^{-6}</span><span class="sc">\\</span><span class="st">)"</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Table </span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>DT <span class="sc">|&gt;</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">align =</span> <span class="st">"cclrrrr"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">lightable_options =</span> <span class="st">"basic"</span>, <span class="at">full_width =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">background =</span> <span class="st">"#c7eae5"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">background =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;background-color: #c7eae5 !important;"> temperature </th>
+   <th style="text-align:center;background-color: #c7eae5 !important;"> density </th>
+   <th style="text-align:left;background-color: #c7eae5 !important;"> specific_weight </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> viscosity </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> bulk_modulus </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(273.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(1000\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.809\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(1.73\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.02\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(283.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(1000\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.807\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(1.31\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.10\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(293.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(998\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.793\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(1.02\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.18\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(303.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(996\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.768\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(0.82\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.25\times{10}^{9}\) </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(313.15\) </td>
+   <td style="text-align:center;color: black !important;background-color: white !important;"> \(992\) </td>
+   <td style="text-align:left;color: black !important;background-color: white !important;"> \(9.734\times{10}^{3}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(0.67\times{10}^{-6}\) </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> \(2.28\times{10}^{9}\) </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>This revision satisfies two conventions of tabulating empirical engineering information.</p>
+<ol type="1">
+<li><p><em>Units.</em> &nbsp; With all the reported values reported to the same power-of-ten, the units can all be interpreted in the same way. In this case for example, the units of the viscosity coefficients (1.73, 1.31, etc.) are all micro-Pascal-seconds (<span class="math inline">\(\mu\)</span>Pa-s).</p></li>
+<li><p><em>Uncertainty.</em> &nbsp; In rewriting the two viscosity values, I changed from three <em>significant digits</em> to two <em>decimal places</em>, consistent with the assumption that empirical information is reported to the same level of uncertainty unless noted otherwise.</p></li>
+</ol>
+</section>
+<section id="potential-revision" class="level3">
+<h3 class="anchored" data-anchor-id="potential-revision">Potential revision</h3>
+<p>Add the <code>water</code> data to <code>formatdown</code> and the following functionality to <code>format_power()</code>.</p>
+<ol type="1">
+<li><p>A new argument (perhaps <code>fixed_power</code>) that automatically selects a fixed exponent for a numerical vector or permits the user to directly assign a fixed exponent.</p>
+<pre><code> format_power(x, digits, format, omit_power, delim, fixed_power)</code></pre></li>
+<li><p>In conjunction with the fixed power-of-ten, I would also round all numbers in a column to the same number of decimal places to address the uncertainty assumption. This could be a separate argument.</p></li>
+</ol>
+</section>
+</section>
+<section id="units" class="level2">
+<h2 class="anchored" data-anchor-id="units">Units</h2>
+<p>And now for something completely different!</p>
+<p>Thinking about measurement units, I looked for relevant R packages and found <a href="https://CRAN.R-project.org/package=units">units</a>. With appropriate units, powers-of-ten notation can be practically eliminated. For example, a pressure reading of <span class="math inline">\(2.02\times{10}^{9}\)</span> Pa can be reported as <span class="math inline">\(2.02\)</span> GPa.</p>
+<p>To illustrate, I start with the basic water data,</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>water</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   temperature density specific_weight viscosity bulk_modulus
+         &lt;num&gt;   &lt;num&gt;           &lt;num&gt;     &lt;num&gt;        &lt;num&gt;
+1:      273.15    1000            9809  1.73e-06     2.02e+09
+2:      283.15    1000            9807  1.31e-06     2.10e+09
+3:      293.15     998            9793  1.02e-06     2.18e+09
+4:      303.15     996            9768  8.17e-07     2.25e+09
+5:      313.15     992            9734  6.70e-07     2.28e+09</code></pre>
+</div>
+</div>
+<p>With tools from the <code>units</code> package, I can define a symbol <code>uP</code> to represent micropoise (a non-SI viscosity unit equal to 10<span class="math inline">\(^{-7}\)</span> Pa-s). And I can write a short function to convert the numbers from basic units to displayed units, for example, converting Pa to GPa (gigapascal) or Pa-s to <span class="math inline">\(\mu\)</span>P (micropoise).</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"units"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the uP units</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install_unit</span>(<span class="st">"uP"</span>, <span class="st">"micropoise"</span>, <span class="st">"micropoise"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to assign and convert units </span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>assign_units <span class="ot">&lt;-</span> <span class="cf">function</span>(x, base_unit, display_unit) {</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert x to "Units" class in base units</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">units</span>(x) <span class="ot">&lt;-</span> base_unit</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert from basic to display units</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">units</span>(x) <span class="ot">&lt;-</span> <span class="fu">as_units</span>(display_unit)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return value</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Convert each column and output the results.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply to one variable at a time</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">copy</span>(water)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>temperature     <span class="ot">&lt;-</span> <span class="fu">assign_units</span>(DT<span class="sc">$</span>temperature, <span class="st">"K"</span>, <span class="st">"degree_C"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>density         <span class="ot">&lt;-</span> <span class="fu">assign_units</span>(DT<span class="sc">$</span>density, <span class="st">"kg/m^3"</span>, <span class="st">"kg/m^3"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>specific_weight <span class="ot">&lt;-</span> <span class="fu">assign_units</span>(DT<span class="sc">$</span>specific_weight, <span class="st">"N/m^3"</span>, <span class="st">"kN/m^3"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>viscosity       <span class="ot">&lt;-</span> <span class="fu">assign_units</span>(DT<span class="sc">$</span>viscosity, <span class="st">"Pa*s"</span>, <span class="st">"uP"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>bulk_modulus    <span class="ot">&lt;-</span> <span class="fu">assign_units</span>(DT<span class="sc">$</span>bulk_modulus, <span class="st">"Pa"</span>, <span class="st">"GPa"</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>DT <span class="sc">|&gt;</span> </span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">align =</span> <span class="st">"r"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_paper</span>(<span class="at">lightable_options =</span> <span class="st">"basic"</span>, <span class="at">full_width =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">background =</span> <span class="st">"#c7eae5"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">background =</span> <span class="st">"white"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class=" lightable-paper" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> temperature </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> density </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> specific_weight </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> viscosity </th>
+   <th style="text-align:right;background-color: #c7eae5 !important;"> bulk_modulus </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 0 [°C] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 1000 [kg/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 9.809 [kN/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 17.30 [uP] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2.02 [GPa] </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 10 [°C] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 1000 [kg/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 9.807 [kN/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 13.10 [uP] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2.10 [GPa] </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 20 [°C] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 998 [kg/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 9.793 [kN/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 10.20 [uP] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2.18 [GPa] </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 30 [°C] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 996 [kg/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 9.768 [kN/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 8.17 [uP] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2.25 [GPa] </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 40 [°C] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 992 [kg/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 9.734 [kN/m^3] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 6.70 [uP] </td>
+   <td style="text-align:right;color: black !important;background-color: white !important;"> 2.28 [GPa] </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>The entries in the data frame are still numeric but are of the “Units” class, enabling math operations among values with compatible units. See the <a href="https://r-quantities.github.io/units/">units</a> website for details.</p>
+<div class="cell">
+<details>
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(DT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Classes 'data.table' and 'data.frame':  5 obs. of  5 variables:
+ $ temperature    : Units: [°C] num  0 10 20 30 40
+ $ density        : Units: [kg/m^3] num  1000 1000 998 996 992
+ $ specific_weight: Units: [kN/m^3] num  9.81 9.81 9.79 9.77 9.73
+ $ viscosity      : Units: [uP] num  17.3 13.1 10.2 8.17 6.7
+ $ bulk_modulus   : Units: [GPa] num  2.02 2.1 2.18 2.25 2.28
+ - attr(*, ".internal.selfref")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+<p>If I were to refine this table further, I would report the numerical values without labels in each cell, moving the unit labels to a sub-header row. Possible future work.</p>
+<section id="potential-revision-1" class="level3">
+<h3 class="anchored" data-anchor-id="potential-revision-1">Potential revision</h3>
+<p>Incorporate tools from the <code>units</code> package to create a new function (perhaps <code>format_units()</code>) that would convert basic units to display units that can substitute for powers-of-ten notation.</p>
+</section>
+</section>
+<section id="closing" class="level2">
+<h2 class="anchored" data-anchor-id="closing">Closing</h2>
+<p>The new <code>formatdown</code> package formats numbers in powers-of-ten notation for inline math markup. A new argument is already in the works for managing the math delimiters. Potential new features include a fixed power-of-tens option as well as replacing powers-of-ten notation with deliberate manipulation of physical units.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section id="additional-software-credits" class="level3 appendix"><h2 class="quarto-appendix-heading">Additional software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://mllg.github.io/checkmate/"><code>checkmate</code></a> for internal function argument checks</li>
+<li><a href="https://winvector.github.io/wrapr/"><code>wrapr</code></a> for internal function authoring tools</li>
+<li><a href="https://r-quantities.github.io/units/"><code>units</code></a> for managing units of physical quantities</li>
+</ul>
+
+
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+</ul>
+      </div>
+  </div>
+</footer>
+
+
+
+</body></html>
