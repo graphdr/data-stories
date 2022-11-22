@@ -318,19 +318,19 @@ Summary
 <td style="text-align: left;">without <span class="math inline">\(10^n\)</span></td>
 <td style="text-align: center;"><code>x1</code></td>
 <td style="text-align: left;"><code>"$0.0004567$"</code></td>
-<td style="text-align: right;"><span class="math inline">\(0.0004567\)</span></td>
+<td style="text-align: right;">(0.0004567)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">scientific</td>
 <td style="text-align: center;"><code>x2</code></td>
 <td style="text-align: left;"><code>"$4.567\\times{10}^{-4}$"</code></td>
-<td style="text-align: right;"><span class="math inline">\(4.567\times{10}^{-4}\)</span></td>
+<td style="text-align: right;">(4.567^{-4})</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">engineering</td>
 <td style="text-align: center;"><code>x3</code></td>
 <td style="text-align: left;"><code>"$456.7\\times{10}^{-6}$"</code></td>
-<td style="text-align: right;"><span class="math inline">\(456.7\times{10}^{-6}\)</span></td>
+<td style="text-align: right;">(456.7^{-6})</td>
 </tr>
 </tbody>
 </table>
@@ -346,13 +346,13 @@ Summary
 <p>The primary design change is that the <code>format_power()</code> function operates on a numerical <em>vector</em> instead of a <em>data frame</em>. The benefits of this change are: 1) simpler code that should be easier to revise and maintain; 2) scalar values can be formatted for rendering inline; and 3) data frames can still be formatted, by column, using <code>lapply()</code>.</p>
 <p>To illustrate formatting a scalar value inline, the markup for Avogadro’s number (<code>x = 6.0221E+23</code>) in engineering format is given by,</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="in">    $N_A =$ `r format_power(x, digits = 5, format = "engr")`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>which is rendered (in this output document) as <span class="math inline">\(N_A =\)</span> <span class="math inline">\(602.21\times{10}^{21}\)</span>.</p>
+<p>which is rendered (in this output document) as <span class="math inline">\(N_A =\)</span> (602.21^{21}).</p>
 <p>The second improvement is the addition of an option for scientific notation. For example, the markup for Avogadro’s number in scientific notation is given by,</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">    $N_A =$ `r format_power(x, digits = 5, format = "sci")`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>which renders as <span class="math inline">\(N_A =\)</span> <span class="math inline">\(6.0221\times{10}^{23}\)</span>.</p>
+<p>which renders as <span class="math inline">\(N_A =\)</span> (6.0221^{23}).</p>
 <p>The third improvement is the addition of an option for omitting powers-of-ten notation over a range of exponents. For example, the markup for <code>x = 1.23E-4</code> in decimal notation is given by,</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">    $x =$ `r format_power(x = 1.234E-4, omit_power = c(-4, 0))`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>which renders as <span class="math inline">\(x =\)</span> <span class="math inline">\(0.000123\)</span>.</p>
+<p>which renders as <span class="math inline">\(x =\)</span> (0.000123).</p>
 <p>A final (internal) improvement is a more balanced approach to package dependencies. With a tighter focus on what <code>formatdown</code> is to accomplish compared to <code>docxtools</code>, I have reduced the dependencies to <code>checkmate</code>, <code>wrapr</code>, and <code>data.table</code>.</p>
 <p>The package <a href="https://graphdr.github.io/formatdown/articles/">vignette</a> illustrates package usage in detail.</p>
 <p>However, having successfully submitted the package to CRAN, I started working on this post and immediately (!) uncovered an issue that had not appeared while working on the package vignettes.</p>
@@ -385,13 +385,13 @@ Summary
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>DT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>         date  trial humidity    T_K                   p_Pa     R  density
-       &lt;Date&gt; &lt;char&gt;   &lt;fctr&gt;  &lt;num&gt;                 &lt;char&gt; &lt;int&gt;    &lt;num&gt;
-1: 2018-06-12      a      low 294.05 $101.1\\times{10}^{3}$   287 1.197976
-2: 2018-06-13      b     high 294.15 $101.0\\times{10}^{3}$   287 1.196384
-3: 2018-06-14      c   medium 294.65 $101.1\\times{10}^{3}$   287 1.195536
-4: 2018-06-15      d      low 293.35 $101.0\\times{10}^{3}$   287 1.199647
-5: 2018-06-16      e     high 293.85 $101.1\\times{10}^{3}$   287 1.198791</code></pre>
+<pre><code>         date  trial humidity    T_K                       p_Pa     R  density
+       &lt;Date&gt; &lt;char&gt;   &lt;fctr&gt;  &lt;num&gt;                     &lt;char&gt; &lt;int&gt;    &lt;num&gt;
+1: 2018-06-12      a      low 294.05 \\(101.1\\times{10}^{3}\\)   287 1.197976
+2: 2018-06-13      b     high 294.15 \\(101.0\\times{10}^{3}\\)   287 1.196384
+3: 2018-06-14      c   medium 294.65 \\(101.1\\times{10}^{3}\\)   287 1.195536
+4: 2018-06-15      d      low 293.35 \\(101.0\\times{10}^{3}\\)   287 1.199647
+5: 2018-06-16      e     high 293.85 \\(101.1\\times{10}^{3}\\)   287 1.198791</code></pre>
 </div>
 </div>
 <p><code>knitr::kable()</code> yields the expected output with pressure formatted in engineering notation.</p>
@@ -403,13 +403,13 @@ Summary
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <colgroup>
-<col style="width: 16%">
+<col style="width: 15%">
 <col style="width: 8%">
-<col style="width: 13%">
+<col style="width: 12%">
 <col style="width: 10%">
-<col style="width: 32%">
+<col style="width: 34%">
 <col style="width: 5%">
-<col style="width: 13%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -428,7 +428,7 @@ Summary
 <td style="text-align: right;">a</td>
 <td style="text-align: right;">low</td>
 <td style="text-align: right;">294.05</td>
-<td style="text-align: right;"><span class="math inline">\(101.1\times{10}^{3}\)</span></td>
+<td style="text-align: right;">(101.1^{3})</td>
 <td style="text-align: right;">287</td>
 <td style="text-align: right;">1.197976</td>
 </tr>
@@ -437,7 +437,7 @@ Summary
 <td style="text-align: right;">b</td>
 <td style="text-align: right;">high</td>
 <td style="text-align: right;">294.15</td>
-<td style="text-align: right;"><span class="math inline">\(101.0\times{10}^{3}\)</span></td>
+<td style="text-align: right;">(101.0^{3})</td>
 <td style="text-align: right;">287</td>
 <td style="text-align: right;">1.196384</td>
 </tr>
@@ -446,7 +446,7 @@ Summary
 <td style="text-align: right;">c</td>
 <td style="text-align: right;">medium</td>
 <td style="text-align: right;">294.65</td>
-<td style="text-align: right;"><span class="math inline">\(101.1\times{10}^{3}\)</span></td>
+<td style="text-align: right;">(101.1^{3})</td>
 <td style="text-align: right;">287</td>
 <td style="text-align: right;">1.195536</td>
 </tr>
@@ -455,7 +455,7 @@ Summary
 <td style="text-align: right;">d</td>
 <td style="text-align: right;">low</td>
 <td style="text-align: right;">293.35</td>
-<td style="text-align: right;"><span class="math inline">\(101.0\times{10}^{3}\)</span></td>
+<td style="text-align: right;">(101.0^{3})</td>
 <td style="text-align: right;">287</td>
 <td style="text-align: right;">1.199647</td>
 </tr>
@@ -464,7 +464,7 @@ Summary
 <td style="text-align: right;">e</td>
 <td style="text-align: right;">high</td>
 <td style="text-align: right;">293.85</td>
-<td style="text-align: right;"><span class="math inline">\(101.1\times{10}^{3}\)</span></td>
+<td style="text-align: right;">(101.1^{3})</td>
 <td style="text-align: right;">287</td>
 <td style="text-align: right;">1.198791</td>
 </tr>
@@ -500,7 +500,7 @@ Summary
    <td style="text-align:right;"> a </td>
    <td style="text-align:right;"> low </td>
    <td style="text-align:right;"> 294.05 </td>
-   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.1\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.197976 </td>
   </tr>
@@ -509,7 +509,7 @@ Summary
    <td style="text-align:right;"> b </td>
    <td style="text-align:right;"> high </td>
    <td style="text-align:right;"> 294.15 </td>
-   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.0\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.196384 </td>
   </tr>
@@ -518,7 +518,7 @@ Summary
    <td style="text-align:right;"> c </td>
    <td style="text-align:right;"> medium </td>
    <td style="text-align:right;"> 294.65 </td>
-   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.1\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.195536 </td>
   </tr>
@@ -527,7 +527,7 @@ Summary
    <td style="text-align:right;"> d </td>
    <td style="text-align:right;"> low </td>
    <td style="text-align:right;"> 293.35 </td>
-   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.0\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.199647 </td>
   </tr>
@@ -536,7 +536,7 @@ Summary
    <td style="text-align:right;"> e </td>
    <td style="text-align:right;"> high </td>
    <td style="text-align:right;"> 293.85 </td>
-   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.1\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.198791 </td>
   </tr>
@@ -571,7 +571,7 @@ Summary
    <td style="text-align:right;"> a </td>
    <td style="text-align:right;"> low </td>
    <td style="text-align:right;"> 294.05 </td>
-   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.1\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.197976 </td>
   </tr>
@@ -580,7 +580,7 @@ Summary
    <td style="text-align:right;"> b </td>
    <td style="text-align:right;"> high </td>
    <td style="text-align:right;"> 294.15 </td>
-   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.0\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.196384 </td>
   </tr>
@@ -589,7 +589,7 @@ Summary
    <td style="text-align:right;"> c </td>
    <td style="text-align:right;"> medium </td>
    <td style="text-align:right;"> 294.65 </td>
-   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.1\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.195536 </td>
   </tr>
@@ -598,7 +598,7 @@ Summary
    <td style="text-align:right;"> d </td>
    <td style="text-align:right;"> low </td>
    <td style="text-align:right;"> 293.35 </td>
-   <td style="text-align:right;"> $101.0\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.0\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.199647 </td>
   </tr>
@@ -607,7 +607,7 @@ Summary
    <td style="text-align:right;"> e </td>
    <td style="text-align:right;"> high </td>
    <td style="text-align:right;"> 293.85 </td>
-   <td style="text-align:right;"> $101.1\times{10}^{3}$ </td>
+   <td style="text-align:right;"> \(101.1\times{10}^{3}\) </td>
    <td style="text-align:right;"> 287 </td>
    <td style="text-align:right;"> 1.198791 </td>
   </tr>
@@ -619,7 +619,7 @@ Summary
 </section>
 <section id="solution" class="level3">
 <h3 class="anchored" data-anchor-id="solution">Solution</h3>
-<p>I found a suggestion from <a href="https://docs.mathjax.org/en/v2.7-latest/a#tex-and-latex-input">MathJax</a> to replace the <code>$ ... $</code> delimiters with <code>\\( ... \\)</code>. I wrote a short function (below) to do that.</p>
+<p>I found a suggestion from <a href="https://docs.mathjax.org/en/v2.7-latest/tex.html">MathJax</a> to replace the <code>$ ... $</code> delimiters with <code>\\( ... \\)</code>. I wrote a short function (below) to do that.</p>
 <div class="cell">
 <details>
 <summary>R code</summary>
@@ -1085,7 +1085,7 @@ Summary
 <section id="units" class="level2">
 <h2 class="anchored" data-anchor-id="units">Units</h2>
 <p>And now for something completely different!</p>
-<p>Thinking about measurement units, I looked for relevant R packages and found <a href="https://CRAN.R-project.org/package=units">units</a>. With appropriate units, powers-of-ten notation can be practically eliminated. For example, a pressure reading of <span class="math inline">\(2.02\times{10}^{9}\)</span> Pa can be reported as <span class="math inline">\(2.02\)</span> GPa.</p>
+<p>Thinking about measurement units, I looked for relevant R packages and found <a href="https://CRAN.R-project.org/package=units">units</a>. With appropriate units, powers-of-ten notation can be practically eliminated. For example, a pressure reading of (2.02^{9}) Pa can be reported as <span class="math inline">\(2.02\)</span> GPa.</p>
 <p>To illustrate, I start with the basic water data,</p>
 <div class="cell">
 <details>

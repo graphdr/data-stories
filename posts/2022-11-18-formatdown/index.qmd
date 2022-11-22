@@ -171,7 +171,7 @@ knitr::kable(DT, align = "r")
 
 ### Solution
 
-I found a suggestion from [MathJax](https://docs.mathjax.org/en/v2.7-latest/a#tex-and-latex-input) to replace the `$ ... $` delimiters with `\\( ... \\)`. I wrote a short function (below) to do that. 
+I found a suggestion from [MathJax](https://docs.mathjax.org/en/v2.7-latest/tex.html) to replace the `$ ... $` delimiters with `\\( ... \\)`. I wrote a short function (below) to do that. 
 
 ```{r}
 # Substitute math delimiters
