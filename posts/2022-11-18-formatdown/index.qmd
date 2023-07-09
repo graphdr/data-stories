@@ -36,7 +36,7 @@ Initial release of the  [`formatdown`](https://CRAN.R-project.org/package=format
 
 This first version has one function only, `format_power()`, for converting numbers to character strings formatted in powers-of-ten notation and delimited in `$...$` for rendering as inline equations in `.Rmd` or `.qmd` output documents. Provides two powers-of-ten formatting options---scientific notation and engineering notation---with an option to omit powers-of-ten notation for a specified range of exponents. 
 
-To illustrate the different formats, I show in @tbl-examples the same number rendered using different formats, all with 4 significant digits.
+To illustrate the different formats, I show in @tbl-examples the same number rendered using different formats, all with 4 significant digits.  
 
 The R code for the post is listed under the “R code” pointers. In the examples, I use `data.table` syntax for data manipulation, though the code can be translated into `base R` or `dplyr` syntax if desired. 
 
@@ -44,32 +44,21 @@ The R code for the post is listed under the “R code” pointers. In the exampl
 library("formatdown")
 library("data.table")
 
-# value
-x <- 4.567E-4
-# omit power-of-ten
-x1 <- format_power(x, digits = 4, omit_power = c(-6, 0)) 
-# scientific
-x2 <- format_power(x, digits = 4, format = "sci")        
-# engineering
-x3 <- format_power(x, digits = 4)                        
+x <- 4.567E-4                                   # value
+x1 <- format_power(x, 4, omit_power = c(-6, 0)) # omit power-of-ten
+x2 <- format_power(x, 4, format = "sci")        # scientific
+x3 <- format_power(x, 4)                        # engineering
+
+# render in markdown table below
 ```
 
-```{r}
-#| echo: false
-#| label: tbl-examples
-#| tbl-cap: Rendering a number using different formats
-Notation <- c("without $10^n$", "scientific", "engineering")
-Name <- c("`x1`", "`x2`", "`x3`")
-Value <- c("`$0.0004567$`", 
-           "`$4.567\\times{10}^{-4}$`", 
-           "`$456.7\\times{10}^{-6}$`")
-Rendered_as <- c(x1, x2, x3)
+| Notation       | Name   | Value                  | Rendered as |
+|:---------------|:------:|:----------------------------|-------:|  
+| without $10^n$ |  `x1`  | `"$0.0004567$"`             | `r x1` |
+| scientific     |  `x2`  | `"$4.567\\times{10}^{-4}$"` | `r x2` | 
+| engineering    |  `x3`  | `"$456.7\\times{10}^{-6}$"` | `r x3` |
 
-DT <- data.table(Notation, Name, Value,  Rendered_as)
-knitr::kable(DT, align = "lcrr")
-```
-
-
+: Rendering a number using different formats {#tbl-examples}{tbl-colwidths="[20,20,30,30]"}
 
 
 
@@ -100,7 +89,7 @@ To illustrate formatting a scalar value inline, the markup for Avogadro's number
     $N_A =$ `r format_power(x, digits = 5, format = "engr")`
 ````
 
-which is rendered (in this output document) as $N_A =$ `r format_power(6.0221E+23, digits = 5)`. 
+which is rendered (in this output document) as $N_A =$ `r format_power(6.0221E+23, digits = 5, format = "engr")`. 
 
 The second improvement is the addition of an option for scientific notation. For example, the markup for Avogadro's number in scientific notation  is given by, 
 
@@ -118,7 +107,7 @@ The third improvement is the addition of an option for omitting powers-of-ten no
     $x =$ `r format_power(x = 1.234E-4, omit_power = c(-4, 0))`
 ````
 
-which renders as $x =$ `r format_power(x = 1.23E-4, omit_power = c(-4, 0))`. 
+which renders as $x =$ `r format_power(x = 1.23E-4, omit_power = c(-4, 0) )`. 
 
 A final (internal) improvement is a more balanced approach to package dependencies. With a tighter focus on what `formatdown` is to accomplish compared to `docxtools`, I have reduced the dependencies to `checkmate`,  `wrapr`, and `data.table`. 
 
@@ -182,7 +171,7 @@ knitr::kable(DT, align = "r")
 
 ### Solution
 
-I found a suggestion from [MathJax](https://docs.mathjax.org/en/v2.7-latest/tex.html) to replace the `$ ... $` delimiters with `\\( ... \\)`. I wrote a short function (below) to do that. 
+I found a suggestion from [MathJax](https://docs.mathjax.org/en/v2.7-latest/a#tex-and-latex-input) to replace the `$ ... $` delimiters with `\\( ... \\)`. I wrote a short function (below) to do that. 
 
 ```{r}
 # Substitute math delimiters
@@ -411,7 +400,6 @@ Incorporate tools from the `units` package to create a new function (perhaps `fo
 ## Closing
 
 The new `formatdown` package formats numbers in powers-of-ten notation for inline math markup. A new argument is already in the works for managing the math delimiters. Potential new features include a fixed power-of-tens option as well as replacing powers-of-ten notation with deliberate manipulation of physical units.  
-
 
 
 ### Additional software credits {.appendix}

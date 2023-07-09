@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Richard Layton">
-<meta name="dcterms.date" content="2022-06-01">
-<meta name="description" content="Switching from distill to quarto and successfully contributing to R-bloggers.">
+<meta name="description" content="Provides tools and methods for studying undergraduate student-level records from the MIDFIELD database.">
 
-<title>Layton R blog - R blog with quarto</title>
+<title>Layton R blog - midfieldr v1.0.1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,7 +22,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -67,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed slimcontent">
 
 
 <div id="quarto-search-results"></div>
@@ -114,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">R blog with quarto</li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">midfieldr v1.0.1</li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -157,25 +175,29 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
-  <li><a href="#get-started-with-quarto" id="toc-get-started-with-quarto" class="nav-link" data-scroll-target="#get-started-with-quarto">Get started with quarto</a></li>
-  <li><a href="#the-niggles" id="toc-the-niggles" class="nav-link" data-scroll-target="#the-niggles">The niggles</a></li>
+  <li><a href="#data-structure" id="toc-data-structure" class="nav-link" data-scroll-target="#data-structure">Data structure</a></li>
+  <li><a href="#what-midfieldr-does" id="toc-what-midfieldr-does" class="nav-link" data-scroll-target="#what-midfieldr-does">What midfieldr does</a></li>
+  <li><a href="#sample-result" id="toc-sample-result" class="nav-link" data-scroll-target="#sample-result">Sample result</a></li>
+  <li><a href="#notes-on-syntax" id="toc-notes-on-syntax" class="nav-link" data-scroll-target="#notes-on-syntax">Notes on syntax</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">R blog with quarto</h1>
+<h1 class="title">midfieldr v1.0.1</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
+    <div class="quarto-category">engineering education</div>
+    <div class="quarto-category">midfieldr</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    <p>Switching from distill to quarto and successfully contributing to R-bloggers.</p>
+    <p>Provides tools and methods for studying undergraduate student-level records from the MIDFIELD database.</p>
   </div>
 </div>
 
@@ -192,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2022-06-01</p>
+      <p class="date">2023–07–08</p>
     </div>
   </div>
   
@@ -212,40 +234,101 @@ Summary
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>TBD</em></p>
+<p><em>A qualitative overview of the midfieldr package and its application following its initial CRAN release. midfieldr provides tools and recommended methods for working with individual undergraduate student-level records (registrar’s longitudinal data) in R.</em></p>
 </div>
 </div>
+<p><a href="https://midfieldr.github.io/midfieldr/">midfieldr</a> is designed to work with data from the MIDFIELD research database, a sample of which is available in the <a href="https://midfieldr.github.io/midfielddata/">midfielddata</a> data package. Tools in midfieldr include filters for US academic program codes, data sufficiency, and timely completion. Recommended methods—illustrated in the package website—include gathering blocs of records, computing quantitative metrics such as graduation rate, and creating charts to visualize comparisons.</p>
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">Background</h2>
-<p>I have blogged intermittently since 2014. My original blog was in WordPress with the beautiful and sparse <a href="https://tru.spyr.me/">tru</a> theme. Writing prose and including images was not difficult, but including R code was clunky at best. And I was unable to resolve the issues that prevented my blog from being included in <a href="https://www.r-bloggers.com/">R-bloggers</a>.</p>
-<p>When I discovered the <a href="https://rstudio.github.io/distill/">distill</a> package, I drafted some blog posts in rmarkdown and published on GitHub pages. There were some bumpy spots and workarounds, but creating R-focused posts was straightforward and comfortable given my experience with reproducible authoring using rmarkdown, knitr, etc.</p>
-<p>As an aside, I experimented with <a href="https://pkgs.rstudio.com/blogdown/">blogdown</a> at the same time I tried distill. I’m certain that blogdown works beautifully for many folks, but for me, distill took me farther faster with fewer hangups.</p>
-<p>I enjoyed writing with distill. The only significant issue was, again, an inability to create a full RSS feed suitable for submitting to R-bloggers (<a href="https://github.com/rstudio/distill/issues/376">#376</a>).</p>
-<p>Looking for suggestions on fixing the RSS feed, I came across a similar discussion on a quarto page. One of the contributors (thanks <a href="https://github.com/bryanhanson">Bryan</a>!) had a distill workaround but suggested I take a look at quarto. I did. He was right. Eventually—with some expeditious bug fixing (<a href="https://github.com/quarto-dev/quarto-cli/discussions/946">#946</a>)—I could use <a href="https://quarto.org/">quarto</a> to create a blog (this site) that met the requirements for aggregation on R-bloggers.</p>
+<p>Begun in 2004 as an extension of the SUCCEED Longitudinal Database, MIDFIELD contains student records for all undergraduate, degree-seeking students at partner institutions, currently 2.4M unique students at 21 US institutions from 1987 to 2022.</p>
+<p>While originally intended for studying engineering programs, the database can be used to study any set of programs at the member institutions—the data are whole-population data, that is, student records for all undergraduates for the span of years provided by each institution.</p>
+<p>An early version of the package was presented at <a href="https://user2018.r-project.org/">useR! 2018</a> in Brisbane [<a href="https://speakerdeck.com/graphdr/midfieldr-data-methods-and-metrics-for-studying-student-persistence">slide deck</a>]. In the five years since that talk, the package has undergone significant development, testing, and revision such that the current release (v1.0.1) is ready for dissemination via CRAN.</p>
 </section>
-<section id="get-started-with-quarto" class="level2">
-<h2 class="anchored" data-anchor-id="get-started-with-quarto">Get started with quarto</h2>
-<p>The getting started with quarto guidelines have been done. I’ll just point you to the readings I found helpful.</p>
+<section id="data-structure" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data-structure">Data structure</h2>
+<p>The functions in midfieldr are designed to interact with the data structure implemented in the MIDFIELD database. MIDFIELD data are organized in four tables (student, term, course, degree) linked by an anonymized student ID with variables as outlined below. (The <a href="https://midfieldr.github.io/midfielddata/">midfielddata</a> website provides a data dictionary.)</p>
+<div id="fig-data-tables" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="data-tables.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;1: MIDFIELD data structure.</figcaption>
+</figure>
+</div>
+<p>Each table is in <a href="https://cran.r-project.org/web/packages/cdata/vignettes/blocksrecs.html">block-record form</a> consistent with <a href="https://en.wikipedia.org/wiki/Codd%27s_12_rules">Codd’s 2nd rule</a> for relational databases:</p>
+<blockquote class="blockquote">
+<p>Each and every datum (atomic value) in a relational data base is guaranteed to be logically accessible by resorting to a combination of table name, primary key value, and column name.</p>
+</blockquote>
+<p>In MIDFIELD, <em>student</em>, <em>term</em>, <em>course</em>, and <em>degree</em> are the tables; the anonymized student ID is the primary key; and the column names encode the variables outlined in <a href="#fig-data-tables">Figure&nbsp;1</a>. Each row is an observation and each column a variable.</p>
+</section>
+<section id="what-midfieldr-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-midfieldr-does">What midfieldr does</h2>
+<p>The purpose of midfieldr functions is to implement what we consider good practices for treating longitudinal student-level data.</p>
+<p>For example, consider the concept of <em>data sufficiency</em>. The time span of MIDFIELD data varies by institution, each having their own lower and upper bounds. For some student records, being at or near these bounds creates unavoidable ambiguity when trying to assess degree completion. Such records must be identified and in most cases excluded to prevent false summary counts.</p>
+<p>To illustrate, consider a student whose first term at an institution occurs two years before the upper limit of their institution’s data range. A researcher has no way of knowing the student’s completion status. The student may have: graduated in a timely manner (say, in 6 years or less); graduated, but in more than 6 years; or left the database without a degree. Failing to exclude such students leads to false counts when grouping and summarizing blocs of records, for example, when counting starters, graduates, ever-enrolled, etc.</p>
+<p>The articles posted to the midfieldr website describe how the package is used to treat fundamental issues (like data sufficiency) in the context of longitudinal student-level data. Thus, midfieldr provides tools and recommended methods designed specifically for treating student-level records.</p>
+<p>Tools include:</p>
 <ul>
-<li><a href="https://www.apreshill.com/blog/2022-04-we-dont-talk-about-quarto/">We don’t talk about Quarto</a> by Alison Hill</li>
-<li><a href="https://blog.djnavarro.net/posts/2022-04-20_porting-to-quarto/">Porting a distill blog to quarto</a> by Danielle Navarro</li>
-<li><a href="https://www.njtierney.com/post/2022/04/11/rmd-to-qmd/">Notes on changing from Rmarkdown/Bookdown to Quarto</a> by Nick Tierney</li>
-<li><a href="https://quarto.org/docs/get-started/">Get started</a> on the quarto website</li>
+<li><a href="https://midfieldr.github.io/midfieldr/reference/add_completion_status.html"><code>add_completion_status()</code></a> Determine completion status for every student</li>
+<li><a href="https://midfieldr.github.io/midfieldr/reference/add_data_sufficiency.html"><code>add_data_sufficiency()</code></a> Determine data sufficiency for every student</li>
+<li><a href="https://midfieldr.github.io/midfieldr/reference/add_timely_term.html"><code>add_timely_term()</code></a> Calculate a timely completion term for every student</li>
+<li><a href="https://midfieldr.github.io/midfieldr/reference/filter_cip.html"><code>filter_cip()</code></a> Subset rows that include matches to search strings</li>
+<li><a href="https://midfieldr.github.io/midfieldr/reference/order_multiway.html"><code>order_multiway()</code></a> Order categorical variables of multiway data</li>
+<li><a href="https://midfieldr.github.io/midfieldr/reference/prep_fye_mice.html"><code>prep_fye_mice()</code></a> Prepare First-Year Engineering (FYE) data for multiple imputation</li>
 </ul>
-<p>The quarto features I like, compared to distill, are</p>
+<p>Methods include:</p>
 <ul>
-<li><code>_metadata.yml</code> for applying settings to all posts, shortening the YAML header of individual posts</li>
-<li><code>_quarto.yml</code> with the usual website organization structure plus additional formatting applied to all posts</li>
-<li>Full RSS feed with categories and an XML file that passes muster with an RSS feed checker.</li>
+<li><a href="https://midfieldr.github.io/midfieldr/articles/art-010-planning.html">Planning.</a> Identify the groups of students, programs, and metrics with which we intend to work.</li>
+<li><a href="https://midfieldr.github.io/midfieldr/articles/art-020-data-sufficiency.html">Initial processing.</a> Filter for data sufficiency, degree-seeking, and academic programs.</li>
+<li><a href="https://midfieldr.github.io/midfieldr/articles/art-050-blocs.html">Blocs.</a> Identify and label records to be treated as a unit, for example, starters, students ever-enrolled, graduates, transfer students, etc.</li>
+<li><a href="https://midfieldr.github.io/midfieldr/articles/art-090-groupings.html">Groupings.</a> Add relevant grouping variables such as race/ethnicity, sex, and program label. Group and summarize.<br>
+</li>
+<li><a href="https://midfieldr.github.io/midfieldr/articles/art-100-grad-rate.html">Metrics.</a> Compute measures of academic success such as graduation rates, stickiness, etc., disaggregated by grouping variables.</li>
+<li><a href="https://midfieldr.github.io/midfieldr/articles/art-120-multiway.html">Displays.</a> Display results of quantitative metrics in charts and tables.</li>
 </ul>
 </section>
-<section id="the-niggles" class="level2">
-<h2 class="anchored" data-anchor-id="the-niggles">The niggles</h2>
-
+<section id="sample-result" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="sample-result">Sample result</h2>
+<p><a href="#fig-engr-grad">Figure&nbsp;2</a> displays a count of engineering graduates grouped by race/ethnicity, sex, and program—illustrating a typical set of grouping variables and a typical chart design (a Cleveland multiway chart). The script for this specific chart is given in the <a href="https://midfieldr.github.io/midfieldr/articles/art-120-multiway.html#median-ordered-charts">multiway article</a> in the package website.</p>
+<div id="fig-engr-grad" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="art-120-fig03-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption margin-caption">Figure&nbsp;2: Count of engineering graduates from the practice data in the midfielddata package</figcaption>
+</figure>
+</div>
+<p>Note that midfielddata is suitable for learning to work with student-level data but not for drawing inferences about program attributes or student experiences. midfielddata supplies practice data, not research data.</p>
+</section>
+<section id="notes-on-syntax" class="level2">
+<h2 class="anchored" data-anchor-id="notes-on-syntax">Notes on syntax</h2>
+<p>Throughout the work, we use the data.table package for data manipulation <span class="citation" data-cites="R-data.table">(<a href="#ref-R-data.table" role="doc-biblioref">Dowle &amp; Srinivasan, 2021</a>)</span> and the ggplot2 package for charts <span class="citation" data-cites="R-ggplot2">(<a href="#ref-R-ggplot2" role="doc-biblioref">Wickham, 2016</a>)</span>. Some users may prefer base R or dplyr for data <span class="citation" data-cites="R-dplyr">(<a href="#ref-R-dplyr" role="doc-biblioref">Wickham et al., 2023</a>)</span> or lattice for charts <span class="citation" data-cites="R-lattice">(<a href="#ref-R-lattice" role="doc-biblioref">Sarkar, 2008</a>)</span>. Each system has its strengths—users are welcome to translate our examples to their preferred syntax.</p>
+<p>Note that midfieldr functions yield data.table-type data frames and do not preserve tibble structures. A user wanting to use the tibble form in tidyverse-style scripts would probably want to apply <code>as_tibble()</code> following each application of most midfieldr functions.</p>
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section id="software-credits" class="level3 appendix"><h2 class="anchored quarto-appendix-heading">Software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://CRAN.R-project.org/package=checkmate"><code>checkmate</code></a> for internal function argument checks</li>
+<li><a href="https://CRAN.R-project.org/package=data.table"><code>data.table</code></a> for data manipulation tools<br>
+</li>
+<li><a href="https://CRAN.R-project.org/package=ggplot2"><code>ggplot2</code></a> for data graphics tools</li>
+<li><a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a> for internal function authoring tools</li>
+</ul>
+
+
+
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+<div id="ref-R-data.table" class="csl-entry" role="listitem">
+Dowle, M., &amp; Srinivasan, A. (2021). <em>Data.table: Extension of ‘data.frame‘</em>. <a href="https://CRAN.R-project.org/package=data.table">https://CRAN.R-project.org/package=data.table</a>
+</div>
+<div id="ref-R-lattice" class="csl-entry" role="listitem">
+Sarkar, D. (2008). <em>Lattice: Multivariate data visualization with r</em>. Springer. <a href="http://lmdvr.r-forge.r-project.org">http://lmdvr.r-forge.r-project.org</a>
+</div>
+<div id="ref-R-ggplot2" class="csl-entry" role="listitem">
+Wickham, H. (2016). <em>ggplot2: Elegant graphics for data analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>
+</div>
+<div id="ref-R-dplyr" class="csl-entry" role="listitem">
+Wickham, H., François, R., Henry, L., Müller, K., &amp; Vaughan, D. (2023). <em>Dplyr: A grammar of data manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
