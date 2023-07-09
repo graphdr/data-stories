@@ -13,26 +13,26 @@ website:
     style: "floating"
     search: false
     contents:
-      - section: "r-bloggers"
+      - text: r-bloggers
         url: https://r-bloggers.com
-      - section: "stackoverflow"
+      - text: stackoverflow
         url: https://stackoverflow.com/questions/tagged/r
-      - section: "data.table"
+      - text: data.table
         url: https://rdatatable.gitlab.io/data.table/
-      - section: "ggplot2"
+      - text: ggplot2
         url: https://ggplot2.tidyverse.org/
-      - section: "happy git"
+      - text: happy git
         url: https://happygitwithr.com/
   navbar:
-   right:
-    - text: "Contact"
-      href: contact.qmd
-    - text: "About"
-      href: about.qmd
-    - icon: git
-      href: https://github.com/graphdr/data-stories
-    - icon: rss
-      href: index.xml     
+    right:
+      - text: "Contact"
+        href: contact.qmd
+      - text: "About"
+        href: about.qmd
+      - icon: git
+        href: https://github.com/graphdr/data-stories
+      - icon: rss
+        href: index.xml     
   page-footer:
     center: 
      - text: "License"
