@@ -179,6 +179,7 @@ div.csl-indent {
   <li><a href="#what-midfieldr-does" id="toc-what-midfieldr-does" class="nav-link" data-scroll-target="#what-midfieldr-does">What midfieldr does</a></li>
   <li><a href="#sample-result" id="toc-sample-result" class="nav-link" data-scroll-target="#sample-result">Sample result</a></li>
   <li><a href="#notes-on-syntax" id="toc-notes-on-syntax" class="nav-link" data-scroll-target="#notes-on-syntax">Notes on syntax</a></li>
+  <li><a href="#for-more-information" id="toc-for-more-information" class="nav-link" data-scroll-target="#for-more-information">For more information</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -214,7 +215,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–07–08</p>
+      <p class="date">2023–07–09</p>
     </div>
   </div>
   
@@ -300,6 +301,12 @@ Summary
 <h2 class="anchored" data-anchor-id="notes-on-syntax">Notes on syntax</h2>
 <p>Throughout the work, we use the data.table package for data manipulation <span class="citation" data-cites="R-data.table">(<a href="#ref-R-data.table" role="doc-biblioref">Dowle &amp; Srinivasan, 2021</a>)</span> and the ggplot2 package for charts <span class="citation" data-cites="R-ggplot2">(<a href="#ref-R-ggplot2" role="doc-biblioref">Wickham, 2016</a>)</span>. Some users may prefer base R or dplyr for data <span class="citation" data-cites="R-dplyr">(<a href="#ref-R-dplyr" role="doc-biblioref">Wickham et al., 2023</a>)</span> or lattice for charts <span class="citation" data-cites="R-lattice">(<a href="#ref-R-lattice" role="doc-biblioref">Sarkar, 2008</a>)</span>. Each system has its strengths—users are welcome to translate our examples to their preferred syntax.</p>
 <p>Note that midfieldr functions yield data.table-type data frames and do not preserve tibble structures. A user wanting to use the tibble form in tidyverse-style scripts would probably want to apply <code>as_tibble()</code> following each application of most midfieldr functions.</p>
+</section>
+<section id="for-more-information" class="level2">
+<h2 class="anchored" data-anchor-id="for-more-information">For more information</h2>
+<p><a href="https://midfield.online/">MIDFIELD</a>. &nbsp; A database of anonymized student-level records for approximately 1.7M undergraduates at nineteen US institutions from 1987–2018, of which midfielddata provides a sample. This research database is currently accessible to MIDFIELD partner institutions only.</p>
+<p><a href="https://midfieldr.github.io/midfielddata/">midfielddata</a>. &nbsp; An R data package that supplies anonymized student-level records for 98,000 undergraduates at three US institutions from 1988–2018. A sample of the MIDFIELD database, midfielddata provides practice data for the tools and methods in the midfieldr package.</p>
+<p><a href="https://midfieldr.github.io/2023-midfield-institute/">MIDFIELD Institute</a>. &nbsp; Materials from the 2023 workshop, including an introduction to R for beginners, chart basics with ggplot2, and data basics with data.table.</p>
 
 </section>
 

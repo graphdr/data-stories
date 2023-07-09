@@ -95,6 +95,12 @@ Summary
 <h2 class="anchored" data-anchor-id="notes-on-syntax">Notes on syntax</h2>
 <p>Throughout the work, we use the data.table package for data manipulation <span class="citation" data-cites="R-data.table">(Dowle &amp; Srinivasan, 2021)</span> and the ggplot2 package for charts <span class="citation" data-cites="R-ggplot2">(Wickham, 2016)</span>. Some users may prefer base R or dplyr for data <span class="citation" data-cites="R-dplyr">(Wickham et al., 2023)</span> or lattice for charts <span class="citation" data-cites="R-lattice">(Sarkar, 2008)</span>. Each system has its strengths—users are welcome to translate our examples to their preferred syntax.</p>
 <p>Note that midfieldr functions yield data.table-type data frames and do not preserve tibble structures. A user wanting to use the tibble form in tidyverse-style scripts would probably want to apply <code>as_tibble()</code> following each application of most midfieldr functions.</p>
+</section>
+<section id="for-more-information" class="level2">
+<h2 class="anchored" data-anchor-id="for-more-information">For more information</h2>
+<p><a href="https://midfield.online/">MIDFIELD</a>. &nbsp; A database of anonymized student-level records for approximately 1.7M undergraduates at nineteen US institutions from 1987–2018, of which midfielddata provides a sample. This research database is currently accessible to MIDFIELD partner institutions only.</p>
+<p><a href="https://midfieldr.github.io/midfielddata/">midfielddata</a>. &nbsp; An R data package that supplies anonymized student-level records for 98,000 undergraduates at three US institutions from 1988–2018. A sample of the MIDFIELD database, midfielddata provides practice data for the tools and methods in the midfieldr package.</p>
+<p><a href="https://midfieldr.github.io/2023-midfield-institute/">MIDFIELD Institute</a>. &nbsp; Materials from the 2023 workshop, including an introduction to R for beginners, chart basics with ggplot2, and data basics with data.table.</p>
 
 </section>
 

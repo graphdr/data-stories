@@ -109,6 +109,16 @@ Throughout the work, we use the data.table package for data manipulation [@R-dat
 
 Note that midfieldr functions yield data.table-type data frames and do not preserve tibble structures. A user wanting to use the tibble form in tidyverse-style scripts would probably want to apply `as_tibble()` following each application of most midfieldr functions. 
 
+## For more information
+
+[MIDFIELD](https://midfield.online/). &nbsp; A database of anonymized student-level records for approximately 1.7M undergraduates at nineteen US institutions from 1987--2018, of which midfielddata  provides a sample. This research database is currently accessible to MIDFIELD partner institutions only. 
+
+[midfielddata](https://midfieldr.github.io/midfielddata/). &nbsp; An R data package that supplies anonymized student-level records for 98,000 undergraduates at three US institutions from 1988--2018. A sample of the MIDFIELD database, midfielddata provides practice data for the tools and methods in the midfieldr package.
+
+[MIDFIELD Institute](https://midfieldr.github.io/2023-midfield-institute/). &nbsp; Materials from the 2023 workshop introducing the application of the midfieldr package. 
+
+ 
+
 
 ### Software credits {.appendix}
 
