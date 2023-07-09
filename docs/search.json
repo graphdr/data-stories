@@ -515,6 +515,6 @@
     "href": "posts/2023-07-08-midfieldr/index.html#for-more-information",
     "title": "midfieldr v1.0.1",
     "section": "For more information",
-    "text": "For more information\nMIDFIELD.   A database of anonymized student-level records for approximately 1.7M undergraduates at nineteen US institutions from 1987–2018, of which midfielddata provides a sample. This research database is currently accessible to MIDFIELD partner institutions only.\nmidfielddata.   An R data package that supplies anonymized student-level records for 98,000 undergraduates at three US institutions from 1988–2018. A sample of the MIDFIELD database, midfielddata provides practice data for the tools and methods in the midfieldr package.\nMIDFIELD Institute.   Materials from the 2023 workshop, including an introduction to R for beginners, chart basics with ggplot2, and data basics with data.table."
+    "text": "For more information\nMIDFIELD.   A database of anonymized student-level records for approximately 2.4M undergraduates at 21 US institutions from 1987–2022, of which midfielddata provides a sample. This research database is currently accessible to MIDFIELD partner institutions only.\nmidfielddata.   An R data package that supplies anonymized student-level records for 98,000 undergraduates at three US institutions from 1988–2018. A sample of the MIDFIELD database, midfielddata provides practice data for the tools and methods in the midfieldr package.\nMIDFIELD Institute.   Materials from the 2023 workshop introducing the application of the midfieldr package."
   }
 ]

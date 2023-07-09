@@ -98,9 +98,9 @@ Summary
 </section>
 <section id="for-more-information" class="level2">
 <h2 class="anchored" data-anchor-id="for-more-information">For more information</h2>
-<p><a href="https://midfield.online/">MIDFIELD</a>. &nbsp; A database of anonymized student-level records for approximately 1.7M undergraduates at nineteen US institutions from 1987–2018, of which midfielddata provides a sample. This research database is currently accessible to MIDFIELD partner institutions only.</p>
+<p><a href="https://midfield.online/">MIDFIELD</a>. &nbsp; A database of anonymized student-level records for approximately 2.4M undergraduates at 21 US institutions from 1987–2022, of which midfielddata provides a sample. This research database is currently accessible to MIDFIELD partner institutions only.</p>
 <p><a href="https://midfieldr.github.io/midfielddata/">midfielddata</a>. &nbsp; An R data package that supplies anonymized student-level records for 98,000 undergraduates at three US institutions from 1988–2018. A sample of the MIDFIELD database, midfielddata provides practice data for the tools and methods in the midfieldr package.</p>
-<p><a href="https://midfieldr.github.io/2023-midfield-institute/">MIDFIELD Institute</a>. &nbsp; Materials from the 2023 workshop, including an introduction to R for beginners, chart basics with ggplot2, and data basics with data.table.</p>
+<p><a href="https://midfieldr.github.io/2023-midfield-institute/">MIDFIELD Institute</a>. &nbsp; Materials from the 2023 workshop introducing the application of the midfieldr package.</p>
 
 </section>
 
