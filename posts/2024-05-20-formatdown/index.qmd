@@ -1,0 +1,236 @@
+---
+title: "formatdown v0.1.4"
+description: |
+    New functionality for formatting power-of-ten notation in R markdown or Quarto markdown documents. 
+date: "May 20, 2024"
+date-format: "YYYY--MM--DD"
+categories: [R, engineering notation, scientific notation, units, rmarkdown, quarto]
+image: "thumbnail.png"
+cap-location: margin
+draft: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| tbl-cap-location: top
+
+# knitr working directory -> project level
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+# printing options for data.table
+options(
+  datatable.print.nrows = 10,
+  datatable.print.topn = 5,
+  datatable.print.class = TRUE
+)
+
+```
+
+::: callout-note
+## Summary
+
+<em>In response to issues raised by users, formatdown has new functionality (and bug fixes) with additional arguments affording greater control over the appearance of the formatted objects.</em>
+:::
+
+```{r}
+library(formatdown)
+library(data.table)
+library(knitr)
+library(units)
+```
+
+
+```{r}
+#| echo: false
+formatdown_options(size = "small")
+```
+
+
+## Background
+
+My original motive in developing formatdown was to easily and repeatably produce power-of-ten notation in R markdown documents for single numbers in an inline math markup and for columns of numbers in a table. 
+
+I realized that some of the functions in the previous release were actually special cases of the power-of-ten function. So I recast  the power-of-ten function as the more general `format_numbers()`---of which scientific notation, engineering notation, and decimal notation are special cases. I deprecated the earlier stand-alone functions, replacing them with new functions that wrap `format_numbers()` and take advantage of the extended set of arguments.  
+
+Additionally, I added `format_text()` so that columns of text in a table can be rendered with the same font face and size as the formatted numerical columns. 
+
+Finally, in response to a user's request, I added an option for changing the default decimal marker from a period (`.`) to a comma (`,`). It seemed reasonable to make this an option that can be changed globally to avoid having to type this argument in every function call. This led me to consider what *other* arguments a user might want to assign globally---which are now implemented in the new `formatdown_options()` function. 
+
+
+
+
+
+
+## `format_numbers()`
+
+Useful for formatting a single number in a sentence. For example, the inline code chunk, 
+
+$\quad$ `` `r knitr::inline_expr('format_numbers(6.0221E+23, digits = 5, format = "sci")')` ``
+
+produces the following math markup, 
+
+        `r format_sci(6.02214076E+23, 5, size = NULL)`.
+
+When this markup is rendered inline, as shown in the sentence below, we obtain the desired scientific notation. 
+
+> The Avogadro constant, $\small N_A =$ `r format_sci(6.02214076E+23, 5)`, is the number of constituent particles (usually molecules, atoms, or ions) per mole. 
+
+`format_numbers()` is also useful for columns in a table.  For example, the elastic modulus of several metals are tabulated below in engineering notation:
+
+```{r}
+# Data set included in formatdown
+data("metals")
+
+# Extract two columns (data.table syntax)
+DT <- metals[, .(metal, elast_mod)]
+
+# Format one column
+DT$elast_mod <- format_numbers(DT$elast_mod, digits = 3, format = "engr")
+
+# Display the table
+knitr::kable(DT, col.names = c("metal", "modulus (Pa)"))
+```
+
+
+
+
+
+
+
+## `format_text()`
+
+The table above also illustrates the difference in typefaces between a formatted numerical column and an unformatted text column. To format the text in a matching typeface, we use `format_text()`. 
+
+```{r}
+# Format the text column
+DT$metal <- format_text(DT$metal)
+
+# Display the table
+knitr::kable(DT, col.names = c("metal", "modulus (Pa)"))
+```
+
+Like the numerical column, the text column is also math delimited. Thus the elements of the "metal" column have a markup similar to:
+
+        `r format_text(metals[, (metal)][1], size = NULL)`
+
+The whitespace macro (`\>`) preserves the horizontal space between words. 
+
+
+
+
+
+## `formatdown_options()`
+
+Global options are provided for arguments that users would be likely to prefer to set once in a document instead of repeating in every function call. Globally-set arguments can be overridden locally by assigning them in a function call.
+
+`formatdown_options()` can be used to view current settings, assign new settings, or reset to defaults. Arguments include: 
+
+- `delim`: left and right math markup delimiters. 
+- `size`: font size "scriptsize", "small", "normalsize", etc. 
+- `decimal_mark`: a period "." or a comma ",".
+- `big_mark` and `big_interval`: For numbers with many digits to the left of the decimal, readability can sometimes be improved by inserting a thin space between groups of digits. `big_mark` defines the thin space and `big_interval` defines the number of digits in a group. 
+- `small_mark` and `small_interval`: Similar to above but to the right of the decimal.  
+- `whitespace`: Preserve horizontal spaces when text appears in a math-delimited output.
+
+To "get" the current settings, 
+
+        formatdown_options("delim", "size")
+
+To "set" new settings,  
+
+        formatdown_options(delim = "\\(", size = "small")
+
+To reset to the default settings, 
+
+        formatdown_options(reset = TRUE)
+
+For examples of how changing the options changes the appearance of the output, I recommend the [Global settings](https://graphdr.github.io/formatdown/articles/global_settings.html) vignette at the package website. 
+
+
+
+
+## Wrappers
+
+As mentioned earlier, we can use `format_numbers()` to format scientific, engineering, or decimal notation, or we can use one of the new convenience functions `format_sci()`, `format_engr()`, or `format_dcml()` which simply wrap `format_numbers()` with some pre--set arguments. 
+
+```{r}
+#| echo: false
+L <- 6.0221e+23
+p <- format_sci(L)
+```
+
+This first example compares scientific notation markups, and shows that the results are identical. When rendered, both `p` and `q` produce `r p`.
+
+
+        # Avogadro constant
+        L <- 6.0221e+23
+        p <- format_numbers(L, format = "sci")
+        q <- format_sci(L)
+        all.equal(p, q)
+        #> [1] TRUE
+
+```{r}
+#| echo: false
+p <- format_engr(L)
+```
+
+We get a similar result for engineering notation; here, `p` and `q` both produce `r p`.
+
+        p <- format_numbers(L, format = "engr")
+        q <- format_engr(L)
+        all.equal(p, q)
+        #> [1] TRUE
+
+
+## Units
+
+Unit-handling has been scaled back in this version of formatdown, leaving all unit manipulation to the user and the units R package. For example, creating three units-class values $(x, y, z)$ is performed with units functions. 
+
+```{r}
+# Numeric value
+x <- 10320
+units(x) <- "m"
+
+# The units package reflects operations in units
+y <- x^2
+
+# The units package supports unit conversion
+z <- y
+units(z) <- "ft^2"
+```
+
+The units *class*, however, is still accommodated by formatdown. If an input argument to `format_numbers()` (or its convenience functions) is of class “units”, formatdown attempts to extract the units character string, format the number in the expected way, and append a units character string to the result. For example, the three values $(x, y, z)$ from the previous code chunk, when formatted, yield the following markups, 
+
+        format_sci(x)
+        #> [1] "$1.032 \\times 10^{4}\\>\\mathrm{m}$"
+        
+        format_sci(y)
+        #> [1] "$1.065 \\times 10^{8}\\>\\mathrm{m^{2}}$"
+        
+        format_sci(z)
+        #> [1] "$1.146 \\times 10^{9}\\>\\mathrm{ft^{2}}$"
+
+which render as 
+
+- $x=$ `r format_sci(x, size = "small")`
+- $y=$ `r format_sci(y, size = "small")`
+- $z=$ `r format_sci(z, size = "small")`
+
+
+## For more information
+
+The package [website](https://graphdr.github.io/formatdown/index.html) has more examples and details about the new functions and arguments and their application. These recent improvements are largely due to user feedback, so feedback is welcome! 
+
+ 
+
+
+
+## Software credits {.appendix}
+
+- [`R`](https://www.r-project.org/) and [`RStudio`](https://posit.co/) for the working environment  
+- [`rmarkdown`](https://CRAN.R-project.org/package=rmarkdown) and [`knitr`](https://CRAN.R-project.org/package=knitr) for authoring tools  
+- [`data.table`](https://CRAN.R-project.org/package=data.table) for its programmable syntax  
+- [`units`](https://CRAN.R-project.org/package=units) for handling physical units 
+- [`wrapr`](https://CRAN.R-project.org/package=wrapr), [`checkmate`](https://CRAN.R-project.org/package=checkmate), and [`tinytest`](https://CRAN.R-project.org/package=tinytest) for programming tools
+- [`devtools`](https://CRAN.R-project.org/package=devtools) and [`pkgdown`](https://CRAN.R-project.org/package=pkgdown) for package building 

@@ -6,15 +6,386 @@
       version="2.0">
 <channel>
 <title>Layton R blog</title>
-<link>https://graphdr.github.io/data-stories/index.html</link>
+<link>https://graphdr.github.io/data-stories/</link>
 <atom:link href="https://graphdr.github.io/data-stories/index.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
-<generator>quarto-1.3.353</generator>
-<lastBuildDate>Sun, 09 Jul 2023 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.553</generator>
+<lastBuildDate>Mon, 20 May 2024 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>formatdown v0.1.4</title>
+  <dc:creator>Richard Layton</dc:creator>
+  <link>https://graphdr.github.io/data-stories/posts/2024-05-20-formatdown/</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>In response to issues raised by users, formatdown has new functionality (and bug fixes) with additional arguments affording greater control over the appearance of the formatted objects.</em></p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(formatdown)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(data.table)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(knitr)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(units)</span></code></pre></div>
+</details>
+</div>
+<div class="cell">
+
+</div>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>My original motive in developing formatdown was to easily and repeatably produce power-of-ten notation in R markdown documents for single numbers in an inline math markup and for columns of numbers in a table.</p>
+<p>I realized that some of the functions in the previous release were actually special cases of the power-of-ten function. So I recast the power-of-ten function as the more general <code>format_numbers()</code>—of which scientific notation, engineering notation, and decimal notation are special cases. I deprecated the earlier stand-alone functions, replacing them with new functions that wrap <code>format_numbers()</code> and take advantage of the extended set of arguments.</p>
+<p>Additionally, I added <code>format_text()</code> so that columns of text in a table can be rendered with the same font face and size as the formatted numerical columns.</p>
+<p>Finally, in response to a user’s request, I added an option for changing the default decimal marker from a period (<code>.</code>) to a comma (<code>,</code>). It seemed reasonable to make this an option that can be changed globally to avoid having to type this argument in every function call. This led me to consider what <em>other</em> arguments a user might want to assign globally—which are now implemented in the new <code>formatdown_options()</code> function.</p>
+</section>
+<section id="format_numbers" class="level2">
+<h2 class="anchored" data-anchor-id="format_numbers"><code>format_numbers()</code></h2>
+<p>Useful for formatting a single number in a sentence. For example, the inline code chunk,</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cquad"> <code>`r format_numbers(6.0221E+23, digits = 5, format = "sci")`</code></p>
+<p>produces the following math markup,</p>
+<pre><code>    $6.0221 \times 10^{23}$.</code></pre>
+<p>When this markup is rendered inline, as shown in the sentence below, we obtain the desired scientific notation.</p>
+<blockquote class="blockquote">
+<p>The Avogadro constant, <img src="https://latex.codecogs.com/png.latex?%5Csmall%20N_A%20="> <img src="https://latex.codecogs.com/png.latex?%5Csmall%206.0221%20%5Ctimes%2010%5E%7B23%7D">, is the number of constituent particles (usually molecules, atoms, or ions) per mole.</p>
+</blockquote>
+<p><code>format_numbers()</code> is also useful for columns in a table. For example, the elastic modulus of several metals are tabulated below in engineering notation:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Data set included in formatdown</span></span>
+<span id="cb3-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"metals"</span>)</span>
+<span id="cb3-3"></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Extract two columns (data.table syntax)</span></span>
+<span id="cb3-5">DT <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> metals[, .(metal, elast_mod)]</span>
+<span id="cb3-6"></span>
+<span id="cb3-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Format one column</span></span>
+<span id="cb3-8">DT<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>elast_mod <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">format_numbers</span>(DT<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>elast_mod, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">digits =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">format =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"engr"</span>)</span>
+<span id="cb3-9"></span>
+<span id="cb3-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Display the table</span></span>
+<span id="cb3-11">knitr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">kable</span>(DT, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col.names =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"metal"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"modulus (Pa)"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">metal</th>
+<th style="text-align: left;">modulus (Pa)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">aluminum 6061</td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%2073.1%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">copper</td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20117%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lead</td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%2013.8%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">platinum</td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20147%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">steel 1020</td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20207%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">titanium</td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20102%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="format_text" class="level2">
+<h2 class="anchored" data-anchor-id="format_text"><code>format_text()</code></h2>
+<p>The table above also illustrates the difference in typefaces between a formatted numerical column and an unformatted text column. To format the text in a matching typeface, we use <code>format_text()</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Format the text column</span></span>
+<span id="cb4-2">DT<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>metal <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">format_text</span>(DT<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>metal)</span>
+<span id="cb4-3"></span>
+<span id="cb4-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Display the table</span></span>
+<span id="cb4-5">knitr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">kable</span>(DT, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col.names =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"metal"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"modulus (Pa)"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">metal</th>
+<th style="text-align: left;">modulus (Pa)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20%5Cmathrm%7Baluminum%5C%3E6061%7D"></td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%2073.1%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20%5Cmathrm%7Bcopper%7D"></td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20117%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20%5Cmathrm%7Blead%7D"></td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%2013.8%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20%5Cmathrm%7Bplatinum%7D"></td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20147%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20%5Cmathrm%7Bsteel%5C%3E1020%7D"></td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20207%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20%5Cmathrm%7Btitanium%7D"></td>
+<td style="text-align: left;"><img src="https://latex.codecogs.com/png.latex?%5Csmall%20102%20%5Ctimes%2010%5E%7B9%7D"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Like the numerical column, the text column is also math delimited. Thus the elements of the “metal” column have a markup similar to:</p>
+<pre><code>    $\mathrm{aluminum\&gt;6061}$</code></pre>
+<p>The whitespace macro (<code>\&gt;</code>) preserves the horizontal space between words.</p>
+</section>
+<section id="formatdown_options" class="level2">
+<h2 class="anchored" data-anchor-id="formatdown_options"><code>formatdown_options()</code></h2>
+<p>Global options are provided for arguments that users would be likely to prefer to set once in a document instead of repeating in every function call. Globally-set arguments can be overridden locally by assigning them in a function call.</p>
+<p><code>formatdown_options()</code> can be used to view current settings, assign new settings, or reset to defaults. Arguments include:</p>
+<ul>
+<li><code>delim</code>: left and right math markup delimiters.</li>
+<li><code>size</code>: font size “scriptsize”, “small”, “normalsize”, etc.</li>
+<li><code>decimal_mark</code>: a period “.” or a comma “,”.</li>
+<li><code>big_mark</code> and <code>big_interval</code>: For numbers with many digits to the left of the decimal, readability can sometimes be improved by inserting a thin space between groups of digits. <code>big_mark</code> defines the thin space and <code>big_interval</code> defines the number of digits in a group.</li>
+<li><code>small_mark</code> and <code>small_interval</code>: Similar to above but to the right of the decimal.<br>
+</li>
+<li><code>whitespace</code>: Preserve horizontal spaces when text appears in a math-delimited output.</li>
+</ul>
+<p>To “get” the current settings,</p>
+<pre><code>    formatdown_options("delim", "size")</code></pre>
+<p>To “set” new settings,</p>
+<pre><code>    formatdown_options(delim = "\\(", size = "small")</code></pre>
+<p>To reset to the default settings,</p>
+<pre><code>    formatdown_options(reset = TRUE)</code></pre>
+<p>For examples of how changing the options changes the appearance of the output, I recommend the <a href="https://graphdr.github.io/formatdown/articles/global_settings.html">Global settings</a> vignette at the package website.</p>
+</section>
+<section id="wrappers" class="level2">
+<h2 class="anchored" data-anchor-id="wrappers">Wrappers</h2>
+<p>As mentioned earlier, we can use <code>format_numbers()</code> to format scientific, engineering, or decimal notation, or we can use one of the new convenience functions <code>format_sci()</code>, <code>format_engr()</code>, or <code>format_dcml()</code> which simply wrap <code>format_numbers()</code> with some pre–set arguments.</p>
+<div class="cell">
+
+</div>
+<p>This first example compares scientific notation markups, and shows that the results are identical. When rendered, both <code>p</code> and <code>q</code> produce <img src="https://latex.codecogs.com/png.latex?%5Csmall%206.022%20%5Ctimes%2010%5E%7B23%7D">.</p>
+<pre><code>    # Avogadro constant
+    L &lt;- 6.0221e+23
+    p &lt;- format_numbers(L, format = "sci")
+    q &lt;- format_sci(L)
+    all.equal(p, q)
+    #&gt; [1] TRUE</code></pre>
+<div class="cell">
+
+</div>
+<p>We get a similar result for engineering notation; here, <code>p</code> and <code>q</code> both produce <img src="https://latex.codecogs.com/png.latex?%5Csmall%20602.2%20%5Ctimes%2010%5E%7B21%7D">.</p>
+<pre><code>    p &lt;- format_numbers(L, format = "engr")
+    q &lt;- format_engr(L)
+    all.equal(p, q)
+    #&gt; [1] TRUE</code></pre>
+</section>
+<section id="units" class="level2">
+<h2 class="anchored" data-anchor-id="units">Units</h2>
+<p>Unit-handling has been scaled back in this version of formatdown, leaving all unit manipulation to the user and the units R package. For example, creating three units-class values <img src="https://latex.codecogs.com/png.latex?(x,%20y,%20z)"> is performed with units functions.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Numeric value</span></span>
+<span id="cb11-2">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10320</span></span>
+<span id="cb11-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">units</span>(x) <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"m"</span></span>
+<span id="cb11-4"></span>
+<span id="cb11-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The units package reflects operations in units</span></span>
+<span id="cb11-6">y <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> x<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">^</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb11-7"></span>
+<span id="cb11-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The units package supports unit conversion</span></span>
+<span id="cb11-9">z <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> y</span>
+<span id="cb11-10"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">units</span>(z) <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ft^2"</span></span></code></pre></div>
+</details>
+</div>
+<p>The units <em>class</em>, however, is still accommodated by formatdown. If an input argument to <code>format_numbers()</code> (or its convenience functions) is of class “units”, formatdown attempts to extract the units character string, format the number in the expected way, and append a units character string to the result. For example, the three values <img src="https://latex.codecogs.com/png.latex?(x,%20y,%20z)"> from the previous code chunk, when formatted, yield the following markups,</p>
+<pre><code>    format_sci(x)
+    #&gt; [1] "$1.032 \\times 10^{4}\\&gt;\\mathrm{m}$"
+    
+    format_sci(y)
+    #&gt; [1] "$1.065 \\times 10^{8}\\&gt;\\mathrm{m^{2}}$"
+    
+    format_sci(z)
+    #&gt; [1] "$1.146 \\times 10^{9}\\&gt;\\mathrm{ft^{2}}$"</code></pre>
+<p>which render as</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?x="> <img src="https://latex.codecogs.com/png.latex?%5Csmall%201.032%20%5Ctimes%2010%5E%7B4%7D%5C%3E%5Cmathrm%7Bm%7D"></li>
+<li><img src="https://latex.codecogs.com/png.latex?y="> <img src="https://latex.codecogs.com/png.latex?%5Csmall%201.065%20%5Ctimes%2010%5E%7B8%7D%5C%3E%5Cmathrm%7Bm%5E%7B2%7D%7D"></li>
+<li><img src="https://latex.codecogs.com/png.latex?z="> <img src="https://latex.codecogs.com/png.latex?%5Csmall%201.146%20%5Ctimes%2010%5E%7B9%7D%5C%3E%5Cmathrm%7Bft%5E%7B2%7D%7D"></li>
+</ul>
+</section>
+<section id="for-more-information" class="level2">
+<h2 class="anchored" data-anchor-id="for-more-information">For more information</h2>
+<p>The package <a href="https://graphdr.github.io/formatdown/index.html">website</a> has more examples and details about the new functions and arguments and their application. These recent improvements are largely due to user feedback, so feedback is welcome!</p>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="software-credits" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Software credits</h2><div class="quarto-appendix-contents">
+
+<ul>
+<li><a href="https://www.r-project.org/"><code>R</code></a> and <a href="https://posit.co/"><code>RStudio</code></a> for the working environment<br>
+</li>
+<li><a href="https://CRAN.R-project.org/package=rmarkdown"><code>rmarkdown</code></a> and <a href="https://CRAN.R-project.org/package=knitr"><code>knitr</code></a> for authoring tools<br>
+</li>
+<li><a href="https://CRAN.R-project.org/package=data.table"><code>data.table</code></a> for its programmable syntax<br>
+</li>
+<li><a href="https://CRAN.R-project.org/package=units"><code>units</code></a> for handling physical units</li>
+<li><a href="https://CRAN.R-project.org/package=wrapr"><code>wrapr</code></a>, <a href="https://CRAN.R-project.org/package=checkmate"><code>checkmate</code></a>, and <a href="https://CRAN.R-project.org/package=tinytest"><code>tinytest</code></a> for programming tools</li>
+<li><a href="https://CRAN.R-project.org/package=devtools"><code>devtools</code></a> and <a href="https://CRAN.R-project.org/package=pkgdown"><code>pkgdown</code></a> for package building</li>
+</ul>
+
+
+</div></section></div> ]]></description>
+  <category>R</category>
+  <category>engineering notation</category>
+  <category>scientific notation</category>
+  <category>units</category>
+  <category>rmarkdown</category>
+  <category>quarto</category>
+  <guid>https://graphdr.github.io/data-stories/posts/2024-05-20-formatdown/</guid>
+  <pubDate>Mon, 20 May 2024 04:00:00 GMT</pubDate>
+  <media:content url="https://graphdr.github.io/data-stories/posts/2024-05-20-formatdown/thumbnail.png" medium="image" type="image/png" height="56" width="144"/>
+</item>
 <item>
   <title>midfieldr v1.0.1</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2023-07-08-midfieldr/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2023-07-08-midfieldr/</link>
   <description><![CDATA[ 
 
 
@@ -133,15 +504,16 @@ Wickham, H., François, R., Henry, L., Müller, K., &amp; Vaughan, D. (2023). <e
   <category>R</category>
   <category>engineering education</category>
   <category>midfieldr</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2023-07-08-midfieldr/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2023-07-08-midfieldr/</guid>
   <pubDate>Sun, 09 Jul 2023 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2023-07-08-midfieldr/thumbnail.png" medium="image" type="image/png" height="167" width="144"/>
 </item>
 <item>
   <title>Introducing formatdown</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-11-18-formatdown/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-11-18-formatdown/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -163,7 +535,7 @@ Summary
 <p>To illustrate the different formats, I show in Table&nbsp;1 the same number rendered using different formats, all with 4 significant digits.</p>
 <p>The R code for the post is listed under the “R code” pointers. In the examples, I use <code>data.table</code> syntax for data manipulation, though the code can be translated into <code>base R</code> or <code>dplyr</code> syntax if desired.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -237,10 +609,11 @@ font-style: inherit;">4</span>)                        </span></code></pre></div
 </details>
 </div>
 <div class="cell page-columns page-full">
-<div class="cell-output-display page-columns page-full">
-<div id="tbl-examples" class="anchored page-columns page-full">
-<table class="table table-sm table-striped small">
-
+<div id="tbl-examples" class="cell quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-tbl figure page-columns page-full">
+<div aria-describedby="tbl-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell table table-sm table-striped small">
 <colgroup>
 <col style="width: 21%">
 <col style="width: 8%">
@@ -276,7 +649,12 @@ font-style: inherit;">4</span>)                        </span></code></pre></div
 </tr>
 </tbody>
 </table>
-<div class="quarto-table-caption margin-caption">Table&nbsp;1: Rendering a number using different formats</div></div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Rendering a number using different formats
+</figcaption>
+</figure>
 </div>
 </div>
 <section id="background" class="level2">
@@ -312,7 +690,7 @@ font-style: inherit;">    $x =$ `r format_power(x = 1.234E-4, omit_power = c(-4,
 <p>I wrote the package vignette using the <code>rmarkdown::html_vignette</code> output style per usual. All the formatted output rendered as expected in that document. I write this blog using <a href="https://quarto.org/docs/websites/website-blog.html">quarto</a>. As seen in the examples above, inline math is rendered as expected.</p>
 <p>The issue arises when using <code>knitr::kable()</code> and <code>kableExtra::kbl()</code> to display data tables in this blog post. To illustrate, consider this data frame, included with <code>formatdown</code> (ideal gas properties of air at room temperature).</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">density</span></code></pre></div>
 </details>
@@ -328,7 +706,7 @@ font-style: inherit;">    $x =$ `r format_power(x = 1.234E-4, omit_power = c(-4,
 </div>
 <p>Formatting the pressure column, the markup looks OK.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">DT <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -360,7 +738,7 @@ font-style: inherit;">4</span>)</span>
 </div>
 <p><code>knitr::kable()</code> yields the expected output with pressure formatted in engineering notation.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">knitr<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -448,7 +826,7 @@ font-style: inherit;">"r"</span>)</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="problem">Problem</h3>
 <p><code>kableExtra::kbl()</code> does not render the math markup as expected.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">kableExtra<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -461,6 +839,7 @@ background-color: null;
 font-style: inherit;">"r"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -525,9 +904,10 @@ font-style: inherit;">"r"</span>)</span></code></pre></div>
 
 </div>
 </div>
+</div>
 <p>In fact, having loaded <code>kableExtra</code> above, <code>knitr::kable()</code> now fails in the same way.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1">knitr<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -540,6 +920,7 @@ background-color: null;
 font-style: inherit;">"r"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -604,12 +985,13 @@ font-style: inherit;">"r"</span>)</span></code></pre></div>
 
 </div>
 </div>
+</div>
 </section>
 <section id="solution" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="solution">Solution</h3>
 <p>I found a suggestion from <a href="https://docs.mathjax.org/en/v2.7-latest/tex.html">MathJax</a> to replace the <code>$ ... $</code> delimiters with <code>\\( ... \\)</code>. I wrote a short function (below) to do that.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -682,7 +1064,7 @@ font-style: inherit;">$</span>p_Pa)</span>
 </div>
 <p><code>knitr::kable()</code> yields the expected output.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">knitr<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -695,6 +1077,7 @@ background-color: null;
 font-style: inherit;">"c"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -759,9 +1142,10 @@ font-style: inherit;">"c"</span>)</span></code></pre></div>
 
 </div>
 </div>
+</div>
 <p><code>kableExtra::kbl()</code> yields the expected output.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1">kableExtra<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -774,6 +1158,7 @@ background-color: null;
 font-style: inherit;">"c"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -838,9 +1223,10 @@ font-style: inherit;">"c"</span>)</span></code></pre></div>
 
 </div>
 </div>
+</div>
 <p>I can use the features from <code>kableExtra</code> to print a pretty table.</p>
 <div class="cell page-columns page-full">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -960,10 +1346,12 @@ font-style: inherit;">full_width =</span> <span class="cn" style="color: #8f5902
 background-color: null;
 font-style: inherit;">TRUE</span>)</span></code></pre></div>
 </details>
-<div class="cell-output-display page-columns page-full">
-<div id="tbl-pretty" class="anchored page-columns page-full">
-<table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
-
+<div id="tbl-pretty" class="cell quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-tbl figure page-columns page-full">
+<div aria-describedby="tbl-pretty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 14%">
 <col style="width: 14%">
@@ -1055,9 +1443,15 @@ Density
 </tr>
 </tbody>
 </table>
-<div class="quarto-table-caption margin-caption">Table&nbsp;2: Data frame displayed using kableExtra</div></div>
 
 
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-pretty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Data frame displayed using kableExtra
+</figcaption>
+</figure>
 </div>
 </div>
 </section>
@@ -1072,7 +1466,7 @@ Density
 <h2 class="anchored" data-anchor-id="fixed-exponents">Fixed exponents</h2>
 <p>Preparing this post, I adapted a table of water properties from the <a href="https://cran.r-project.org/web/packages/hydraulics/index.html">hydraulics</a> package to use as an example and discovered another, more subtle issue. First, I’ll construct the data frame.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -1183,7 +1577,7 @@ font-style: inherit;">data.table</span>(temperature, density, specific_weight, v
 <h3 class="anchored" data-anchor-id="problem-1">Problem</h3>
 <p>I format all the columns and change the delimiters as described earlier and display the result. The viscosity column reveals the problem.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">DT <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -1372,6 +1766,7 @@ background-color: null;
 font-style: inherit;">"white"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1424,9 +1819,10 @@ font-style: inherit;">"white"</span>)</span></code></pre></div>
 
 </div>
 </div>
+</div>
 <p>The viscosity column displays three values using <img src="https://latex.codecogs.com/png.latex?10%5E%7B-6%7D"> and two using <img src="https://latex.codecogs.com/png.latex?10%5E%7B-9%7D">. Visually comparing the values in a column is easier if the powers of ten are identical. The table below illustrates the desired result, created by manually editing the two viscosity values.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -1532,6 +1928,7 @@ background-color: null;
 font-style: inherit;">"white"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1584,6 +1981,7 @@ font-style: inherit;">"white"</span>)</span></code></pre></div>
 
 </div>
 </div>
+</div>
 <p>This revision satisfies two conventions of tabulating empirical engineering information.</p>
 <ol type="1">
 <li><p><em>Units.</em> &nbsp; With all the reported values reported to the same power-of-ten, the units can all be interpreted in the same way. In this case for example, the units of the viscosity coefficients (1.73, 1.31, etc.) are all micro-Pascal-seconds (<img src="https://latex.codecogs.com/png.latex?%5Cmu">Pa-s).</p></li>
@@ -1606,7 +2004,7 @@ font-style: inherit;">"white"</span>)</span></code></pre></div>
 <p>Thinking about measurement units, I looked for relevant R packages and found <a href="https://CRAN.R-project.org/package=units">units</a>. With appropriate units, powers-of-ten notation can be practically eliminated. For example, a pressure reading of <img src="https://latex.codecogs.com/png.latex?2.02%5Ctimes%7B10%7D%5E%7B9%7D"> Pa can be reported as <img src="https://latex.codecogs.com/png.latex?2.02"> GPa.</p>
 <p>To illustrate, I start with the basic water data,</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1">water</span></code></pre></div>
 </details>
@@ -1622,7 +2020,7 @@ font-style: inherit;">"white"</span>)</span></code></pre></div>
 </div>
 <p>With tools from the <code>units</code> package, I can define a symbol <code>uP</code> to represent micropoise (a non-SI viscosity unit equal to 10<img src="https://latex.codecogs.com/png.latex?%5E%7B-7%7D"> Pa-s). And I can write a short function to convert the numbers from basic units to displayed units, for example, converting Pa to GPa (gigapascal) or Pa-s to <img src="https://latex.codecogs.com/png.latex?%5Cmu">P (micropoise).</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1681,7 +2079,7 @@ font-style: inherit;"># return value</span></span>
 </div>
 <p>Convert each column and output the results.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -1815,6 +2213,7 @@ background-color: null;
 font-style: inherit;">"white"</span>) </span></code></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1867,9 +2266,10 @@ font-style: inherit;">"white"</span>) </span></code></pre></div>
 
 </div>
 </div>
+</div>
 <p>The entries in the data frame are still numeric but are of the “Units” class, enabling math operations among values with compatible units. See the <a href="https://r-quantities.github.io/units/">units</a> website for details.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1913,14 +2313,14 @@ font-style: inherit;">str</span>(DT)</span></code></pre></div>
   <category>units</category>
   <category>rmarkdown</category>
   <category>quarto</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-11-18-formatdown/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-11-18-formatdown/</guid>
   <pubDate>Mon, 21 Nov 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-11-18-formatdown/thumbnail.png" medium="image" type="image/png" height="165" width="144"/>
 </item>
 <item>
   <title>Multiple studies, one chart</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/</link>
   <description><![CDATA[ 
 
 
@@ -2396,14 +2796,14 @@ Phillips, A. (2018). <em>How capitalism and the patriarchy built our problematic
   <category>R</category>
   <category>Data storytelling</category>
   <category>ggplot2</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/</guid>
   <pubDate>Mon, 05 Sep 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/thumbnail.png" medium="image" type="image/png" height="84" width="144"/>
 </item>
 <item>
   <title>Spiders, facets, and dots, oh my!</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/</link>
   <description><![CDATA[ 
 
 
@@ -4637,14 +5037,14 @@ Wainer, H. (2014). <em><span>Medical Illuminations</span></em>. Oxford Universit
   <category>ggplot2</category>
   <category>Data storytelling</category>
   <category>magick</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/</guid>
   <pubDate>Sun, 21 Aug 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/thumbnail.png" medium="image" type="image/png" height="90" width="144"/>
 </item>
 <item>
   <title>Another case for redesigning dual axis charts</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/</link>
   <description><![CDATA[ 
 
 
@@ -6290,14 +6690,14 @@ Newfield, C. (2021). <span class="nocase">Budget justice: Addressing the structu
 </div></section></div> ]]></description>
   <category>R</category>
   <category>Data storytelling</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/</guid>
   <pubDate>Mon, 06 Jun 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/thumbnail.png" medium="image" type="image/png" height="51" width="144"/>
 </item>
 <item>
   <title>Revisiting a lying chart</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/</link>
   <description><![CDATA[ 
 
 
@@ -7480,14 +7880,14 @@ World Bank. (2022-01-14). <em><span class="nocase">Population total for United S
   <category>R</category>
   <category>Data storytelling</category>
   <category>Visual lies</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/</guid>
   <pubDate>Fri, 27 May 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/thumbnail.png" medium="image" type="image/png" height="82" width="144"/>
 </item>
 <item>
   <title>Facets that are not small multiples</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/</link>
   <description><![CDATA[ 
 
 
@@ -8172,14 +8572,14 @@ UCLA. (2021). <em><span class="nocase">Textbook examples: Visualizing Data by Wi
 </div></section></div> ]]></description>
   <category>R</category>
   <category>ggplot2</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/</guid>
   <pubDate>Wed, 09 Mar 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/thumbnail.png" medium="image" type="image/png" height="125" width="144"/>
 </item>
 <item>
   <title>Survey data I/O with likert</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/</link>
   <description><![CDATA[ 
 
 
@@ -10300,14 +10700,14 @@ Mudge, L. (2019). <em><span class="nocase">Data visualization for Likert questio
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/</guid>
   <pubDate>Sun, 13 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/thumbnail.png" medium="image" type="image/png" height="94" width="144"/>
 </item>
 <item>
   <title>Survey data chart designs</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/</link>
   <description><![CDATA[ 
 
 
@@ -11506,14 +11906,14 @@ Robbins, N. B., &amp; Heiberger, R. M. (2011). <span class="nocase">Plotting Lik
   <category>R</category>
   <category>Data storytelling</category>
   <category>Engineering education</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/</guid>
   <pubDate>Sat, 12 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/thumbnail.png" medium="image" type="image/png" height="79" width="144"/>
 </item>
 <item>
   <title>Plot the variable of interest</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/</link>
   <description><![CDATA[ 
 
 
@@ -13090,14 +13490,14 @@ Purzer, Şenay, Quintana-Cifuentes, J., &amp; Menekse, M. (2021). <span class="n
   <category>R</category>
   <category>Data storytelling</category>
   <category>Engineering education</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/</guid>
   <pubDate>Thu, 03 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/thumbnail.png" medium="image" type="image/png" height="64" width="144"/>
 </item>
 <item>
   <title>Stacked-bar alternatives</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/</link>
   <description><![CDATA[ 
 
 
@@ -14126,14 +14526,14 @@ Wainer, H. (1997). <em><span>Visual Revelations</span></em>. <span>Lawrence Erlb
   <category>R</category>
   <category>Data storytelling</category>
   <category>Engineering education</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/</guid>
   <pubDate>Fri, 14 Jan 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/thumbnail.png" medium="image" type="image/png" height="93" width="144"/>
 </item>
 <item>
   <title>The missing relation</title>
   <dc:creator>Richard Layton</dc:creator>
-  <link>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index.html</link>
+  <link>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/</link>
   <description><![CDATA[ 
 
 
@@ -14898,7 +15298,7 @@ Kostelnick, C. (2008). <a href=""><span class="nocase">The visual rhetoric of da
   <category>R</category>
   <category>Data storytelling</category>
   <category>Engineering education</category>
-  <guid>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index.html</guid>
+  <guid>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/</guid>
   <pubDate>Mon, 20 Jul 2015 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/thumbnail.png" medium="image" type="image/png" height="106" width="144"/>
 </item>
