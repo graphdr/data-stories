@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -61,6 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -102,7 +103,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -111,13 +118,16 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
-
 <script src="..\..\site_libs/kePrint-0.0.1/kePrint.js"></script>
+
 <link href="..\..\site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -125,12 +135,11 @@ div.csl-indent {
 
 <body class="nav-sidebar floating nav-fixed slimcontent">
 
-
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Layton R blog</span>
     </a>
@@ -142,44 +151,44 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../contact.html" rel="" target="">
- <span class="menu-text">Contact</span></a>
+    <a class="nav-link" href="../../contact.html"> 
+<span class="menu-text">Contact</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/graphdr/data-stories" rel="" target=""><i class="bi bi-git" role="img">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"> <i class="bi bi-git" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../../index.xml" rel="" target=""><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Spiders, facets, and dots, oh my!</li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Spiders, facets, and dots, oh my!</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -215,7 +224,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -229,7 +238,7 @@ div.csl-indent {
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -272,7 +281,9 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -292,7 +303,7 @@ Summary
 <p>I selected data from a 1951 chart by graphic designer Will Burtin (1908–1972) displaying the effectiveness of three antibiotics in inhibiting the growth of 16 bacteria. My inspiration is <em>Medical Illuminations</em> <span class="citation" data-cites="Wainer:2014">(<a href="#ref-Wainer:2014" role="doc-biblioref">2014</a>)</span> in which Howard Wainer discusses in detail twenty different charts of these data. In this post, I compare two new displays of these data—a radar chart and a faceted dot chart.</p>
 <p>For reproducibility, the R code for the post is listed under the “R code” pointers.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># packages used </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
@@ -302,7 +313,7 @@ Summary
 </div>
 <p>For consistent radar charts, I wrap <code>ggradar()</code> in a custom function. I selected the ggradar package because it supports editing using conventional ggplot2 functions.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># custom function for consistent radar charts</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>make_radar_chart <span class="ot">&lt;-</span> <span class="cf">function</span>(dframe, subtitle) {</span>
@@ -365,7 +376,7 @@ Summary
 </div></div><p>One of Wainer’s goals was to illustrate how some chart designs, had they been investigated sooner, could have revealed an odd pattern in Burtin’s data that might have led to an earlier reclassification of bacterium genus. My goal is different. I want to illustrate the relative effectiveness of two specific charts by considering the ease and accuracy of answering key domain-specific questions about the data.</p>
 <p>The data with current taxonomy are saved in the blog data directory as a <a href="https://raw.githubusercontent.com/graphdr/data-stories/main/data/antibiotic-bacteria-mic.csv">CSV file</a>.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the updated Burtin data set</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/antibiotic-bacteria-mic.csv"</span>)</span>
@@ -389,12 +400,14 @@ Summary
 16:    Streptococcus viridans   positive    5.0e-03        10.00   40.000</code></pre>
 </div>
 </div>
-<p>The data set comprises three categorical variables and one quantitative variable as listed in <a href="#tbl-data-structure">Table&nbsp;1</a>. The quantitative variable is the <em>minimum inhibitory concentration</em> (MIC)—the least concentration of antibiotic that prevents growth of a bacterium in vitro, where <em>concentration</em> is the ratio of the drug to its liquid media in milligrams/deciliter (mg/dl).</p>
+<p>The data set comprises three categorical variables and one quantitative variable as listed in <a href="#tbl-data-structure" class="quarto-xref">Table&nbsp;1</a>. The quantitative variable is the <em>minimum inhibitory concentration</em> (MIC)—the least concentration of antibiotic that prevents growth of a bacterium in vitro, where <em>concentration</em> is the ratio of the drug to its liquid media in milligrams/deciliter (mg/dl).</p>
 <div class="cell page-columns page-full">
-<div class="cell-output-display page-columns page-full">
-<div id="tbl-data-structure" class="anchored page-columns page-full">
-<table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
-
+<div id="tbl-data-structure" class="cell quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-tbl figure page-columns page-full">
+<div aria-describedby="tbl-data-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">variable</th>
@@ -420,9 +433,15 @@ Summary
 </tr>
 </tbody>
 </table>
-<div class="quarto-table-caption margin-caption">Table&nbsp;1: Data structure</div></div>
 
 
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-data-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Data structure
+</figcaption>
+</figure>
 </div>
 </div>
 <p>The <em>Gram stain</em> variable indicates a bacterium’s response to a cell-staining method, named after bacteriologist Hans Christian Gram (1853–1938). After staining and counter-staining, those that remain purple are called Gram-positive; those that turn pink are called Gram-negative.</p>
@@ -431,7 +450,7 @@ Summary
 <h2 class="anchored" data-anchor-id="shaping-the-data">Shaping the data</h2>
 <p>I’m not using Gram staining as a graph element, so I append the Gram-positive information to the name of the bacterium and drop the Gram-staining variable.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># append Gram-positive to bacteria names</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>DT[Gram_stain <span class="sc">==</span> <span class="st">"positive"</span>, Bacteria <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(Bacteria, <span class="st">"(+)"</span>)]</span>
@@ -459,7 +478,7 @@ Summary
 <p>I order the bacteria by the median of their three MIC values (per Wainer) and add a lowercase letter (a.–p.) to the bacteria names to provide a simple verification that the charts reflect the desired order.</p>
 <p>Because MIC values span several orders of magnitude, I also apply a log<sub>10</sub> transformation to the numerical columns.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># order bacteria by row-wise median MIC</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>DT[, median_MIC <span class="sc">:</span><span class="er">=</span> <span class="fu">apply</span>(.SD, <span class="dv">1</span>, median), .SDcols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Penicillin"</span>, <span class="st">"Streptomycin"</span>, <span class="st">"Neomycin"</span>)]</span>
@@ -507,12 +526,14 @@ Summary
 </div>
 </div>
 <p>Clinically plausible dosages are those less than 0.1 mg/dl or log<sub>10</sub>MIC ≤ –1. Thus concentrations greater than –1 indicate a bacterium that for clinical purposes can be considered <em>resistant</em> to the antibiotic.</p>
-<p>Wainer illustrates (in Figure 3.3 by Brian Schmotzer, p.&nbsp;54) that this resistance measure, summarized in <a href="#tbl-resistance-groupings">Table&nbsp;2</a>, is a useful criterion by which the data in a chart can be organized to answer key questions.</p>
+<p>Wainer illustrates (in Figure 3.3 by Brian Schmotzer, p.&nbsp;54) that this resistance measure, summarized in <a href="#tbl-resistance-groupings" class="quarto-xref">Table&nbsp;2</a>, is a useful criterion by which the data in a chart can be organized to answer key questions.</p>
 <div class="cell page-columns page-full">
-<div class="cell-output-display page-columns page-full">
-<div id="tbl-resistance-groupings" class="anchored page-columns page-full">
-<table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
-
+<div id="tbl-resistance-groupings" class="cell quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-tbl figure page-columns page-full">
+<div aria-describedby="tbl-resistance-groupings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">Label</th>
@@ -542,14 +563,20 @@ Summary
 </tr>
 </tbody>
 </table>
-<div class="quarto-table-caption margin-caption">Table&nbsp;2: Bacterial resistance groupings</div></div>
 
 
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-resistance-groupings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Bacterial resistance groupings
+</figcaption>
+</figure>
 </div>
 </div>
 <p>I add these resistance labels to the data frame, creating a new categorical variable (<code>resistance</code>) that is dependent on the bacteria.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># classify bacteria by resistance</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>DT[, resistance <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(</span>
@@ -597,9 +624,8 @@ Summary
 <h2 class="anchored" data-anchor-id="radar-charts">Radar charts</h2>
 <p>This data frame is correctly shaped for <code>ggradar()</code> in <em>row-record</em> form, in which every record about a bacterium is in a single row.</p>
 <p><strong>Explaining a radar chart</strong></p>
-<p>I subset one bacterium (one row and four columns) from the data frame to illustrate radar-chart terminology in <a href="#fig-radar-components">Figure&nbsp;1</a>.</p>
-<div class="page-columns page-full">
-<details>
+<p>I subset one bacterium (one row and four columns) from the data frame to illustrate radar-chart terminology in <a href="#fig-radar-components" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select one row only from the data set </span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[Bacteria <span class="sc">%ilike%</span> <span class="st">"abortus"</span>, .(Bacteria, Penicillin, Streptomycin, Neomycin)]</span>
@@ -624,29 +650,32 @@ Summary
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">x =</span> <span class="dv">5</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">1.6</span>, <span class="at">label =</span> <span class="fu">expression</span>(<span class="st">"log"</span>[<span class="dv">10</span>]<span class="sc">~</span><span class="st">"MIC"</span>), </span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">0.2</span>, <span class="at">vjust =</span> <span class="fl">0.8</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"gray45"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell quarto-layout-panel page-columns page-full">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 85.0%;justify-content: center;">
+<div class="cell quarto-layout-panel page-columns page-full" data-layout="[[85,-15]]">
+<div class="quarto-layout-row">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 85.0%;justify-content: flex-start;">
 <pre><code>              Bacteria Penicillin Streptomycin Neomycin
                 &lt;char&gt;      &lt;num&gt;        &lt;num&gt;    &lt;num&gt;
 1: h. Brucella abortus          0        0.301     -1.7</code></pre>
 </div>
-<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 15.0%;justify-content: center;">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 15.0%;justify-content: flex-start;">
 <p>&nbsp;</p>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top page-columns page-full">
-<div class="cell-output-display quarto-layout-cell page-columns page-full" style="flex-basis: 85.0%;justify-content: center;">
-<div id="fig-radar-components" class="quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="figure page-columns page-full">
-<p><img src="index_files/figure-html/fig-radar-components-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">Figure&nbsp;1: Illustrating the components of a radar chart with the log<sub>10</sub>MIC values of three antibiotics on one bacterium.</figcaption>
+<div class="quarto-layout-row page-full">
+<div class="cell-output-display quarto-layout-cell page-columns page-full" style="flex-basis: 85.0%;justify-content: flex-start;">
+<div id="fig-radar-components" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-radar-components-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-radar-components-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-radar-components-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Illustrating the components of a radar chart with the log<sub>10</sub>MIC values of three antibiotics on one bacterium.
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 15.0%;justify-content: center;">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 15.0%;justify-content: flex-start;">
 <p>&nbsp;</p>
-</div>
 </div>
 </div>
 </div>
@@ -656,9 +685,8 @@ Summary
 <p>Data markers inside the –1 grid line indicate clinically plausible MICs; points outside the line indicate resistance to the antibiotic. In this example, <em>Brucella abortus</em> is resistant to Penicillin and Streptomycin but not to Neomycin.</p>
 <p>The thin helper lines between data markers create a polygon for that bacterium to help distinguish it from other bacteria when more than one are graphed in the same chart. The polygons, while useful visual aids, are not generally useful for drawing inferences about the data.</p>
 <p><strong>Creating the radar charts</strong></p>
-<p>I use the <code>resistance</code> variable to subset the data frame and construct one radar chart per group, yielding the five charts assembled in <a href="#fig-five-radar">Figure&nbsp;2</a>. The legend keys verify that the charts retain the desired order of the bacteria, from (a) to (p) in order of increasing median MIC.</p>
-<div>
-<details>
+<p>I use the <code>resistance</code> variable to subset the data frame and construct one radar chart per group, yielding the five charts assembled in <a href="#fig-five-radar" class="quarto-xref">Figure&nbsp;2</a>. The legend keys verify that the charts retain the desired order of the bacteria, from (a) to (p) in order of increasing median MIC.</p>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[resistance <span class="sc">==</span> <span class="st">"None"</span>]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Resistant to None"</span>)</span>
@@ -675,14 +703,17 @@ Summary
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>data_group <span class="ot">&lt;-</span> DT[resistance <span class="sc">==</span> <span class="st">"SN"</span>]</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">make_radar_chart</span>(data_group, <span class="at">subtitle =</span> <span class="st">"Resistant to SN"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell quarto-layout-panel">
+<div class="cell quarto-layout-panel" data-layout="[[85,-15],[85,-15],[85,-15],[85,-15]]">
 
 </div>
+<div id="fig-five-radar" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-five-radar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/five_radar.png" class="img-fluid figure-img">
 </div>
-<div id="fig-five-radar" class="quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="figure page-columns page-full">
-<p><img src="figures/five_radar.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption margin-caption">Figure&nbsp;2: Radar charts of Burtin’s data with current bacteria taxonomy. Data points on the radial axes are log<sub>10</sub>MIC values.</figcaption>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-five-radar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Radar charts of Burtin’s data with current bacteria taxonomy. Data points on the radial axes are log<sub>10</sub>MIC values.
+</figcaption>
 </figure>
 </div>
 <p>I assembled these images in a two-column format to make it possible to view all of them together. I made the font size as large as possible without overprinting important graphical elements. (The code for assembling the images is provided in an appendix.)</p>
@@ -692,7 +723,7 @@ Summary
 <p><strong>Shaping the data</strong></p>
 <p>For compatibility with <code>ggplot()</code>, I transform the data from row records to <em>block records</em>. In block-record form, everything about a bacterium occupies a “block” of rows. For example, <em>Bacillus anthracis</em> occupies the first three rows instead of the first row alone as it did previously. The utility of this form is that both <code>Antibiotic</code> and <code>Concentration</code> are explicit variables with one value per observation (row).</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>DT_facet <span class="ot">&lt;-</span> <span class="fu">melt</span>(DT, </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">"Bacteria"</span>, <span class="st">"median_MIC"</span>, <span class="st">"resistance"</span>), </span>
@@ -733,19 +764,21 @@ Summary
 48:         SN</code></pre>
 </div>
 </div>
-<p>We can add one more categorical variable (<code>efficacy</code>) to help visually distinguish between clinically plausible dosages (log<sub>10</sub>MIC ≤ –1) and bacterial resistance (log<sub>10</sub>MIC &gt; -1) in the faceted dot chart. <a href="#tbl-data-structure-2">Table&nbsp;3</a> lists the complete augmented set of variables.</p>
+<p>We can add one more categorical variable (<code>efficacy</code>) to help visually distinguish between clinically plausible dosages (log<sub>10</sub>MIC ≤ –1) and bacterial resistance (log<sub>10</sub>MIC &gt; -1) in the faceted dot chart. <a href="#tbl-data-structure-2" class="quarto-xref">Table&nbsp;3</a> lists the complete augmented set of variables.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># efficacy variable used as legend key</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>DT_facet[, efficacy <span class="sc">:</span><span class="er">=</span> <span class="fu">fifelse</span>(Concentration <span class="sc">&lt;=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="st">"Effective"</span>, <span class="st">"Resistant"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell page-columns page-full">
-<div class="cell-output-display page-columns page-full">
-<div id="tbl-data-structure-2" class="anchored page-columns page-full">
-<table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
-
+<div id="tbl-data-structure-2" class="cell quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-tbl figure page-columns page-full">
+<div aria-describedby="tbl-data-structure-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">variable</th>
@@ -779,15 +812,21 @@ Summary
 </tr>
 </tbody>
 </table>
-<div class="quarto-table-caption margin-caption">Table&nbsp;3: Augmented data structure</div></div>
 
 
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-data-structure-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Augmented data structure
+</figcaption>
+</figure>
 </div>
 </div>
 <p><strong>Creating the faceted dot chart</strong></p>
 <p>Before plotting, I edit the data to order the rows and panels and add a resistance subtitle.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># manually order the columns of the panel grid</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>DT_facet[, Antibiotic <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, factor, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Penicillin"</span>, <span class="st">"Streptomycin"</span>, <span class="st">"Neomycin"</span>)), .SDcols <span class="ot">=</span> <span class="st">"Antibiotic"</span>]</span>
@@ -801,7 +840,7 @@ Summary
 </div>
 <p>The resulting chart has 15 facets in a 5 by 3 grid—five rows for the resistance variable and three columns for the antibiotic variable. Individual bacteria form an ordered vertical scale.</p>
 <div class="cell page-columns page-full" data-fig.asp="0.7">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct the faceted dot chart</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DT_facet, <span class="fu">aes</span>(<span class="at">x =</span> Concentration, <span class="at">y =</span> Bacteria, <span class="at">color =</span> efficacy)) <span class="sc">+</span></span>
@@ -846,10 +885,14 @@ Summary
 <span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-faceted" class="quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="figure page-columns page-full">
-<p><img src="index_files/figure-html/fig-faceted-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption margin-caption">Figure&nbsp;3: Faceted dot chart of Burtin’s data with current bacteria taxonomy. Bacteria are ordered (a) through (p) by increasing median MIC.</figcaption>
+<div id="fig-faceted" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-faceted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-faceted-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-faceted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Faceted dot chart of Burtin’s data with current bacteria taxonomy. Bacteria are ordered (a) through (p) by increasing median MIC.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -912,7 +955,7 @@ Summary
 
 <p>The following code chunk is provided for readers interested in the image processing I used to assemble the five radar charts into one figure. As usual in R, there are several ways to approach this task; here I use “magick,” an R package for advanced graphics and image processing.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># image processing using the magick package</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magick)</span>
@@ -984,7 +1027,7 @@ Summary
 
 
 
-</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-Few:2005" class="csl-entry" role="listitem">
 Few, S. (2005). <em>Keep radar graphs below the radar—far below</em>. Newsletter. <a href="https://www.perceptualedge.com/articles/dmreview/radar_graphs.pdf">https://www.perceptualedge.com/articles/dmreview/radar_graphs.pdf</a>
 </div>
@@ -1074,10 +1117,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/graphdr\.github\.io\/data-stories");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1087,8 +1147,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1100,7 +1169,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1144,6 +1336,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1169,6 +1362,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1239,15 +1458,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-center">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="../../license.html">License</a>
+    <a class="nav-link" href="../../license.html">
+<p>License</p>
+</a>
   </li>  
 </ul>
-    </div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
+
 
 
 

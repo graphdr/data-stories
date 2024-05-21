@@ -1,60 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2024-05-20-formatdown/index.html</loc>
+    <lastmod>2024-05-21T00:11:07.230Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/index.html</loc>
+    <lastmod>2023-07-08T16:57:31.476Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index.html</loc>
+    <lastmod>2022-11-18T17:37:03.303Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</loc>
+    <lastmod>2022-06-06T23:43:37.249Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index.html</loc>
+    <lastmod>2022-06-06T23:42:17.526Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/index.html</loc>
+    <lastmod>2022-06-06T23:33:18.962Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/license.html</loc>
+    <lastmod>2022-06-11T16:11:36.144Z</lastmod>
+  </url>
+  <url>
+    <loc>https://graphdr.github.io/data-stories/drafts/investigate.html</loc>
+    <lastmod>2024-05-17T00:05:52.346Z</lastmod>
+  </url>
+  <url>
     <loc>https://graphdr.github.io/data-stories/about.html</loc>
-    <lastmod>2023-07-09T17:14:35.850Z</lastmod>
+    <lastmod>2022-06-06T23:19:10.921Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/contact.html</loc>
-    <lastmod>2023-07-09T17:14:36.101Z</lastmod>
+    <lastmod>2022-05-23T17:23:45.759Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/index.html</loc>
     <lastmod>2023-07-09T16:44:44.080Z</lastmod>
   </url>
   <url>
-    <loc>https://graphdr.github.io/data-stories/license.html</loc>
-    <lastmod>2023-07-09T17:14:37.727Z</lastmod>
-  </url>
-  <url>
     <loc>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/index.html</loc>
-    <lastmod>2023-07-09T17:14:39.365Z</lastmod>
-  </url>
-  <url>
-    <loc>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/index.html</loc>
-    <lastmod>2023-07-09T17:14:40.953Z</lastmod>
+    <lastmod>2022-06-06T23:32:59.206Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/index.html</loc>
-    <lastmod>2023-07-09T17:14:42.515Z</lastmod>
-  </url>
-  <url>
-    <loc>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/index.html</loc>
-    <lastmod>2023-07-09T17:14:44.185Z</lastmod>
+    <lastmod>2022-06-06T23:41:33.293Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/index.html</loc>
-    <lastmod>2023-07-09T17:14:46.641Z</lastmod>
-  </url>
-  <url>
-    <loc>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/index.html</loc>
-    <lastmod>2023-07-09T17:14:48.115Z</lastmod>
+    <lastmod>2022-06-06T23:43:13.477Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/index.html</loc>
-    <lastmod>2023-07-09T17:14:50.195Z</lastmod>
-  </url>
-  <url>
-    <loc>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/index.html</loc>
-    <lastmod>2023-07-09T17:14:51.974Z</lastmod>
+    <lastmod>2022-06-06T23:43:52.851Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/index.html</loc>
-    <lastmod>2023-07-09T17:14:53.931Z</lastmod>
-  </url>
-  <url>
-    <loc>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/index.html</loc>
-    <lastmod>2023-07-09T17:14:55.356Z</lastmod>
+    <lastmod>2022-11-21T18:20:54.429Z</lastmod>
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2022-11-18-formatdown/index.html</loc>
@@ -62,14 +70,6 @@
   </url>
   <url>
     <loc>https://graphdr.github.io/data-stories/posts/2023-07-08-midfieldr/index.html</loc>
-    <lastmod>2023-07-09T17:15:57.762Z</lastmod>
-  </url>
-  <url>
-    <loc>https://graphdr.github.io/data-stories/drafts/investigate.html</loc>
-    <lastmod>2024-05-17T00:05:52.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://graphdr.github.io/data-stories/posts/2024-05-20-formatdown/index.html</loc>
-    <lastmod>2024-05-21T00:11:07.230Z</lastmod>
+    <lastmod>2023-07-09T16:38:39.579Z</lastmod>
   </url>
 </urlset>
