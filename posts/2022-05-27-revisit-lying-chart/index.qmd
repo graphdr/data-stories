@@ -6,7 +6,7 @@ description: |
 date: "2022-05-27"
 date-format: "YYYY-MM-DD"
 draft: false
-categories: [R, Data storytelling, Visual lies]
+categories: [R, data storytelling, visual lies, chart design]
 image: "thumbnail.png"
 cap-location: margin
 ---

@@ -4,7 +4,7 @@ description: |
   An example of replacing a dual axis chart with alternatives better suited to drawing inferences about the data. 
 date: "2022-06-06"
 date-format: "YYYY-MM-DD"
-categories: [R, Data storytelling]
+categories: [R, data storytelling, chart design]
 image: "thumbnail.png"
 cap-location: margin
 draft: false

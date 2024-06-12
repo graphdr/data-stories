@@ -4,7 +4,7 @@ description: |
   Combining the results of studies with different time spans in a single chart when changes over time are the story.
 date: "September 5, 2022"
 date-format: "YYYY--MM--DD"
-categories: [R, Data storytelling, ggplot2]
+categories: [R, data storytelling, ggplot2, chart design]
 image: "thumbnail.png"
 cap-location: margin
 draft: false

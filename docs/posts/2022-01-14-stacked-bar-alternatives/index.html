@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -241,8 +241,9 @@ div.csl-indent {
 <h1 class="title">Stacked-bar alternatives</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">Data storytelling</div>
-    <div class="quarto-category">Engineering education</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">engineering education</div>
+    <div class="quarto-category">chart design</div>
   </div>
   </div>
 
@@ -324,7 +325,7 @@ Summary
 <p><strong>Exploratory design: evolutions</strong></p>
 <p>A prominent element of this stacked-bar design is time on the horizontal axis. A visual convention in this discourse community is that independent variables occupy horizontal axes, implying here that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(<a href="#ref-Doumont:2009" role="doc-biblioref">Doumont, 2009, p. 141</a>)</span>.</p>
 <p>The figure below shows the stacked-bar data as a collection of evolutions—how survey percentages vary over time conditioned by the reason for obtaining postdoc training. The panels are organized in “graph order”, that is, increasing median value from left to right and from bottom to top (the panel median is shown as a horizontal reference line in each panel).</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"data/fig2.csv"</span>)</span>
@@ -406,7 +407,7 @@ Figure&nbsp;2: Looking for correlations.
 </div>
 </div>
 <p>Two variable pairs have correlation coefficients greater than 0.6, which for human behavior indicates a fairly strong correlation. Both are negative (inverse) correlations: one (that I noticed in the scatterplots) between “other employment unavailable” and “training outside the PhD field”; and a second between “expected in the field” and “other”. In the figure below. I extract both pairs of data to isolate the pairings.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dtwide, </span>
@@ -428,7 +429,7 @@ Figure&nbsp;3: Inverse correlation between “other employment unavailable” an
 </div>
 </div>
 </div>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dtwide, </span>
@@ -557,7 +558,7 @@ Figure&nbsp;5: Visual comparisons are more definitive once we eliminate the triv
 </div>
 <p>In the original stacked bar chart, the authors have one column for each postdoc status level, indicating the rhetorical goal of comparing the experiences of PhDs with postdocs to those without. This lends itself to plotting the dots for postdocs and non-postdocs along the same row of the chart, facilitating a direct visual comparison.</p>
 <p>Below, the employment sector graph is redesigned as a dot chart with rows ordered from bottom to top in order of increasing mean percentage.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt3a, <span class="fu">aes</span>(<span class="at">x =</span> fraction, <span class="at">y =</span> <span class="fu">reorder</span>(sector, fraction, mean), <span class="at">color =</span> status, <span class="at">fill =</span> status)) <span class="sc">+</span></span>
@@ -590,7 +591,7 @@ Figure&nbsp;6: Quantitative comparisons are visually more accessible when data a
 </blockquote>
 <p>The argument is also supported by the dot chart but qualitative terms “most”, “lower”, etc. could be replaced with quantitative comparisons. For example, the dot chart supports the argument that industry employs just over 40% of postdocs and more than 50% of non-postdocs. Moreover, industry employs twice the number of postdocs than the next most popular sector (tenure-track), and more than three times the number of non-postdocs.</p>
 <p>A similar outcome can be seen in the redesigned work activity chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt3b, <span class="fu">aes</span>(<span class="at">x =</span> fraction, <span class="at">y =</span> <span class="fu">reorder</span>(activity, fraction, mean), <span class="at">color =</span> status, <span class="at">fill =</span> status)) <span class="sc">+</span></span>

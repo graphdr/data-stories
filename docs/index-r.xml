@@ -9,7 +9,7 @@
 <link>https://graphdr.github.io/data-stories/#category=R</link>
 <atom:link href="https://graphdr.github.io/data-stories/index-r.xml" rel="self" type="application/rss+xml"/>
 <description>A blog about visual rhetoric, chart design, and R.</description>
-<generator>quarto-1.4.553</generator>
+<generator>quarto-1.4.555</generator>
 <lastBuildDate>Mon, 20 May 2024 04:00:00 GMT</lastBuildDate>
 <item>
   <title>formatdown v0.1.4</title>
@@ -848,7 +848,6 @@ background-color: null;
 font-style: inherit;">"r"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -911,7 +910,6 @@ font-style: inherit;">"r"</span>)</span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 <p>In fact, having loaded <code>kableExtra</code> above, <code>knitr::kable()</code> now fails in the same way.</p>
@@ -929,7 +927,6 @@ background-color: null;
 font-style: inherit;">"r"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -992,7 +989,6 @@ font-style: inherit;">"r"</span>)</span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 </section>
@@ -1086,7 +1082,6 @@ background-color: null;
 font-style: inherit;">"c"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -1149,7 +1144,6 @@ font-style: inherit;">"c"</span>)</span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 <p><code>kableExtra::kbl()</code> yields the expected output.</p>
@@ -1167,7 +1161,6 @@ background-color: null;
 font-style: inherit;">"c"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -1230,7 +1223,6 @@ font-style: inherit;">"c"</span>)</span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 <p>I can use the features from <code>kableExtra</code> to print a pretty table.</p>
@@ -1359,7 +1351,6 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <figure class="quarto-float quarto-float-tbl figure page-columns page-full">
 <div aria-describedby="tbl-pretty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 14%">
@@ -1454,7 +1445,6 @@ Density
 </table>
 
 
-</div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-pretty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1775,7 +1765,6 @@ background-color: null;
 font-style: inherit;">"white"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1826,7 +1815,6 @@ font-style: inherit;">"white"</span>)</span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 <p>The viscosity column displays three values using <img src="https://latex.codecogs.com/png.latex?10%5E%7B-6%7D"> and two using <img src="https://latex.codecogs.com/png.latex?10%5E%7B-9%7D">. Visually comparing the values in a column is easier if the powers of ten are identical. The table below illustrates the desired result, created by manually editing the two viscosity values.</p>
@@ -1937,7 +1925,6 @@ background-color: null;
 font-style: inherit;">"white"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1988,7 +1975,6 @@ font-style: inherit;">"white"</span>)</span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 <p>This revision satisfies two conventions of tabulating empirical engineering information.</p>
@@ -2222,7 +2208,6 @@ background-color: null;
 font-style: inherit;">"white"</span>) </span></code></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -2273,7 +2258,6 @@ font-style: inherit;">"white"</span>) </span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 <p>The entries in the data frame are still numeric but are of the “Units” class, enabling math operations among values with compatible units. See the <a href="https://r-quantities.github.io/units/">units</a> website for details.</p>
@@ -2553,7 +2537,7 @@ font-style: inherit;">"Male"</span>))</span></code></pre></div>
 </details>
 </div>
 <p>The original article argues that the decline in the quantitative variable evolves over time, thus a scatterplot design is my starting point. Time (discrete years) is on the horizontal scale and the percent receiving instruction on the vertical scale. One-year surveys are represented with “point” data markers and multi-year surveys with line segments. Topics are assigned to panels and sex to color.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
@@ -2818,8 +2802,9 @@ Phillips, A. (2018). <em>How capitalism and the patriarchy built our problematic
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <category>Data storytelling</category>
+  <category>data storytelling</category>
   <category>ggplot2</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/</guid>
   <pubDate>Mon, 05 Sep 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-09-05-sex-ed-studies/thumbnail.png" medium="image" type="image/png" height="84" width="144"/>
@@ -3238,12 +3223,11 @@ font-style: inherit;"># examine the data</span></span>
 <figure class="quarto-float quarto-float-tbl figure page-columns page-full">
 <div aria-describedby="tbl-data-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">variable</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">structure</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(199, 234, 229, 255) !important;">variable</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(199, 234, 229, 255) !important;">structure</th>
 </tr>
 </thead>
 <tbody>
@@ -3267,7 +3251,6 @@ font-style: inherit;"># examine the data</span></span>
 </table>
 
 
-</div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-data-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -3452,12 +3435,11 @@ font-style: inherit;"># display the result</span></span>
 <figure class="quarto-float quarto-float-tbl figure page-columns page-full">
 <div aria-describedby="tbl-resistance-groupings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">Label</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">Bacterium is resistant to</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(199, 234, 229, 255) !important;">Label</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(199, 234, 229, 255) !important;">Bacterium is resistant to</th>
 </tr>
 </thead>
 <tbody>
@@ -3485,7 +3467,6 @@ font-style: inherit;"># display the result</span></span>
 </table>
 
 
-</div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-resistance-groupings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -4169,12 +4150,11 @@ font-style: inherit;">"Resistant"</span>)]</span></code></pre></div>
 <figure class="quarto-float quarto-float-tbl figure page-columns page-full">
 <div aria-describedby="tbl-data-structure-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">variable</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; background-color: #c7eae5 !important;">structure</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(199, 234, 229, 255) !important;">variable</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(199, 234, 229, 255) !important;">structure</th>
 </tr>
 </thead>
 <tbody>
@@ -4206,7 +4186,6 @@ font-style: inherit;">"Resistant"</span>)]</span></code></pre></div>
 </table>
 
 
-</div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-data-structure-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -4293,7 +4272,7 @@ font-style: inherit;">None"</span>]</span></code></pre></div>
 </details>
 </div>
 <p>The resulting chart has 15 facets in a 5 by 3 grid—five rows for the resistance variable and three columns for the antibiotic variable. Individual bacteria form an ordered vertical scale.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.7">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
@@ -5092,8 +5071,9 @@ Wainer, H. (2014). <em><span>Medical Illuminations</span></em>. Oxford Universit
 </div></section></div> ]]></description>
   <category>R</category>
   <category>ggplot2</category>
-  <category>Data storytelling</category>
+  <category>data storytelling</category>
   <category>magick</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/</guid>
   <pubDate>Sun, 21 Aug 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-08-15-radar-charts/thumbnail.png" medium="image" type="image/png" height="90" width="144"/>
@@ -5323,7 +5303,7 @@ font-style: inherit;"># display</span></span>
 </blockquote>
 <p>Following this prescription, I plot the two data series in Figure&nbsp;1 using separate panels having their own vertical, quantitative scales but sharing a common time scale. I select an aspect ratio that emphasizes the slopes of the line segments.</p>
 <p>Newfield mentions the terms of two California governors, so I annotate the chart to indicate the gubernatorial terms that span these data: Gray Davis (Democrat), Arnold Schwarzenegger (Republican), and Jerry Brown (Democrat).</p>
-<div class="cell page-columns page-full" data-fig.asp="0.4">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
@@ -5601,7 +5581,7 @@ Figure&nbsp;1: Redrawing the dual axis chart as a side-by-side chart with gubern
 </blockquote>
 <p>Selecting 1999 as the index year, in Figure&nbsp;2 I graph enrollment change with respect to its index (40%) and funding change with respect to its index (0.43). Thus both series share a common quantitative scale as well as a common time scale.</p>
 <p>In reading the chart, for example, a change of −10% indicates the variable has dropped by 10% relative to its 1999 index value.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
@@ -6047,7 +6027,7 @@ Figure&nbsp;2: How UC enrollment and funding change relative to their values in 
 </div>
 <p>In an indexed chart, lines that are <em>locally parallel</em> indicate a potential correlation between data series.</p>
 <p>To check for parallels, I replace the connect-the-dots lines with regression curves. At first glance, the lines are approximately parallel, suggesting a correlation. The problem is lack of fit: a linear fit is a good model for the enrollment data but a poor model for the funding data.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
@@ -6085,7 +6065,7 @@ Figure&nbsp;3: Trying a linear fit to both data series.
 </div>
 </div>
 <p>The shape of the funding data is clearly different from one governor to the next. In the next chart, I create separate funding regressions by governor, ignoring the 2008-09 data as outliers, and I leave the enrollment linear fit as is. The aspect ratio is arbitrary: in this chart, relative parallelism is the indicator, not the slope itself.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
@@ -6258,7 +6238,7 @@ Figure&nbsp;4: Applying separate funding regressions by governor.
 <p>Suddenly, time doesn’t move from left to right, but wiggles through space.</p>
 </blockquote>
 <p>The connected scatterplot for the UC enrollment/funding data is given in Figure&nbsp;5: enrollment data along the x-axis, funding data along the y-axis; each data marker represents the enrollment-funding relationship in a given year; data markers are connected in sequence by year; and starting and ending years are labeled to orient the reader. The 1:1 aspect ratio makes relative diagonals easier to identify (more on this shortly).</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
@@ -6345,7 +6325,7 @@ Figure&nbsp;5: Initial connected scatterplot.
 </div>
 <p>The non-intuitive aspect of this chart is that time reads from right to left, which is likely to confuse some readers.</p>
 <p>I reverse the direction of the time path in Figure&nbsp;6 by transforming the enrollment variable to percent enrollment of students of color (which increases over time.) I also encode the gubernatorial terms using color and add several year labels to assist the reader. (The data marker for 2006 overprints the identical value for 2005.) The color palette is selected to accommodate viewers with a color vision deficiency.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
@@ -6680,7 +6660,7 @@ Figure&nbsp;6: Final connected scatterplot. UC funding as a function of percent 
 <p>… positive correlations show up as relatively diagonal lines along the “forward slash” axis of the connected scatterplot, while negative correlations show up on the “backslash” axis. <span class="citation" data-cites="Haroz+Kosara+Franconeri:2016">(Haroz et al., 2016)</span></p>
 </blockquote>
 <p>To help tease out the underlying visual pattern, I add regression lines within the gubernatorial segments as before (ignoring the funding data in 2008–09 as outliers), yielding Figure&nbsp;7. The 1:1 aspect ratio makes relative diagonals easier to identify.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
@@ -6781,7 +6761,8 @@ Newfield, C. (2021). <span class="nocase">Budget justice: Addressing the structu
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <category>Data storytelling</category>
+  <category>data storytelling</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/</guid>
   <pubDate>Mon, 06 Jun 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-06-06-double-y-axis/thumbnail.png" medium="image" type="image/png" height="51" width="144"/>
@@ -7850,7 +7831,7 @@ Figure&nbsp;5: Adjusting the visual rhetoric of the chart to the verbal rhetoric
 <h2 class="anchored" data-anchor-id="update">2022 update</h2>
 <p>Updating the data set to 2020 (the most recent data available) yields the chart below. The story here is that since 2014, all but two classes of services have been fairly constant on a per-capita basis.</p>
 <p>The story that stands out visually is the decrease in contraceptive services and the concomitant increase in STI/STD services.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.85">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
@@ -7995,8 +7976,9 @@ World Bank. (2022-01-14). <em><span class="nocase">Population total for United S
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <category>Data storytelling</category>
-  <category>Visual lies</category>
+  <category>data storytelling</category>
+  <category>visual lies</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/</guid>
   <pubDate>Fri, 27 May 2022 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-05-27-revisit-lying-chart/thumbnail.png" medium="image" type="image/png" height="82" width="144"/>
@@ -8093,7 +8075,7 @@ font-style: inherit;"># examine the data</span></span>
 </div>
 </div>
 <p>The countries are assigned to the rows such that the median count by country increases from bottom to top. The livestock are assigned to the panels such that median count by livestock type increases in <em>graphical order:</em> increasing from left to right and from bottom to top. The logarithm of counts is used for the quantitative scale counts vary by more than four powers of 10.</p>
-<div class="cell page-columns page-full" data-fig.asp="1.2">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
@@ -8232,7 +8214,7 @@ font-style: inherit;"># print the data table</span></span>
 </div>
 <p>The graph I have in mind would have media type assigned to rows and media category assigned to panels. Unlike the livestock example, however, the categorical variables in these data are not independent. For example, web design is associated only with graphics, essay is associated only with writing, etc.</p>
 <p>In my first attempt, I use <code>facet_wrap()</code> like I did with the livestock data. The visual problem is obvious…every row has a data marker in one panel only. Because the categories are not independent, the small-multiple design fails.</p>
-<div class="cell page-columns page-full" data-fig.asp="1.6">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
@@ -8302,7 +8284,7 @@ Figure&nbsp;2: Small-multiple chart design does not work when categories are dep
 </div>
 </div>
 <p>The <code>scales = "free_y"</code> argument of <code>facet_wrap()</code> replaces the common y-scale with only those row labels associated with a panel. I also use the <code>ncol</code> argument to stack the panels in one column with all rows labels aligned on the left. This graph has the essential layout I had in mind—a common quantitative scale but different vertical scales, yielding facets that are not small multiples.</p>
-<div class="cell page-columns page-full" data-fig.asp="1.5">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
@@ -8353,7 +8335,7 @@ Figure&nbsp;3: The quantitative scale is shared; the categorical scales are not.
 </div>
 <p>Because <code>facet_wrap()</code> creates panels of equal height, the rows in this case are unequally spaced.</p>
 <p>I switch to <code>facet_grid()</code> to space the rows equally in panels of unequal height. The <code>space = "free_y"</code> argument is added to make the panel height proportional to the length of the y scale.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
@@ -8411,7 +8393,7 @@ Figure&nbsp;4: Applying consistent row spacing, facet height depends on the numb
 <section id="editing-the-chart" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="editing-the-chart">Editing the chart</h2>
 <p>While the overall layout above is what I want, I would prefer to move the panel labels from the right-hand side to the top of each panel. I could not find a way to do that, so I removed the right-hand label and wrote the media label inside the panel. I edited some other aesthetics as well.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
@@ -8710,6 +8692,7 @@ UCLA. (2021). <em><span class="nocase">Textbook examples: Visualizing Data by Wi
 </div></section></div> ]]></description>
   <category>R</category>
   <category>ggplot2</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/</guid>
   <pubDate>Wed, 09 Mar 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-19-facets-not-small-multiples/thumbnail.png" medium="image" type="image/png" height="125" width="144"/>
@@ -9219,7 +9202,7 @@ Character. Ordered vector of opinion level labels.
 <section id="basic-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="basic-chart">Basic chart</h3>
 <p>To use this list to create a chart, we assign it as the first argument of the <code>plot()</code> function.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
@@ -9250,7 +9233,7 @@ Figure&nbsp;1: Default chart design from <code>likert()</code>.
 <section id="stacked-bar-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="stacked-bar-chart">100% stacked bar chart</h3>
 <p>The same list can be used to create a 100% stacked-bar chart by assigning it as the first argument of <code>likert_100_pct_bar()</code>—a function (defined at the top of the post) that wraps <code>likert.plot</code> and sets the likert arguments and ggplot2 functions that produce my preferred design.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
@@ -9329,7 +9312,7 @@ font-style: inherit;">str</span>(likert_list)</span></code></pre></div>
 </div>
 </div>
 <p>The change can be seen in the structure above and in the revised figure.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="co" style="color: #5E5E5E;
@@ -9409,7 +9392,7 @@ font-style: inherit;">str</span>(likert_list)</span></code></pre></div>
 </div>
 </div>
 <p>Again, the change is seen in the structure above and in the revised figure.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
@@ -9486,7 +9469,7 @@ font-style: inherit;"># examine the result</span></span>
 </div>
 </div>
 <p>The likert list that results is nearly identical to the previous version except the <code>levels</code> vector uses the new opinion labels.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><span class="co" style="color: #5E5E5E;
@@ -10005,7 +9988,7 @@ font-style: inherit;"># examine the result</span></span>
 <section id="likert-output-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="likert-output-1"><code>likert()</code> output</h3>
 <p>To operate on this data frame, we again use the <code>summary</code> argument of <code>likert()</code>. The result is a list similar to that produced when we operated on summary counts and the same familiar chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="co" style="color: #5E5E5E;
@@ -10310,7 +10293,7 @@ Character. Ordered vector of opinion level labels.
 <section id="draft-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="draft-chart">Draft chart</h3>
 <p>With row-record data, the plot function requires both <code>results</code> and <code>items</code> from the output list. The chart is familiar, but the opinion labels are now the integers used to encode the survey results.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="fu" style="color: #4758AB;
@@ -10334,7 +10317,7 @@ Figure&nbsp;7: Row-record data, 100% stacked-bar chart.
 <section id="legend-key-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="legend-key-1">Legend key</h3>
 <p>As before, the legend key is edited via the column names of <code>likert_list$results</code>. Note the corresponding changes in the likert list and chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><span class="co" style="color: #5E5E5E;
@@ -10421,7 +10404,7 @@ Figure&nbsp;8: Row-record data, editing the legend key.
 <section id="question-labels-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="question-labels-1">Question labels</h3>
 <p>With row-record data, both <code>results</code> and <code>items</code> data frames must be revised to edit the question labels. Note the corresponding changes in the likert list and chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><span class="co" style="color: #5E5E5E;
@@ -10697,7 +10680,7 @@ font-style: inherit;"># examine the result</span></span>
 </div>
 </div>
 <p>Input to <code>likert()</code> produces the familiar chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb55" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><span class="co" style="color: #5E5E5E;
@@ -10879,6 +10862,7 @@ Mudge, L. (2019). <em><span class="nocase">Data visualization for Likert questio
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/</guid>
   <pubDate>Sun, 13 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-13-survey-data-io/thumbnail.png" medium="image" type="image/png" height="94" width="144"/>
@@ -11242,7 +11226,7 @@ font-style: inherit;"># examine the result</span></span>
 <section id="diverging-stacked-bars" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="diverging-stacked-bars">Diverging stacked bars</h2>
 <p>A defining feature of the divergent stacked-bar is that the Neutral segment is split half to the left and half to the right of the zero reference line. Also, because each row of the data table sums to 100%, each bar of the chart has a horizontal length of 100%, partitioned to show the component percentages.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
@@ -11365,7 +11349,7 @@ Figure&nbsp;1: Diverging stacked-bar design
 <section id="neutral-on-the-side" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="neutral-on-the-side">Neutral on the side</h2>
 <p>By removing the Neutral responses, the zero reference line is a common baseline for visually comparing total agreement. We can see that the top-down row order is by decreasing agreement totals (Agree + Strongly Agree). And for a given row, we can visually compare total disagreement to total agreement.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
@@ -11531,7 +11515,7 @@ Figure&nbsp;2: Diverging stacked bar, neutral omitted.
 </div>
 </div>
 <p>Next I construct the second part of the chart (using ggplot2 functions only) to plot the Neutral responses alone.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
@@ -11685,7 +11669,7 @@ Figure&nbsp;3: Neutral responses only.
 </div>
 </div>
 <p>I combine the two charts and adjust their proportions to make equal scale divisions the same length.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
@@ -11793,7 +11777,7 @@ Figure&nbsp;4: Diverging stacked bar chart with neutral on the side.
 <section id="stacked-bars" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="stacked-bars">100% stacked bars</h2>
 <p>The final of the three designs is the 100% stacked bar—which until now I have not considered as effective as diverging stacked-bars at conveying survey results. What makes the difference today is Muth and Aisch’s suggestion to add a secondary scale along the top of the chart—a simple and elegant contribution.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
@@ -11928,7 +11912,7 @@ Figure&nbsp;5: 100% stacked bar chart.
 <section id="back-to-the-story" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="back-to-the-story">Back to the story</h2>
 <p>Were I to prepare this chart to accompany the original article, I might label the rows with shortened forms of the questions and cite the full questions in the text or in the data table. (Alternatively, <code>likert()</code> does have an argument to help manage longer question text.)</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">dt_story <span class="ot" style="color: #003B4F;
@@ -12108,8 +12092,9 @@ Robbins, N. B., &amp; Heiberger, R. M. (2011). <span class="nocase">Plotting Lik
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <category>Data storytelling</category>
-  <category>Engineering education</category>
+  <category>data storytelling</category>
+  <category>engineering education</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/</guid>
   <pubDate>Sat, 12 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-12-survey-data-chart-designs/thumbnail.png" medium="image" type="image/png" height="79" width="144"/>
@@ -12297,7 +12282,7 @@ font-style: inherit;">$</span>N)</span></code></pre></div>
 <p>What’s your point? Seriously, that’s the most important question to ask when creating a data visualization. —Stephanie Evergreen <span class="citation" data-cites="Evergreen:2021">(2021)</span></p>
 </blockquote>
 <p>If the point of the chart is to illustrate the three percentages mentioned in the text (15%, 38%, and 47%), then a combined bar chart and table would serve.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.2">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb3" data-cap-location="margin" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
@@ -12598,7 +12583,7 @@ Figure&nbsp;1: Number of articles by grade level, 2005-2019.
 </div>
 <p>In this design, based on <span class="citation" data-cites="Doumont:2009">(Doumont, 2009, p. 135)</span>, bars are drawn horizontally so the labels are easily read. Combined with the tabulated numbers, a scale is unnecessary. To respect the proportion among the data, bars are shown in full (starting at zero). Because grade level is an ordinal category (ordered levels), I order the rows in “graph order,” that is, with increasing grade level from bottom to top.</p>
 <p>In contrast, if the point of the original chart is to compare totals by type of inquiry—which the original figure supports but the text neglects—then a similar chart-table could be used. Because inquiry type is a nominal category (unordered levels), rows are ordered by the number of articles by type.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.3">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4" data-cap-location="margin" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
@@ -12834,7 +12819,7 @@ Figure&nbsp;2: Number of articles by type of engineering inquiry, 2005-2019.
 <p>The DBT model was observed across all grade levels. These types of lessons and design projects were most popular at the elementary level, featured in 75% (47 of 63) of engineering lessons published at this grade level band, followed by 67% (34 of 51) at the middle-school level and 50% (10 of 20) at the high school level. In the DBT engineering lessons… [continues with project examples]</p>
 </blockquote>
 <p>Here the variable of interest is the “popularity” of DBT as a percentage of articles in a grade level band. In this next chart, I compare the stated percentages visually.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.25">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" data-cap-location="margin" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
@@ -13010,7 +12995,7 @@ Figure&nbsp;3: Comparing fraction of DBT articles at three grade levels.
 <p><strong>Chart redesign</strong></p>
 <p>I designed Figure 4 to better reflect the intellectual logic of the argument by plotting percentages of grade-level articles in the same panel. Thus all values in a panel have the same denominator and the percentages in a panel sum to 100%. Consistent with the data structure, the basic design (as expected) is a multiway dot chart.</p>
 <p>To compare key values across panels, I used color to highlight the three inquiries the grade-level bands have in common. Rows and panels are in graph order. The small bar charts along the side of the multiway chart show the relative proportions of N for each row and their sum is given at the bottom of each column. The names of the source journals are included in the panel headings.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6" data-cap-location="margin" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
@@ -13709,8 +13694,9 @@ Purzer, Şenay, Quintana-Cifuentes, J., &amp; Menekse, M. (2021). <span class="n
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <category>Data storytelling</category>
-  <category>Engineering education</category>
+  <category>data storytelling</category>
+  <category>engineering education</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/</guid>
   <pubDate>Thu, 03 Feb 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-02-01-plot-the-variable-of-interest/thumbnail.png" medium="image" type="image/png" height="64" width="144"/>
@@ -13783,7 +13769,7 @@ font-style: inherit;">"GGally"</span>)</span></code></pre></div>
 <p><strong>Exploratory design: evolutions</strong></p>
 <p>A prominent element of this stacked-bar design is time on the horizontal axis. A visual convention in this discourse community is that independent variables occupy horizontal axes, implying here that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont, 2009, p. 141)</span>.</p>
 <p>The figure below shows the stacked-bar data as a collection of evolutions—how survey percentages vary over time conditioned by the reason for obtaining postdoc training. The panels are organized in “graph order”, that is, increasing median value from left to right and from bottom to top (the panel median is shown as a horizontal reference line in each panel).</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">dt <span class="ot" style="color: #003B4F;
@@ -14099,7 +14085,7 @@ Figure&nbsp;2: Looking for correlations.
 </div>
 </div>
 <p>Two variable pairs have correlation coefficients greater than 0.6, which for human behavior indicates a fairly strong correlation. Both are negative (inverse) correlations: one (that I noticed in the scatterplots) between “other employment unavailable” and “training outside the PhD field”; and a second between “expected in the field” and “other”. In the figure below. I extract both pairs of data to isolate the pairings.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
@@ -14153,7 +14139,7 @@ Figure&nbsp;3: Inverse correlation between “other employment unavailable” an
 </div>
 </div>
 </div>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
@@ -14452,7 +14438,7 @@ font-style: inherit;">=</span> i.to]</span></code></pre></div>
 </div>
 <p>In the original stacked bar chart, the authors have one column for each postdoc status level, indicating the rhetorical goal of comparing the experiences of PhDs with postdocs to those without. This lends itself to plotting the dots for postdocs and non-postdocs along the same row of the chart, facilitating a direct visual comparison.</p>
 <p>Below, the employment sector graph is redesigned as a dot chart with rows ordered from bottom to top in order of increasing mean percentage.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
@@ -14589,7 +14575,7 @@ Figure&nbsp;6: Quantitative comparisons are visually more accessible when data a
 </blockquote>
 <p>The argument is also supported by the dot chart but qualitative terms “most”, “lower”, etc. could be replaced with quantitative comparisons. For example, the dot chart supports the argument that industry employs just over 40% of postdocs and more than 50% of non-postdocs. Moreover, industry employs twice the number of postdocs than the next most popular sector (tenure-track), and more than three times the number of non-postdocs.</p>
 <p>A similar outcome can be seen in the redesigned work activity chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
@@ -14774,8 +14760,9 @@ Wainer, H. (1997). <em><span>Visual Revelations</span></em>. <span>Lawrence Erlb
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <category>Data storytelling</category>
-  <category>Engineering education</category>
+  <category>data storytelling</category>
+  <category>engineering education</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/</guid>
   <pubDate>Fri, 14 Jan 2022 05:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2022-01-14-stacked-bar-alternatives/thumbnail.png" medium="image" type="image/png" height="93" width="144"/>
@@ -14836,7 +14823,7 @@ font-style: inherit;">"ggplot2"</span>)</span></code></pre></div>
 <section id="visual-distortion" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="visual-distortion">Visual distortion</h2>
 <p>The visual design distorts the relationship between the two cohorts. While the printed numbers show that the difference between the two cohorts remains fairly constant (about 10%) over time, the <em>visual</em> message conveyed by the bar heights is that the difference between cohorts increases over time. The FYEP bar is at first approximately 1/3 higher than the adjacent bar, then nearly twice as high, then more than three times as high.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
@@ -15168,7 +15155,7 @@ font-style: inherit;">"data/retention-2007.csv"</span>)</span></code></pre></div
 <section id="redesign" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="redesign">Redesign</h2>
 <p>A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(Doumont, 2009, p. 141)</span>. The difference between the two cohorts is clearly seen to be nearly constant.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.4">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
@@ -15377,7 +15364,7 @@ Figure&nbsp;2: Scatterplot of the numerical values in the original bar chart.
 </div>
 <p>However, a significant story in these data is (inadvertently) overlooked by omitting semester one, the point in time at which both cohorts would be considered 100% retained—the “missing relation” in the title. Only by including the starting time point can we see the importance of the early semesters.</p>
 <p>The overlooked story is the early impact of the FYEP course with its higher rate of retention from semester 1 to 3. After semester 3, the factors affecting attrition seem to act on both groups equally—the lines are effectively parallel after semester 3. Thus the important impact of FYEP is in the first two terms. The visual story is clear when we include the missing term.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.4">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
@@ -15444,7 +15431,7 @@ Figure&nbsp;3: Adding the first term in which both cohorts are at 100%.
 </div>
 </div>
 <p>One final design point: unlike a bar graph, a scatter plot does not require a zero baseline. However, I can include the full 0–100% range to display that the lowest rate of retention is still above 50%, an important result (as discussed in the prose of the article) compared to the retention rates of non-engineering disciplines. e.g., 42% in biological sciences and 30% in math and physical sciences.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
@@ -15569,8 +15556,9 @@ Kostelnick, C. (2008). <a href=""><span class="nocase">The visual rhetoric of da
 </div>
 </div></section></div> ]]></description>
   <category>R</category>
-  <category>Data storytelling</category>
-  <category>Engineering education</category>
+  <category>data storytelling</category>
+  <category>engineering education</category>
+  <category>chart design</category>
   <guid>https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/</guid>
   <pubDate>Mon, 20 Jul 2015 04:00:00 GMT</pubDate>
   <media:content url="https://graphdr.github.io/data-stories/posts/2015-07-20-the-missing-relation/thumbnail.png" medium="image" type="image/png" height="106" width="144"/>

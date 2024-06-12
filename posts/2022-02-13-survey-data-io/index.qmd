@@ -6,7 +6,7 @@ description: |
 date: "2022-02-13"
 date-format: "YYYY-MM-DD"
 draft: false
-categories: [R]
+categories: [R, chart design]
 image: "thumbnail.png"
 cap-location: margin
 ---

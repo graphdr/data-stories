@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -244,7 +244,8 @@ div.csl-indent {
 <h1 class="title">Another case for redesigning dual axis charts</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">Data storytelling</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">chart design</div>
   </div>
   </div>
 
@@ -425,7 +426,7 @@ Table&nbsp;1: Data structure
 </blockquote>
 <p>Following this prescription, I plot the two data series in <a href="#fig-two-charts" class="quarto-xref">Figure&nbsp;1</a> using separate panels having their own vertical, quantitative scales but sharing a common time scale. I select an aspect ratio that emphasizes the slopes of the line segments.</p>
 <p>Newfield mentions the terms of two California governors, so I annotate the chart to indicate the gubernatorial terms that span these data: Gray Davis (Democrat), Arnold Schwarzenegger (Republican), and Jerry Brown (Democrat).</p>
-<div class="cell page-columns page-full" data-fig.asp="0.4">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform to block record form</span></span>
@@ -493,7 +494,7 @@ Figure&nbsp;1: Redrawing the dual axis chart as a side-by-side chart with gubern
 </blockquote>
 <p>Selecting 1999 as the index year, in <a href="#fig-indexed" class="quarto-xref">Figure&nbsp;2</a> I graph enrollment change with respect to its index (40%) and funding change with respect to its index (0.43). Thus both series share a common quantitative scale as well as a common time scale.</p>
 <p>In reading the chart, for example, a change of −10% indicates the variable has dropped by 10% relative to its 1999 index value.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform to block record form </span></span>
@@ -569,7 +570,7 @@ Figure&nbsp;2: How UC enrollment and funding change relative to their values in 
 </div>
 <p>In an indexed chart, lines that are <em>locally parallel</em> indicate a potential correlation between data series.</p>
 <p>To check for parallels, I replace the connect-the-dots lines with regression curves. At first glance, the lines are approximately parallel, suggesting a correlation. The problem is lack of fit: a linear fit is a good model for the enrollment data but a poor model for the funding data.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot overall regression lines</span></span>
@@ -589,7 +590,7 @@ Figure&nbsp;3: Trying a linear fit to both data series.
 </div>
 </div>
 <p>The shape of the funding data is clearly different from one governor to the next. In the next chart, I create separate funding regressions by governor, ignoring the 2008-09 data as outliers, and I leave the enrollment linear fit as is. The aspect ratio is arbitrary: in this chart, relative parallelism is the indicator, not the slope itself.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># leave enrollment fit as is</span></span>
@@ -640,7 +641,7 @@ Figure&nbsp;4: Applying separate funding regressions by governor.
 <p>Suddenly, time doesn’t move from left to right, but wiggles through space.</p>
 </blockquote>
 <p>The connected scatterplot for the UC enrollment/funding data is given in <a href="#fig-first-design" class="quarto-xref">Figure&nbsp;5</a>: enrollment data along the x-axis, funding data along the y-axis; each data marker represents the enrollment-funding relationship in a given year; data markers are connected in sequence by year; and starting and ending years are labeled to orient the reader. The 1:1 aspect ratio makes relative diagonals easier to identify (more on this shortly).</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x =</span> white_pct, <span class="at">y =</span> fund_frac)) <span class="sc">+</span></span>
@@ -667,7 +668,7 @@ Figure&nbsp;5: Initial connected scatterplot.
 </div>
 <p>The non-intuitive aspect of this chart is that time reads from right to left, which is likely to confuse some readers.</p>
 <p>I reverse the direction of the time path in <a href="#fig-third-design" class="quarto-xref">Figure&nbsp;6</a> by transforming the enrollment variable to percent enrollment of students of color (which increases over time.) I also encode the gubernatorial terms using color and add several year labels to assist the reader. (The data marker for 2006 overprints the identical value for 2005.) The color palette is selected to accommodate viewers with a color vision deficiency.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add end-of-term dummy rows grouping by governor</span></span>
@@ -728,7 +729,7 @@ Figure&nbsp;6: Final connected scatterplot. UC funding as a function of percent 
 <p>… positive correlations show up as relatively diagonal lines along the “forward slash” axis of the connected scatterplot, while negative correlations show up on the “backslash” axis. <span class="citation" data-cites="Haroz+Kosara+Franconeri:2016">(<a href="#ref-Haroz+Kosara+Franconeri:2016" role="doc-biblioref">Haroz et al., 2016</a>)</span></p>
 </blockquote>
 <p>To help tease out the underlying visual pattern, I add regression lines within the gubernatorial segments as before (ignoring the funding data in 2008–09 as outliers), yielding <a href="#fig-sc-regression" class="quarto-xref">Figure&nbsp;7</a>. The 1:1 aspect ratio makes relative diagonals easier to identify.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot regression lines over gubernatorial terms</span></span>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -242,8 +242,9 @@ div.csl-indent {
 <h1 class="title">Plot the variable of interest</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">Data storytelling</div>
-    <div class="quarto-category">Engineering education</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">engineering education</div>
+    <div class="quarto-category">chart design</div>
   </div>
   </div>
 
@@ -386,7 +387,7 @@ Summary
 <p>What’s your point? Seriously, that’s the most important question to ask when creating a data visualization. —Stephanie Evergreen <span class="citation" data-cites="Evergreen:2021">(<a href="#ref-Evergreen:2021" role="doc-biblioref">2021</a>)</span></p>
 </blockquote>
 <p>If the point of the chart is to illustrate the three percentages mentioned in the text (15%, 38%, and 47%), then a combined bar chart and table would serve.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.2">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb3" data-cap-location="margin"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># aesthetic assignments across charts</span></span>
@@ -449,7 +450,7 @@ Figure&nbsp;1: Number of articles by grade level, 2005-2019.
 </div>
 <p>In this design, based on <span class="citation" data-cites="Doumont:2009">(<a href="#ref-Doumont:2009" role="doc-biblioref">Doumont, 2009, p. 135</a>)</span>, bars are drawn horizontally so the labels are easily read. Combined with the tabulated numbers, a scale is unnecessary. To respect the proportion among the data, bars are shown in full (starting at zero). Because grade level is an ordinal category (ordered levels), I order the rows in “graph order,” that is, with increasing grade level from bottom to top.</p>
 <p>In contrast, if the point of the original chart is to compare totals by type of inquiry—which the original figure supports but the text neglects—then a similar chart-table could be used. Because inquiry type is a nominal category (unordered levels), rows are ordered by the number of articles by type.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.3">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4" data-cap-location="margin"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> N, <span class="at">y =</span> <span class="fu">reorder</span>(inquiry, N_inquiry))) <span class="sc">+</span></span>
@@ -499,7 +500,7 @@ Figure&nbsp;2: Number of articles by type of engineering inquiry, 2005-2019.
 <p>The DBT model was observed across all grade levels. These types of lessons and design projects were most popular at the elementary level, featured in 75% (47 of 63) of engineering lessons published at this grade level band, followed by 67% (34 of 51) at the middle-school level and 50% (10 of 20) at the high school level. In the DBT engineering lessons… [continues with project examples]</p>
 </blockquote>
 <p>Here the variable of interest is the “popularity” of DBT as a percentage of articles in a grade level band. In this next chart, I compare the stated percentages visually.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.25">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5" data-cap-location="margin"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subset selected data for this chart</span></span>
@@ -539,7 +540,7 @@ Figure&nbsp;3: Comparing fraction of DBT articles at three grade levels.
 <p><strong>Chart redesign</strong></p>
 <p>I designed Figure 4 to better reflect the intellectual logic of the argument by plotting percentages of grade-level articles in the same panel. Thus all values in a panel have the same denominator and the percentages in a panel sum to 100%. Consistent with the data structure, the basic design (as expected) is a multiway dot chart.</p>
 <p>To compare key values across panels, I used color to highlight the three inquiries the grade-level bands have in common. Rows and panels are in graph order. The small bar charts along the side of the multiway chart show the relative proportions of N for each row and their sum is given at the bottom of each column. The names of the source journals are included in the panel headings.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6" data-cap-location="margin"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subset for this chart, percentages set to NA don't print</span></span>

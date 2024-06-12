@@ -5,7 +5,7 @@ description: |
 date: "2022-02-12"
 date-format: "YYYY-MM-DD"
 draft: false
-categories: [R, Data storytelling, Engineering education]
+categories: [R, data storytelling, engineering education, chart design]
 image: "thumbnail.png"
 cap-location: margin
 ---

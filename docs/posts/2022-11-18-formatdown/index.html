@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -523,7 +523,6 @@ Table&nbsp;1: Rendering a number using different formats
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kbl</span>(DT, <span class="at">align =</span> <span class="st">"r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -586,7 +585,6 @@ Table&nbsp;1: Rendering a number using different formats
 </table>
 
 
-</div>
 </div>
 </div>
 <p>In fact, having loaded <code>kableExtra</code> above, <code>knitr::kable()</code> now fails in the same way.</p>
@@ -596,7 +594,6 @@ Table&nbsp;1: Rendering a number using different formats
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">"r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -659,7 +656,6 @@ Table&nbsp;1: Rendering a number using different formats
 </table>
 
 
-</div>
 </div>
 </div>
 </section>
@@ -695,7 +691,6 @@ Table&nbsp;1: Rendering a number using different formats
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -758,7 +753,6 @@ Table&nbsp;1: Rendering a number using different formats
 </table>
 
 
-</div>
 </div>
 </div>
 <p><code>kableExtra::kbl()</code> yields the expected output.</p>
@@ -768,7 +762,6 @@ Table&nbsp;1: Rendering a number using different formats
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kableExtra<span class="sc">::</span><span class="fu">kbl</span>(DT, <span class="at">align =</span> <span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -831,7 +824,6 @@ Table&nbsp;1: Rendering a number using different formats
 </table>
 
 
-</div>
 </div>
 </div>
 <p>I can use the features from <code>kableExtra</code> to print a pretty table.</p>
@@ -854,7 +846,6 @@ Table&nbsp;1: Rendering a number using different formats
 <figure class="quarto-float quarto-float-tbl figure page-columns page-full">
 <div aria-describedby="tbl-pretty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 14%">
@@ -951,7 +942,6 @@ Density
 
 </div>
 </div>
-</div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-tbl margin-caption" id="tbl-pretty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Data frame displayed using kableExtra
 </figcaption>
@@ -1028,7 +1018,6 @@ Table&nbsp;2: Data frame displayed using kableExtra
 <span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">background =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1081,7 +1070,6 @@ Table&nbsp;2: Data frame displayed using kableExtra
 
 </div>
 </div>
-</div>
 <p>The viscosity column displays three values using <span class="math inline">\(10^{-6}\)</span> and two using <span class="math inline">\(10^{-9}\)</span>. Visually comparing the values in a column is easier if the powers of ten are identical. The table below illustrates the desired result, created by manually editing the two viscosity values.</p>
 <div class="cell">
 <details class="code-fold">
@@ -1098,7 +1086,6 @@ Table&nbsp;2: Data frame displayed using kableExtra
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">background =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1149,7 +1136,6 @@ Table&nbsp;2: Data frame displayed using kableExtra
 </table>
 
 
-</div>
 </div>
 </div>
 <p>This revision satisfies two conventions of tabulating empirical engineering information.</p>
@@ -1231,7 +1217,6 @@ Table&nbsp;2: Data frame displayed using kableExtra
 <span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">background =</span> <span class="st">"white"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
 <table class="lightable-paper table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1282,7 +1267,6 @@ Table&nbsp;2: Data frame displayed using kableExtra
 </table>
 
 
-</div>
 </div>
 </div>
 <p>The entries in the data frame are still numeric but are of the “Units” class, enabling math operations among values with compatible units. See the <a href="https://r-quantities.github.io/units/">units</a> website for details.</p>

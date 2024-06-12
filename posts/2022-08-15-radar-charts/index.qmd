@@ -4,7 +4,7 @@ description: |
   A case study comparing the effectiveness of a radar chart to a faceted dot chart. 
 date: "2022-08-21"
 date-format: "YYYY-MM-DD"
-categories: [R, ggplot2, Data storytelling, magick]
+categories: [R, ggplot2, data storytelling, magick, chart design]
 image: "thumbnail.png"
 cap-location: margin
 draft: false

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -243,8 +243,9 @@ div.csl-indent {
 <h1 class="title">The missing relation</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">Data storytelling</div>
-    <div class="quarto-category">Engineering education</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">engineering education</div>
+    <div class="quarto-category">chart design</div>
   </div>
   </div>
 
@@ -316,7 +317,7 @@ Summary
 <section id="visual-distortion" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="visual-distortion">Visual distortion</h2>
 <p>The visual design distorts the relationship between the two cohorts. While the printed numbers show that the difference between the two cohorts remains fairly constant (about 10%) over time, the <em>visual</em> message conveyed by the bar heights is that the difference between cohorts increases over time. The FYEP bar is at first approximately 1/3 higher than the adjacent bar, then nearly twice as high, then more than three times as high.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read data from blog data directory</span></span>
@@ -418,7 +419,7 @@ Table&nbsp;1: Data structure
 <section id="redesign" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="redesign">Redesign</h2>
 <p>A prominent element of this grouped-bar design is time on the horizontal axis, implying that time is the independent variable. Conventionally, time-dependent variables are best graphed as scatterplots with connected dots to display their evolution over time <span class="citation" data-cites="Doumont:2009">(<a href="#ref-Doumont:2009" role="doc-biblioref">Doumont, 2009, p. 141</a>)</span>. The difference between the two cohorts is clearly seen to be nearly constant.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.4">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># redesign the bar chart as a scatterplot</span></span>
@@ -463,7 +464,7 @@ Figure&nbsp;2: Scatterplot of the numerical values in the original bar chart.
 </div>
 <p>However, a significant story in these data is (inadvertently) overlooked by omitting semester one, the point in time at which both cohorts would be considered 100% retained—the “missing relation” in the title. Only by including the starting time point can we see the importance of the early semesters.</p>
 <p>The overlooked story is the early impact of the FYEP course with its higher rate of retention from semester 1 to 3. After semester 3, the factors affecting attrition seem to act on both groups equally—the lines are effectively parallel after semester 3. Thus the important impact of FYEP is in the first two terms. The visual story is clear when we include the missing term.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.4">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add the missing term 1 </span></span>
@@ -488,7 +489,7 @@ Figure&nbsp;3: Adding the first term in which both cohorts are at 100%.
 </div>
 </div>
 <p>One final design point: unlike a bar graph, a scatter plot does not require a zero baseline. However, I can include the full 0–100% range to display that the lowest rate of retention is still above 50%, an important result (as discussed in the prose of the article) compared to the retention rates of non-engineering disciplines. e.g., 42% in biological sciences and 30% in math and physical sciences.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.8">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># start with the previous chart, replace the scale</span></span>

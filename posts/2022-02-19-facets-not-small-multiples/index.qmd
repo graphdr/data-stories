@@ -6,7 +6,7 @@ description: |
 date: 2022-03-09
 date-format: "YYYY-MM-DD"
 draft: false
-categories: [R, ggplot2]
+categories: [R, ggplot2, chart design]
 image: "thumbnail.png"
 cap-location: margin
 ---

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -242,6 +242,7 @@ div.csl-indent {
 <h1 class="title">Survey data I/O with likert</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
+    <div class="quarto-category">chart design</div>
   </div>
   </div>
 
@@ -530,7 +531,7 @@ Character. Ordered vector of opinion level labels.
 <section id="basic-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="basic-chart">Basic chart</h3>
 <p>To use this list to create a chart, we assign it as the first argument of the <code>plot()</code> function.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the basic chart (default digits = 0 throws an error)</span></span>
@@ -553,7 +554,7 @@ Figure&nbsp;1: Default chart design from <code>likert()</code>.
 <section id="stacked-bar-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="stacked-bar-chart">100% stacked bar chart</h3>
 <p>The same list can be used to create a 100% stacked-bar chart by assigning it as the first argument of <code>likert_100_pct_bar()</code>—a function (defined at the top of the post) that wraps <code>likert.plot</code> and sets the likert arguments and ggplot2 functions that produce my preferred design.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># customize the chart</span></span>
@@ -614,7 +615,7 @@ Figure&nbsp;2: Summary-count data, 100% stacked-bar chart.
 </div>
 </div>
 <p>The change can be seen in the structure above and in the revised figure.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
@@ -674,7 +675,7 @@ Figure&nbsp;3: Editing the legend key.
 </div>
 </div>
 <p>Again, the change is seen in the structure above and in the revised figure.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the chart</span></span>
@@ -725,7 +726,7 @@ Figure&nbsp;4: Editing the question labels.
 </div>
 </div>
 <p>The likert list that results is nearly identical to the previous version except the <code>levels</code> vector uses the new opinion labels.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -1092,7 +1093,7 @@ Figure&nbsp;5: Summary-count data, editing labels before invoking <code>likert()
 <section id="likert-output-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="likert-output-1"><code>likert()</code> output</h3>
 <p>To operate on this data frame, we again use the <code>summary</code> argument of <code>likert()</code>. The result is a list similar to that produced when we operated on summary counts and the same familiar chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -1309,7 +1310,7 @@ Character. Ordered vector of opinion level labels.
 <section id="draft-chart" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="draft-chart">Draft chart</h3>
 <p>With row-record data, the plot function requires both <code>results</code> and <code>items</code> from the output list. The chart is familiar, but the opinion labels are now the integers used to encode the survey results.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">likert_100_pct_bar</span>(likert_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1331,7 +1332,7 @@ Figure&nbsp;7: Row-record data, 100% stacked-bar chart.
 <section id="legend-key-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="legend-key-1">Legend key</h3>
 <p>As before, the legend key is edited via the column names of <code>likert_list$results</code>. Note the corresponding changes in the likert list and chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode the opinion options</span></span>
@@ -1388,7 +1389,7 @@ Figure&nbsp;8: Row-record data, editing the legend key.
 <section id="question-labels-1" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="question-labels-1">Question labels</h3>
 <p>With row-record data, both <code>results</code> and <code>items</code> data frames must be revised to edit the question labels. Note the corresponding changes in the likert list and chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recode Item column of $results</span></span>
@@ -1514,7 +1515,7 @@ Figure&nbsp;9: Row-record data, editing the question labels.
 </div>
 </div>
 <p>Input to <code>likert()</code> produces the familiar chart.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>

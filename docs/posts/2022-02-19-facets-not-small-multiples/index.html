@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -243,6 +243,7 @@ div.csl-indent {
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
     <div class="quarto-category">ggplot2</div>
+    <div class="quarto-category">chart design</div>
   </div>
   </div>
 
@@ -340,7 +341,7 @@ Summary
 </div>
 </div>
 <p>The countries are assigned to the rows such that the median count by country increases from bottom to top. The livestock are assigned to the panels such that median count by livestock type increases in <em>graphical order:</em> increasing from left to right and from bottom to top. The logarithm of counts is used for the quantitative scale counts vary by more than four powers of 10.</p>
-<div class="cell page-columns page-full" data-fig.asp="1.2">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> DT, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log10</span>(count), <span class="at">y =</span> <span class="fu">reorder</span>(country, count, median))) <span class="sc">+</span></span>
@@ -417,7 +418,7 @@ Figure&nbsp;1: Cleveland’s livestock multiway chart illustrates small-multiple
 </div>
 <p>The graph I have in mind would have media type assigned to rows and media category assigned to panels. Unlike the livestock example, however, the categorical variables in these data are not independent. For example, web design is associated only with graphics, essay is associated only with writing, etc.</p>
 <p>In my first attempt, I use <code>facet_wrap()</code> like I did with the livestock data. The visual problem is obvious…every row has a data marker in one panel only. Because the categories are not independent, the small-multiple design fails.</p>
-<div class="cell page-columns page-full" data-fig.asp="1.6">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the first chart </span></span>
@@ -443,7 +444,7 @@ Figure&nbsp;2: Small-multiple chart design does not work when categories are dep
 </div>
 </div>
 <p>The <code>scales = "free_y"</code> argument of <code>facet_wrap()</code> replaces the common y-scale with only those row labels associated with a panel. I also use the <code>ncol</code> argument to stack the panels in one column with all rows labels aligned on the left. This graph has the essential layout I had in mind—a common quantitative scale but different vertical scales, yielding facets that are not small multiples.</p>
-<div class="cell page-columns page-full" data-fig.asp="1.5">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the previous chart </span></span>
@@ -468,7 +469,7 @@ Figure&nbsp;3: The quantitative scale is shared; the categorical scales are not.
 </div>
 <p>Because <code>facet_wrap()</code> creates panels of equal height, the rows in this case are unequally spaced.</p>
 <p>I switch to <code>facet_grid()</code> to space the rows equally in panels of unequal height. The <code>space = "free_y"</code> argument is added to make the panel height proportional to the length of the y scale.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the previous chart </span></span>
@@ -498,7 +499,7 @@ Figure&nbsp;4: Applying consistent row spacing, facet height depends on the numb
 <section id="editing-the-chart" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="editing-the-chart">Editing the chart</h2>
 <p>While the overall layout above is what I want, I would prefer to move the panel labels from the right-hand side to the top of each panel. I could not find a way to do that, so I removed the right-hand label and wrote the media label inside the panel. I edited some other aesthetics as well.</p>
-<div class="cell page-columns page-full" data-fig.asp="1">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a y-coordinate for a text geom</span></span>

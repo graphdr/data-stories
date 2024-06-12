@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -243,8 +243,9 @@ div.csl-indent {
 <h1 class="title">Survey data chart designs</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
-    <div class="quarto-category">Data storytelling</div>
-    <div class="quarto-category">Engineering education</div>
+    <div class="quarto-category">data storytelling</div>
+    <div class="quarto-category">engineering education</div>
+    <div class="quarto-category">chart design</div>
   </div>
   </div>
 
@@ -451,7 +452,7 @@ Summary
 <section id="diverging-stacked-bars" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="diverging-stacked-bars">Diverging stacked bars</h2>
 <p>A defining feature of the divergent stacked-bar is that the Neutral segment is split half to the left and half to the right of the zero reference line. Also, because each row of the data table sums to 100%, each bar of the chart has a horizontal length of 100%, partitioned to show the component percentages.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -502,7 +503,7 @@ Figure&nbsp;1: Diverging stacked-bar design
 <section id="neutral-on-the-side" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="neutral-on-the-side">Neutral on the side</h2>
 <p>By removing the Neutral responses, the zero reference line is a common baseline for visually comparing total agreement. We can see that the top-down row order is by decreasing agreement totals (Agree + Strongly Agree). And for a given row, we can visually compare total disagreement to total agreement.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -552,7 +553,7 @@ Figure&nbsp;2: Diverging stacked bar, neutral omitted.
 </div>
 </div>
 <p>Next I construct the second part of the chart (using ggplot2 functions only) to plot the Neutral responses alone.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use Neutral data frame from earlier</span></span>
@@ -598,7 +599,7 @@ Figure&nbsp;3: Neutral responses only.
 </div>
 </div>
 <p>I combine the two charts and adjust their proportions to make equal scale divisions the same length.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># edit Neutral bar chart aesthetics before combining </span></span>
@@ -638,7 +639,7 @@ Figure&nbsp;4: Diverging stacked bar chart with neutral on the side.
 <section id="stacked-bars" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="stacked-bars">100% stacked bars</h2>
 <p>The final of the three designs is the 100% stacked bar—which until now I have not considered as effective as diverging stacked-bars at conveying survey results. What makes the difference today is Muth and Aisch’s suggestion to add a secondary scale along the top of the chart—a simple and elegant contribution.</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the likert list</span></span>
@@ -687,7 +688,7 @@ Figure&nbsp;5: 100% stacked bar chart.
 <section id="back-to-the-story" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="back-to-the-story">Back to the story</h2>
 <p>Were I to prepare this chart to accompany the original article, I might label the rows with shortened forms of the questions and cite the full questions in the text or in the data table. (Alternatively, <code>likert()</code> does have an argument to help manage longer question text.)</p>
-<div class="cell page-columns page-full" data-fig.asp="0.35">
+<div class="cell page-columns page-full">
 <details class="code-fold">
 <summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dt_story <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
