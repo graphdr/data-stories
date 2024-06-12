@@ -13,10 +13,11 @@ date-format: "YYYY-MM-DD"
 comments: false
 ---
 
-:::{.callout-note icon=false appearance="minimal"}
-## 
-<em>My previous blog at graphdoctor.com redirects here. I am porting my earlier posts with minor edits plus R code for reproducibility.</em>
-:::
+
+
+<em>An occasional blog about visual rhetoric and chart design in R.</em>
+
+
 
 ### Software credits {.appendix}
 
