@@ -179,7 +179,7 @@ I was re-reading John Mount's opinion/tutorial piece (cited above) that demonstr
 
 I had been working with `pull()` in another context and John's article prompted me to compare standard evaluation (SE) and non-standard evaluation (NSE) approaches to the task for which `pull()` is designed, inspiring me to write this post.  
 
-Mount also showed that base R `subset()` is known to have a similar mal-feature. To illustrate, I set up `subset()` extract one column as a vector. 
+Mount also showed that base R `subset()` is known to have a similar mal-feature. To illustrate, I set up `subset()` to extract one column as a vector. 
 
 Reset. 
 
