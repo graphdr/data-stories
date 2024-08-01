@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Richard Layton">
+<meta name="description" content="Redesign JEE charts.">
+
+<title>Layton R blog - Chart design</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Layton R blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/graphdr/data-stories"> <i class="bi bi-git" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Chart design</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://r-bloggers.com" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">r-bloggers</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://stackoverflow.com/questions/tagged/r" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">stackoverflow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://rdatatable.gitlab.io/data.table/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">data.table</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://ggplot2.tidyverse.org/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ggplot2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://happygitwithr.com/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">happy git</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#software-skills" id="toc-software-skills" class="nav-link" data-scroll-target="#software-skills">Software skills</a></li>
+  <li><a href="#professional-skills" id="toc-professional-skills" class="nav-link" data-scroll-target="#professional-skills">Professional skills</a></li>
+  <li><a href="#premiums" id="toc-premiums" class="nav-link" data-scroll-target="#premiums">Premiums</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chart design</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">engineering education</div>
+    <div class="quarto-category">chart design</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    <p>Redesign JEE charts.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Richard Layton </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2024–06–12</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Another JEE chart redesign for fun.</em></p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(midfieldr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>In a recent article, the authors etc etc etc <span class="citation" data-cites="Fleming+Klopfer+etal:2024">(<a href="#ref-Fleming+Klopfer+etal:2024" role="doc-biblioref">Fleming et al., 2024</a>)</span></p>
+</section>
+<section id="software-skills" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="software-skills">Software skills</h2>
+<p>In the original Table 3, the authors show the frequency of the eight most frequently occurring technical (i.e., software) skills in bachelor’s-level postings.</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<table class="table table-sm table-striped small">
+
+<colgroup>
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 19%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Skill</th>
+<th style="text-align: right;">Biomedical</th>
+<th style="text-align: right;">Chemical</th>
+<th style="text-align: right;">Civil</th>
+<th style="text-align: right;">Electrical</th>
+<th style="text-align: right;">Environmental</th>
+<th style="text-align: right;">Mechanical</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MS Excel</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AutoCAD</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SolidWorks</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MATLAB</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SCADA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FMEA</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Python</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MS Project</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-table-caption margin-caption">Original Table 3. Frequency [in percent] of technical skills by discipline for bachelor’s-level postings.</div></div>
+</div>
+<p><br></p>
+<p>The author’s discussion of this table.</p>
+<blockquote class="blockquote">
+<p>Microsoft Excel occurs in 39% of bachelor’s-level biomedical engineering advertisements. Many advertisements included more than one of these skills. In addition to being important for all educational levels, Microsoft Excel was also the most frequently mentioned technical skill in bachelor’s-level job advertisements for all engineering disciplines. Specific engineering disciplines also had additional software preferences: AutoCAD was mentioned in one third of civil engineering job advertisements, and SolidWorks appeared frequently in job advertisements in biomedical engineering and mechanical engineering.</p>
+</blockquote>
+<p>Restructure data</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">melt</span>(DT, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">id.vars =</span> <span class="st">"Skill"</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable.name =</span> <span class="st">"Major"</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">value.name =</span> <span class="st">"Percent"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>DT[, Skill <span class="sc">:</span><span class="er">=</span> <span class="fu">reorder</span>(<span class="fu">factor</span>(Skill), Percent, median)]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>DT[, Major <span class="sc">:</span><span class="er">=</span> <span class="fu">reorder</span>(<span class="fu">factor</span>(Major), Percent, median)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Chart</p>
+<div class="cell page-columns page-full">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DT, <span class="fu">aes</span>(<span class="at">x =</span> Percent, <span class="at">y =</span> Skill)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">shape =</span> <span class="dv">16</span>, <span class="at">color =</span> <span class="st">"#01665e"</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(Major), </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">2</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">as.table =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Frequency (%)"</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"gray85"</span>), </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/table-3-data-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="margin-caption">Comparing technical (software) skills by engineering discipline. A multiway chart of the data in original Table 3. Rows and panels are in “graphical order”, that is, increasing median values from left to right and from bottom to top.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Reading a multiway graph</p>
+<ul>
+<li><p>We can more effectively compare values within a panel than between panels.</p></li>
+<li><p>Because rows are ordered, one expects a generally increasing trend within a panel. A response greater or smaller than expected creates a visual asymmetry. The interesting stories are often in these visual anomalies.</p></li>
+</ul>
+<p>What the visualization suggests in addition to the authors’ original discussion.</p>
+<ul>
+<li><p>Biomedical has a higher frequency of more skills than other majors, with Mechanical a close second, suggesting these majors expect a greater breadth of software skills than other majors.</p></li>
+<li><p>In contrast, Civil and Environmental are interested only in the top two skills: MS Excel and AutoCAD.</p></li>
+</ul>
+</section>
+<section id="professional-skills" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="professional-skills">Professional skills</h2>
+<p>In the original Table A1, the authors show the frequency of the eight most frequently occurring professional skills in bachelor’s-level , Master’s-level, and PhD-level postings.</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<table class="table table-sm table-striped small">
+
+<thead>
+<tr class="header">
+<th style="text-align: left;">skill</th>
+<th style="text-align: right;">BS</th>
+<th style="text-align: right;">MS</th>
+<th style="text-align: right;">PhD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Learning</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;">48</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Listening</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Problem solving</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Coordination</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Instructing</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Decisions</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Math</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monitoring</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Operations analysis</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Quality control</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reading</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Science</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">63</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Perceptiveness</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Speaking</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Systems analysis</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">59</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Systems evaluation</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Writing</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">28</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-table-caption margin-caption">Original Table A1. Professional skills and frequencies for biomedical engineering job advertisements.</div></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dframe <span class="ot">&lt;-</span> wrapr<span class="sc">::</span><span class="fu">build_frame</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"skill"</span>        , <span class="st">"BS"</span>,    <span class="st">"MS"</span>,   <span class="st">"PhD"</span> <span class="sc">|</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Learning"</span>           ,  <span class="dv">30</span>, <span class="dv">34</span>, <span class="dv">36</span> <span class="sc">|</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Listening"</span>          ,   <span class="dv">3</span>,  <span class="dv">2</span>,  <span class="dv">3</span> <span class="sc">|</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Problem solving"</span>    ,  <span class="dv">63</span>, <span class="dv">66</span>, <span class="dv">65</span> <span class="sc">|</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coordination"</span>       ,  <span class="dv">33</span>, <span class="dv">25</span>, <span class="dv">23</span> <span class="sc">|</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instructing"</span>        ,  <span class="dv">17</span>, <span class="dv">12</span>,  <span class="dv">10</span> <span class="sc">|</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decisions"</span>          ,  <span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">21</span> <span class="sc">|</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Math"</span>               ,   <span class="dv">8</span>, <span class="dv">8</span>,  <span class="dv">10</span> <span class="sc">|</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monitoring"</span>         ,  <span class="dv">25</span>, <span class="dv">19</span>, <span class="dv">16</span> <span class="sc">|</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Operations analysis"</span>,  <span class="dv">44</span>, <span class="dv">40</span>, <span class="dv">45</span> <span class="sc">|</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quality control"</span>    ,   <span class="dv">5</span>,  <span class="dv">4</span>,  <span class="dv">3</span> <span class="sc">|</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reading"</span>            ,   <span class="dv">6</span>,  <span class="dv">4</span>,  <span class="dv">5</span> <span class="sc">|</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Science"</span>            ,  <span class="dv">41</span>, <span class="dv">55</span>, <span class="dv">73</span> <span class="sc">|</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Perceptiveness"</span>     ,   <span class="dv">4</span>,  <span class="dv">4</span>,  <span class="dv">2</span> <span class="sc">|</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Speaking"</span>           ,   <span class="dv">5</span>,  <span class="dv">4</span>,  <span class="dv">5</span> <span class="sc">|</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems analysis"</span>   ,  <span class="dv">47</span>, <span class="dv">52</span>, <span class="dv">52</span> <span class="sc">|</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems evaluation"</span> ,  <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">28</span> <span class="sc">|</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Writing"</span>            ,  <span class="dv">23</span>, <span class="dv">26</span>, <span class="dv">28</span> )</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(dframe)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>chemical <span class="ot">&lt;-</span> <span class="fu">melt</span>(dframe, </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">id.vars =</span> <span class="st">"skill"</span>, </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.name =</span> <span class="st">"degree"</span>, </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name =</span> <span class="st">"frequency"</span>, </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.factor =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>chemical[, major <span class="sc">:</span><span class="er">=</span> <span class="st">"Chemical"</span>]</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(chemical, <span class="fu">c</span>(<span class="st">"major"</span>, <span class="st">"degree"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dframe <span class="ot">&lt;-</span> wrapr<span class="sc">::</span><span class="fu">build_frame</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"skill"</span>        , <span class="st">"BS"</span>,    <span class="st">"MS"</span>,   <span class="st">"PhD"</span> <span class="sc">|</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Learning"</span>           ,  <span class="dv">28</span>, <span class="dv">31</span>, <span class="dv">53</span> <span class="sc">|</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Listening"</span>          ,   <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">5</span> <span class="sc">|</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Problem solving"</span>    ,  <span class="dv">40</span>, <span class="dv">46</span>, <span class="dv">53</span> <span class="sc">|</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coordination"</span>       ,  <span class="dv">43</span>, <span class="dv">41</span>, <span class="dv">32</span> <span class="sc">|</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instructing"</span>        ,  <span class="dv">10</span>,  <span class="dv">9</span>, <span class="dv">23</span> <span class="sc">|</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decisions"</span>          ,  <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">43</span> <span class="sc">|</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Math"</span>               ,  <span class="dv">11</span>, <span class="dv">15</span>, <span class="dv">55</span> <span class="sc">|</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monitoring"</span>         ,  <span class="dv">21</span>, <span class="dv">20</span>, <span class="dv">21</span> <span class="sc">|</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Operations analysis"</span>,  <span class="dv">15</span>, <span class="dv">21</span>, <span class="dv">36</span> <span class="sc">|</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quality control"</span>    ,   <span class="dv">9</span>,  <span class="dv">6</span>,  <span class="dv">5</span> <span class="sc">|</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reading"</span>            ,   <span class="dv">6</span>,  <span class="dv">8</span>, <span class="dv">18</span> <span class="sc">|</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Science"</span>            ,  <span class="dv">23</span>, <span class="dv">27</span>, <span class="dv">67</span> <span class="sc">|</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Perceptiveness"</span>     ,   <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">0</span> <span class="sc">|</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Speaking"</span>           ,   <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems analysis"</span>   ,  <span class="dv">25</span>, <span class="dv">38</span>, <span class="dv">67</span> <span class="sc">|</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems evaluation"</span> ,  <span class="dv">16</span>, <span class="dv">24</span>, <span class="dv">47</span> <span class="sc">|</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Writing"</span>            ,  <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">32</span> )</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(dframe)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>civil <span class="ot">&lt;-</span> <span class="fu">melt</span>(dframe, </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">id.vars =</span> <span class="st">"skill"</span>, </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.name =</span> <span class="st">"degree"</span>, </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name =</span> <span class="st">"frequency"</span>, </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.factor =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>civil[, major <span class="sc">:</span><span class="er">=</span> <span class="st">"Civil"</span>]</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(civil, <span class="fu">c</span>(<span class="st">"major"</span>, <span class="st">"degree"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dframe <span class="ot">&lt;-</span> wrapr<span class="sc">::</span><span class="fu">build_frame</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"skill"</span>        , <span class="st">"BS"</span>,    <span class="st">"MS"</span>,   <span class="st">"PhD"</span> <span class="sc">|</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Learning"</span>           ,  <span class="dv">30</span>, <span class="dv">33</span>, <span class="dv">37</span> <span class="sc">|</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Listening"</span>          ,   <span class="dv">3</span>,  <span class="dv">2</span>,  <span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Problem solving"</span>    ,  <span class="dv">58</span>, <span class="dv">61</span>, <span class="dv">58</span> <span class="sc">|</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coordination"</span>       ,  <span class="dv">32</span>, <span class="dv">26</span>, <span class="dv">28</span> <span class="sc">|</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instructing"</span>        ,  <span class="dv">16</span>,  <span class="dv">10</span>,    <span class="dv">12</span> <span class="sc">|</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decisions"</span>          ,  <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">21</span> <span class="sc">|</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Math"</span>               ,  <span class="dv">13</span>, <span class="dv">18</span>, <span class="dv">40</span> <span class="sc">|</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monitoring"</span>         ,  <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">14</span> <span class="sc">|</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Operations analysis"</span>,  <span class="dv">31</span>, <span class="dv">28</span>, <span class="dv">31</span> <span class="sc">|</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quality control"</span>    ,   <span class="dv">4</span>,  <span class="dv">2</span>,  <span class="dv">0</span> <span class="sc">|</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reading"</span>            ,   <span class="dv">6</span>,  <span class="dv">4</span>, <span class="dv">5</span> <span class="sc">|</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Science"</span>            ,  <span class="dv">33</span>, <span class="dv">43</span>, <span class="dv">60</span> <span class="sc">|</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Perceptiveness"</span>     ,   <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Speaking"</span>           ,   <span class="dv">4</span>,  <span class="dv">4</span>,  <span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems analysis"</span>   ,  <span class="dv">56</span>, <span class="dv">68</span>, <span class="dv">71</span> <span class="sc">|</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems evaluation"</span> ,  <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">31</span> <span class="sc">|</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Writing"</span>            ,  <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">19</span> )</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(dframe)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>electrical <span class="ot">&lt;-</span> <span class="fu">melt</span>(dframe, </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">id.vars =</span> <span class="st">"skill"</span>, </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.name =</span> <span class="st">"degree"</span>, </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name =</span> <span class="st">"frequency"</span>, </span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.factor =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>electrical[, major <span class="sc">:</span><span class="er">=</span> <span class="st">"Electrical"</span>]</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(electrical, <span class="fu">c</span>(<span class="st">"major"</span>, <span class="st">"degree"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dframe <span class="ot">&lt;-</span> wrapr<span class="sc">::</span><span class="fu">build_frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"skill"</span>        , <span class="st">"BS"</span>,    <span class="st">"MS"</span>,   <span class="st">"PhD"</span> <span class="sc">|</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Learning"</span>           ,  <span class="dv">29</span>, <span class="dv">31</span>, <span class="dv">41</span> <span class="sc">|</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Listening"</span>          ,   <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">5</span> <span class="sc">|</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Problem solving"</span>    ,  <span class="dv">57</span>, <span class="dv">54</span>, <span class="dv">64</span> <span class="sc">|</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coordination"</span>       ,  <span class="dv">44</span>, <span class="dv">37</span>, <span class="dv">40</span> <span class="sc">|</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instructing"</span>        ,  <span class="dv">15</span>,  <span class="dv">11</span>,    <span class="dv">19</span> <span class="sc">|</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decisions"</span>          ,  <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">28</span> <span class="sc">|</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Math"</span>               ,  <span class="dv">10</span>, <span class="dv">8</span>,  <span class="dv">24</span> <span class="sc">|</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monitoring"</span>         ,  <span class="dv">31</span>, <span class="dv">26</span>, <span class="dv">18</span> <span class="sc">|</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Operations analysis"</span>,  <span class="dv">37</span>, <span class="dv">37</span>, <span class="dv">53</span> <span class="sc">|</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quality control"</span>    ,   <span class="dv">7</span>,  <span class="dv">4</span>,  <span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reading"</span>            ,   <span class="dv">7</span>,  <span class="dv">7</span>, <span class="dv">16</span> <span class="sc">|</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Science"</span>            ,  <span class="dv">37</span>, <span class="dv">45</span>, <span class="dv">65</span> <span class="sc">|</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Perceptiveness"</span>     ,   <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Speaking"</span>           ,   <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">12</span> <span class="sc">|</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems analysis"</span>   ,  <span class="dv">46</span>, <span class="dv">52</span>, <span class="dv">74</span> <span class="sc">|</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems evaluation"</span> ,  <span class="dv">29</span>, <span class="dv">34</span>, <span class="dv">53</span> <span class="sc">|</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Writing"</span>            ,  <span class="dv">31</span>, <span class="dv">39</span>, <span class="dv">39</span> )</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(dframe)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>environ <span class="ot">&lt;-</span> <span class="fu">melt</span>(dframe, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">id.vars =</span> <span class="st">"skill"</span>, </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.name =</span> <span class="st">"degree"</span>, </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name =</span> <span class="st">"frequency"</span>, </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.factor =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>environ[, major <span class="sc">:</span><span class="er">=</span> <span class="st">"Environmental"</span>]</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(environ, <span class="fu">c</span>(<span class="st">"major"</span>, <span class="st">"degree"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dframe <span class="ot">&lt;-</span> wrapr<span class="sc">::</span><span class="fu">build_frame</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"skill"</span>        , <span class="st">"BS"</span>,    <span class="st">"MS"</span>,   <span class="st">"PhD"</span> <span class="sc">|</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Learning"</span>           ,  <span class="dv">28</span>, <span class="dv">33</span>, <span class="dv">34</span> <span class="sc">|</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Listening"</span>          ,   <span class="dv">4</span>,  <span class="dv">3</span>,  <span class="dv">5</span> <span class="sc">|</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Problem solving"</span>    ,  <span class="dv">63</span>, <span class="dv">65</span>, <span class="dv">68</span> <span class="sc">|</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coordination"</span>       ,  <span class="dv">33</span>, <span class="dv">26</span>, <span class="dv">24</span> <span class="sc">|</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instructing"</span>        ,  <span class="dv">20</span>,  <span class="dv">15</span>,    <span class="dv">18</span> <span class="sc">|</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decisions"</span>          ,  <span class="dv">19</span>, <span class="dv">21</span>, <span class="dv">19</span> <span class="sc">|</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Math"</span>               ,  <span class="dv">10</span>, <span class="dv">8</span>,  <span class="dv">21</span> <span class="sc">|</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monitoring"</span>         ,  <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">10</span> <span class="sc">|</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Operations analysis"</span>,  <span class="dv">33</span>, <span class="dv">27</span>, <span class="dv">26</span> <span class="sc">|</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quality control"</span>    ,   <span class="dv">6</span>,  <span class="dv">2</span>,  <span class="dv">1</span> <span class="sc">|</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reading"</span>            ,   <span class="dv">5</span>,  <span class="dv">4</span>, <span class="dv">3</span> <span class="sc">|</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Science"</span>            ,  <span class="dv">24</span>, <span class="dv">31</span>, <span class="dv">49</span> <span class="sc">|</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Perceptiveness"</span>     ,   <span class="dv">3</span>,  <span class="dv">2</span>,  <span class="dv">2</span> <span class="sc">|</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Speaking"</span>           ,   <span class="dv">4</span>,  <span class="dv">2</span>,  <span class="dv">3</span> <span class="sc">|</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems analysis"</span>   ,  <span class="dv">52</span>, <span class="dv">63</span>, <span class="dv">69</span> <span class="sc">|</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Systems evaluation"</span> ,  <span class="dv">24</span>, <span class="dv">24</span>, <span class="dv">30</span> <span class="sc">|</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Writing"</span>            ,  <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">18</span> )</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(dframe)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>mechanical <span class="ot">&lt;-</span> <span class="fu">melt</span>(dframe, </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">id.vars =</span> <span class="st">"skill"</span>, </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.name =</span> <span class="st">"degree"</span>, </span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name =</span> <span class="st">"frequency"</span>, </span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.factor =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>mechanical[, major <span class="sc">:</span><span class="er">=</span> <span class="st">"Mechanical"</span>]</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(mechanical, <span class="fu">c</span>(<span class="st">"major"</span>, <span class="st">"degree"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell page-columns page-full">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(biomed, chemical, civil, electrical, environ, mechanical))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DT, <span class="fu">aes</span>(<span class="at">x =</span> frequency, <span class="at">y =</span> <span class="fu">reorder</span>(skill, frequency, median))) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="fu">reorder</span>(major, frequency, median) <span class="sc">~</span> degree, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">as.table =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Frequency (%)"</span>, <span class="at">y =</span> <span class="st">""</span>)<span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"gray85"</span>), </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/chart-tbl-A1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="margin-caption">Comparing professional skills by degree level and major—a multiway chart of the data in tables A1 through A6. Skills and majors are in “graphical order”, that is, increasing median values from bottom to top.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="premiums" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="premiums">Premiums</h2>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<table class="table table-sm table-striped small">
+
+<colgroup>
+<col style="width: 24%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Professional skill</th>
+<th style="text-align: right;">Biomedical</th>
+<th style="text-align: right;">Chemical</th>
+<th style="text-align: right;">Civil</th>
+<th style="text-align: right;">Electrical</th>
+<th style="text-align: right;">Environmental</th>
+<th style="text-align: right;">Mechanical</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Systems analysis</td>
+<td style="text-align: right;">7750</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">5500</td>
+<td style="text-align: right;">4000</td>
+<td style="text-align: right;">4000</td>
+<td style="text-align: right;">2500</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Systems evaluation</td>
+<td style="text-align: right;">4250</td>
+<td style="text-align: right;">3000</td>
+<td style="text-align: right;">7000</td>
+<td style="text-align: right;">3500</td>
+<td style="text-align: right;">4500</td>
+<td style="text-align: right;">1520</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Math</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">-250</td>
+<td style="text-align: right;">8000</td>
+<td style="text-align: right;">10000</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">-1000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Decision-making</td>
+<td style="text-align: right;">-750</td>
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">7000</td>
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">500</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Coordination</td>
+<td style="text-align: right;">-250</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">3500</td>
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">4000</td>
+<td style="text-align: right;">500</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Operations analysis</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1340</td>
+<td style="text-align: right;">6000</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2750</td>
+<td style="text-align: right;">500</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Science</td>
+<td style="text-align: right;">-2000</td>
+<td style="text-align: right;">-500</td>
+<td style="text-align: right;">3000</td>
+<td style="text-align: right;">6500</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">2500</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Problem solving</td>
+<td style="text-align: right;">4000</td>
+<td style="text-align: right;">-250</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3500</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Monitoring</td>
+<td style="text-align: right;">4500</td>
+<td style="text-align: right;">-500</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">1250</td>
+<td style="text-align: right;">-1500</td>
+<td style="text-align: right;">2000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Writing</td>
+<td style="text-align: right;">1750</td>
+<td style="text-align: right;">-500</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-500</td>
+<td style="text-align: right;">-1000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Listening</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">-4500</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">-1500</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Learning</td>
+<td style="text-align: right;">-1500</td>
+<td style="text-align: right;">-2000</td>
+<td style="text-align: right;">-2000</td>
+<td style="text-align: right;">650</td>
+<td style="text-align: right;">-1500</td>
+<td style="text-align: right;">500</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reading</td>
+<td style="text-align: right;">-9500</td>
+<td style="text-align: right;">2750</td>
+<td style="text-align: right;">-1750</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">1250</td>
+<td style="text-align: right;">-250</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-table-caption margin-caption">Original Table C1. Skill premiums (in dollars) by professional skill for positions requiring a bachelor’s degree.</div></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>skill_prof <span class="ot">&lt;-</span> <span class="fu">melt</span>(skill_prof, </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">id.vars =</span> <span class="st">"Professional skill"</span>, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable.name =</span> <span class="st">"major"</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">value.name =</span> <span class="st">"premium"</span>, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable.factor =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>skill_prof[, skill_group <span class="sc">:</span><span class="er">=</span> <span class="st">"Professional"</span>]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(skill_prof, <span class="at">old =</span> <span class="fu">c</span>(<span class="st">"Professional skill"</span>), <span class="at">new =</span> <span class="fu">c</span>(<span class="st">"skill"</span>))</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(skill_prof, <span class="fu">c</span>(<span class="st">"skill_group"</span>))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>skill_prof</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     skill_group              skill      major premium
+          &lt;char&gt;             &lt;char&gt;     &lt;char&gt;   &lt;num&gt;
+ 1: Professional   Systems analysis Biomedical    7750
+ 2: Professional Systems evaluation Biomedical    4250
+ 3: Professional               Math Biomedical    2000
+ 4: Professional    Decision-making Biomedical    -750
+ 5: Professional       Coordination Biomedical    -250
+---                                                   
+74: Professional         Monitoring Mechanical    2000
+75: Professional            Writing Mechanical   -1000
+76: Professional          Listening Mechanical   -1500
+77: Professional           Learning Mechanical     500
+78: Professional            Reading Mechanical    -250</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> midfieldr<span class="sc">::</span><span class="fu">order_multiway</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dframe     =</span> skill_prof,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantity   =</span> <span class="st">"premium"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">categories =</span> <span class="fu">c</span>(<span class="st">"skill"</span>, <span class="st">"major"</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method     =</span> <span class="st">"median"</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell page-columns page-full">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(<span class="at">x =</span> premium<span class="sc">/</span><span class="dv">1000</span>, <span class="at">y =</span> skill)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> major_median<span class="sc">/</span><span class="dv">1000</span>), <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"gray40"</span>) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">shape =</span> <span class="dv">16</span>, <span class="at">color =</span> <span class="st">"#01665e"</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(major), <span class="at">as.table =</span> <span class="cn">FALSE</span>, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Premium (thousands USD)"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"gray85"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/table-C1-data-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="margin-caption">Comparing the professional skill premiums by major.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<table class="table table-sm table-striped small">
+
+<colgroup>
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 7%">
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Technical skill</th>
+<th style="text-align: right;">Biomedical</th>
+<th style="text-align: right;">Chemical</th>
+<th style="text-align: right;">Civil</th>
+<th style="text-align: right;">Electrical</th>
+<th style="text-align: right;">Environmental</th>
+<th style="text-align: right;">Mechanical</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MATLAB</td>
+<td style="text-align: right;">19000</td>
+<td style="text-align: right;">4000</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">11250</td>
+<td style="text-align: right;">18000</td>
+<td style="text-align: right;">10000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Python</td>
+<td style="text-align: right;">18250</td>
+<td style="text-align: right;">5000</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">11750</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">17000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SCADA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">9000</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FMEA</td>
+<td style="text-align: right;">9500</td>
+<td style="text-align: right;">1250</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">1250</td>
+<td style="text-align: right;">1000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Project</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">5950</td>
+<td style="text-align: right;">-1500</td>
+<td style="text-align: right;">4750</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">1750</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SolidWorks</td>
+<td style="text-align: right;">3000</td>
+<td style="text-align: right;">-250</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-7500</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">-500</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Excel</td>
+<td style="text-align: right;">-2000</td>
+<td style="text-align: right;">-2500</td>
+<td style="text-align: right;">-3000</td>
+<td style="text-align: right;">-6000</td>
+<td style="text-align: right;">-5020</td>
+<td style="text-align: right;">-2000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PowerPoint</td>
+<td style="text-align: right;">-4000</td>
+<td style="text-align: right;">-4200</td>
+<td style="text-align: right;">-500</td>
+<td style="text-align: right;">-7000</td>
+<td style="text-align: right;">-3500</td>
+<td style="text-align: right;">-1750</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AutoCAD</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-1000</td>
+<td style="text-align: right;">-5000</td>
+<td style="text-align: right;">-6500</td>
+<td style="text-align: right;">-6000</td>
+<td style="text-align: right;">-3500</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Word</td>
+<td style="text-align: right;">-7250</td>
+<td style="text-align: right;">-5000</td>
+<td style="text-align: right;">-5250</td>
+<td style="text-align: right;">-5500</td>
+<td style="text-align: right;">-6500</td>
+<td style="text-align: right;">-4500</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-table-caption margin-caption">Original Table C2. Skill premiums (in dollars) by technical skill for positions requiring a bachelor’s degree.</div></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>skill_tech <span class="ot">&lt;-</span> <span class="fu">melt</span>(skill_tech, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">id.vars =</span> <span class="st">"Technical skill"</span>, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable.name =</span> <span class="st">"major"</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">value.name =</span> <span class="st">"premium"</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">variable.factor =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>skill_tech[, skill_group <span class="sc">:</span><span class="er">=</span> <span class="st">"Software"</span>]</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(skill_tech, <span class="at">old =</span> <span class="fu">c</span>(<span class="st">"Technical skill"</span>), <span class="at">new =</span> <span class="fu">c</span>(<span class="st">"skill"</span>))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(skill_tech, <span class="fu">c</span>(<span class="st">"skill_group"</span>))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>skill_tech</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    skill_group      skill         major premium
+         &lt;char&gt;     &lt;char&gt;        &lt;char&gt;   &lt;num&gt;
+ 1:    Software     MATLAB    Biomedical   19000
+ 2:    Software     Python    Biomedical   18250
+ 3:    Software      SCADA    Biomedical      NA
+ 4:    Software       FMEA    Biomedical    9500
+ 5:    Software    Project    Biomedical      NA
+ 6:    Software SolidWorks    Biomedical    3000
+ 7:    Software      Excel    Biomedical   -2000
+ 8:    Software PowerPoint    Biomedical   -4000
+ 9:    Software    AutoCAD    Biomedical      NA
+10:    Software       Word    Biomedical   -7250
+11:    Software     MATLAB      Chemical    4000
+12:    Software     Python      Chemical    5000
+13:    Software      SCADA      Chemical    9000
+14:    Software       FMEA      Chemical    1250
+15:    Software    Project      Chemical    5950
+16:    Software SolidWorks      Chemical    -250
+17:    Software      Excel      Chemical   -2500
+18:    Software PowerPoint      Chemical   -4200
+19:    Software    AutoCAD      Chemical   -1000
+20:    Software       Word      Chemical   -5000
+21:    Software     MATLAB         Civil      NA
+22:    Software     Python         Civil      NA
+23:    Software      SCADA         Civil      NA
+24:    Software       FMEA         Civil      NA
+25:    Software    Project         Civil   -1500
+26:    Software SolidWorks         Civil      NA
+27:    Software      Excel         Civil   -3000
+28:    Software PowerPoint         Civil    -500
+29:    Software    AutoCAD         Civil   -5000
+30:    Software       Word         Civil   -5250
+31:    Software     MATLAB    Electrical   11250
+32:    Software     Python    Electrical   11750
+33:    Software      SCADA    Electrical    2500
+34:    Software       FMEA    Electrical     500
+35:    Software    Project    Electrical    4750
+36:    Software SolidWorks    Electrical   -7500
+37:    Software      Excel    Electrical   -6000
+38:    Software PowerPoint    Electrical   -7000
+39:    Software    AutoCAD    Electrical   -6500
+40:    Software       Word    Electrical   -5500
+41:    Software     MATLAB Environmental   18000
+42:    Software     Python Environmental    2500
+43:    Software      SCADA Environmental      NA
+44:    Software       FMEA Environmental    1250
+45:    Software    Project Environmental    2000
+46:    Software SolidWorks Environmental    2000
+47:    Software      Excel Environmental   -5020
+48:    Software PowerPoint Environmental   -3500
+49:    Software    AutoCAD Environmental   -6000
+50:    Software       Word Environmental   -6500
+51:    Software     MATLAB    Mechanical   10000
+52:    Software     Python    Mechanical   17000
+53:    Software      SCADA    Mechanical      NA
+54:    Software       FMEA    Mechanical    1000
+55:    Software    Project    Mechanical    1750
+56:    Software SolidWorks    Mechanical    -500
+57:    Software      Excel    Mechanical   -2000
+58:    Software PowerPoint    Mechanical   -1750
+59:    Software    AutoCAD    Mechanical   -3500
+60:    Software       Word    Mechanical   -4500
+    skill_group      skill         major premium</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> midfieldr<span class="sc">::</span><span class="fu">order_multiway</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dframe     =</span> x,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantity   =</span> <span class="st">"premium"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">categories =</span> <span class="fu">c</span>(<span class="st">"skill"</span>, <span class="st">"major"</span>),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method     =</span> <span class="st">"median"</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell page-columns page-full">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(<span class="at">x =</span> premium<span class="sc">/</span><span class="dv">1000</span>, <span class="at">y =</span> skill)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> major_median<span class="sc">/</span><span class="dv">1000</span>), <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"gray40"</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">shape =</span> <span class="dv">16</span>, <span class="at">color =</span> <span class="st">"#01665e"</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(major), <span class="at">as.table =</span> <span class="cn">FALSE</span>, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Premium (thousands USD)"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"gray85"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/table-C2-data-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="margin-caption">Comparing the technical skill premiums by major.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(skill_prof, skill_tech))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>DT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      skill_group              skill      major premium
+           &lt;char&gt;             &lt;char&gt;     &lt;char&gt;   &lt;num&gt;
+  1: Professional   Systems analysis Biomedical    7750
+  2: Professional Systems evaluation Biomedical    4250
+  3: Professional               Math Biomedical    2000
+  4: Professional    Decision-making Biomedical    -750
+  5: Professional       Coordination Biomedical    -250
+ ---                                                   
+134:     Software         SolidWorks Mechanical    -500
+135:     Software              Excel Mechanical   -2000
+136:     Software         PowerPoint Mechanical   -1750
+137:     Software            AutoCAD Mechanical   -3500
+138:     Software               Word Mechanical   -4500</code></pre>
+</div>
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> DT[<span class="sc">!</span><span class="fu">is.na</span>(premium)]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>DT[, premium <span class="sc">:</span><span class="er">=</span> premium <span class="sc">/</span> <span class="dv">1000</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>DT[, rank <span class="sc">:</span><span class="er">=</span> <span class="fu">frankv</span>(premium, <span class="at">order =</span> <span class="dv">1</span>), by <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"major"</span>)]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setorderv</span>(DT, <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"major"</span>, <span class="st">"rank"</span>), <span class="at">order =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>DT[, cutoff <span class="sc">:</span><span class="er">=</span> rank[<span class="dv">10</span>], by <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"major"</span>)]</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> DT[rank <span class="sc">&gt;=</span> cutoff]</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>DT[, sum_premium <span class="sc">:</span><span class="er">=</span> <span class="fu">sum</span>(premium), by <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"major"</span>)]</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>DT[, max_rank <span class="sc">:</span><span class="er">=</span> <span class="fu">max</span>(rank), by <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"skill_group"</span>, <span class="st">"major"</span>)]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>DT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     skill_group              skill      major premium  rank cutoff sum_premium
+          &lt;char&gt;             &lt;char&gt;     &lt;char&gt;   &lt;num&gt; &lt;num&gt;  &lt;num&gt;       &lt;num&gt;
+ 1:     Software             Python Mechanical   17.00  22.0   12.5       40.27
+ 2:     Software             MATLAB Mechanical   10.00  21.0   12.5       40.27
+ 3: Professional   Systems analysis Mechanical    2.50  19.5   12.5       40.27
+ 4: Professional            Science Mechanical    2.50  19.5   12.5       40.27
+ 5: Professional         Monitoring Mechanical    2.00  18.0   12.5       40.27
+---                                                                            
+59: Professional Systems evaluation Biomedical    4.25  14.0   10.0       74.00
+60: Professional    Problem solving Biomedical    4.00  13.0   10.0       74.00
+61:     Software         SolidWorks Biomedical    3.00  12.0   10.0       74.00
+62: Professional               Math Biomedical    2.00  11.0   10.0       74.00
+63: Professional            Writing Biomedical    1.75  10.0   10.0       74.00
+    max_rank
+       &lt;num&gt;
+ 1:     22.0
+ 2:     22.0
+ 3:     19.5
+ 4:     19.5
+ 5:     19.5
+---         
+59:     16.0
+60:     16.0
+61:     19.0
+62:     16.0
+63:     16.0</code></pre>
+</div>
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DT[, cutoff := max(max_rank) - 7, by = major]</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># x &lt;- copy(DT)</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># setorderv(x, c("major", "rank"), order = -1)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># x &lt;- x[, .SD[1:8], by = c("major")]</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># x[, sum_premium := sum(premium), by = c("major")]</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># x &lt;- x[, .(major, sum_premium)]</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># x &lt;- unique(x)</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># x</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># DT &lt;- DT[x, on = "major"]</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>my_legend <span class="ot">&lt;-</span> <span class="fu">copy</span>(DT)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">setorderv</span>(my_legend, <span class="fu">c</span>(<span class="st">"skill"</span>), <span class="at">order =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>my_legend <span class="ot">&lt;-</span> my_legend[rank <span class="sc">==</span> max_rank]</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>my_legend <span class="ot">&lt;-</span> my_legend[, .SD[<span class="dv">1</span>], by <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"major"</span>, <span class="st">"skill_group"</span>)]</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>my_legend</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>            major  skill_group              skill premium  rank cutoff
+           &lt;char&gt;       &lt;char&gt;             &lt;char&gt;   &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+ 1: Environmental Professional Systems evaluation    4.50  21.0   12.5
+ 2:      Chemical Professional Systems evaluation    3.00  19.0   14.0
+ 3:    Mechanical Professional   Systems analysis    2.50  19.5   12.5
+ 4:    Biomedical Professional   Systems analysis    7.75  16.0   10.0
+ 5:      Chemical     Software              SCADA    9.00  23.0   14.0
+ 6:    Mechanical     Software             Python   17.00  22.0   12.5
+ 7:    Electrical     Software             Python   11.75  23.0   14.5
+ 8:    Electrical Professional               Math   10.00  21.0   14.5
+ 9:         Civil Professional               Math    8.00  18.0    9.0
+10: Environmental     Software             MATLAB   18.00  22.0   12.5
+11:    Biomedical     Software             MATLAB   19.00  19.0   10.0
+    sum_premium max_rank
+          &lt;num&gt;    &lt;num&gt;
+ 1:       48.25     21.0
+ 2:       37.70     19.0
+ 3:       40.27     19.5
+ 4:       74.00     16.0
+ 5:       37.70     23.0
+ 6:       40.27     22.0
+ 7:       57.25     23.0
+ 8:       57.25     21.0
+ 9:       47.00     18.0
+10:       48.25     22.0
+11:       74.00     19.0</code></pre>
+</div>
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>my_legend</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>            major  skill_group              skill premium  rank cutoff
+           &lt;char&gt;       &lt;char&gt;             &lt;char&gt;   &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+ 1: Environmental Professional Systems evaluation    4.50  21.0   12.5
+ 2:      Chemical Professional Systems evaluation    3.00  19.0   14.0
+ 3:    Mechanical Professional   Systems analysis    2.50  19.5   12.5
+ 4:    Biomedical Professional   Systems analysis    7.75  16.0   10.0
+ 5:      Chemical     Software              SCADA    9.00  23.0   14.0
+ 6:    Mechanical     Software             Python   17.00  22.0   12.5
+ 7:    Electrical     Software             Python   11.75  23.0   14.5
+ 8:    Electrical Professional               Math   10.00  21.0   14.5
+ 9:         Civil Professional               Math    8.00  18.0    9.0
+10: Environmental     Software             MATLAB   18.00  22.0   12.5
+11:    Biomedical     Software             MATLAB   19.00  19.0   10.0
+    sum_premium max_rank
+          &lt;num&gt;    &lt;num&gt;
+ 1:       48.25     21.0
+ 2:       37.70     19.0
+ 3:       40.27     19.5
+ 4:       74.00     16.0
+ 5:       37.70     23.0
+ 6:       40.27     22.0
+ 7:       57.25     23.0
+ 8:       57.25     21.0
+ 9:       47.00     18.0
+10:       48.25     22.0
+11:       74.00     19.0</code></pre>
+</div>
+</div>
+<div class="cell page-columns page-full">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">copy</span>(DT)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x[rank <span class="sc">&gt;=</span> cutoff]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>x[, max_rank <span class="sc">:</span><span class="er">=</span> max_rank <span class="sc">-</span> cutoff]</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>x[, rank <span class="sc">:</span><span class="er">=</span> rank <span class="sc">-</span> cutoff]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>x[, cutoff <span class="sc">:</span><span class="er">=</span> <span class="dv">0</span>]</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co"># my_legend[, max_rank := max_rank - cutoff]</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># my_legend[, rank := rank - cutoff]</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># my_legend[, cutoff := 0]</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(<span class="at">x =</span> premium, </span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> <span class="fu">reorder_within</span>(<span class="at">x =</span> skill, </span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> premium, </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">within =</span> major), </span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> skill_group, </span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> skill_group)) <span class="sc">+</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_vline(xintercept = 0, color = "gray70", linetype = 2) +</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_hline(data = my_legend, </span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">#            aes(yintercept = cutoff), </span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#            color = "gray70", </span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#            linetype = 2) +</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Premium (x$1000)"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(<span class="fu">reorder</span>(major, sum_premium)), </span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">2</span>, </span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>, </span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>             <span class="at">as.table =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">gsub</span>(<span class="st">"__.+$"</span>, <span class="st">""</span>, x)) <span class="sc">+</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">23</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_text(data = my_legend, </span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           aes(x = premium, y = max_rank, label = skill_group), </span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           hjust = -0.1, </span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           vjust = 0.7) +</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>, </span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"gray85"</span>)) <span class="sc">+</span></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># expand_limits(y = c(0)) +</span></span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#80cdc1"</span>, <span class="st">"#bf812d"</span>)) <span class="sc">+</span></span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#01665e"</span>, <span class="st">"#8c510a"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/table-C1-C2-data-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="margin-caption">Comparing the top 10 premiums for professional skills and software by major. The vertical scales are different in each panel, ordered by increasing premiums in that major.</figcaption>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_text(data = my_legend, </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           aes(x = -10, y = cutoff + 4, label = "Top 8 premiums"), </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           color = "gray40", </span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           hjust = 0)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="references" class="level2">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Fleming+Klopfer+etal:2024" class="csl-entry" role="listitem">
+Fleming, G. C., Klopfer, M., Katz, A., &amp; Knight, D. (2024). <span class="nocase">What engineering employers want: An analysis of technical and professional skills in engineering job advertisements</span>. <em>Journal of Engineering Education</em>, <em>113</em>(2), 251–279. <a href="https://doi.org/10.1002/jee.20581">https://doi.org/10.1002/jee.20581</a>
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/graphdr\.github\.io\/data-stories");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="graphdr/data-stories" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../license.html">
+<p>License</p>
+</a>
+  </li>  
+</ul>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/graphdr/data-stories/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

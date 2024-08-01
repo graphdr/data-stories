@@ -1,0 +1,296 @@
+---
+title: "A subtle flaw in `pull()`"
+description: |
+    Demonstrating a subtle scoping flaw in `dplyr::pull()` and a suggested workaround.  
+date: "July 27, 2024"
+date-format: "YYYY--MM--DD"
+categories: [R, dplyr, SE/NSE]
+image: "thumbnail.png"
+cap-location: margin
+draft: true
+format:
+  html:
+    code-fold: false
+    code-block-border-left: true
+    code-link: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| tbl-cap-location: top
+
+# knitr working directory -> project level
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+# code chunk options
+knitr::opts_chunk$set(collapse = TRUE, 
+                      comment = "#>", 
+                      error = TRUE)
+
+# printing options for data.table
+options(
+  datatable.print.nrows = 10,
+  datatable.print.topn = 5,
+  datatable.print.class = TRUE
+)
+
+# Avoid partial matching with `$`
+options(warnPartialMatchDollar = TRUE)
+```
+
+:::{.callout-note}
+## Summary 
+<em>In the current version of dplyr (v1.1.4), if `x` is not a column name in data frame `d`, then `pull(d, x)` attempts to look up the value of `x` in the  environment instead of returning NULL. To produce the expected results, one may use `pull(d, "x")` or `pull(d, .data$x)`.</em>
+:::
+
+# Background
+
+I was recently re-reading a 6-year-old blog post [@Mount:2018] concerning a former scoping flaw in `dplyr::select()`. I ran the examples and found that the flaw in `select()` has since been corrected. 
+
+A similar subtle flaw is still with us however in `dplyr::pull()`, that is, if data frame `d` has no column name `x`, then `pull(d, x)` attempts to look up the name `x` "outside" of `d` and, if it exists, operate on its value.  
+
+In this post, I compare the current behavior of `pull()` to that of `[[` and `$` and demonstrate how to use `pull()` safely. For reference, the R and package versions I'm using are: 
+
+```{r}
+#| collapse: true
+#| message: false
+R.version$version.string
+
+library("dplyr")
+packageVersion("dplyr")
+```
+
+As an example data frame, I use a subset of the `dplyr::starwars` dataset 
+
+```{r}
+baseline <- starwars %>% 
+  na.omit() %>%
+  select(name, height, mass, sex) %>%
+  glimpse()
+```
+
+
+## Names and values
+
+Because this post has to do with "names and values", I think it prudent to clarify the distinction with an extended quote:
+
+> Consider this code: 
+>
+>        x <- c(1, 2, 3)
+>
+> It's easy to read it as: “create an object named 'x', containing the values 1, 2, and 3”. Unfortunately, that's a simplification that will lead to inaccurate predictions about what R is actually doing behind the scenes. It's more accurate to say that this code is doing two things:
+>
+> - It's creating an *object*, a vector of values, `c(1, 2, 3)`.
+> - And it's binding that object to a *name*, `x`.
+>
+> In other words, the object, or value, doesn't have a name; it's actually the name that has a value. 
+>
+> [@Wickham:2019], section 2.2, "Binding basics"
+
+That last phrase---it's actually the name that has a value---can also be thought of as: the name "points to" or "binds" a value; or, the name is a *reference* to a value. 
+
+
+
+
+
+
+## Subsetting one column with `[[` and `$`
+
+The name `d` refers to the baseline data frame that starts each example. Suppose at some point in our script we have made the assignment using the (poorly-chosen) name `mass` to refer to the character value `"sex"`. 
+
+```{r}
+d <- baseline
+mass <- "sex"
+```
+
+Now suppose we want to extract the mass column as a vector. Using `[[`, the name `"mass"` is looked up in `d` and the object to which it refers (a vector of mass values) is returned.
+
+```{r}
+d[["mass"]]
+```
+
+Alternatively, we can use `$` to extract a column as a vector: `d$mass` is roughly equivalent to `d[["mass"]]`.  Here too the name `mass` is looked up in `d`, and the same vector of values is returned.   
+
+```{r}
+d$mass
+
+identical(d[["mass"]], d$mass)
+```
+
+If `d` has no column name `mass`,  
+
+```{r}
+d <- baseline %>% 
+  select(-mass)
+```
+
+both `[[` and `$` return NULL. 
+
+```{r}
+d[["mass"]]
+
+d$mass
+```
+
+At no time was the name `mass` in the global environment and the value to which it refers relevant to `[[` or `$`. 
+
+We can, however, deliberately use a name in the global environment to extract a single column using `[[`, for example, 
+
+```{r}
+d[[mass]]
+```
+
+treats `mass` as a name referring to the value `"sex"`, which is looked up in `d` and the relevant vector is returned. Using the name, as above, or its value, as below, are equivalent. 
+
+```{r}
+d[["sex"]]
+
+identical(d[[mass]], d[["sex"]])
+```
+
+If `d` has no column name `sex`,  
+
+```{r}
+d <- baseline %>% 
+  select(-sex)
+```
+
+the return is again NULL. 
+
+```{r}
+d[[mass]]
+
+d[["sex"]]
+```
+
+Both `[[` and `$` produce reliable and easily predictable results.
+
+
+
+
+## Subsetting one column with `pull()` 
+
+Reset.
+
+```{r}
+d <- baseline
+```
+
+`dplyr::pull()` extracts a column as a vector, similar to `$`. Here, the literal column name `mass` is looked up in `d`. 
+
+```{r}
+pull(d, mass)
+```
+
+If the column is missing
+
+```{r}
+d <- baseline %>% 
+  select(-mass)
+```
+
+we expect `pull(d, mass)` to return a NULL, as we saw with `$`---but it does not. Unexpectedly, the name's *value* has been used, returning the `sex` column.  
+
+```{r}
+pull(d, mass)
+```
+
+To paraphrase John Mount, the above code expresses that we are asking for a column named "mass", and there is no such column in the data. The unfortunate coincidence that "mass" has a value in the environment should be irrelevant to `pull()`.
+
+
+
+
+
+
+## To reliably `pull()` literal variable names
+
+To use `pull()` safely to extract the column `"y"`, use one of the argument forms `pull("y")` or `pull(.data$y)`, both of which produce the expected results. 
+
+Reset.
+
+```{r}
+d <- baseline
+```
+
+Both forms pull the *column* `"mass"`.  
+
+```{r}
+pull(d, "mass")
+
+identical(pull(d, "mass"), pull(d, .data$mass))
+```
+
+If `d` has no column name `mass`,
+
+```{r}
+d <- baseline %>% 
+  select(-mass)
+```
+
+both forms ignore the name `mass` in the global environment and the value it references, returning the expected errors. 
+
+```{r}
+pull(d, "mass")
+
+pull(d, .data$mass)
+```
+
+
+
+
+
+
+## To reliably `pull()` value-oriented variables
+
+And finally, if we *want* `pull()` to extract a value-oriented variable, we can use the `!!` notation from rlang. 
+
+Reset. 
+
+```{r}
+d <- baseline
+```
+
+Using the value of the `mass` variable, we pull the `sex` column. 
+
+```{r}
+pull(d, !!mass) 
+```
+
+If the column "mass" is absent, 
+
+```{r}
+d <- baseline %>% 
+  select(-mass)
+```
+
+as expected, we get the same result. 
+
+```{r}
+pull(d, !!mass)
+```
+
+And if the sex column is absent, 
+
+```{r}
+d <- baseline %>% 
+  select(-sex)
+```
+
+We get the expected error. 
+
+```{r}
+pull(d, !!mass)
+```
+
+
+
+
+***Conclusion***
+
+In interactive mode, where you can observe the variables present in a data frame, using `pull(y)` should present no problems---you can always check that column `"y"` is present before pulling. 
+
+If programming over dplyr, I suggest using `pull()` in one of its safe modes---`pull("y")` or `pull(.data$y)`---or one of the base R methods, until such time as the flaw is remedied.  
+
+## References
+

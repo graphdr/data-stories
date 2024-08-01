@@ -1,0 +1,15 @@
+{
+  "hash": "91c93c0b33fb37e9e1b37db89145c53e",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Chart design\"\ndescription: |\n    Redesign JEE charts. \ndate: \"June 12, 2024\"\ndate-format: \"YYYY--MM--DD\"\ncategories: [R, engineering education, chart design]\ncap-location: margin\ndraft: true\n---\n\n\n\n\n::: callout-note\n## Summary\n\n<em>Another JEE chaer redesign for fun.</em>\n:::\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(data.table)\nlibrary(ggplot2)\n```\n:::\n\n\n## Background\n\n\n \n\n\n\n## Software credits {.appendix}\n\n- [`R`](https://www.r-project.org/) and [`RStudio`](https://posit.co/) for the working environment  \n- [`rmarkdown`](https://CRAN.R-project.org/package=rmarkdown) and [`knitr`](https://CRAN.R-project.org/package=knitr) for authoring tools  \n- [`data.table`](https://CRAN.R-project.org/package=data.table) for its programmable syntax  \n- [`wrapr`](https://CRAN.R-project.org/package=wrapr), [`checkmate`](https://CRAN.R-project.org/package=checkmate), and [`tinytest`](https://CRAN.R-project.org/package=tinytest) for programming tools\n- [`devtools`](https://CRAN.R-project.org/package=devtools) and [`pkgdown`](https://CRAN.R-project.org/package=pkgdown) for package building \n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

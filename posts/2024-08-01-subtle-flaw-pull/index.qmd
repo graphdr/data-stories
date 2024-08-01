@@ -1,0 +1,353 @@
+---
+title: "A subtle flaw in `pull()`"
+description: |
+    Demonstrating a subtle scoping flaw in `dplyr::pull()` and providing a menu of reliable workarounds.  
+date: "August 1, 2024"
+date-format: "YYYY--MM--DD"
+categories: [R, dplyr, SE/NSE]
+image: "thumbnail.png"
+cap-location: margin
+format:
+  html:
+    code-fold: false
+    code-block-border-left: true
+    code-link: true
+draft: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| tbl-cap-location: top
+
+# knitr working directory -> project level
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+# code chunk options
+knitr::opts_chunk$set(collapse = TRUE, 
+                      comment = "#>", 
+                      error = TRUE)
+
+# Avoid partial matching with `$`
+options(warnPartialMatchDollar = TRUE)
+```
+
+:::{.callout-note}
+## Summary 
+<em>In the current version of dplyr, if `x` is not a column name in data frame `d`, then `pull(d, x)` attempts to look up the value of `x` in the  environment instead of returning NULL or an error. There are ways to augment `pull()` to yield the expected results, though base R alternatives `[[` and `$` may also be used reliably and predictably. </em>
+:::
+
+A current dplyr article, ["Programming with dplyr"](https://dplyr.tidyverse.org/articles/programming.html), states that the `pull()` function, like `select()`, uses "tidy selection"  for working with data frame columns [@R-dplyr]. Accordingly, the `select()` documentation includes `<tidy-select>` in its arguments list---but the `pull()` documentation (unexpectedly) does not.  
+
+::: {.column-margin}
+<small>The thumbnail image *Pull* by Jeremy Brooks (2014) is licensed under [CC BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/).</small>
+:::
+
+This may be simply a minor documentation error, but close examination reveals a subtle flaw in `pull()` that users should be aware of---if column name `x` does not exist in data frame `d`, then `pull(d, x)` unexpectedly attempts to operate on the name `x` in the environment, if present, instead of returning a NULL or an error. 
+
+In this post, I compare the behavior of `pull()` to that of `[[`, `$`, and `subset()` for extracting a single column `x` from a data frame when column `x` exists and when it does not, while the environment contains another name `x` and the value it references. 
+
+To distinguish between a name in the environment and the value(s) it references and the name of a data frame column and the value(s) it references, I borrow some terminology from the dplyr article cited above:
+
+- *env-variables* live in an environment, usually created with `<-`.
+- *data-variables* live in a data frame.
+
+For example, in the following code chunk, I create a env-variable, `df`, that contains two data-variables, `x` and `y`. I  then use `$` to extract the data-variable `x` from the env-variable `df`.
+
+```{r}
+df <- data.frame(x = c("ex", "ex"), y = c("why", "why"))
+df
+
+df$x
+```
+
+
+
+For reference, the R and package versions I'm using are as follows. 
+
+```{r}
+#| collapse: true
+#| message: false
+R.version$version.string
+
+library("dplyr")
+packageVersion("dplyr")
+packageVersion("tidyselect") # for all_of()
+packageVersion("magrittr") # for %>%
+packageVersion("rlang") # for !!
+```
+
+
+
+
+
+## Extracting a single column
+
+I start each example with two assignments: the name `d` referencing the data frame created above; and the name `x`, referencing a string value. 
+
+```{r}
+d <- df
+x <- "y"
+```
+
+For extracting a single column as a vector from a data frame, the following are roughly equivalent. Each should extract the data-variable `x` from the env-variable `d`. 
+
+        d[["x"]]
+        d$x
+        pull(d, x)
+
+
+ 
+
+
+
+## Using `[[` or `$`
+
+The base R operator `[[` matches a character value to the column names of a data frame and returns the matching column, if any, as a vector. No partial matching is the default behavior, that is,  `d[["x"]]` is equivalent to `d[["x", exact = TRUE]]`. The return is the expected data-variable `x` in vector form. 
+
+```{r}
+d[["x"]]
+```
+
+The base R operator `$` is similar: `d$name` is equivalent to `d[["name", exact = FALSE]]` (partial matching enabled). In this case, partial matching is not relevant; we extract the expected column. 
+
+```{r}
+d$x
+
+identical(d[["x"]], d$x)
+```
+
+If name `x` does not exist in `d`,   
+
+```{r}
+d <- select(df, -x)
+```
+
+both `[[` and `$` return NULL. 
+
+```{r}
+d[["x"]]
+
+d$x
+```
+
+Both `[[` and `$` produce reliable and easily predictable results. 
+As expected in the examples above, the env-variable `x`  and the value it references, `"y"`, are irrelevant to `[[` and `$`. This turns out (sometimes)  not to be the case with `pull()`. 
+
+
+
+## Using `pull()`
+
+Reset. (Binding the name `x` to the value `"y"` again is unnecessary, but I repeat the assignment with each reset just to remind us that the environment contains this name and value.)
+
+```{r}
+d <- df
+x <- "y"
+```
+
+`dplyr::pull()` extracts a column as a vector, similar to `$`. Here, the data-variable `x` is correctly extracted from `d`.
+
+```{r}
+pull(d, x)
+```
+
+If name `x` does not exist in `d`, 
+
+```{r}
+d <- select(df, -x)
+```
+
+then, like `$`, we expect `pull()` to return NULL (or error)---but it doesn't.  
+
+```{r}
+pull(d, x)
+```
+
+`pull()`, not finding the data-variable `x` in `d`, has unexpectedly operated on the env-variable `x` and used its value to pull the `y` data-variable from `d`, exactly as if we had written `pull(d, y)`
+
+```{r}
+identical(pull(d, x), pull(d, y))
+```
+
+---behavior surely contrary to a user's expectations. In general, one expects such behavior only when deliberately using syntax *designed* to use env-variables to extract data-variables from data frames (the topic of the section below on [programming safely](#programming-safely)). 
+ 
+To borrow a conclusion from John Mount [-@Mount:2018], the unfortunate coincidence that the name `x` has a value in the environment should be irrelevant to `pull()`. 
+
+## Some background
+
+I was re-reading John Mount's opinion/tutorial piece (cited above) that demonstrated that `dplyr::select()` at the time had the same sort of flaw as the one I discuss in this post. Running Mount's examples today show that the flaw in `select()` has since been corrected. 
+
+I had been working with `pull()` in another context and John's article prompted me to compare standard evaluation (SE) and non-standard evaluation (NSE) approaches to the task for which `pull()` is designed, inspiring me to write this post.  
+
+Mount also showed that base R `subset()` is known to have a similar mal-feature. To illustrate, I set up `subset()` extract one column as a vector. 
+
+Reset. 
+
+```{r}
+d <- df
+x <- "y"
+```
+
+The argument `drop = TRUE` yields a vector when a single column is selected. 
+
+```{r}
+subset(d, select = x, drop = TRUE)
+```
+
+If name `x` does not exist in `d`, 
+
+```{r}
+d <- select(df, -x)
+```
+
+then, like `pull()`, the column `y` is returned instead the expected NULL or error. 
+
+```{r}
+subset(d, select = x, drop = TRUE)
+```
+
+However, the `subset()` documentation *does* include the following warning about the potential for "unanticipated consequences" of `subset`'s non-standard evaluation (NSE) interface:  
+
+> **Warning**  
+>
+> This is a convenience function intended for use interactively. For programming it is better to use the standard subsetting functions like `[`, and in particular the non-standard evaluation of argument `subset` can have unanticipated consequences.
+
+The `pull()` documentation does not include such a warning. 
+
+
+## Using `pull()` safely
+
+To use `pull()` safely to extract column `x`, we have three forms (at least) that currently return the expected results, including NULL or an error when the column doesn't exist. 
+
+Reset.
+
+```{r}
+d <- df
+x <- "y"
+```
+
+1. Quote the data-variable name.  
+
+```{r}
+pull(d, "x")
+```
+
+2. Use the `all_of()` selection helper with the column name in quotes. 
+
+```{r}
+pull(d, all_of("x"))
+```
+
+3. Use the `.data` pronoun with `$`. 
+
+```{r}
+pull(d, .data$x)
+```
+
+If name `x` does not exist in `d`, 
+
+```{r}
+d <- select(df, -x)
+```
+
+all three forms ignore the env-variable `x` and return the expected errors. 
+
+```{r}
+pull(d, "x")
+
+pull(d, all_of("x"))
+
+pull(d, .data$x)
+```
+
+The safer syntax may be inconvenient enough to defeat the purpose of non-standard evaluation in the first place: being able to type column names without quotation marks and looking nice in pipes. For the moment, the alternatives `[[` or `$` may be more attractive.  
+
+Of course, like `subset()`, one can treat `pull()` as a convenience function best used interactively where the existence of the desired column can be confirmed before pulling. 
+       
+
+
+
+## Programming safely
+
+When programming, it is often useful to have an env-variable that references a  character vector populated with column names you expect a function to find and operate with. In the examples below, we use the env-variable `x` in function arguments to pull the column specified by its value, in this case, `"y"`.
+
+Reset.
+ 
+```{r}
+d <- df
+x <- "y"
+```
+
+Create function `f` to operate on the env-variable `var` using square brackets `[[` to extract the column specified by the *value* of `var`. The `y` column is returned as desired.
+
+```{r}
+f <- function(dframe, var) {
+  dframe[[var]]
+}
+
+f(d, x)
+```
+
+Function `g` using `pull()` and the `all_of()` selection helper yields a similar result.
+
+```{r}
+g <- function(dframe, var) {
+  dframe %>% 
+    pull(all_of(var))
+}
+
+g(d, x)
+```
+
+Function `h` using `pull()` and the `.data` pronoun also yields the desired result.
+
+```{r}
+h <- function(dframe, var) {
+  dframe %>% 
+    pull(.data[[var]])
+}
+
+h(d, x)
+```
+
+As does function `q` using the rlang injection operator `!!`. 
+
+```{r}
+q <- function(dframe, var) {
+  dframe %>% 
+    pull(!!var)
+}
+
+q(d, x)
+```
+
+And lastly, if name `x` does not exist in `d`, 
+
+```{r}
+d <- select(df, -y)
+```
+
+all four functions return a NULL or an error. 
+
+```{r}
+f(d, x)
+
+g(d, x)
+
+h(d, x)
+
+q(d, x)
+```
+
+
+
+
+
+## Conclusion
+
+It appears to be an oversight that `pull()` attempts to operate on an  env-variable if the intended data-variable doesn't exist. Workarounds exist though base R alternatives `[[` and `$` may also be used reliably and predictably.  
+
+ 
+
+## References
+

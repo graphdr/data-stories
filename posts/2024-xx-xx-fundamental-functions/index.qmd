@@ -1,0 +1,540 @@
+---
+title: "Revisiting basic data transforms"
+description: |
+   To reproduce a recently-posted set of dplyr examples, adding equivalent code in base R and data.table for comparison as well as expanding the scope of the examples.   
+date: "July 15, 2024"
+date-format: "YYYY--MM--DD"
+categories: [R, data.table, dplyr, base R]
+cap-location: margin
+image: "thumbnail.png"
+draft: true
+code-fold: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| tbl-cap-location: top
+
+# knitr working directory -> project level
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+knitr::opts_chunk$set(comment = "#>", collapse = FALSE)
+
+# printing options for data.table
+options(
+  datatable.print.nrows = 60,
+  datatable.print.topn = 5,
+  datatable.print.class = TRUE
+)
+```
+
+::: callout-note
+## Summary
+
+<em>Having read a recent blog post explaining basic dplyr functions, I was curious what the equivalent base R and data.table code would be. </em>
+:::
+
+```{r}
+library(data.table)
+library(dplyr)
+library(palmerpenguins)
+```
+
+## Background
+
+In a recent blog post, Albert Rapp [-@Rapp:2024] describes 6 functions of the dplyr package---`count()`, `select()`, `filter()`, `mutate()`, `summarize()`, and `arrange()`---under the heading, "The 6 most fundamental functions for data cleaning with R" \[in the Tidyverse\].
+
+I thought I would explore the same examples in a little more detail and (as many have done before me) compare and contrast the dplyr syntax to that of data.table and base R. My primary references for translating between the "dialects" are [@Atrebas:2019] and [@Zumel+Mount:2020, Ch. 5]. As Zumel and Mount state,
+
+> Each of these \[dplyr, data.table, and base R\] has its advantages, which is why we are presenting more than one solution...we are deliberately using a polyglot approach to data wrangling: mixing base R, data.table, and dplyr, as convenient. Each of these systems has its strengths...
+
+A note on pipes: If a dplyr function such as `select()` is used without piping (base R `|>` or magrittr `%>%`), the operation has the form, 
+
+        select(data_frame, column_name)
+
+where the first argument is the data frame from which `column_name` is selected. With a pipe however, the first argument is commonly *implied*, as in  
+
+        data_frame %>% select(column_name)
+
+or
+
+        data_frame |> select(column_name)
+
+While a pipe or its equivalent is available in base R and data.table, I prefer breaking a code sequence into separate, intermediate results. As Norman Matloff puts it [-@Matloff:2023],
+
+> During the writing of the code, the breaking down the overall action into simple intermediate steps make it easier for the author to plan out the trajectory of the code. ... For the same reasons, I assert that such code is easier to write and debug, but also easier for others to read. ... And yes, worth the bit of clutter!
+
+Outline:
+
+*Data selection*
+
+- Subsetting rows and columns
+- Removing rows with incomplete data
+- Removing columns
+- Ordering rows and columns
+
+*Basic transforms*
+
+- Adding new columns
+- Renaming columns
+- Recoding column values
+
+*Aggregating transforms*
+
+- Counting frequency of observations
+- Summarizing (many rows into summary rows)
+
+## Getting started
+
+ I first load the `penguins` data set from the palmerpenguins package.
+
+```{r}
+data(penguins)
+penguins
+```
+
+I use the data set in three formats: as a base R data.frame object `penguins_base`, as a data.table object `penguins_DT`, and as a tibble object `penguins` (as-is). 
+
+
+
+```{r}
+#| collapse: true
+penguins_base <- data.frame(penguins)
+penguins_DT <- data.table(penguins)
+
+class(penguins_base)
+class(penguins_DT)
+class(penguins)
+```
+
+
+
+
+
+
+
+## Subsetting rows and columns
+
+#### Rows greater than, columns by name
+
+***Solution 1: base R***
+
+`[,]` indexing plus `drop = FALSE`
+
+```{r}
+rows_we_want <- penguins_base$bill_length_mm > 55
+columns_we_want <- c("species", "flipper_length_mm", "bill_length_mm")
+penguins_base[rows_we_want, columns_we_want, drop = FALSE]
+```
+
+To clean this up a bit, we omit the NA rows and reset the row names. I'll use `dframe` for temporary intermediate results.  
+
+```{r}
+dframe <- penguins_base[rows_we_want, columns_we_want, drop = FALSE]
+dframe <- na.omit(dframe)
+rownames(dframe) <- NULL
+dframe
+```
+
+***Solution 2: data.table***
+
+`[i, j]` indexing and `..` notation
+
+```{r}
+rows_we_want <- penguins_DT$bill_length_mm > 55
+columns_we_want <- c("species", "flipper_length_mm", "bill_length_mm")
+penguins_DT[rows_we_want, ..columns_we_want]
+```
+
+***Solution 3: dplyr***
+
+`filter()` and `select()`
+
+```{r}
+penguins %>%
+  filter(bill_length_mm > 55) %>%
+  select(species, flipper_length_mm, bill_length_mm)
+```
+
+
+
+#### Rows between, columns by name
+
+***Solution 1: base R***
+
+`with()` improve clarity no `$`
+
+```{r}
+rows_we_want <- with(penguins_base, bill_length_mm >= 55 & bill_length_mm <= 58)
+columns_we_want <- c("species", "flipper_length_mm", "bill_length_mm")
+dframe <- penguins_base[rows_we_want, columns_we_want, drop = FALSE]
+dframe <- na.omit(dframe)
+rownames(dframe) <- NULL
+dframe
+```
+
+***Solution 2: data.table***
+
+`%between%`
+
+```{r}
+rows_we_want <- with(penguins_DT, bill_length_mm %between% c(55, 58))
+columns_we_want <- c("species", "flipper_length_mm", "bill_length_mm")
+penguins_DT[rows_we_want, ..columns_we_want]
+```
+
+***Solution 3: dplyr***
+
+`filter(dframe, between())`
+
+```{r}
+penguins %>% 
+  filter(between(bill_length_mm, 55, 58)) %>%
+  select(species, flipper_length_mm, bill_length_mm)
+```
+
+
+
+
+
+
+
+
+
+## Removing rows with incomplete data
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+
+
+
+
+
+
+
+
+
+
+
+## Removing columns
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+
+
+
+
+
+
+
+
+
+
+
+## Ordering rows and columns
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+
+
+
+
+
+
+
+
+
+
+
+## Adding new columns
+
+#### Scaling a numeric column
+
+`scale()` is a base R function that centers or scales a numeric column (or more generally, the columns of a numeric matrix). By itself, `scale()` creates an array. 
+
+```{r}
+#| collapse: true
+x <- scale(penguins[, "bill_length_mm"])
+class(x)
+str(x)
+```
+
+Using conventional R indexing `[, 1]`, we extract the numeric column from the array as a simple numeric vector.
+
+```{r}
+#| collapse: true
+x <- scale(penguins[, "bill_length_mm"])[, 1]
+class(x)
+str(x)
+```
+
+***Solution 1: base R***
+
+```{r}
+dframe <- penguins_base[, "bill_length_mm", drop = FALSE]
+dframe$scaled_bill_length <- scale(penguins_base$bill_length_mm)[, 1]
+str(dframe)
+```
+
+***Solution 2: data.table***
+
+Create a new column using `:=`, which adds the new column "by reference", thus an assignment operation `q <-` is not required^[The `:=` operator updates data.table columns in-place (by reference). It makes no copies of any part of memory at all---a feature designed for fast and memory-efficient code]. 
+
+```{r}
+dframe <- penguins_DT[, .(bill_length_mm)]
+dframe[, scaled_bill_length := scale(bill_length_mm)[, 1]]
+dframe
+```
+
+***Solution 3: dplyr***
+
+Use `mutate()` to create a new column from the old column. 
+
+```{r}
+penguins %>% 
+  select(bill_length_mm) %>% 
+  mutate(scaled_bill_length = scale(bill_length_mm)[, 1])
+```
+
+
+
+
+
+
+
+
+
+## Renaming columns
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***r
+
+
+
+
+
+
+
+
+
+
+
+
+## Recoding column values
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+
+
+
+
+
+
+
+
+
+
+
+## Counting frequency of observations
+
+#### Count by one variable
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+```{r}
+penguins %>% 
+  count(species)
+```
+
+
+
+
+
+
+#### Count by two variables
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+```{r}
+penguins %>% 
+  count(species, island)
+```
+
+
+
+
+
+
+
+#### Count and order rows
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+```{r}
+penguins %>% 
+  count(species, island, sort = TRUE)
+```
+
+
+
+
+
+
+
+
+
+## Summarizing
+
+#### Without grouping
+
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+```{r}
+penguins %>% 
+  summarize(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+            mean_flipper_length_mm = mean(flipper_length_mm, na.rm = TRUE)) %>%
+  ungroup()
+```
+
+
+
+
+
+
+#### With one group
+
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+
+
+***Solution 3: dplyr***
+
+use `ungroup()`
+
+```{r}
+penguins %>% 
+  summarize(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+            mean_flipper_length_mm = mean(flipper_length_mm, na.rm = TRUE),
+            .by = species) %>%
+  ungroup()
+```
+
+
+#### With multiple groups
+
+
+***Solution 1: base R***
+
+
+
+***Solution 2: data.table***
+
+```{r}
+
+```
+
+
+
+***Solution 3: dplyr***
+
+add `.by` 
+
+```{r}
+penguins %>% 
+  summarize(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),
+            mean_flipper_length_mm = mean(flipper_length_mm, na.rm = TRUE),
+            .by = c(species, island)) %>%
+  ungroup()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## References
